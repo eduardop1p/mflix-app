@@ -1,0 +1,112 @@
+/* eslint-disable */
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { isEmail } from 'validator/validator';
+
+import * as actions from '../../storeReactRedux/modules/loadBgFooter/actions';
+import { ElementFooter, CreditsFooter } from './styled';
+
+export default function Footer() {
+  const movieSerieImage = useSelector(
+    (state) => state.firstBackgroundMovie.movieSerieImage
+  );
+  const dispatch = useDispatch();
+
+  const [loadImgFooter1, setLoadImgFooter1] = useState(false);
+  const [loadImgFooter2, setLoadImgFooter2] = useState(false);
+
+  useEffect(() => {
+    if (loadImgFooter1 && loadImgFooter2) {
+      dispatch(
+        actions.loadBgFooterSuccess({ loadBgImg1: true, loadBgImg2: true })
+      );
+    }
+  });
+
+  function setSendEmailOnSubmit(event) {
+    event.preventDefault();
+    event.target.querySelectorAll('small').forEach((small) => small.remove());
+    const inputEmail = event.target.querySelector('#email');
+    let inputValid = true;
+
+    if (!isEmail(inputEmail.value)) {
+      const small = document.createElement('small');
+      small.innerText = 'E-mail inválido.';
+      event.target.querySelector('.relative-input').before(small);
+      inputValid = false;
+    }
+
+    if (!inputValid) return;
+
+    return setTimeout(() => alert('Enviar email com nodemailer!'), 100);
+  }
+
+  return (
+    <ElementFooter>
+      <div className="subscribeToNews">
+        <div className="subscribeToNews-img">
+          {movieSerieImage && (
+            <img
+              src={
+                movieSerieImage.data.posters.length &&
+                `https://image.tmdb.org/t/p/w1280${movieSerieImage.data.posters[0].file_path}`
+              }
+              onLoad={() => setLoadImgFooter1(true)}
+              onError={() => setLoadImgFooter1(true)}
+              alt={movieSerieImage.title}
+            />
+          )}
+        </div>
+        <div className="subscribeToNews-img2">
+          {movieSerieImage && (
+            <img
+              src={
+                movieSerieImage.data.backdrops.length > 1 &&
+                `https://image.tmdb.org/t/p/w1280${movieSerieImage.data.backdrops[1].file_path}`
+              }
+              onLoad={() => setLoadImgFooter2(true)}
+              onError={() => setLoadImgFooter2(true)}
+              alt={movieSerieImage.title}
+            />
+          )}
+        </div>
+        <div className="subscribe">
+          <h1>Inscreva-se</h1>
+          <div className="text-subscribe">
+            Inscreva-se para receber dicas de filmes, series e lançamentos e
+            muito mais. O que está esperando? fique por dentro do mundo dos
+            filmes agora.
+          </div>
+          <form onSubmit={setSendEmailOnSubmit}>
+            <div className="relative-input">
+              <input type="text" id="email" placeholder="Email" />
+              <button type="submit">Inscreva-se</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <CreditsFooter>
+        <div className="line-footer"></div>
+        <div className="credits-container">
+          <div className="credits">
+            &copy; {new Date().getFullYear()} Direitos reservados a Eduardo
+            Lavoura
+          </div>
+          <div className="redes-sociais">
+            <a href="https://www.instagram.com/yfg.lavoura/" target="_blank">
+              <svg
+                fill="#646280"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24px"
+                height="24px"
+              >
+                <path d="M 8 3 C 5.243 3 3 5.243 3 8 L 3 16 C 3 18.757 5.243 21 8 21 L 16 21 C 18.757 21 21 18.757 21 16 L 21 8 C 21 5.243 18.757 3 16 3 L 8 3 z M 8 5 L 16 5 C 17.654 5 19 6.346 19 8 L 19 16 C 19 17.654 17.654 19 16 19 L 8 19 C 6.346 19 5 17.654 5 16 L 5 8 C 5 6.346 6.346 5 8 5 z M 17 6 A 1 1 0 0 0 16 7 A 1 1 0 0 0 17 8 A 1 1 0 0 0 18 7 A 1 1 0 0 0 17 6 z M 12 7 C 9.243 7 7 9.243 7 12 C 7 14.757 9.243 17 12 17 C 14.757 17 17 14.757 17 12 C 17 9.243 14.757 7 12 7 z M 12 9 C 13.654 9 15 10.346 15 12 C 15 13.654 13.654 15 12 15 C 10.346 15 9 13.654 9 12 C 9 10.346 10.346 9 12 9 z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </CreditsFooter>
+    </ElementFooter>
+  );
+}

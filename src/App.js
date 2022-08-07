@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { HelmetProvider, Helmet } from 'react-helmet-async';
+
+import LogedInMiddleware from './components/logedInMiddleware/index';
+import GlobalStyled from './globalStyled/index';
+import Routers from './routes/routers';
+import Loading from './components/loading/index';
+import { store, persistor } from './storeReactRedux/index';
+import faviconIcon from './assets/images/icon-favicon.png';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <HelmetProvider>
+          <Helmet>
+            <link rel="icon" type="image/png" href={faviconIcon}></link>
+          </Helmet>
+          <BrowserRouter>
+            <GlobalStyled />
+            <LogedInMiddleware />
+            <Loading />
+            <Routers />
+          </BrowserRouter>
+        </HelmetProvider>
+      </PersistGate>
+    </Provider>
   );
 }
 

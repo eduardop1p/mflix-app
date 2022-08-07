@@ -1,0 +1,750 @@
+/* eslint-disable */
+import { useState, useEffect, useRef } from 'react';
+import { Link, Outlet, useParams } from 'react-router-dom';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import SwiperCore, { Navigation, Autoplay } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { useDispatch, useSelector } from 'react-redux';
+import { isInt } from 'validator/validator';
+import { Helmet } from 'react-helmet-async';
+
+import * as actions from '../../../../storeReactRedux/modules/loading/actions';
+import axiosBaseUrlSeriesDiscover from '../../../../services/axiosBaseUrlSeriesDiscover';
+import axiosBaseUrlGenresSeries from '../../../../services/axiosBaseUrlGenresSeries';
+import apiConfig from '../../../../config/apiConfig';
+import clearLinkTitle from '../../../../config/clearLinkTitle';
+import RatingSystem2 from '../../../../components/ratingSystem2/index';
+import notResultsSearch from '../../../../assets/images/search.png';
+import Loading from '../../../../components/loadingReactStates/index';
+import LoadingScrollInfinit from '../../../../components/loadingVerticalPages/index';
+import LoadingFilters from '../../../loadingFilters/index';
+import imageErrorTop3 from '../../../../assets/images/czx7z2e6uqg81.jpg';
+import * as colors from '../../../../colors';
+import {
+  PagesContainer,
+  FiltersMovies,
+  NewMovies,
+  PopularMovies,
+} from '../../styled';
+
+export default function SeriesAlt() {
+  const { movieId } = useParams();
+
+  const loadingApp = useSelector((state) => state.loading.loadingState);
+  const dispatch = useDispatch();
+
+  const [newsMovies, setNewsMovies] = useState(null);
+  const [loadingFilters, setLoadingFilters] = useState(false);
+  const [allMoviesPopular, setAllMoviesPopular] = useState({
+    midiaType: '',
+    results: [],
+    originalResult: [],
+  });
+  const [allGenresMovies, setAllGenresMovies] = useState(null);
+  const [filterNamePopular, setFilterNamePopular] = useState(null);
+  const [inputVerticalValue, setInputVerticalValue] = useState('');
+  const [filterPopularByActived, setFilterPopularByActived] = useState(false);
+  const [genresArrowActived, setGenresArrowActived] = useState(true);
+  const [yearsArrowActived, setYearsArrowActived] = useState(true);
+  const [arrayYearsMovies, setArrayYearsMovies] = useState(null);
+  const [percentRange1, setPercentRange1] = useState(null);
+  const [percentRange2, setPercentRange2] = useState(null);
+  const [verticalSearchValue, setVerticalSearchValue] = useState('');
+  let currentPagePopular = useRef(1);
+  let currentByPopularData = useRef(1);
+  let currentYearsActorGenres = useRef(1);
+  const genresIdsCheckBox = useRef([]);
+  const primaryReleaseDateGte = useRef(null);
+  const primaryReleaseDateLte = useRef(null);
+  let valueRange1 = useRef(2000);
+  let valueRange2 = useRef(new Date().getFullYear());
+  let minGap = useRef(1);
+
+  useEffect(() => {
+    const setAllGenresFilters = async () => {
+      try {
+        const { data } = await axiosBaseUrlGenresSeries.get(
+          `/list?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
+        );
+        setAllGenresMovies(data);
+      } catch {
+        console.error('Erro ao pegar generos');
+      }
+    };
+    setNewsMoviesFunction();
+    setPopularMoviesFunction(false);
+    setRelaceDateMovies();
+    setAllGenresFilters();
+  }, []); // componentDidMount() class metod
+
+  useEffect(() => {
+    if (
+      allGenresMovies &&
+      newsMovies &&
+      allMoviesPopular.results.length &&
+      !movieId &&
+      loadingApp
+    )
+      setTimeout(() => {
+        dispatch(actions.loadingFailure());
+      }, 500);
+  }, [allGenresMovies, newsMovies, allMoviesPopular, movieId, loadingApp]);
+
+  async function setNewsMoviesFunction() {
+    try {
+      const { data } = await axiosBaseUrlSeriesDiscover.get(
+        `?sort_by=popularity.desc&first_air_date.gte=${setDate(
+          100
+        )}&first_air_date.lte=${setDate()}&api_key=${
+          apiConfig.apiKey
+        }&language=${apiConfig.language}&page=1`
+      );
+      setNewsMovies(data);
+    } catch {
+      console.log('Erro ao carregar Novas Series.');
+    }
+  }
+
+  async function setPopularMoviesFunction(infiniteScroll) {
+    try {
+      const { data } = await axiosBaseUrlSeriesDiscover.get(
+        `?sort_by=popularity.desc&api_key=${apiConfig.apiKey}&language=${
+          apiConfig.language
+        }&page=${infiniteScroll ? (currentPagePopular.current += 1) : 1}`
+      );
+      setAllMoviesPopular({
+        midiaType: 'popular',
+        results:
+          allMoviesPopular.midiaType !== 'popular' || !infiniteScroll
+            ? data.results
+            : allMoviesPopular.results.concat(data.results),
+        originalResult: data.results,
+      });
+    } catch {
+      console.error('Erro ao pegar series populares.');
+    }
+  }
+
+  function setVerticalSearch(event) {
+    if (!verticalSearchValue) {
+      return event.preventDefault();
+    }
+    return event;
+  }
+
+  function setDate(past7Day = 0) {
+    const date = new Date();
+    date.setDate(date.getDate() - past7Day);
+
+    const zeroLeft = (num) => (num < 10 ? `0${num}` : num);
+
+    return `${date.getFullYear()}-${zeroLeft(date.getMonth() + 1)}-${zeroLeft(
+      date.getDate()
+    )}`;
+  }
+
+  async function setAllMoviesByPopularData(infiniteScroll) {
+    try {
+      !infiniteScroll && setLoadingFilters(true);
+      const { data } = await axiosBaseUrlSeriesDiscover.get(
+        `?sort_by=popularity.desc&air_date.gte=${
+          primaryReleaseDateGte.current
+        }&air_date.lte=${primaryReleaseDateLte.current}&api_key=${
+          apiConfig.apiKey
+        }&language=${apiConfig.language}&page=${
+          infiniteScroll ? (currentByPopularData.current += 1) : 1
+        }`
+      );
+      setAllMoviesPopular({
+        midiaType: 'byPopularData',
+        results:
+          allMoviesPopular.midiaType !== 'byPopularData' || !infiniteScroll
+            ? data.results
+            : allMoviesPopular.results.concat(data.results),
+        originalResult: data.results,
+      });
+    } catch {
+      console.error('Erro ao pegar series populares por data.');
+    } finally {
+      !infiniteScroll && setTimeout(() => setLoadingFilters(false), 100);
+    }
+  }
+
+  function setCheckCheckBoxVertical(event) {
+    if (event) {
+      const eventValue = Number(event.target.getAttribute('data-genre-id'));
+
+      if (!event.target.checked) {
+        genresIdsCheckBox.current = genresIdsCheckBox.current.filter(
+          (value) => value !== eventValue
+        );
+        if (!genresIdsCheckBox.current.length) {
+          setNewsMoviesFunction();
+          setMoviesYearsActorGenres(false);
+          return;
+        }
+        setMoviesCheckBoxGenres();
+        setMoviesYearsActorGenres(false);
+        return;
+      }
+      genresIdsCheckBox.current.push(eventValue);
+      setMoviesCheckBoxGenres();
+      setMoviesYearsActorGenres(false);
+      return;
+    }
+  }
+
+  async function setMoviesCheckBoxGenres() {
+    try {
+      const { data } = await axiosBaseUrlSeriesDiscover.get(
+        `?sort_by=popularity.desc&with_genres=${genresIdsCheckBox.current.join(
+          ','
+        )}&first_air_date.gte=${setDate(
+          100
+        )}&first_air_date.lte=${setDate()}&api_key=${
+          apiConfig.apiKey
+        }&language=${apiConfig.language}&page=1`
+      );
+      setNewsMovies(data);
+    } catch {
+      console.error('Erro ao pegar novas series por generos.');
+    }
+  }
+
+  async function setMoviesYearsActorGenres(infiniteScroll) {
+    if (filterNamePopular) setFilterNamePopular(false);
+    const arrayMoviesPrimaryYears = arrayYearsMovies.slice(
+      arrayYearsMovies.indexOf(valueRange1.current),
+      arrayYearsMovies.indexOf(valueRange2.current) + 1
+    );
+
+    try {
+      !infiniteScroll && setLoadingFilters(true);
+      const { data } = await axiosBaseUrlSeriesDiscover.get(
+        `?sort_by=popularity.desc&with_genres=${genresIdsCheckBox.current.join(
+          ','
+        )}&first_air_date.gte=${arrayMoviesPrimaryYears.shift()}-01-01&first_air_date.lte=${arrayMoviesPrimaryYears.pop()}-12-31&api_key=${
+          apiConfig.apiKey
+        }&language=${apiConfig.language}&page=${
+          infiniteScroll ? (currentYearsActorGenres.current += 1) : 1
+        }`
+      );
+      setAllMoviesPopular({
+        midiaType: 'popularYearsActorGenres',
+        results:
+          allMoviesPopular.midiaType !== 'popularYearsActorGenres' ||
+          !infiniteScroll
+            ? data.results
+            : allMoviesPopular.results.concat(data.results),
+        originalResult: data.results,
+      });
+    } catch {
+      console.error('Erro ao pegar series populares por generos.');
+    } finally {
+      !infiniteScroll && setTimeout(() => setLoadingFilters(false), 100);
+    }
+  }
+
+  function setRelaceDateMovies() {
+    const currentYear = new Date().getFullYear();
+    const yearsMovies = [];
+    for (let i = 1990; i <= currentYear; i++) yearsMovies.push(i);
+    setArrayYearsMovies(yearsMovies);
+  }
+
+  function setRange1(event) {
+    if (filterNamePopular) setFilterNamePopular(!filterNamePopular);
+    if (inputVerticalValue) setInputVerticalValue('');
+    valueRange1.current = Number(event.target.value);
+    if (valueRange2.current - valueRange1.current <= minGap.current) {
+      valueRange1.current = valueRange2.current - minGap.current;
+    }
+    arrayYearsMovies.indexOf(valueRange1.current) !== -1
+      ? setPercentRange1(
+          (100 / arrayYearsMovies.length) *
+            arrayYearsMovies.indexOf(valueRange1.current)
+        )
+      : setPercentRange1('Não tem kkk');
+  }
+
+  function setRange2(event) {
+    if (filterNamePopular) setFilterNamePopular(!filterNamePopular);
+    if (inputVerticalValue) setInputVerticalValue('');
+    valueRange2.current = Number(event.target.value);
+    if (valueRange2.current - valueRange1.current <= minGap.current) {
+      valueRange2.current = valueRange1.current + minGap.current;
+    }
+    arrayYearsMovies.indexOf(valueRange2.current) !== -1
+      ? setPercentRange2(
+          (100 / arrayYearsMovies.length) *
+            arrayYearsMovies.indexOf(valueRange2.current)
+        )
+      : setPercentRange2('Não tem kkk');
+  }
+  SwiperCore.use(Autoplay);
+
+  function removeLoadingSipnner(event) {
+    const loadingSpinner = event.target.parentElement.querySelector(
+      'img + .container-load'
+    );
+    return loadingSpinner.remove();
+  }
+
+  return movieId ? (
+    <>
+      <Outlet />
+    </>
+  ) : (
+    <PagesContainer filterPopularByActived={filterPopularByActived}>
+      <Helmet>
+        <title>{'MFLIX - Series'}</title>
+      </Helmet>
+      <FiltersMovies
+        genresArrowActived={genresArrowActived}
+        yearsArrowActived={yearsArrowActived}
+      >
+        <div className="vertical genres">
+          <div>
+            <h5>Generos</h5>
+            <span
+              className="genre"
+              onClick={() => setGenresArrowActived(!genresArrowActived)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="20px"
+                viewBox="0 0 24 24"
+                width="20px"
+                fill="#FFFFFF"
+              >
+                <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
+                <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
+              </svg>
+            </span>
+          </div>
+          <div>
+            <fieldset>
+              {allGenresMovies &&
+                allGenresMovies.genres.map((genre) => (
+                  <div className="filter-name" key={genre.id}>
+                    <input
+                      data-genre-id={genre.id}
+                      type="checkbox"
+                      id={`v-g-${clearLinkTitle(genre.name)}`}
+                      onClick={(event) => setCheckCheckBoxVertical(event)}
+                    />
+                    <label htmlFor={`v-g-${clearLinkTitle(genre.name)}`}>
+                      {genre.name}
+                    </label>
+                  </div>
+                ))}
+            </fieldset>
+          </div>
+        </div>
+        <div className="vertical years">
+          <div>
+            <h5>Ano</h5>
+            <div>
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20">
+                  <path d="M9.958 15.021Q10.417 15.021 10.729 14.708Q11.042 14.396 11.042 13.938Q11.042 13.479 10.729 13.167Q10.417 12.854 9.958 12.854Q9.5 12.854 9.188 13.167Q8.875 13.479 8.875 13.938Q8.875 14.396 9.188 14.708Q9.5 15.021 9.958 15.021ZM9.167 11.771H10.792Q10.792 11.062 10.948 10.677Q11.104 10.292 11.833 9.583Q12.354 9.062 12.667 8.573Q12.979 8.083 12.979 7.396Q12.979 6.229 12.135 5.604Q11.292 4.979 10.104 4.979Q8.896 4.979 8.135 5.604Q7.375 6.229 7.083 7.125L8.542 7.708Q8.646 7.354 8.979 6.906Q9.312 6.458 10.062 6.458Q10.708 6.458 11.042 6.802Q11.375 7.146 11.375 7.562Q11.375 7.958 11.115 8.333Q10.854 8.708 10.5 9Q9.562 9.812 9.365 10.229Q9.167 10.646 9.167 11.771ZM10 18.333Q8.292 18.333 6.771 17.677Q5.25 17.021 4.115 15.896Q2.979 14.771 2.323 13.25Q1.667 11.729 1.667 10Q1.667 8.271 2.323 6.75Q2.979 5.229 4.115 4.104Q5.25 2.979 6.771 2.323Q8.292 1.667 10 1.667Q11.75 1.667 13.271 2.323Q14.792 2.979 15.917 4.104Q17.042 5.229 17.688 6.75Q18.333 8.271 18.333 10Q18.333 11.729 17.688 13.25Q17.042 14.771 15.917 15.896Q14.792 17.021 13.271 17.677Q11.75 18.333 10 18.333ZM10 10Q10 10 10 10Q10 10 10 10Q10 10 10 10Q10 10 10 10Q10 10 10 10Q10 10 10 10Q10 10 10 10Q10 10 10 10ZM10 16.583Q12.771 16.583 14.677 14.656Q16.583 12.729 16.583 10Q16.583 7.271 14.677 5.344Q12.771 3.417 10 3.417Q7.292 3.417 5.354 5.344Q3.417 7.271 3.417 10Q3.417 12.729 5.354 14.656Q7.292 16.583 10 16.583Z" />
+                </svg>
+
+                <div className="duvidas-years">
+                  O filtro "Ano" não tem efeito no catalogo "Novas series".
+                </div>
+              </span>
+              <span
+                className="years"
+                onClick={() => setYearsArrowActived(!yearsArrowActived)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="20px"
+                  viewBox="0 0 24 24"
+                  width="20px"
+                  fill="#FFFFFF"
+                >
+                  <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
+                  <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
+                </svg>
+              </span>
+            </div>
+          </div>
+          <div>
+            <div className="wrapper-input-range">
+              <div className="container-input-range">
+                <div
+                  className="range-slider-track"
+                  style={{
+                    background: `linear-gradient(
+                to right,
+                ${colors.color5} ${
+                      percentRange1 !== null
+                        ? percentRange1
+                        : arrayYearsMovies &&
+                          (100 / arrayYearsMovies.length) * 10
+                    }%,
+                ${colors.color2} ${
+                      percentRange1 !== null
+                        ? percentRange1
+                        : arrayYearsMovies &&
+                          (100 / arrayYearsMovies.length) * 10
+                    }%,
+                ${colors.color2} ${
+                      !percentRange2
+                        ? arrayYearsMovies &&
+                          (100 / arrayYearsMovies.length) *
+                            arrayYearsMovies.length
+                        : percentRange2
+                    }%,
+                    ${colors.color5} ${
+                      !percentRange2
+                        ? arrayYearsMovies &&
+                          (100 / arrayYearsMovies.length) *
+                            arrayYearsMovies.length
+                        : percentRange2
+                    }%
+              )`,
+                  }}
+                ></div>
+                <input
+                  type="range"
+                  value={valueRange1.current}
+                  min="1990"
+                  max={new Date().getFullYear()}
+                  onChange={setRange1}
+                  onMouseUp={() => {
+                    setMoviesYearsActorGenres(false);
+                  }}
+                  id="range-1"
+                />
+                <input
+                  type="range"
+                  value={valueRange2.current}
+                  min="1990"
+                  max={new Date().getFullYear()}
+                  onChange={setRange2}
+                  onMouseUp={() => {
+                    setMoviesYearsActorGenres(false);
+                  }}
+                  id="range-2"
+                />
+              </div>
+              <div className="value-range-visibles">
+                <span>{valueRange1.current}</span>
+                <span>{valueRange2.current}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </FiltersMovies>
+      <div className="movies-search-new-popular">
+        <div className="movies-search">
+          <div className="container-search">
+            <div className="vertical-search-popular">
+              <form onSubmit={setVerticalSearch} action="/vertical/search">
+                <button type="submit">
+                  <svg
+                    xmlns="http:www.w3.org/2000/svg"
+                    height="18px"
+                    width="18px"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                  </svg>
+                </button>
+                <input
+                  type="text"
+                  placeholder="Pesquisar serie..."
+                  name="search_query"
+                  value={verticalSearchValue}
+                  onChange={(event) =>
+                    setVerticalSearchValue(event.target.value)
+                  }
+                />
+              </form>
+            </div>
+
+            <div className="popularBy">
+              <h5>Populares&nbsp;Do(a):</h5>
+              <div className="filter-popularBy">
+                {!filterNamePopular ? 'Filtrar' : filterNamePopular}
+                <div className="ul-filters-popularBy">
+                  <ul>
+                    <li
+                      onClick={(event) => {
+                        primaryReleaseDateGte.current = setDate(1);
+                        primaryReleaseDateLte.current = setDate();
+                        setFilterNamePopular(event.target.innerText);
+                        setFilterPopularByActived(!filterPopularByActived);
+                        setAllMoviesByPopularData(false);
+                      }}
+                    >
+                      Dia
+                    </li>
+                    <li
+                      onClick={(event) => {
+                        primaryReleaseDateGte.current = setDate(7);
+                        primaryReleaseDateLte.current = setDate();
+                        setFilterNamePopular(event.target.innerText);
+                        setFilterPopularByActived(!filterPopularByActived);
+                        setAllMoviesByPopularData(false);
+                      }}
+                    >
+                      Semana
+                    </li>
+                    <li
+                      onClick={(event) => {
+                        primaryReleaseDateGte.current = setDate(31);
+                        primaryReleaseDateLte.current = setDate();
+                        setFilterNamePopular(event.target.innerText);
+                        setFilterPopularByActived(!filterPopularByActived);
+                        setAllMoviesByPopularData(false);
+                      }}
+                    >
+                      Mês
+                    </li>
+                    <li
+                      onClick={(event) => {
+                        primaryReleaseDateGte.current = setDate(365);
+                        primaryReleaseDateLte.current = setDate();
+                        setFilterNamePopular(event.target.innerText);
+                        setFilterPopularByActived(!filterPopularByActived);
+                        setAllMoviesByPopularData(false);
+                      }}
+                    >
+                      Ano
+                    </li>
+                  </ul>
+                </div>
+                <span>
+                  <svg
+                    xmlns="http:www.w3.org/2000/svg"
+                    height="20px"
+                    viewBox="0 0 24 24"
+                    width="20px"
+                    fill="#FFFFFF"
+                  >
+                    <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
+                    <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
+                  </svg>
+                </span>
+                <button
+                  className="onClickActivedFilters"
+                  onClick={() => {
+                    setFilterPopularByActived(!filterPopularByActived);
+                  }}
+                ></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="movies-new"
+          style={{
+            height: newsMovies && newsMovies.results.length ? '265px' : '150px',
+          }}
+        >
+          <h1>Novas&nbsp;series</h1>
+          <NewMovies>
+            {newsMovies && newsMovies.results.length ? (
+              <Swiper
+                autoplay={{
+                  delay: 3000,
+                  disableOnInteraction: false,
+                  pauseOnMouseEnter: true,
+                }}
+                modules={[Navigation]}
+                spaceBetween={30}
+                slidesPerView={3}
+                autoHeight
+                loop={newsMovies.results.length < 3 ? false : true}
+              >
+                {newsMovies.results.map((result) => (
+                  <SwiperSlide key={result.id}>
+                    {
+                      <div className="popular-movie-slider">
+                        <div className="movie-popular-img">
+                          <img
+                            src={
+                              result.poster_path
+                                ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                                : imageErrorTop3
+                            }
+                            onLoad={removeLoadingSipnner}
+                            onError={removeLoadingSipnner}
+                            alt={result.name}
+                          />
+                          <Loading popular />
+                        </div>
+                        <div className="movie-popular-details">
+                          <Link
+                            to={`t/${clearLinkTitle(result.name)}/${result.id}`}
+                            reloadDocument
+                          >
+                            <h3 title={result.name}>{result.name}</h3>
+                          </Link>
+                          <div className="popular-year-genre">
+                            <div className="popular-year-year">
+                              {result.first_air_date
+                                ? result.first_air_date.slice(0, 4)
+                                : 'Not Data'}
+                            </div>
+                            &sdot;
+                            <div className="popular-genre-genre">
+                              {allGenresMovies &&
+                                allGenresMovies.genres.map((genre) =>
+                                  genre.id === result.genre_ids[0]
+                                    ? genre.name
+                                    : ''
+                                )}
+                              {result.genre_ids.length < 1 && 'Not genre'}
+                            </div>
+                          </div>
+                          <div className="vertical-overview">
+                            {result.overview
+                              ? result.overview
+                              : 'Não à descrição para este titulo por enquanto.'}
+                          </div>
+                          <div className="popular-imdb-rating-voteAverage">
+                            IMDB
+                            <div className="popular-rating-voteAverage">
+                              <RatingSystem2
+                                vote_average={result.vote_average}
+                                color={colors.color1}
+                              />
+                              <div className="popular-voteAverage">
+                                {isInt(String(result.vote_average))
+                                  ? `${result.vote_average}.0`
+                                  : result.vote_average}
+                              </div>
+                            </div>
+                          </div>
+                          <Link
+                            to={`t/${clearLinkTitle(result.name)}/${result.id}`}
+                            reloadDocument
+                          >
+                            <button className="popular-watch-now">
+                              Assistir&nbsp;agora
+                            </button>
+                          </Link>
+                        </div>
+                      </div>
+                    }
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            ) : (
+              newsMovies && (
+                <div className="not-results-search-all-catalog">
+                  <img src={notResultsSearch} />
+                  <h4>Nenhum resultado.</h4>
+                </div>
+              )
+            )}
+          </NewMovies>
+        </div>
+        <div className="movies-popular">
+          <h1>Series&nbsp;populares</h1>
+
+          <PopularMovies
+            id="scrollableDivPopular"
+            style={{
+              height: allMoviesPopular.results.length ? '975px' : '150px',
+            }}
+          >
+            {loadingFilters && <LoadingFilters />}
+            {allMoviesPopular.results.length ? (
+              <InfiniteScroll
+                dataLength={allMoviesPopular.results.length}
+                next={() => {
+                  if (allMoviesPopular.midiaType === 'popular')
+                    return setPopularMoviesFunction(true);
+                  if (allMoviesPopular.midiaType === 'byPopularData')
+                    return setAllMoviesByPopularData(true);
+                  if (allMoviesPopular.midiaType === 'popularYearsActorGenres')
+                    return setMoviesYearsActorGenres(true);
+                }}
+                hasMore={true}
+                scrollThreshold={1}
+                loader={
+                  allMoviesPopular.originalResult.length ? (
+                    <LoadingScrollInfinit />
+                  ) : (
+                    <p
+                      style={{
+                        textAlign: 'center',
+                        fontSize: '13px',
+                        fontWeight: '400',
+                        color: '#B243F7',
+                      }}
+                    >
+                      Chegou ao fim!
+                    </p>
+                  )
+                }
+                scrollableTarget="scrollableDivPopular"
+                style={{ overflow: 'hidden' }}
+              >
+                {allMoviesPopular.results.map((result) => (
+                  <div key={result.id} className="vertical-popular-img-details">
+                    <div>
+                      <img
+                        src={
+                          result.poster_path
+                            ? `https:image.tmdb.org/t/p/w500${result.poster_path}`
+                            : imageErrorTop3
+                        }
+                        onLoad={removeLoadingSipnner}
+                        onError={removeLoadingSipnner}
+                        alt={result.name}
+                      />
+                      <Loading colorVertical />
+                      <div>
+                        <Link
+                          to={`t/${clearLinkTitle(result.name)}/${result.id}`}
+                          reloadDocument
+                        >
+                          <button>Assistir</button>
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="popular-conatiner-details">
+                      <Link
+                        to={`t/${clearLinkTitle(result.name)}/${result.id}`}
+                        reloadDocument
+                      >
+                        <h5 title={result.name}>{result.name}</h5>
+                      </Link>
+                      <div className="popular-details">
+                        <div>
+                          {result.first_air_date
+                            ? result.first_air_date.slice(0, 4)
+                            : 'Not Data'}
+                          ,
+                        </div>
+                        <div>
+                          {allGenresMovies &&
+                            allGenresMovies.genres.map((genre) =>
+                              genre.id === result.genre_ids[0] ? genre.name : ''
+                            )}
+                          {result.genre_ids.length < 1 && 'Not genre'}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </InfiniteScroll>
+            ) : (
+              <div className="not-results-search-all-catalog">
+                <img src={notResultsSearch} />
+                <h4>Nenhum resultado.</h4>
+              </div>
+            )}
+          </PopularMovies>
+        </div>
+      </div>
+    </PagesContainer>
+  );
+}
