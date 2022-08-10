@@ -16,7 +16,7 @@ import clearLinkTitle from '../../../../config/clearLinkTitle';
 import RatingSystem2 from '../../../../components/ratingSystem2/index';
 import notResultsSearch from '../../../../assets/images/search.png';
 import Loading from '../../../../components/loadingReactStates/index';
-import LoadingScrollInfinit from '../../../../components/loadingVerticalPages/index';
+import LoadingScrollInfinit from '../../../../components/loadingActor/index';
 import LoadingFilters from '../../../loadingFilters/index';
 import imageErrorTop3 from '../../../../assets/images/czx7z2e6uqg81.jpg';
 import * as colors from '../../../../colors';

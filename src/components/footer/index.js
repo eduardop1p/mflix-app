@@ -1,27 +1,13 @@
 /* eslint-disable */
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { isEmail } from 'validator/validator';
 
-import * as actions from '../../storeReactRedux/modules/loadBgFooter/actions';
 import { ElementFooter, CreditsFooter } from './styled';
 
 export default function Footer() {
   const movieSerieImage = useSelector(
     (state) => state.firstBackgroundMovie.movieSerieImage
   );
-  const dispatch = useDispatch();
-
-  const [loadImgFooter1, setLoadImgFooter1] = useState(false);
-  const [loadImgFooter2, setLoadImgFooter2] = useState(false);
-
-  useEffect(() => {
-    if (loadImgFooter1 && loadImgFooter2) {
-      dispatch(
-        actions.loadBgFooterSuccess({ loadBgImg1: true, loadBgImg2: true })
-      );
-    }
-  });
 
   function setSendEmailOnSubmit(event) {
     event.preventDefault();
@@ -48,11 +34,9 @@ export default function Footer() {
           {movieSerieImage && (
             <img
               src={
-                movieSerieImage.data.posters.length &&
+                movieSerieImage.data.posters.length > 0 &&
                 `https://image.tmdb.org/t/p/w1280${movieSerieImage.data.posters[0].file_path}`
               }
-              onLoad={() => setLoadImgFooter1(true)}
-              onError={() => setLoadImgFooter1(true)}
               alt={movieSerieImage.title}
             />
           )}
@@ -64,8 +48,6 @@ export default function Footer() {
                 movieSerieImage.data.backdrops.length > 1 &&
                 `https://image.tmdb.org/t/p/w1280${movieSerieImage.data.backdrops[1].file_path}`
               }
-              onLoad={() => setLoadImgFooter2(true)}
-              onError={() => setLoadImgFooter2(true)}
               alt={movieSerieImage.title}
             />
           )}

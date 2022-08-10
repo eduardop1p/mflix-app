@@ -1,22 +1,12 @@
-import { LoadingSpinner } from './styled';
-
 /* eslint-disable */
 
-export default function LoadingFilters() {
+import { LoadingFilters } from './styled';
+
+export default function LoadingFiltersComponent(props) {
   return (
-    <LoadingSpinner className="container-load">
-      <div className="load-spinner">
-        <div className="load">
-          <div className="l1">
-            <div></div>
-            <div></div>
-          </div>
-          <div className="l2">
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-      </div>
-    </LoadingSpinner>
+    <LoadingFilters>
+      <div className="load-actor an-1"></div>
+      <div className="load-actor an-2"></div>
+    </LoadingFilters>
   );
 }

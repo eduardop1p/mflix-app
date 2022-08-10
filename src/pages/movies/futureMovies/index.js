@@ -51,10 +51,10 @@ class FutureMovies extends Component {
   }
 
   componentDidUpdate() {
-    const { loadBgHeader, loadBgImg1, loadBgImg2 } = this.props;
+    const { loadBgHeader } = this.props;
     const { futureAllMovies } = this.state;
 
-    if (loadBgHeader && loadBgImg1 && loadBgImg2 && futureAllMovies) {
+    if (loadBgHeader && futureAllMovies) {
       setTimeout(() => this.props.loadingFailure(), 500);
     }
   }
@@ -134,8 +134,6 @@ class FutureMovies extends Component {
 const mapStateToProps = (state) => {
   return {
     loadBgHeader: state.loadBgHeader.loadBgHeader,
-    loadBgImg1: state.loadBgFooter.loadBgImg1,
-    loadBgImg2: state.loadBgFooter.loadBgImg2,
   };
 };
 

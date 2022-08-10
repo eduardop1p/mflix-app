@@ -6,7 +6,6 @@ import auth from './auth/reducer';
 import firstBackgroundMovie from './firstBackgroundMovie/reducer';
 import loading from './loading/reducer';
 import loadBgHeader from './loadBgHeader/reducer';
-import loadBgFooter from './loadBgFooter/reducer';
 
 /*
 Um recurso interessante do Redux é que podemos ter muitos
@@ -30,7 +29,6 @@ const rootReducer = persistReducer(
     firstBackgroundMovie,
     loading,
     loadBgHeader,
-    loadBgFooter,
   })
 );
 

@@ -34,7 +34,7 @@ export const LoadingActor = styled.div`
   .load-actor {
     width: 4px;
     border-radius: 1px;
-    height: 10px;
+    height: 12px;
     background-color: ${color2};
   }
   & > .an-1 {

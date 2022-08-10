@@ -17,12 +17,28 @@ export const WatchListSection = styled.section`
       display: inline-block;
       width: calc(100% / 3);
       padding: 8px;
+      transition: transform 0.2s ease-in-out;
+
+      &:hover {
+        transform: scale(1.02);
+      }
 
       & > div {
         display: flex;
         flex-direction: column;
         border-radius: 10px;
         overflow: hidden;
+        position: relative;
+
+        & > .movie-or-serie-my-list {
+          position: absolute;
+          z-index: 6;
+          top: 0;
+          font-size: 13px;
+          font-weight: 400;
+          padding: 14px;
+          color: ${colors.color1};
+        }
 
         & > img {
           width: 100%;

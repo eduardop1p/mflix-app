@@ -9,7 +9,7 @@ export const LoadingSpinner = styled.div`
     props.colorVertical ? colors.color7 : colors.color9};
   justify-content: center;
   position: absolute;
-  z-index: z;
+  z-index: 6;
   top: 0;
   height: 100%;
   width: calc(${(props) => (props.margin ? '100% - 8px' : '100%')});
@@ -18,7 +18,7 @@ export const LoadingSpinner = styled.div`
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #ddd;
+    background-color: #5c5c5c;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -44,11 +44,24 @@ export const LoadingSpinner = styled.div`
       & > .l1,
       & > .l2 {
         & > div {
-          background-color: ${colors.color6};
-          width: 7px;
-          height: 7px;
-          border-radius: 50%;
-          margin: 1px;
+          background-color: ${colors.color1};
+          width: 5px;
+          height: 5px;
+          border-radius: 100%;
+        }
+      }
+
+      & > .l1 {
+        & > :last-child {
+          margin-top: 4px;
+        }
+      }
+
+      & > .l2 {
+        margin-left: 4px;
+
+        & > :last-child {
+          margin-top: 4px;
         }
       }
     }

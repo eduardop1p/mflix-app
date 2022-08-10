@@ -2,10 +2,10 @@ import * as types from '../types';
 
 const initialState = {
   user: {
-    id: '',
-    name: 'visitor',
+    _id: '',
+    nome: 'visitor',
     email: '',
-    session: { originalMaxAge: 0, expires: '' },
+    session: { id: '', expires: '' },
   },
   isLogedIn: false,
 };

@@ -18,7 +18,6 @@ import apiConfig from '../../../config/apiConfig';
 import imageError1 from '../../../assets/images/czx7z2e6uqg81.jpg';
 import imageError2 from '../../../assets/images/1150108.png';
 import Loading from '../../../components/loadingReactStates/index';
-import LoadingFavorite from '../../../components/loadingFilters/index';
 import RatingSystem from '../../ratingSystem/index';
 import RatingSystem2 from '../../ratingSystem2/index';
 import clearLinkTitle from '../../../config/clearLinkTitle';
@@ -46,8 +45,7 @@ export default function MovieD() {
   const loadingApp = useSelector((state) => state.loading.loadingState);
   const user = useSelector((state) => state.auth.user);
 
-  const [favoritesUser, setFavoritesUser] = useState(null);
-  const [loadingFavorite, setLoadingFavorite] = useState(false);
+  const [favoriteUser, setFavoriteUser] = useState(null);
   const [newMoviesId, setNewMoviesId] = useState(null);
   const [allGenresMovies, setAllGenresMovies] = useState(null);
   const [newSimilarId, setNewSimilarId] = useState(null);
@@ -145,12 +143,12 @@ export default function MovieD() {
     getImagesPostersMovie(movieId);
     getAllGenresMovies();
     getNewsMovies();
-    getFavoritesUser();
+    getFavoriteUser();
   }, []);
 
   useEffect(() => {
     if (
-      favoritesUser &&
+      favoriteUser &&
       newMoviesId &&
       allGenresMovies &&
       filesMovie &&
@@ -162,7 +160,7 @@ export default function MovieD() {
         dispatch(actions.loadingFailure());
       }, 500);
   }, [
-    favoritesUser,
+    favoriteUser,
     newMoviesId,
     allGenresMovies,
     filesMovie,
@@ -210,29 +208,41 @@ export default function MovieD() {
     );
   }
 
-  async function getFavoritesUser() {
+  async function getFavoriteUser() {
     try {
       const { data } = await axiosBaseUrlUser.get(`minha-lista/${user._id}`, {
         headers: { Authorization: user.session.id },
       });
-      const favoriteUser = data.filter((myList) => myList.id === movieId);
-      if (get({ favoriteUser }, 'favoriteUser[0].id', null)) setFavorite(true);
+      const currentFavoriteUser = data.filter(
+        (myList) => myList.id === movieId
+      );
+      if (get({ currentFavoriteUser }, 'currentFavoriteUser[0]._id', null))
+        setFavorite(true);
 
-      setFavoritesUser(favoriteUser);
+      setFavoriteUser(currentFavoriteUser);
     } catch (err) {
       console.error('Erro ao pegar favorito de usuario.');
     }
   }
 
   async function setFavoriteFunction(event) {
-    setFavorite(!favorite);
-    if (event.target.getAttribute('data-favorite') !== 'true') {
-      event.target.setAttribute('data-scale', '');
-      setTimeout(() => event.target.removeAttribute('data-scale'), 100);
+    if (favorite) {
+      setFavorite(false);
 
       try {
-        setLoadingFavorite(true);
+        await axiosBaseUrlUser.delete(`/minha-lista/${favoriteUser[0]._id}`, {
+          headers: { Authorization: user.session.id },
+        });
+      } catch (err) {
+        console.error(err.response);
+      }
+      return;
+    } else {
+      setFavorite(true);
+      event.target.setAttribute('data-scale', '');
+      setTimeout(() => event.target.removeAttribute('data-scale'), 50);
 
+      try {
         await axiosBaseUrlUser.post(
           `/minha-lista/${user._id}`,
           {
@@ -243,24 +253,7 @@ export default function MovieD() {
         );
       } catch (err) {
         console.error(err.response);
-      } finally {
-        setTimeout(() => setLoadingFavorite(false), 100);
       }
-
-      return;
-    } else {
-      try {
-        setLoadingFavorite(true);
-
-        await axiosBaseUrlUser.delete(`/minha-lista/${user._id}`, {
-          headers: { Authorization: user.session.id },
-        });
-      } catch (err) {
-        console.error(err.response);
-      } finally {
-        setTimeout(() => setLoadingFavorite(false), 100);
-      }
-
       return;
     }
   }
@@ -279,7 +272,6 @@ export default function MovieD() {
       <Helmet>
         <title>{newMoviesId && `MFLIX - ${newMoviesId.title}`}</title>
       </Helmet>
-      {loadingFavorite && <LoadingFavorite />}
       <BgImgPageDetails
         className="bg-img-page-details"
         backdrop_path={

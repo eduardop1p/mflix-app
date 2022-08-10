@@ -1,7 +1,9 @@
+/* eslint-disable */
+
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-/* eslint-disable */
+import LoadingFilters from '../../components/loadingFilters/index';
 
 import WatchList from './watchList/index';
 import Main from './styled';
@@ -19,7 +21,6 @@ export default class MinhaLista extends Component {
         <Helmet>
           <title>MFLIX - Minha lista</title>
         </Helmet>
-
         <Main>
           <div className="amo-vadias">
             <WatchList />

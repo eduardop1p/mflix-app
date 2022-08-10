@@ -6,12 +6,14 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import axiosRetry from 'axios-retry';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { get } from 'lodash';
 import { Helmet } from 'react-helmet-async';
 import { isInt } from 'validator/validator';
 
 import * as actions from '../../../storeReactRedux/modules/loading/actions';
 import axiosBaseUrlSeries from '../../../services/axiosBaseUrlSeries';
 import axiosBaseUrlGenresSeries from '../../../services/axiosBaseUrlGenresSeries';
+import axiosBaseUrlUser from '../../../services/axiosUserBaseUrl';
 import axiosBaseUrlSeriesDiscover from '../../../services/axiosBaseUrlSeriesDiscover';
 import apiConfig from '../../../config/apiConfig';
 import imageError1 from '../../../assets/images/czx7z2e6uqg81.jpg';
@@ -42,7 +44,9 @@ export default function serieD() {
 
   const dispatch = useDispatch();
   const loadingApp = useSelector((state) => state.loading.loadingState);
+  const user = useSelector((state) => state.auth.user);
 
+  const [favoriteUser, setFavoriteUser] = useState(null);
   const [newMoviesId, setNewMoviesId] = useState(null);
   const [allGenresMovies, setAllGenresMovies] = useState(null);
   const [newSimilarId, setNewSimilarId] = useState(null);
@@ -128,10 +132,12 @@ export default function serieD() {
     getImagesPostersMovie(movieId);
     getNewsSeries();
     getAllGenresSerie();
+    getFavoriteUser();
   }, []);
 
   useEffect(() => {
     if (
+      favoriteUser &&
       newMoviesId &&
       allGenresMovies &&
       filesMovie &&
@@ -143,6 +149,7 @@ export default function serieD() {
         dispatch(actions.loadingFailure());
       }, 500);
   }, [
+    favoriteUser,
     newMoviesId,
     allGenresMovies,
     filesMovie,
@@ -209,16 +216,55 @@ export default function serieD() {
       )
     );
   }
+  async function getFavoriteUser() {
+    try {
+      const { data } = await axiosBaseUrlUser.get(`minha-lista/${user._id}`, {
+        headers: { Authorization: user.session.id },
+      });
+      const currentFavoriteUser = data.filter(
+        (myList) => myList.id === movieId
+      );
+      if (get({ currentFavoriteUser }, 'currentFavoriteUser[0]._id', null))
+        setFavorite(true);
 
-  function setFavoriteFunction(event) {
-    setFavorite(!favorite);
-    if (event.target.getAttribute('data-favorite') !== 'true') {
-      event.target.setAttribute('data-scale', '');
-      setTimeout(() => event.target.removeAttribute('data-scale'), 100);
-      return;
+      setFavoriteUser(currentFavoriteUser);
+    } catch (err) {
+      console.error('Erro ao pegar favorito de usuario.');
     }
   }
 
+  async function setFavoriteFunction(event) {
+    if (favorite) {
+      setFavorite(false);
+
+      try {
+        await axiosBaseUrlUser.delete(`/minha-lista/${favoriteUser[0]._id}`, {
+          headers: { Authorization: user.session.id },
+        });
+      } catch (err) {
+        console.error(err.response);
+      }
+      return;
+    } else {
+      setFavorite(true);
+      event.target.setAttribute('data-scale', '');
+      setTimeout(() => event.target.removeAttribute('data-scale'), 50);
+
+      try {
+        await axiosBaseUrlUser.post(
+          `/minha-lista/${user._id}`,
+          {
+            id: movieId,
+            midiaType: TOrM,
+          },
+          { headers: { Authorization: user.session.id } }
+        );
+      } catch (err) {
+        console.error(err.response);
+      }
+      return;
+    }
+  }
   function removeLoadingSipnner(event) {
     const loadingSpinner = event.target.parentElement.querySelector(
       'img + .container-load'

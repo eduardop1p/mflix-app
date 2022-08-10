@@ -136,6 +136,7 @@ export const PosterDetailsSimilarTrailer = styled.div`
 
       & > img {
         width: 100%;
+        height: 100%;
         border-radius: 1rem;
         margin-bottom: 1rem;
       }

@@ -1,8 +1,11 @@
+import { useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import Header from '../components/header/index';
 import Conta from '../pages/conta/index';
 import Login from '../pages/login/index';
+import User from '../pages/user/index';
 import RecoveryPasswordEmail from '../pages/recoveryPasswordEmail';
 import RecoveryPassword from '../pages/recoveryPassword';
 import Index from '../pages/index/index';
@@ -19,7 +22,11 @@ import Search from '../components/verticalHeaderSearch/pages/search/index';
 import MoviePageDetails from '../components/moviePageDetails/index';
 import Error404 from '../components/error404/index';
 
+import clearLinkTitle from '../config/clearLinkTitle';
+
 export default function Routers() {
+  const user = useRef(useSelector((state) => state.auth.user));
+
   return (
     <Routes>
       <Route path="/" element={<Header />}>
@@ -54,7 +61,13 @@ export default function Routers() {
       </Route>
 
       <Route path="/login" element={<Login />} />
-      <Route path="/conta" element={<Conta />} />
+      <Route
+        path={clearLinkTitle(
+          `/${user.current.nome !== 'visitor' ? user.current.nome : ''}`
+        )}
+        element={<User />}
+      />
+      <Route path="/criar-conta" element={<Conta />} />
       <Route path="/recuperar-senha" element={<RecoveryPasswordEmail />} />
       <Route path="/recuperar-senha/:userId" element={<RecoveryPassword />} />
 

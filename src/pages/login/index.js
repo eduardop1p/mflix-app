@@ -8,12 +8,14 @@ import { useDispatch } from 'react-redux';
 import * as actions from '../../storeReactRedux/modules/loading/actions';
 import * as actionsLogin from '../../storeReactRedux/modules/auth/actions';
 import axiosUserBaseUrl from '../../services/axiosUserBaseUrl';
+import LoadingFilters from '../../components/loadingFilters/index';
 import { LoginSection } from './styled';
 
 export default function Login() {
   const dispatch = useDispatch();
 
   const [inputEmailValue, setInputEmailValue] = useState('');
+  const [loadLogin, setLoadLogin] = useState(false);
 
   useEffect(() => {
     setTimeout(() => dispatch(actions.loadingFailure()), 500);
@@ -38,16 +40,20 @@ export default function Login() {
     if (!inputValid) return;
 
     try {
+      setLoadLogin(true);
       const { data } = await axiosUserBaseUrl.post('/login', {
         email: inputEmail.value,
         password: inputPassword.value,
       });
       dispatch(actionsLogin.userLoginSuccess({ user: data, isLogedIn: true }));
+      window.location.href = '/';
+      setTimeout(() => setLoadLogin(false), 100);
     } catch (err) {
+      setTimeout(() => setLoadLogin(false), 100);
       console.error(err);
     }
 
-    // return (window.location.href = '/');
+    return;
   }
 
   return (
@@ -55,6 +61,7 @@ export default function Login() {
       <Helmet>
         <title>{'MFLIX - Login'}</title>
       </Helmet>
+      {loadLogin && <LoadingFilters />}
       <LoginSection>
         <h1>MFILX</h1>
         <div className="login">
@@ -80,7 +87,7 @@ export default function Login() {
             </button>
           </form>
           <div className="sing-up-recover-password">
-            <Link reloadDocument to="/conta">
+            <Link reloadDocument to="/criar-conta">
               Criar conta.
             </Link>
             <Link reloadDocument to="/recuperar-senha">

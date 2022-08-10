@@ -21,7 +21,7 @@ import notResultsSearch from '../../../../assets/images/search.png';
 import Loading from '../../../../components/loadingReactStates/index';
 import LoadingActor from '../../../../components/loadingActor/index';
 import LoadingFilters from '../../../loadingFilters/index';
-import LoadingScrollInfinit from '../../../../components/loadingVerticalPages/index';
+import LoadingScrollInfinit from '../../../../components/loadingActor/index';
 import * as colors from '../../../../colors';
 import {
   PagesContainer,
