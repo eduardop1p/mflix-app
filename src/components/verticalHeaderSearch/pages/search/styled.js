@@ -51,13 +51,11 @@ export const ContainerDatails = styled.div`
     gap: 1rem;
 
     & > .midia-files-collection {
-      position: relative;
-      top: 12rem;
+      margin-top: 12rem;
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
       width: 100%;
-      height: fit-content;
 
       & > .favorite {
         width: 50px;
@@ -163,7 +161,8 @@ export const PosterDetailsSimilarTrailer = styled.div`
           color: #57566c;
           font-weight: 400;
           font-size: 12.5px;
-          height: 100px;
+          height: 200px;
+          flex: none;
           width: 100%;
           overflow: hidden;
 
@@ -308,6 +307,39 @@ export const PosterDetailsSimilarTrailer = styled.div`
     }
   }
 
+  & > .description {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    & > :last-child {
+      color: #57566c;
+      font-weight: 400;
+      font-size: 12.5px;
+      width: 100%;
+      overflow: hidden;
+
+      &:hover,
+      &:focus {
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        &::-webkit-scrollbar {
+          width: 3px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          border-radius: 1rem;
+          background-color: ${colors.color2};
+        }
+
+        &::-webkit-scrollbar-track {
+          background-color: transparent;
+        }
+      }
+    }
+  }
+
   & > .trailer-details-page {
     height: 500px;
     border-radius: 1rem;
@@ -358,7 +390,7 @@ export const ResultsS = styled.div`
     }
 
     & > .movie-popular-details {
-      padding: 0.8rem 10px 1rem 0;
+      padding: 10px 10px 1rem 0;
       display: flex;
       max-width: 140px;
       flex-direction: column;
@@ -678,7 +710,7 @@ export const Recomends = styled.div`
     }
 
     & > .movie-popular-details {
-      padding: 0.8rem 10px 1rem 0;
+      padding: 10px 10px 1rem 0;
       display: flex;
       max-width: 140px;
       flex-direction: column;

@@ -51,8 +51,7 @@ export const ContainerDatails = styled.div`
     gap: 1rem;
 
     & > .midia-files-collection {
-      position: relative;
-      top: 12rem;
+      margin-top: 12rem;
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
@@ -150,8 +149,9 @@ export const PosterDetailsSimilarTrailer = styled.div`
           color: #57566c;
           font-weight: 400;
           font-size: 12.5px;
-          height: 100px;
           width: 100%;
+          height: 200px;
+          flex: none;
           overflow: hidden;
 
           &:hover,
@@ -273,6 +273,7 @@ export const PosterDetailsSimilarTrailer = styled.div`
         & > .similar {
           position: relative;
           width: 100%;
+          height: 260px;
 
           & > h4 {
             margin-bottom: 1.2rem;
@@ -289,6 +290,39 @@ export const PosterDetailsSimilarTrailer = styled.div`
               border-radius: 1rem;
             }
           }
+        }
+      }
+    }
+  }
+
+  & > .description {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    & > :last-child {
+      color: #57566c;
+      font-weight: 400;
+      font-size: 12.5px;
+      width: 100%;
+      overflow: hidden;
+
+      &:hover,
+      &:focus {
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        &::-webkit-scrollbar {
+          width: 3px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          border-radius: 1rem;
+          background-color: ${colors.color2};
+        }
+
+        &::-webkit-scrollbar-track {
+          background-color: transparent;
         }
       }
     }
@@ -344,7 +378,7 @@ export const NewSimilar = styled.div`
     }
 
     & > .movie-popular-details {
-      padding: 0.8rem 10px 1rem 0;
+      padding: 10px 10px 1rem 0;
       display: flex;
       max-width: 140px;
       flex-direction: column;
@@ -660,7 +694,7 @@ export const NewMovies = styled.div`
     }
 
     & > .movie-popular-details {
-      padding: 1.2rem 10px 1rem 0;
+      padding: 10px 10px 1rem 0;
       display: flex;
       max-width: 140px;
       flex-direction: column;

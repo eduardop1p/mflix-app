@@ -284,14 +284,16 @@ export default function searchMovie(props) {
                   />
                   <Loading colorVertical />
 
-                  <div className="description">
-                    <h4>Descrição</h4>
-                    <div>
-                      {newMoviesId.overview
-                        ? newMoviesId.overview
-                        : 'Não à descrição para este titulo por enquanto.'}
+                  {newSearchData && newSearchData.results.length && (
+                    <div className="description">
+                      <h4>Descrição</h4>
+                      <div>
+                        {newMoviesId.overview
+                          ? newMoviesId.overview
+                          : 'Não à descrição para este titulo por enquanto.'}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
                 <div className="details-similar">
                   <div className="d1">
@@ -404,9 +406,9 @@ export default function searchMovie(props) {
                         </div>
                       </div>
                     </div>
-                    <div className="similar">
-                      <h4>Resultados&nbsp;semelhantes</h4>
-                      {newSearchData && newSearchData.results.length ? (
+                    {newSearchData && newSearchData.results.length && (
+                      <div className="similar">
+                        <h4>Resultados&nbsp;semelhantes</h4>
                         <ResultsS>
                           <Swiper
                             autoplay={{
@@ -527,15 +529,21 @@ export default function searchMovie(props) {
                             ))}
                           </Swiper>
                         </ResultsS>
-                      ) : (
-                        <div className="not-similar">
-                          <img src={imageError2} />
-                        </div>
-                      )}
-                    </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
+              {!newSearchData && !newSearchData.results.length && (
+                <div className="description">
+                  <h4>Descrição</h4>
+                  <div>
+                    {newMoviesId.overview
+                      ? newMoviesId.overview
+                      : 'Não à descrição para este titulo por enquanto.'}
+                  </div>
+                </div>
+              )}
               <div className="trailer-details-page">
                 <TrailerMovie
                   movieId={movieId}
@@ -599,7 +607,13 @@ export default function searchMovie(props) {
                 </div>
                 <div
                   className="pqp-eduardo-lavoura"
-                  style={{ height: newCollectionId ? '420px' : '920px' }}
+                  style={{
+                    height: newCollectionId
+                      ? '400px'
+                      : newSearchData && newSearchData.results.length
+                      ? '900px'
+                      : '750px',
+                  }}
                 >
                   {imagesPostersMovie && imagesPostersMovie.length ? (
                     imagesPostersMovie.map((pqp) => (

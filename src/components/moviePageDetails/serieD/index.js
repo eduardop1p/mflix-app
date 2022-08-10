@@ -306,14 +306,16 @@ export default function serieD() {
                     alt={newMoviesId.name}
                   />
                   <Loading colorVertical />
-                  <div className="description">
-                    <h4>Descrição</h4>
-                    <div>
-                      {newMoviesId.overview
-                        ? newMoviesId.overview
-                        : 'Não à descrição para este titulo por enquanto.'}
+                  {newSimilarId && (
+                    <div className="description">
+                      <h4>Descrição</h4>
+                      <div>
+                        {newMoviesId.overview
+                          ? newMoviesId.overview
+                          : 'Não à descrição para este titulo por enquanto.'}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
                 <div className="details-similar">
                   <div className="d1">
@@ -426,122 +428,127 @@ export default function serieD() {
                         </div>
                       </div>
                     </div>
-                    <div
-                      style={{ height: newSimilarId ? '260px' : '175px' }}
-                      className="similar"
-                    >
-                      {newSimilarId && (
-                        <>
-                          <h4>Series&nbsp;recomendadas</h4>
-                          <NewSimilar>
-                            <Swiper
-                              autoplay={{
-                                delay: 3000,
-                                disableOnInteraction: false,
-                                pauseOnMouseEnter: true,
-                              }}
-                              modules={[Navigation]}
-                              spaceBetween={20}
-                              slidesPerView={2}
-                              autoHeight
-                              loop
-                            >
-                              {newSimilarId.results.map((result, index) => (
-                                <SwiperSlide key={index}>
-                                  {
-                                    <div className="popular-movie-slider">
-                                      <div className="movie-popular-img">
-                                        <img
-                                          src={
-                                            result.poster_path
-                                              ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                                              : imageError1
-                                          }
-                                          onLoad={removeLoadingSipnner}
-                                          onError={removeLoadingSipnner}
-                                          alt={result.name}
-                                        />
-                                        <Loading popular />
-                                      </div>
-                                      <div className="movie-popular-details">
-                                        <Link
-                                          to={`/vertical/series/t/${clearLinkTitle(
-                                            result.name
-                                          )}/${result.id}`}
-                                          reloadDocument
-                                        >
-                                          <h3 title={result.name}>
-                                            {result.name}
-                                          </h3>
-                                        </Link>
-                                        <div className="popular-year-genre">
-                                          <div className="popular-year-year">
-                                            {result.first_air_date &&
-                                              result.first_air_date.slice(0, 4)}
-                                          </div>
-                                          &sdot;
-                                          <div className="popular-genre-genre">
-                                            {allGenresMovies &&
-                                              allGenresMovies.genres.map(
-                                                (genre) =>
-                                                  genre.id ===
-                                                  result.genre_ids[0]
-                                                    ? genre.name
-                                                    : ''
-                                              )}
-                                            {result.genre_ids.length < 1 &&
-                                              'Not genre'}
-                                          </div>
-                                        </div>
-                                        <div className="vertical-overview">
-                                          {result.overview
-                                            ? result.overview
-                                            : 'Não à descrição para este titulo por enquanto.'}
-                                        </div>
-                                        <div className="popular-imdb-rating-voteAverage">
-                                          IMDB
-                                          <div className="popular-rating-voteAverage">
-                                            <RatingSystem2
-                                              vote_average={result.vote_average}
-                                              color="#fff"
-                                            />
-                                            <div className="popular-voteAverage">
-                                              {isInt(
-                                                String(result.vote_average)
-                                              )
-                                                ? `${result.vote_average}.0`.slice(
-                                                    0,
-                                                    3
-                                                  )
-                                                : String(
-                                                    result.vote_average
-                                                  ).slice(0, 3)}
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <Link
-                                          to={`/vertical/series/t/${clearLinkTitle(
-                                            result.name
-                                          )}/${result.id}`}
-                                          reloadDocument
-                                        >
-                                          <button className="popular-watch-now">
-                                            Assistir&nbsp;agora
-                                          </button>
-                                        </Link>
-                                      </div>
+                    {newSimilarId && (
+                      <div className="similar">
+                        <h4>Series&nbsp;recomendadas</h4>
+                        <NewSimilar>
+                          <Swiper
+                            autoplay={{
+                              delay: 3000,
+                              disableOnInteraction: false,
+                              pauseOnMouseEnter: true,
+                            }}
+                            modules={[Navigation]}
+                            spaceBetween={20}
+                            slidesPerView={2}
+                            autoHeight
+                            loop
+                          >
+                            {newSimilarId.results.map((result, index) => (
+                              <SwiperSlide key={index}>
+                                {
+                                  <div className="popular-movie-slider">
+                                    <div className="movie-popular-img">
+                                      <img
+                                        src={
+                                          result.poster_path
+                                            ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                                            : imageError1
+                                        }
+                                        onLoad={removeLoadingSipnner}
+                                        onError={removeLoadingSipnner}
+                                        alt={result.name}
+                                      />
+                                      <Loading popular />
                                     </div>
-                                  }
-                                </SwiperSlide>
-                              ))}
-                            </Swiper>
-                          </NewSimilar>
-                        </>
-                      )}
-                    </div>
+                                    <div className="movie-popular-details">
+                                      <Link
+                                        to={`/vertical/series/t/${clearLinkTitle(
+                                          result.name
+                                        )}/${result.id}`}
+                                        reloadDocument
+                                      >
+                                        <h3 title={result.name}>
+                                          {result.name}
+                                        </h3>
+                                      </Link>
+                                      <div className="popular-year-genre">
+                                        <div className="popular-year-year">
+                                          {result.first_air_date &&
+                                            result.first_air_date.slice(0, 4)}
+                                        </div>
+                                        &sdot;
+                                        <div className="popular-genre-genre">
+                                          {allGenresMovies &&
+                                            allGenresMovies.genres.map(
+                                              (genre) =>
+                                                genre.id === result.genre_ids[0]
+                                                  ? genre.name
+                                                  : ''
+                                            )}
+                                          {result.genre_ids.length < 1 &&
+                                            'Not genre'}
+                                        </div>
+                                      </div>
+                                      <div className="vertical-overview">
+                                        {result.overview
+                                          ? result.overview
+                                          : 'Não à descrição para este titulo por enquanto.'}
+                                      </div>
+                                      <div className="popular-imdb-rating-voteAverage">
+                                        IMDB
+                                        <div className="popular-rating-voteAverage">
+                                          <RatingSystem2
+                                            vote_average={result.vote_average}
+                                            color="#fff"
+                                          />
+                                          <div className="popular-voteAverage">
+                                            {isInt(String(result.vote_average))
+                                              ? `${result.vote_average}.0`.slice(
+                                                  0,
+                                                  3
+                                                )
+                                              : String(
+                                                  result.vote_average
+                                                ).slice(0, 3)}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <Link
+                                        to={`/vertical/series/t/${clearLinkTitle(
+                                          result.name
+                                        )}/${result.id}`}
+                                        reloadDocument
+                                      >
+                                        <button className="popular-watch-now">
+                                          Assistir&nbsp;agora
+                                        </button>
+                                      </Link>
+                                    </div>
+                                  </div>
+                                }
+                              </SwiperSlide>
+                            ))}
+                          </Swiper>
+                        </NewSimilar>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
+              {!newSimilarId && (
+                <div
+                  className="description"
+                  style={{ height: newSimilarId ? '100px' : 'fit-content' }}
+                >
+                  <h4>Descrição</h4>
+                  <div>
+                    {newMoviesId.overview
+                      ? newMoviesId.overview
+                      : 'Não à descrição para este titulo por enquanto.'}
+                  </div>
+                </div>
+              )}
               <div className="trailer-details-page">
                 <SerieTrailer
                   movieId={movieId}
@@ -605,7 +612,13 @@ export default function serieD() {
                 </div>
                 <div
                   className="pqp-eduardo-lavoura"
-                  style={{ height: newCollectionId ? '420px' : '920px' }}
+                  style={{
+                    height: newCollectionId
+                      ? '400px'
+                      : newSimilarId
+                      ? '900px'
+                      : '750px',
+                  }}
                 >
                   {imagesPostersMovie && imagesPostersMovie.length > 1 ? (
                     imagesPostersMovie.map((pqp) => (
