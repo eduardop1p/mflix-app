@@ -137,7 +137,6 @@ export default function serieD() {
 
   useEffect(() => {
     if (
-      favoriteUser &&
       newMoviesId &&
       allGenresMovies &&
       filesMovie &&
@@ -149,7 +148,6 @@ export default function serieD() {
         dispatch(actions.loadingFailure());
       }, 500);
   }, [
-    favoriteUser,
     newMoviesId,
     allGenresMovies,
     filesMovie,

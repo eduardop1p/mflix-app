@@ -148,7 +148,6 @@ export default function MovieD() {
 
   useEffect(() => {
     if (
-      favoriteUser &&
       newMoviesId &&
       allGenresMovies &&
       filesMovie &&
@@ -160,7 +159,6 @@ export default function MovieD() {
         dispatch(actions.loadingFailure());
       }, 500);
   }, [
-    favoriteUser,
     newMoviesId,
     allGenresMovies,
     filesMovie,

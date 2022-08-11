@@ -20,7 +20,7 @@ import { color1 } from '../../../colors';
 import { Catalog, CatalogMovies, ContainerPagenation } from './styled';
 
 /* eslint-disable */
-class MoviesAllCatalog extends Component {
+class AnimationAllCatalog extends Component {
   constructor(props) {
     super(props);
 
@@ -84,21 +84,20 @@ class MoviesAllCatalog extends Component {
   }
 
   randomArrMovieSeries() {
-    const { allMoviesArr, allSeriesArr } = this.state;
+    const { allMoviesArr, allSeriesArr, allMovies } = this.state;
 
     const newArr = [...allMoviesArr.results, ...allSeriesArr.results];
-    const newArrEmpety = [];
-    while (newArrEmpety.length <= newArr.length - 1) {
-      const rand = Math.round(Math.random() * (newArr.length - 1));
-      if (newArrEmpety.indexOf(rand) === -1) newArrEmpety.push(rand);
-    }
-
     const randomArrMovieSeriesPopular = { results: [] };
-    newArrEmpety.forEach((valueIndex) => {
+    const newArrIndex = [
+      1, 11, 9, 2, 14, 21, 28, 17, 12, 16, 6, 32, 0, 13, 4, 3, 8, 25, 10, 23,
+      37, 5, 24, 35, 36, 27, 22, 30, 26, 31, 38, 34, 18, 19, 20, 29, 7, 33, 15,
+      39,
+    ];
+    newArrIndex.forEach((valueIndex) => {
       randomArrMovieSeriesPopular.results.push(newArr[valueIndex]);
     });
 
-    if (!this.state.allMovies) this.getImages(randomArrMovieSeriesPopular);
+    if (!allMovies) this.getImages(randomArrMovieSeriesPopular);
 
     this.setState({
       allMovies: randomArrMovieSeriesPopular,
@@ -148,7 +147,7 @@ class MoviesAllCatalog extends Component {
     if (searchFilterActived) {
       return this.handleSearchMoviesSubmit(null, currentPage);
     }
-    if (releaseDate || currentPage) {
+    if (releaseDate || !currentPage || currentPage) {
       return this.getAllMoviesFilters(null, currentPage);
     }
   }
@@ -473,4 +472,4 @@ class MoviesAllCatalog extends Component {
   }
 }
 
-export default connect(null, actions)(MoviesAllCatalog);
+export default connect(null, actions)(AnimationAllCatalog);

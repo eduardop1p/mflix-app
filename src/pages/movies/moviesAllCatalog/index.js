@@ -112,7 +112,7 @@ class MoviesAllCatalog extends Component {
     if (searchFilterActived) {
       return this.handleSearchMoviesSubmit(null, currentPage);
     }
-    if (genreId || releaseDate || currentPage) {
+    if (genreId || releaseDate || !currentPage || currentPage) {
       return this.getAllMoviesFilters(null, currentPage);
     }
   }
