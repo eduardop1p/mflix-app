@@ -3,11 +3,12 @@ import { LoadingSpinner } from './styled';
 /* eslint-disable */
 
 export default function Loading(props) {
-  const { colorVertical, popular, margin } = props;
+  const { colorTranparent, colorVertical, popular, margin } = props;
 
   return (
     <LoadingSpinner
       popular={popular}
+      colorTranparent={colorTranparent}
       colorVertical={colorVertical}
       margin={margin}
       className="container-load"

@@ -17,7 +17,6 @@ import RatingSystem2 from '../../../../components/ratingSystem2/index';
 import notResultsSearch from '../../../../assets/images/search.png';
 import Loading from '../../../../components/loadingReactStates/index';
 import LoadingScrollInfinit from '../../../../components/loadingActor/index';
-import LoadingFilters from '../../../loadingFilters/index';
 import imageErrorTop3 from '../../../../assets/images/czx7z2e6uqg81.jpg';
 import * as colors from '../../../../colors';
 import {
@@ -654,7 +653,7 @@ export default function SeriesAlt() {
               height: allMoviesPopular.results.length ? '975px' : '150px',
             }}
           >
-            {loadingFilters && <LoadingFilters />}
+            {loadingFilters && <Loading colorTranparent />}
             {allMoviesPopular.results.length ? (
               <InfiniteScroll
                 dataLength={allMoviesPopular.results.length}

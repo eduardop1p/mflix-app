@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 /* eslint-disable */
 import * as actions from '../../../../../storeReactRedux/modules/loading/actions';
 import MoviesAllCatalog from '../../../../../pages/index/moviesAllCatalog/index';
+import notSearch from '../../../../../assets/images/search.png';
 import { Main } from './styled';
 
 export default function NotSearchResult(porps) {
@@ -18,11 +19,12 @@ export default function NotSearchResult(porps) {
   const [verticalSearchValue, setVerticalSearchValue] = useState('');
 
   useEffect(() => {
-    loadAllCatalog &&
+    if (loadAllCatalog || value) {
       setTimeout(() => {
         dispatch(actions.loadingFailure());
       }, 500);
-  }, [loadAllCatalog]);
+    }
+  }, [loadAllCatalog, value]);
 
   function setVerticalSearch(event) {
     if (!verticalSearchValue) {
@@ -38,7 +40,6 @@ export default function NotSearchResult(porps) {
           <Helmet>
             <title>MFLIX - Nenhum resultado encontrado para: {value}</title>
           </Helmet>
-          <h1>Nenhum resultado encontrado para: {value}</h1>
           <div className="vertical-search-popular">
             <form onSubmit={setVerticalSearch} action="/vertical/search">
               <button type="submit">
@@ -59,6 +60,21 @@ export default function NotSearchResult(porps) {
                 onChange={(event) => setVerticalSearchValue(event.target.value)}
               />
             </form>
+          </div>
+          <div className="not-search-result">
+            <div className="search-img-details">
+              <img src={notSearch} alt="not serch" />
+              <div className="not-search-details">
+                <h2>Não há titulos que correspondem à sua busca.</h2>
+                <ul>
+                  <li>Revise a ortografia.</li>
+                  <li>Utilize palavras chaves de titulos.</li>
+                  <li>
+                    Navegue pelo site para encontrar um resultado similar.
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       ) : (
@@ -87,9 +103,9 @@ export default function NotSearchResult(porps) {
               />
             </form>
           </div>
+          <MoviesAllCatalog />
         </div>
       )}
-      <MoviesAllCatalog />
     </Main>
   );
 }

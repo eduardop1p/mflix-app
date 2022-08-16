@@ -3,8 +3,6 @@
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-import LoadingFilters from '../../components/loadingFilters/index';
-
 import WatchList from './watchList/index';
 import Main from './styled';
 

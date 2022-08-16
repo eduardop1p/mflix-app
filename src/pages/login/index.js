@@ -8,36 +8,46 @@ import { useDispatch } from 'react-redux';
 import * as actions from '../../storeReactRedux/modules/loading/actions';
 import * as actionsLogin from '../../storeReactRedux/modules/auth/actions';
 import axiosUserBaseUrl from '../../services/axiosUserBaseUrl';
-import LoadingFilters from '../../components/loadingFilters/index';
-import { LoginSection } from './styled';
+import LoadingForm from '../../components/loadingForm/index';
+import MessageForm from '../../components/messageForm';
+import { LoginMain, LoginSection } from './styled';
 
-export default function Login() {
+export default function Login(props) {
   const dispatch = useDispatch();
 
   const [inputEmailValue, setInputEmailValue] = useState('');
   const [loadLogin, setLoadLogin] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showFormMsg, setshowFormMsg] = useState(false);
 
   useEffect(() => {
     setTimeout(() => dispatch(actions.loadingFailure()), 500);
   }, []);
 
+  useEffect(() => {
+    const hideFormMsg = document.body.querySelector('#hide-msg-form');
+    if (hideFormMsg)
+      hideFormMsg.addEventListener('click', () => setshowFormMsg(false));
+  });
+
   async function haldleValidaInput(event) {
     event.preventDefault();
-    event.target.querySelectorAll('small').forEach((small) => small.remove());
+    setErrorMessage('');
     const inputEmail = event.target.querySelector('input#email');
     const inputPassword = event.target.querySelector('input#password');
-    let inputValid = true;
 
     // login as respostas vem do back end
 
     if (!isEmail(inputEmail.value)) {
-      const small = document.createElement('small');
-      small.innerText = 'E-mail inválido.';
-      inputEmail.before(small);
-      inputValid = false;
+      setErrorMessage('E-mail inválido.');
+      setshowFormMsg(true);
+      return;
     }
-
-    if (!inputValid) return;
+    if (inputPassword.value.length < 3 || inputPassword.value.length > 9) {
+      setErrorMessage('Senha deve ter entre 3 e 9 caracteres.');
+      setshowFormMsg(true);
+      return;
+    }
 
     try {
       setLoadLogin(true);
@@ -45,23 +55,26 @@ export default function Login() {
         email: inputEmail.value,
         password: inputPassword.value,
       });
+      setLoadLogin(false);
       dispatch(actionsLogin.userLoginSuccess({ user: data, isLogedIn: true }));
-      window.location.href = '/';
-      setTimeout(() => setLoadLogin(false), 100);
     } catch (err) {
-      setTimeout(() => setLoadLogin(false), 100);
-      console.error(err);
+      setLoadLogin(false);
+      const { data } = err.response;
+      data.errors.map((err) => setErrorMessage(err));
+      setshowFormMsg(true);
+      console.clear();
     }
 
     return;
   }
 
   return (
-    <>
+    <LoginMain>
       <Helmet>
         <title>{'MFLIX - Login'}</title>
       </Helmet>
-      {loadLogin && <LoadingFilters />}
+      {loadLogin && <LoadingForm />}
+      {showFormMsg && <MessageForm errorMessage={errorMessage} />}
       <LoginSection>
         <h1>MFILX</h1>
         <div className="login">
@@ -96,6 +109,6 @@ export default function Login() {
           </div>
         </div>
       </LoginSection>
-    </>
+    </LoginMain>
   );
 }

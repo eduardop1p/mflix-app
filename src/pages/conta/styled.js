@@ -36,21 +36,27 @@ export const ContaSection = styled.section`
       display: flex;
       flex-direction: column;
 
-      & > small {
-        margin-bottom: 5px;
-        font-size: 12.5px;
-        font-weight: 500;
-        color: red;
-      }
+      & > .container-input {
+        display: flex;
 
-      & > input {
-        margin-bottom: 10px;
-        padding: 8px 12px;
-        border: none;
-        border-radius: 5px;
-        background-color: #ddd;
-        font-weight: 500;
-        color: ${colors.color6};
+        & > .container-1 {
+          margin-right: 1rem;
+        }
+
+        & > .input {
+          width: 100%;
+
+          & > input {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ddd;
+            font-weight: 500;
+            color: ${colors.color6};
+          }
+        }
       }
 
       & > .submit-conta {

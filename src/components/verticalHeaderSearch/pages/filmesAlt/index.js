@@ -20,7 +20,6 @@ import imageErrorTop3 from '../../../../assets/images/czx7z2e6uqg81.jpg';
 import notResultsSearch from '../../../../assets/images/search.png';
 import Loading from '../../../../components/loadingReactStates/index';
 import LoadingActor from '../../../../components/loadingActor/index';
-import LoadingFilters from '../../../loadingFilters/index';
 import LoadingScrollInfinit from '../../../../components/loadingActor/index';
 import * as colors from '../../../../colors';
 import {
@@ -771,7 +770,7 @@ export default function FilmesAlt() {
               height: allMoviesPopular.results.length ? '975px' : '150px',
             }}
           >
-            {loadingFilters && <LoadingFilters />}
+            {loadingFilters && <Loading colorTranparent />}
             {allMoviesPopular.results.length ? (
               <InfiniteScroll
                 dataLength={allMoviesPopular.results.length}

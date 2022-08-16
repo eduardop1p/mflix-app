@@ -5,12 +5,16 @@ export const LoadingSpinner = styled.div`
   display: flex;
   border-radius: ${(props) => (props.popular ? '10px' : '1rem')};
   align-items: center;
-  background-color: ${(props) =>
-    props.colorVertical ? colors.color7 : colors.color9};
+  background-color: ${(props) => {
+    if (props.colorTranparent) return '#171a23fa';
+    if (props.colorVertical) return colors.color7;
+    return colors.color9;
+  }};
   justify-content: center;
-  position: absolute;
-  z-index: 6;
+  position: ${(props) => (props.colorTranparent ? 'fixed' : 'absolute')};
+  z-index: ${(props) => (props.colorTranparent ? '50' : '6')};
   top: 0;
+  left: 0;
   height: 100%;
   width: calc(${(props) => (props.margin ? '100% - 8px' : '100%')});
 
@@ -34,7 +38,7 @@ export const LoadingSpinner = styled.div`
 
     & > .load {
       animation-name: animationLoad;
-      animation-duration: 1.2s;
+      animation-duration: 1.1s;
       animation-timing-function: linear;
       animation-iteration-count: infinite;
       display: flex;

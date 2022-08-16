@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SwiperCore, { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css/bundle';
 
 import axios from '../../../services/axiosBaseUrlMovies';
 import apiConfig from '../../../config/apiConfig';

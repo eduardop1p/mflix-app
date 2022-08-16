@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react';
 import SwiperCore, { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import axiosRetry from 'axios-retry';
+import { get } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { isInt } from 'validator/validator';
 
 import * as actions from '../../../../../storeReactRedux/modules/loading/actions';
 import axiosBaseUrlSeries from '../../../../../services/axiosBaseUrlSeries';
+import axiosBaseUrlUser from '../../../../../services/axiosUserBaseUrl';
 import axiosBaseUrlGenresSeries from '../../../../../services/axiosBaseUrlGenresSeries';
 import axiosBaseUrlMultSearch from '../../../../../services/axiosBaseUrlMultSearch';
 import axiosBaseUrlGenresMovies from '../../../../../services/axiosBaseUrlGenres';
@@ -38,12 +40,15 @@ axiosRetry(axios, {
 });
 
 export default function searchSerie(props) {
-  const { search, valueSearch } = props;
+  const { search, valueSearch, TOrM } = props;
   const movieId = search.results[0].id;
 
   const dispatch = useDispatch();
   const loadingApp = useSelector((state) => state.loading.loadingState);
+  const user = useSelector((state) => state.auth.user);
+  const isLogedIn = useSelector((state) => state.auth.isLogedIn);
 
+  const [favoriteUser, setFavoriteUser] = useState(null);
   const [newMoviesId, setNewMoviesId] = useState(null);
   const [newSearchData, setNewSearchData] = useState(null);
   const [allGenresMovies, setAllGenresMovies] = useState(null);
@@ -148,10 +153,12 @@ export default function searchSerie(props) {
     getImagesPostersMovie(movieId);
     getSearchData();
     getAllGenres();
+    getFavoriteUser();
   }, []);
 
   useEffect(() => {
     if (
+      favoriteUser &&
       newMoviesId &&
       newSearchData &&
       allGenresMovies &&
@@ -163,6 +170,7 @@ export default function searchSerie(props) {
         dispatch(actions.loadingFailure());
       }, 500);
   }, [
+    favoriteUser,
     newMoviesId,
     allGenresMovies,
     newSearchData,
@@ -228,11 +236,58 @@ export default function searchSerie(props) {
     );
   }
 
-  function setFavoriteFunction(event) {
-    setFavorite(!favorite);
-    if (event.target.getAttribute('data-favorite') !== 'true') {
+  async function getFavoriteUser() {
+    if (!isLogedIn) {
+      setFavoriteUser({});
+      return;
+    }
+
+    try {
+      const { data } = await axiosBaseUrlUser.get(
+        `minha-lista/${user._id}/${movieId}/${TOrM}`,
+        {
+          headers: { Authorization: user.session.id },
+        }
+      );
+      if (get(data, 'id', null)) setFavorite(true);
+
+      setFavoriteUser(data);
+    } catch (err) {
+      console.error('Erro ao pegar favorito de usuario.');
+    }
+  }
+
+  async function setFavoriteFunction(event) {
+    if (!isLogedIn) return (window.location.href = '/login?redirect=back');
+
+    if (favorite) {
+      setFavorite(false);
+
+      try {
+        await axiosBaseUrlUser.delete(`/minha-lista/${favoriteUser._id}`, {
+          headers: { Authorization: user.session.id },
+        });
+      } catch (err) {
+        console.error(err.response);
+      }
+      return;
+    } else {
+      setFavorite(true);
       event.target.setAttribute('data-scale', '');
       setTimeout(() => event.target.removeAttribute('data-scale'), 100);
+
+      try {
+        await axiosBaseUrlUser.post(
+          `/minha-lista/${user._id}`,
+          {
+            id: movieId,
+            midiaType: TOrM,
+          },
+          { headers: { Authorization: user.session.id } }
+        );
+      } catch (err) {
+        console.error(err.response);
+      }
       return;
     }
   }
@@ -526,7 +581,7 @@ export default function searchSerie(props) {
                   </div>
                 </div>
               </div>
-              {!newSearchData && !newSearchData.results.length && (
+              {!newSearchData && (
                 <div className="description">
                   <h4>Descrição</h4>
                   <div>
@@ -545,7 +600,7 @@ export default function searchSerie(props) {
               </div>
             </PosterDetailsSimilarTrailer>
             <div className="midia-files-collection">
-              <div className="favorite">
+              <div className="favorite" title="Adcionar aos favoritos">
                 <svg xmlns="http://www.w3.org/2000/svg">
                   <path
                     onClick={setFavoriteFunction}

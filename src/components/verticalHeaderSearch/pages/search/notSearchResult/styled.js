@@ -9,12 +9,6 @@ export const Main = styled.main`
   & > .search {
     width: 100%;
 
-    h1 {
-      font-size: 1.8rem;
-      color: ${colors.color1};
-      margin-bottom: 1rem;
-    }
-
     & > .vertical-search-popular {
       width: 100%;
       color: ${colors.color1};
@@ -51,6 +45,46 @@ export const Main = styled.main`
             color: ${colors.color5};
             font-size: 13px;
             font-weight: 500;
+          }
+        }
+      }
+    }
+
+    & > .not-search-result {
+      margin: 2rem auto;
+      border-radius: 5px;
+      width: calc(100% - 15rem);
+      height: 250px;
+      background-color: ${colors.color7};
+
+      & > .search-img-details {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+
+        & > img {
+          width: 75px;
+        }
+
+        & > .not-search-details {
+          margin-left: 4rem;
+
+          & > h2 {
+            color: ${colors.color1};
+            font-size: 1.5rem;
+          }
+
+          & > ul {
+            margin-left: 15px;
+            margin-top: 10px;
+            list-style: disc;
+
+            & > li {
+              color: ${colors.color1};
+              font-size: 14px;
+            }
           }
         }
       }

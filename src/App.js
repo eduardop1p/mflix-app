@@ -3,6 +3,10 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { HelmetProvider, Helmet } from 'react-helmet-async';
 
+/* eslint-disable */
+
+import 'swiper/css/bundle';
+
 import LogedInMiddleware from './components/logedInMiddleware/index';
 import GlobalStyled from './globalStyled/index';
 import Routers from './routes/routers';

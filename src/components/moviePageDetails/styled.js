@@ -31,7 +31,7 @@ export const ContainerDatails = styled.div`
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
   width: 100%;
 
   h4 {
@@ -150,7 +150,7 @@ export const PosterDetailsSimilarTrailer = styled.div`
           font-weight: 400;
           font-size: 12.5px;
           width: 100%;
-          height: 200px;
+          height: 150px;
           flex: none;
           overflow: hidden;
 

@@ -15,7 +15,6 @@ import RatingSystem from '../../../components/ratingSystem/index';
 import imageErrorTop3 from '../../../assets/images/czx7z2e6uqg81.jpg';
 import notResultsSearch from '../../../assets/images/search.png';
 import Loading from '../../../components/loadingReactStates/index';
-import LoadingFilter from '../../../components/loadingFilters/index';
 import { color1 } from '../../../colors';
 import { Catalog, CatalogMovies, ContainerPagenation } from './styled';
 
@@ -372,7 +371,7 @@ class MoviesAllCatalog extends Component {
         </div>
 
         <CatalogMovies>
-          {loadingFilters && <LoadingFilter />}
+          {loadingFilters && <Loading colorTranparent />}
           {allMovies && allMovies.results.length
             ? allMovies.results.map((result) => (
                 <Link

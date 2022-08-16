@@ -21,6 +21,7 @@ import MinhaListaAlt from '../components/verticalHeaderSearch/pages/minhaListaAl
 import Search from '../components/verticalHeaderSearch/pages/search/index';
 import MoviePageDetails from '../components/moviePageDetails/index';
 import Error404 from '../components/error404/index';
+import MyRouter from './myRouter';
 
 import clearLinkTitle from '../config/clearLinkTitle';
 
@@ -60,7 +61,14 @@ export default function Routers() {
         <Route path="minha-lista" element={<MinhaListaAlt />} />
       </Route>
 
-      <Route path="/login" element={<Login />} />
+      <Route
+        path="/login"
+        element={
+          <MyRouter>
+            <Login />
+          </MyRouter>
+        }
+      />
       <Route
         path={clearLinkTitle(
           `/${user.current.nome !== 'visitor' ? user.current.nome : ''}`

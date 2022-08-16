@@ -55,12 +55,14 @@ export default function Search() {
           {newSearchData.results[0].media_type !== 'tv' && (
             <SearchMovie
               search={newSearchData}
+              TOrM="m"
               valueSearch={valueSearch().split(' ').at(0)}
             />
           )}
           {newSearchData.results[0].media_type !== 'movie' && (
             <SearchSerie
               search={newSearchData}
+              TOrM="t"
               valueSearch={valueSearch().split(' ').at(0)}
             />
           )}

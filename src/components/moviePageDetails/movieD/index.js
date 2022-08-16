@@ -44,6 +44,7 @@ export default function MovieD() {
   const dispatch = useDispatch();
   const loadingApp = useSelector((state) => state.loading.loadingState);
   const user = useSelector((state) => state.auth.user);
+  const isLogedIn = useSelector((state) => state.auth.isLogedIn);
 
   const [favoriteUser, setFavoriteUser] = useState(null);
   const [newMoviesId, setNewMoviesId] = useState(null);
@@ -148,6 +149,7 @@ export default function MovieD() {
 
   useEffect(() => {
     if (
+      favoriteUser &&
       newMoviesId &&
       allGenresMovies &&
       filesMovie &&
@@ -159,6 +161,7 @@ export default function MovieD() {
         dispatch(actions.loadingFailure());
       }, 500);
   }, [
+    favoriteUser,
     newMoviesId,
     allGenresMovies,
     filesMovie,
@@ -207,28 +210,34 @@ export default function MovieD() {
   }
 
   async function getFavoriteUser() {
-    try {
-      const { data } = await axiosBaseUrlUser.get(`minha-lista/${user._id}`, {
-        headers: { Authorization: user.session.id },
-      });
-      const currentFavoriteUser = data.filter(
-        (myList) => myList.id === movieId
-      );
-      if (get({ currentFavoriteUser }, 'currentFavoriteUser[0]._id', null))
-        setFavorite(true);
+    if (!isLogedIn) {
+      setFavoriteUser({});
+      return;
+    }
 
-      setFavoriteUser(currentFavoriteUser);
+    try {
+      const { data } = await axiosBaseUrlUser.get(
+        `minha-lista/${user._id}/${movieId}/${TOrM}`,
+        {
+          headers: { Authorization: user.session.id },
+        }
+      );
+      if (get(data, 'id', null)) setFavorite(true);
+
+      setFavoriteUser(data);
     } catch (err) {
       console.error('Erro ao pegar favorito de usuario.');
     }
   }
 
   async function setFavoriteFunction(event) {
+    if (!isLogedIn) return (window.location.href = '/login?redirect=back');
+
     if (favorite) {
       setFavorite(false);
 
       try {
-        await axiosBaseUrlUser.delete(`/minha-lista/${favoriteUser[0]._id}`, {
+        await axiosBaseUrlUser.delete(`/minha-lista/${favoriteUser._id}`, {
           headers: { Authorization: user.session.id },
         });
       } catch (err) {
@@ -238,7 +247,7 @@ export default function MovieD() {
     } else {
       setFavorite(true);
       event.target.setAttribute('data-scale', '');
-      setTimeout(() => event.target.removeAttribute('data-scale'), 50);
+      setTimeout(() => event.target.removeAttribute('data-scale'), 100);
 
       try {
         await axiosBaseUrlUser.post(
@@ -549,7 +558,7 @@ export default function MovieD() {
               </div>
             </PosterDetailsSimilarTrailer>
             <div className="midia-files-collection">
-              <div className="favorite">
+              <div className="favorite" title="Adcionar aos favoritos">
                 <svg xmlns="http://www.w3.org/2000/svg">
                   <path
                     onClick={setFavoriteFunction}

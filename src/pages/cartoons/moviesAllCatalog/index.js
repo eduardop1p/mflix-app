@@ -15,7 +15,6 @@ import RatingSystem from '../../../components/ratingSystem/index';
 import notResultsSearch from '../../../assets/images/search.png';
 import Loading from '../../../components/loadingReactStates/index';
 import imageErrorTop3 from '../../../assets/images/czx7z2e6uqg81.jpg';
-import LoadingFilter from '../../../components/loadingFilters/index';
 import { color1 } from '../../../colors';
 import { Catalog, CatalogMovies, ContainerPagenation } from './styled';
 
@@ -89,10 +88,11 @@ class AnimationAllCatalog extends Component {
     const newArr = [...allMoviesArr.results, ...allSeriesArr.results];
     const randomArrMovieSeriesPopular = { results: [] };
     const newArrIndex = [
-      1, 11, 9, 2, 14, 21, 28, 17, 12, 16, 6, 32, 0, 13, 4, 3, 8, 25, 10, 23,
-      37, 5, 24, 35, 36, 27, 22, 30, 26, 31, 38, 34, 18, 19, 20, 29, 7, 33, 15,
+      1, 20, 9, 2, 14, 21, 28, 17, 12, 16, 6, 32, 0, 13, 4, 3, 8, 25, 10, 23,
+      37, 5, 24, 35, 36, 27, 22, 30, 26, 31, 38, 34, 18, 19, 11, 29, 7, 33, 15,
       39,
     ];
+
     newArrIndex.forEach((valueIndex) => {
       randomArrMovieSeriesPopular.results.push(newArr[valueIndex]);
     });
@@ -382,7 +382,7 @@ class AnimationAllCatalog extends Component {
         </div>
 
         <CatalogMovies>
-          {loadingFilters && <LoadingFilter />}
+          {loadingFilters && <Loading />}
           {allMovies && allMovies.results.length
             ? allMovies.results.map((result) => (
                 <Link

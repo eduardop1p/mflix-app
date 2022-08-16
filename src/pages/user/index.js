@@ -8,7 +8,8 @@ import { capitalize } from 'lodash';
 import * as actionsLoading from '../../storeReactRedux/modules/loading/actions';
 import * as actionsAuth from '../../storeReactRedux/modules/auth/actions';
 import axiosBaseUrlUser from '../../services/axiosUserBaseUrl';
-import LoadingFilters from '../../components/loadingFilters/index';
+import LoadingForm from '../../components/loadingForm/index';
+import MessageForm from '../../components/messageForm';
 import profileNotPhoto from '../../assets/images/profile-not-photo.jpg';
 import profilePath from '../../assets/images/171045158_354469046006037_4005434614416819506_n[3].jpg';
 import { Main, ProfilePhoto } from './styled';
@@ -20,25 +21,36 @@ export default function User() {
 
   const [profileLoad, setProfileLoad] = useState(false);
   const [loadLogout, setLoadLogout] = useState(false);
+  const [showFormMsg, setshowFormMsg] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     if (profileLoad && loadingState)
       setTimeout(() => dispatch(actionsLoading.loadingFailure()), 500);
   }, [dispatch, profileLoad, loadingState]);
 
+  useEffect(() => {
+    const hideFormMsg = document.body.querySelector('#hide-msg-form');
+    if (hideFormMsg)
+      hideFormMsg.addEventListener('click', () => setshowFormMsg(false));
+  });
+
   async function logoutUser() {
+    setErrorMessage('');
+
     try {
       setLoadLogout(true);
-
       await axiosBaseUrlUser.get('logout', {
         headers: { Authorization: user.current.session.id },
       });
+      setLoadLogout(false);
       dispatch(actionsAuth.userLoginFailure());
       window.location.href = '/';
-      setTimeout(() => setLoadLogin(false), 100);
     } catch (err) {
-      setTimeout(() => setLoadLogin(false), 100);
-      console.error(err.response);
+      setLoadLogout(false);
+      setshowFormMsg(true);
+      setErrorMessage('Erro ao fazer logout.');
+      console.clear();
     }
   }
 
@@ -47,7 +59,8 @@ export default function User() {
       <Helmet>
         <title>MFLIX - {capitalize(user.current.nome)}</title>
       </Helmet>
-      {loadLogout && <LoadingFilters />}
+      {loadLogout && <LoadingForm />}
+      {showFormMsg && <MessageForm errorMessage={errorMessage} />}
       <Main>
         <ProfilePhoto>
           <img

@@ -21,7 +21,6 @@ import imageErrorTop3 from '../../../../assets/images/czx7z2e6uqg81.jpg';
 import notResultsSearch from '../../../../assets/images/search.png';
 import Loading from '../../../../components/loadingReactStates/index';
 import LoadingScrollInfinit from '../../../../components/loadingActor/index';
-import LoadingFilters from '../../../loadingFilters/index';
 import * as colors from '../../../../colors';
 import {
   PagesContainer,
@@ -160,14 +159,14 @@ export default function HomeAlt() {
 
   function randomArrMovieSeriesNews(newsMoviesArr, newsSeriesArr) {
     const newArr = [...newsMoviesArr.results, ...newsSeriesArr.results];
-    const newArrEmpety = [];
-    while (newArrEmpety.length <= newArr.length - 1) {
-      const rand = Math.round(Math.random() * (newArr.length - 1));
-      if (newArrEmpety.indexOf(rand) === -1) newArrEmpety.push(rand);
-    }
-
     const randomArrMovieSeriesNew = [];
-    newArrEmpety.forEach((valueIndex) => {
+    const newArrIndex = [
+      1, 20, 9, 2, 14, 21, 28, 17, 12, 16, 6, 32, 0, 13, 4, 3, 8, 25, 10, 23,
+      37, 5, 24, 35, 36, 27, 22, 30, 26, 31, 38, 34, 18, 19, 11, 29, 7, 33, 15,
+      39,
+    ];
+
+    newArrIndex.forEach((valueIndex) => {
       randomArrMovieSeriesNew.push(newArr[valueIndex]);
     });
 
@@ -181,14 +180,14 @@ export default function HomeAlt() {
     infiniteScroll
   ) {
     const newArr = [...newsMoviesArr.results, ...newsSeriesArr.results];
-    const newArrEmpety = [];
-    while (newArrEmpety.length <= newArr.length - 1) {
-      const rand = Math.round(Math.random() * (newArr.length - 1));
-      if (newArrEmpety.indexOf(rand) === -1) newArrEmpety.push(rand);
-    }
-
     const randomArrMovieSeriesPopular = [];
-    newArrEmpety.forEach((valueIndex) => {
+    const newArrIndex = [
+      1, 20, 9, 2, 14, 21, 28, 17, 12, 16, 6, 32, 0, 13, 4, 3, 8, 25, 10, 23,
+      37, 5, 24, 35, 36, 27, 22, 30, 26, 31, 38, 34, 18, 19, 11, 29, 7, 33, 15,
+      39,
+    ];
+
+    newArrIndex.forEach((valueIndex) => {
       randomArrMovieSeriesPopular.push(newArr[valueIndex]);
     });
 
@@ -798,7 +797,7 @@ export default function HomeAlt() {
               height: allMoviesPopular.results.length ? '975px' : '150px',
             }}
           >
-            {loadingFilters && <LoadingFilters />}
+            {loadingFilters && <Loading colorTranparent />}
             {allMoviesPopular.results.length ? (
               <InfiniteScroll
                 dataLength={allMoviesPopular.results.length}

@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SwiperCore, { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css/bundle';
 
 import axiosBaseUrlMoviesDiscover from '../../../services/axiosBaseUrlDetailsFilters';
 import axiosBaseUrlSeriesDiscover from '../../../services/axiosBaseUrlSeriesDiscover';
@@ -67,14 +66,14 @@ export default function SlideHeaderNewMovies() {
 
   function randomArrMovieSeries(newsMoviesArr, newsSeriesArr) {
     const newArr = [...newsMoviesArr.results, ...newsSeriesArr.results];
-    const newArrEmpety = [];
-    while (newArrEmpety.length <= newArr.length - 1) {
-      const rand = Math.round(Math.random() * (newArr.length - 1));
-      if (newArrEmpety.indexOf(rand) === -1) newArrEmpety.push(rand);
-    }
-
     const randomArrMovieSeriesPopular = [];
-    newArrEmpety.forEach((valueIndex) => {
+    const newArrIndex = [
+      1, 20, 9, 2, 14, 21, 28, 17, 12, 16, 6, 32, 0, 13, 4, 3, 8, 25, 10, 23,
+      37, 5, 24, 35, 36, 27, 22, 30, 26, 31, 38, 34, 18, 19, 11, 29, 7, 33, 15,
+      39,
+    ];
+
+    newArrIndex.forEach((valueIndex) => {
       randomArrMovieSeriesPopular.push(newArr[valueIndex]);
     });
 

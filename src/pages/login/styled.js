@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 import * as colors from '../../colors/index';
 
+export const LoginMain = styled.main``;
+
 export const LoginSection = styled.section`
   width: 100%;
   height: 100vh;
@@ -36,13 +38,6 @@ export const LoginSection = styled.section`
     & > form {
       display: flex;
       flex-direction: column;
-
-      & > small {
-        margin-bottom: 5px;
-        font-size: 12.5px;
-        font-weight: 500;
-        color: red;
-      }
 
       & > input {
         margin-bottom: 10px;

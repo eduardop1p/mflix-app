@@ -12,7 +12,6 @@ import clearLinkTitle from '../../../config/clearLinkTitle';
 import RatingSystem2 from '../../../components/ratingSystem2/index';
 import Loading from '../../../components/loadingReactStates/index';
 import imageErrorTop3 from '../../../assets/images/czx7z2e6uqg81.jpg';
-import LoadingFilter from '../../../components/loadingFilters/index';
 import { color1 } from '../../../colors/index';
 import { Popular, PopularCatalog } from './styled';
 
@@ -238,7 +237,7 @@ export default class PopularMovies extends Component {
           </div>
         </div>
         <PopularCatalog>
-          {loadingFilters && <LoadingFilter />}
+          {loadingFilters && <Loading colorTranparent />}
           {allMoviesPopular && (
             <Swiper
               autoplay={{
