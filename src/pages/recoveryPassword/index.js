@@ -1,41 +1,88 @@
 /* eslint-disable */
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-import isObjectId from 'bson-objectid';
 
 import * as actions from '../../storeReactRedux/modules/loading/actions';
+import axiosBaseUrlUser from '../../services/axiosUserBaseUrl';
+import LoadingForm from '../../components/loadingForm/index';
+import MessageForm from '../../components/messageForm';
 import { RecoveryPassworSection } from './styled';
 
 export default function RecoveryPasswordEmail() {
   const { userId } = useParams();
   const dispatch = useDispatch();
 
+  const [loadRecoveryPassword, seLoadRecoveryPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [showFormMsg, setshowFormMsg] = useState(false);
+
   useEffect(() => {
-    if (!isObjectId.isValid(userId))
-      return (window.location.href = `/recuperar-senha/${userId}/bad`);
-    setTimeout(() => dispatch(actions.loadingFailure()), 500);
+    const userExist = async (userId) => {
+      try {
+        await axiosBaseUrlUser.get(`/recuperar-senha/${userId}`);
+        setTimeout(() => dispatch(actions.loadingFailure()), 500);
+      } catch {
+        window.location.href = `/recuperar-senha/${userId}/bad`;
+      }
+      return;
+    };
+    userExist(userId);
   }, []);
 
-  function setRecoveryPasswordSubmit(event) {
+  useEffect(() => {
+    const hideFormMsg = document.body.querySelector('#hide-msg-form');
+    if (hideFormMsg)
+      hideFormMsg.addEventListener('click', () => {
+        setshowFormMsg(false);
+        if (successMessage) {
+          window.location.href = '/login';
+          return;
+        }
+      });
+  });
+
+  async function setRecoveryPasswordSubmit(event) {
     event.preventDefault();
-    event.target.querySelectorAll('small').forEach((small) => small.remove());
+    setErrorMessage('');
+    setSuccessMessage('');
     const inputPassword = event.target.querySelector('#password');
     const inputRepeatPassword = event.target.querySelector('#repeatPassword');
-    let inputValid = true;
+
+    if (inputPassword.value.length < 3 || inputPassword.value.length > 9) {
+      setErrorMessage('Senha deve ter entre 3 e 9 caracteres.');
+      setshowFormMsg(true);
+      return;
+    }
 
     if (inputRepeatPassword.value !== inputPassword.value) {
-      const small = document.createElement('small');
-      small.innerText = 'As senhas não coincidem.';
-      inputPassword.before(small);
-      inputValid = false;
+      setErrorMessage('As senhas não coincidem.');
+      setshowFormMsg(true);
+      return;
     }
-    if (!inputValid) return;
-    // event.target.submit();
 
-    return (window.location.href = '/login');
+    try {
+      seLoadRecoveryPassword(true);
+      const { data } = await axiosBaseUrlUser.put(
+        `/recuperar-senha/${userId}`,
+        {
+          password: inputPassword.value,
+          RepetPassword: inputRepeatPassword.value,
+        }
+      );
+      seLoadRecoveryPassword(false);
+      setSuccessMessage(data.recuperarSenha);
+      setshowFormMsg(true);
+    } catch (err) {
+      seLoadRecoveryPassword(false);
+      const { data } = err.response;
+      data.errors.map((err) => setErrorMessage(err));
+      setshowFormMsg(true);
+      console.clear();
+    }
   }
 
   return (
@@ -43,21 +90,30 @@ export default function RecoveryPasswordEmail() {
       <Helmet>
         <title>MFLIX - Criar nova senha</title>
       </Helmet>
+      {loadRecoveryPassword && <LoadingForm />}
+      {showFormMsg && (
+        <MessageForm
+          errorMessage={errorMessage}
+          successMessage={successMessage}
+        />
+      )}
       <RecoveryPassworSection>
         <h1>MFILX</h1>
         <div>
           <h1>Criar senha</h1>
           <form onSubmit={setRecoveryPasswordSubmit}>
             <input
-              type="text"
+              type="password"
               placeholder="Nova senha"
               id="password"
+              name="password"
               maxLength="9"
             />
             <input
-              type="text"
+              type="password"
               placeholder="Repetir nova senha"
               id="repeatPassword"
+              name="repeatPassword"
               maxLength="9"
             />
 

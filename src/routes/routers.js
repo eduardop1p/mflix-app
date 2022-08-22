@@ -71,13 +71,27 @@ export default function Routers() {
       />
       <Route
         path={clearLinkTitle(
-          `/${user.current.nome !== 'visitor' ? user.current.nome : ''}`
+          `/${user.current.nome !== 'visitor' && user.current.nome}`
         )}
         element={<User />}
       />
       <Route path="/criar-conta" element={<Conta />} />
-      <Route path="/recuperar-senha" element={<RecoveryPasswordEmail />} />
-      <Route path="/recuperar-senha/:userId" element={<RecoveryPassword />} />
+      <Route
+        path="/recuperar-senha"
+        element={
+          <MyRouter>
+            <RecoveryPasswordEmail />
+          </MyRouter>
+        }
+      />
+      <Route
+        path="/recuperar-senha/:userId"
+        element={
+          <MyRouter>
+            <RecoveryPassword />
+          </MyRouter>
+        }
+      />
 
       <Route path="*" element={<Error404 />} />
     </Routes>

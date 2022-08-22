@@ -15,6 +15,9 @@ import { WatchListSection } from './styled';
 export default function WatchList() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+  const loadUserPhoto = useSelector(
+    (state) => state.loadUserPhoto.loadUserPhoto
+  );
 
   const [userList, setUserList] = useState(null);
 
@@ -27,12 +30,15 @@ export default function WatchList() {
         setUserList(data);
       } catch (err) {
         console.error('Erro ao pegar lista de usuário.');
-      } finally {
-        setTimeout(() => dispatch(actions.loadingFailure()), 500);
       }
     };
     getUserList();
   }, [dispatch]);
+
+  useEffect(() => {
+    if (userList && loadUserPhoto)
+      setTimeout(() => dispatch(actions.loadingFailure()), 500);
+  }, [loadUserPhoto, userList]);
 
   return (
     <WatchListSection>
