@@ -16,6 +16,7 @@ export default function Login(props) {
   const dispatch = useDispatch();
 
   const [inputEmailValue, setInputEmailValue] = useState('');
+  const [inputPasswordType, setInputPasswordType] = useState('password');
   const [loadLogin, setLoadLogin] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [showFormMsg, setshowFormMsg] = useState(false);
@@ -26,9 +27,15 @@ export default function Login(props) {
 
   useEffect(() => {
     const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    if (hideFormMsg)
+    if (showFormMsg)
       hideFormMsg.addEventListener('click', () => setshowFormMsg(false));
   });
+
+  function showPassword() {
+    inputPasswordType !== 'text'
+      ? setInputPasswordType('text')
+      : setInputPasswordType('password');
+  }
 
   async function haldleValidaInput(event) {
     event.preventDefault();
@@ -55,8 +62,14 @@ export default function Login(props) {
         email: inputEmail.value,
         password: inputPassword.value,
       });
+      dispatch(
+        actionsLogin.userLoginSuccess({
+          user: clearDataUser(data),
+          profileUrl: data.profileUrl,
+          isLogedIn: true,
+        })
+      );
       setLoadLogin(false);
-      dispatch(actionsLogin.userLoginSuccess({ user: data, isLogedIn: true }));
     } catch (err) {
       setLoadLogin(false);
       const { data } = err.response;
@@ -68,6 +81,20 @@ export default function Login(props) {
     return;
   }
 
+  function clearDataUser(data) {
+    const session = {
+      id: data.session.id,
+      expires: new Date(data.session.expires).getTime(),
+    };
+
+    return {
+      id: data._id,
+      nome: data.nome,
+      email: data.email,
+      session,
+    };
+  }
+
   return (
     <LoginMain>
       <Helmet>
@@ -75,7 +102,7 @@ export default function Login(props) {
       </Helmet>
       {loadLogin && <LoadingForm />}
       {showFormMsg && <MessageForm errorMessage={errorMessage} />}
-      <LoginSection>
+      <LoginSection inputPasswordType={inputPasswordType}>
         <h1>MFILX</h1>
         <div className="login">
           <h1>Login</h1>
@@ -89,12 +116,33 @@ export default function Login(props) {
               onChange={(event) => setInputEmailValue(event.target.value)}
             />
             <input
-              type="password"
+              type={inputPasswordType}
               placeholder="Senha"
               id="password"
               name="password"
               maxLength="9"
             />
+            <div className="showPassword" onClick={showPassword}>
+              {inputPasswordType !== 'text' ? (
+                <svg
+                  fill="#2E2D3B"
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="100%"
+                  width="100%"
+                >
+                  <path d="M5.583 17.792q-.583 0-.989-.407-.406-.406-.406-.989V8.521q0-.583.406-.99.406-.406.989-.406h.563V5.167q0-1.605 1.125-2.729Q8.396 1.312 10 1.312q1.625 0 2.74 1.126 1.114 1.124 1.114 2.729v1.958h.563q.583 0 .989.406.406.407.406.99v7.875q0 .583-.406.989-.406.407-.989.407ZM10 13.896q.604 0 1.021-.427.417-.427.417-1.011 0-.604-.428-1.02-.427-.417-1.01-.417-.604 0-1.021.427-.417.427-.417 1.01 0 .604.428 1.021.427.417 1.01.417ZM7.542 7.125h4.916V5.167q0-1.021-.718-1.74-.719-.719-1.74-.719t-1.74.719q-.718.719-.718 1.74Z" />
+                </svg>
+              ) : (
+                <svg
+                  fill="#2E2D3B"
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="100%"
+                  width="100%"
+                >
+                  <path d="M5.583 7.125h6.875V5.167q0-1.021-.718-1.74-.719-.719-1.74-.719t-1.74.719q-.718.719-.718 1.74H6.146q0-1.625 1.125-2.74Q8.396 1.312 10 1.312q1.625 0 2.74 1.126 1.114 1.124 1.114 2.729v1.958h.563q.583 0 .989.406.406.407.406.99v7.875q0 .583-.406.989-.406.407-.989.407H5.583q-.583 0-.989-.407-.406-.406-.406-.989V8.521q0-.583.406-.99.406-.406.989-.406ZM10 13.896q.604 0 1.021-.427.417-.427.417-1.011 0-.604-.428-1.02-.427-.417-1.01-.417-.604 0-1.021.427-.417.427-.417 1.01 0 .604.428 1.021.427.417 1.01.417Z" />
+                </svg>
+              )}
+            </div>
             <button className="submit-login" type="submit">
               Login
             </button>

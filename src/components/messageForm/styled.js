@@ -5,6 +5,8 @@ import { color1, color8, color6 } from '../../colors/index';
 const FormMsgContainer = styled.div`
   position: fixed;
   z-index: 50;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   display: flex;

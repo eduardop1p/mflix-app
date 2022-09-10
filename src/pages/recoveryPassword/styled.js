@@ -36,12 +36,27 @@ export const RecoveryPassworSection = styled.div`
     & > form {
       display: flex;
       flex-direction: column;
+      position: relative;
 
       & > small {
         margin-bottom: 5px;
         font-size: 12.5px;
         font-weight: 500;
         color: red;
+      }
+
+      & > .showPassword {
+        position: absolute;
+        right: 8px;
+        cursor: pointer;
+        z-index: 5;
+        bottom: 5.7rem;
+        width: 18px;
+        height: 18px;
+
+        & > svg {
+          transform: scale(0.85);
+        }
       }
 
       & > input {

@@ -557,7 +557,7 @@ export const ImagesPosters = styled.div`
 `;
 
 export const Collections = styled.div`
-  height: 500px;
+  max-height: 500px;
   overflow-x: hidden;
   overflow-y: scroll;
 

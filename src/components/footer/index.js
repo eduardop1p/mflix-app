@@ -71,8 +71,8 @@ export default function Footer() {
         <div className="line-footer"></div>
         <div className="credits-container">
           <div className="credits">
-            &copy; {new Date().getFullYear()} Direitos reservados a Eduardo
-            Lavoura
+            &copy;&nbsp;{new Date().getFullYear()}
+            &nbsp;Direitos&nbsp;reservados&nbsp;a&nbsp;Eduardo&nbsp;Lavoura
           </div>
           <div className="redes-sociais">
             <a href="https://www.instagram.com/yfg.lavoura/" target="_blank">

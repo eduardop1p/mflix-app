@@ -1,24 +1,14 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 
-import * as actions from '../../../../storeReactRedux/modules/loading/actions';
+import WatchList from '../../../../pages/minhaLista/watchList/index';
 
-export default function MinhaListaAlt() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(actions.loadingFailure());
-    }, 500);
-  }, []);
-
+export default function MinhaLista() {
   return (
     <>
       <Helmet>
         <title>MFLIX - Minha lista</title>
       </Helmet>
-      <h1 style={{ color: '#fff' }}>Seus favoritos aqui.</h1>
+      <WatchList heightVertical fourVertical margin />
     </>
   );
 }

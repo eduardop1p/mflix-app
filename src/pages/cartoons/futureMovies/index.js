@@ -74,10 +74,10 @@ class FutureMovies extends Component {
   }
 
   componentDidUpdate() {
-    const { loadBgHeader, loadUserPhoto } = this.props;
+    const { loadBgHeader } = this.props;
     const { futureAllMovies } = this.state;
 
-    if (loadBgHeader && loadUserPhoto && futureAllMovies) {
+    if (loadBgHeader && futureAllMovies) {
       setTimeout(() => this.props.loadingFailure(), 500);
     }
   }
@@ -126,55 +126,58 @@ class FutureMovies extends Component {
           loop
         >
           {futureAllMovies &&
-            futureAllMovies.results.map((result) => (
-              <SwiperSlide key={result.id}>
-                <div className="futureMovie">
-                  <div className="future-movies-img">
-                    <img
-                      src={
-                        result.poster_path
-                          ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                          : imageErrorTop3
-                      }
-                      onLoad={this.removeLoadingSipnner}
-                      onError={this.removeLoadingSipnner}
-                      alt={result.title ? result.title : result.name}
-                    />
-                    <Loading />
-                  </div>
-                  <div className="future-movies-details">
-                    <h3>{result.title ? result.title : result.name}</h3>
-                    <div className="future-movies-release-date">
-                      <span>{result.title ? 'Filme,' : 'Serie,'}</span>
-                      <span>Lançamento:</span>
-                      <span>
-                        {new Date(
-                          `${
-                            result.release_date
-                              ? result.release_date
-                              : result.first_air_date
-                          }`
-                        ).toLocaleDateString('pt-BR', {
-                          dateStyle: 'long',
-                        })}
-                      </span>
+            futureAllMovies.results.map(
+              (result) =>
+                result !== undefined && (
+                  <SwiperSlide key={result.id}>
+                    <div className="futureMovie">
+                      <div className="future-movies-img">
+                        <img
+                          src={
+                            result.poster_path
+                              ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                              : imageErrorTop3
+                          }
+                          onLoad={this.removeLoadingSipnner}
+                          onError={this.removeLoadingSipnner}
+                          alt={result.title ? result.title : result.name}
+                        />
+                        <Loading />
+                      </div>
+                      <div className="future-movies-details">
+                        <h3>{result.title ? result.title : result.name}</h3>
+                        <div className="future-movies-release-date">
+                          <span>{result.title ? 'Filme,' : 'Serie,'}</span>
+                          <span>Lançamento:</span>
+                          <span>
+                            {new Date(
+                              `${
+                                result.release_date
+                                  ? result.release_date
+                                  : result.first_air_date
+                              }`
+                            ).toLocaleDateString('pt-BR', {
+                              dateStyle: 'long',
+                            })}
+                          </span>
+                        </div>
+                        <div className="future-movies-info">
+                          {!result.overview
+                            ? 'Não à descrição para este titulo por enquanto.'
+                            : result.overview}
+                        </div>
+                      </div>
+                      <div className="future-movies-trailer-video">
+                        {result.title ? (
+                          <GetTrailerMovie movieId={result.id} />
+                        ) : (
+                          <GetTrailerSerie movieId={result.id} />
+                        )}
+                      </div>
                     </div>
-                    <div className="future-movies-info">
-                      {!result.overview
-                        ? 'Não à descrição para este titulo por enquanto.'
-                        : result.overview}
-                    </div>
-                  </div>
-                  <div className="future-movies-trailer-video">
-                    {result.title ? (
-                      <GetTrailerMovie movieId={result.id} />
-                    ) : (
-                      <GetTrailerSerie movieId={result.id} />
-                    )}
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
+                  </SwiperSlide>
+                )
+            )}
         </Swiper>
       </FutureM>
     );
@@ -184,7 +187,6 @@ class FutureMovies extends Component {
 const mapStateToProps = (state) => {
   return {
     loadBgHeader: state.loadBgHeader.loadBgHeader,
-    loadUserPhoto: state.loadUserPhoto.loadUserPhoto,
   };
 };
 

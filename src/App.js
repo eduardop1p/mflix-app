@@ -7,7 +7,6 @@ import { HelmetProvider, Helmet } from 'react-helmet-async';
 
 import 'swiper/css/bundle';
 
-import LogedInMiddleware from './components/logedInMiddleware/index';
 import GlobalStyled from './globalStyled/index';
 import Routers from './routes/routers';
 import Loading from './components/loading/index';
@@ -24,7 +23,6 @@ function App() {
           </Helmet>
           <BrowserRouter>
             <GlobalStyled />
-            <LogedInMiddleware />
             <Loading />
             <Routers />
           </BrowserRouter>

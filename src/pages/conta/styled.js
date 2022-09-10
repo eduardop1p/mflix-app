@@ -38,6 +38,7 @@ export const ContaSection = styled.section`
 
       & > .container-input {
         display: flex;
+        position: relative;
 
         & > .container-1 {
           margin-right: 1rem;
@@ -55,6 +56,20 @@ export const ContaSection = styled.section`
             background-color: #ddd;
             font-weight: 500;
             color: ${colors.color6};
+          }
+
+          & > .showPassword {
+            position: absolute;
+            right: 8px;
+            cursor: pointer;
+            z-index: 5;
+            bottom: 3.7rem;
+            width: 18px;
+            height: 18px;
+
+            & > svg {
+              transform: scale(0.85);
+            }
           }
         }
       }

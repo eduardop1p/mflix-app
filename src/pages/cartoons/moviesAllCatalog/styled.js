@@ -60,7 +60,7 @@ export const Catalog = styled.section`
 
     .onClickActivedFilters {
       width: 100%;
-      padding: 1.1rem;
+      height: 100%;
       background-color: transparent;
       z-index: 5;
       position: absolute;

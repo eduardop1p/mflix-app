@@ -3,7 +3,14 @@ import { LoadingSpinner } from './styled';
 /* eslint-disable */
 
 export default function Loading(props) {
-  const { colorTranparent, colorVertical, popular, margin } = props;
+  const {
+    colorTranparent,
+    colorVertical,
+    popular,
+    margin,
+    borderRadiusZero,
+    zIndexFive,
+  } = props;
 
   return (
     <LoadingSpinner
@@ -11,6 +18,8 @@ export default function Loading(props) {
       colorTranparent={colorTranparent}
       colorVertical={colorVertical}
       margin={margin}
+      borderRadiusZero={borderRadiusZero}
+      zIndexFive={zIndexFive}
       className="container-load"
     >
       <div className="load-spinner">

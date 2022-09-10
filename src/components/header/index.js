@@ -22,7 +22,7 @@ export default function Header() {
   const [searchActive, setSearchActive] = useState(false);
   const [headerSearchValue, setHeaderSearchValue] = useState('');
 
-  const user = useRef(useSelector((state) => state.auth.user));
+  const isLogedIn = useRef(useSelector((state) => state.auth.isLogedIn));
   const movieBackground = useSelector(
     (state) => state.firstBackgroundMovie.movieBackground
   );
@@ -58,18 +58,21 @@ export default function Header() {
 
   return (
     <>
-      <BackgroundImageHeader movieBackground={bgHeaderState && bgHeaderState}>
-        {/* <BackgroundColorHeader></BackgroundColorHeader> */}
-      </BackgroundImageHeader>
+      {bgHeaderState && (
+        <BackgroundImageHeader movieBackground={bgHeaderState}>
+          {/* <BackgroundColorHeader></BackgroundColorHeader> */}
+        </BackgroundImageHeader>
+      )}
 
       <HeaderElement>
         <section className="section-1">
-          <Link reloadDocument to="/">
+          <Link title="Home" reloadDocument to="/">
             <Logo />
             MFLIX
           </Link>
           <nav>
             <NavLink
+              title="Filmes"
               className={({ isActive }) => (isActive ? 'link-actived' : '')}
               reloadDocument
               to="/filmes"
@@ -77,6 +80,7 @@ export default function Header() {
               Filmes
             </NavLink>
             <NavLink
+              title="Series"
               className={({ isActive }) => (isActive ? 'link-actived' : '')}
               reloadDocument
               to="/series"
@@ -84,6 +88,7 @@ export default function Header() {
               Series
             </NavLink>
             <NavLink
+              title="Animaçãoes"
               className={({ isActive }) => (isActive ? 'link-actived' : '')}
               reloadDocument
               to="/animacoes"
@@ -91,6 +96,7 @@ export default function Header() {
               Animações
             </NavLink>
             <NavLink
+              title="Minha lista"
               className={({ isActive }) => (isActive ? 'link-actived' : '')}
               reloadDocument
               to="/minha-lista"
@@ -100,7 +106,7 @@ export default function Header() {
           </nav>
         </section>
         <section className="section-2">
-          <Search searchActive={searchActive}>
+          <Search title="Pesquisar" searchActive={searchActive}>
             <form onSubmit={setHeaderSearch} action="/vertical/search">
               <input
                 type="text"
@@ -122,10 +128,10 @@ export default function Header() {
               <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
             </svg>
           </Search>
-          {user.current._id ? (
+          {isLogedIn.current ? (
             <UserPhoto />
           ) : (
-            <Link reloadDocument className="singn-up" to="/login">
+            <Link title="Login" reloadDocument className="singn-up" to="/login">
               Login
             </Link>
           )}

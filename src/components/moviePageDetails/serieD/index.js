@@ -226,29 +226,29 @@ export default function serieD() {
 
     try {
       const { data } = await axiosBaseUrlUser.get(
-        `minha-lista/${user._id}/${movieId}/${TOrM}`,
-        {
-          headers: { Authorization: user.session.id },
-        }
+        `minha-lista/${user.id}/${movieId}/${TOrM}`
       );
-      if (get(data, 'id', null)) setFavorite(true);
-
-      setFavoriteUser(data);
+      if (get(data, 'id', false)) {
+        setFavorite(true);
+        setFavoriteUser(data);
+        return;
+      }
+      setFavoriteUser({});
     } catch (err) {
       console.error('Erro ao pegar favorito de usuario.');
     }
   }
 
   async function setFavoriteFunction(event) {
-    if (!isLogedIn) return (window.location.href = '/login?redirect=back');
+    if (!isLogedIn) return (window.location.href = '/login');
 
     if (favorite) {
       setFavorite(false);
 
       try {
-        await axiosBaseUrlUser.delete(`/minha-lista/${favoriteUser._id}`, {
-          headers: { Authorization: user.session.id },
-        });
+        await axiosBaseUrlUser.delete(
+          `/minha-lista/${user.id}?ids=${favoriteUser.id}`
+        );
       } catch (err) {
         console.error(err.response);
       }
@@ -259,14 +259,10 @@ export default function serieD() {
       setTimeout(() => event.target.removeAttribute('data-scale'), 100);
 
       try {
-        await axiosBaseUrlUser.post(
-          `/minha-lista/${user._id}`,
-          {
-            id: movieId,
-            midiaType: TOrM,
-          },
-          { headers: { Authorization: user.session.id } }
-        );
+        await axiosBaseUrlUser.post(`/minha-lista/${user.id}`, {
+          id: movieId,
+          midiaType: TOrM,
+        });
       } catch (err) {
         console.error(err.response);
       }
@@ -566,7 +562,12 @@ export default function serieD() {
               </div>
             </PosterDetailsSimilarTrailer>
             <div className="midia-files-collection">
-              <div className="favorite" title="Adcionar aos favoritos">
+              <div
+                className="favorite"
+                title={
+                  favorite ? 'Remover de minha lista' : 'Adcionar a minha lista'
+                }
+              >
                 <svg xmlns="http://www.w3.org/2000/svg">
                   <path
                     onClick={setFavoriteFunction}
@@ -633,7 +634,7 @@ export default function serieD() {
                       <div
                         key={pqp.file_path}
                         style={{
-                          height: posterButtonActived ? '400px' : '160px',
+                          height: posterButtonActived ? '420px' : '160px',
                         }}
                       >
                         <img

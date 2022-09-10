@@ -1,18 +1,31 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, Link } from 'react-router-dom';
+import { useRef } from 'react';
+import { useSelector } from 'react-redux';
 
+import UserPhoto from '../userPhoto/index';
 import Logo from '../logo';
-import profilePath from '../../assets/images/171045158_354469046006037_4005434614416819506_n[3].jpg';
-import { Container, ContainerHeaderVertical, ProfilePath } from './styled';
+import { Container, ContainerHeaderVertical } from './styled';
 
 /* eslint-disable */
 export default function VerticalHeader() {
+  const isLogedIn = useRef(useSelector((state) => state.auth.isLogedIn));
+
   return (
     <Container>
       <ContainerHeaderVertical>
         <div>
-          <ProfilePath>
-            <img src={profilePath} />
-          </ProfilePath>
+          {isLogedIn.current ? (
+            <UserPhoto />
+          ) : (
+            <Link
+              title="Login"
+              reloadDocument
+              className="singn-up-vertical"
+              to="/login"
+            >
+              L
+            </Link>
+          )}
           <nav>
             <div className="vertical-home not-search">
               <NavLink
@@ -71,7 +84,7 @@ export default function VerticalHeader() {
             </div>
           </nav>
         </div>
-        <NavLink to="/" reloadDocument>
+        <NavLink title="Home" to="/" reloadDocument>
           <Logo />
         </NavLink>
       </ContainerHeaderVertical>

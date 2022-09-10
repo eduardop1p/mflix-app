@@ -38,6 +38,7 @@ export const LoginSection = styled.section`
     & > form {
       display: flex;
       flex-direction: column;
+      position: relative;
 
       & > input {
         margin-bottom: 10px;
@@ -47,6 +48,20 @@ export const LoginSection = styled.section`
         background-color: #ddd;
         font-weight: 500;
         color: ${colors.color6};
+      }
+
+      & > .showPassword {
+        position: absolute;
+        right: 8px;
+        cursor: pointer;
+        z-index: 5;
+        bottom: 3.1rem;
+        width: 18px;
+        height: 18px;
+
+        & > svg {
+          transform: scale(0.85);
+        }
       }
 
       & > .submit-login {

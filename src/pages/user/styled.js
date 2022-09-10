@@ -17,7 +17,7 @@ export const Main = styled.main`
     }
 
     & > .edit-logout {
-      margin: 10px 0;
+      margin: 15px 0;
       display: flex;
       width: 220px;
       justify-content: space-between;
@@ -31,6 +31,84 @@ export const Main = styled.main`
         border-radius: 2rem;
         cursor: pointer;
       }
+
+      & > .edit {
+        color: #111;
+      }
+
+      & > .logout {
+        color: red;
+      }
+    }
+  }
+`;
+
+export const NewUpdateDeletePhotoDiv = styled.div`
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #171a23fa;
+
+  & > form {
+    background-color: ${colors.color1};
+    width: 400px;
+    border-radius: 10px;
+
+    input[type='file'] {
+      display: none;
+    }
+
+    & > div {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    & > :not(:last-child) {
+      border-bottom: 1px solid #ddd;
+    }
+
+    & > div > h1 {
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    & > div > label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      font-size: 14px;
+      color: dodgerblue;
+      font-weight: 600;
+    }
+
+    & > div > span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    & > div > #delete-user-foto {
+      color: red;
+    }
+
+    & > div > #cancel-user-foto {
+      color: gray;
     }
   }
 `;

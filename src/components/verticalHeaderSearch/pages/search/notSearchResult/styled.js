@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import * as colors from '../../../../../colors/index';
 
 export const Main = styled.main`
-  margin-left: 1rem;
+  margin: 1rem 0 1rem 1rem;
   width: 100%;
 
   & > .search {
@@ -51,10 +51,11 @@ export const Main = styled.main`
     }
 
     & > .not-search-result {
-      margin: 2rem auto;
-      border-radius: 5px;
-      width: calc(100% - 15rem);
-      height: 250px;
+      margin: 2rem 0 0;
+      border-radius: 10px;
+      width: 100%;
+      height: 350px;
+      min-height: 100vh;
       background-color: ${colors.color7};
 
       & > .search-img-details {

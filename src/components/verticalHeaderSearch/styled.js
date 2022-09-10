@@ -27,6 +27,23 @@ export const ContainerHeaderVertical = styled.header`
     align-items: center;
     gap: 1.5rem;
 
+    & > .singn-up-vertical {
+      width: 47px;
+      height: 47px;
+      border-radius: 50%;
+      color: ${colors.color1};
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+      background: linear-gradient(
+        to right,
+        ${colors.color2} 10%,
+        ${colors.color3}
+      );
+    }
+
     & > nav {
       display: flex;
       gap: 1.5rem;
@@ -82,28 +99,10 @@ export const ContainerHeaderVertical = styled.header`
   }
 `;
 
-export const ProfilePath = styled.div`
-  width: 45px;
-  height: 45px;
-  cursor: pointer;
-  border: 2px solid ${colors.color2};
-  border-radius: 50%;
-  background-color: #111;
-
-  & > img {
-    width: 100%;
-    padding: 2px;
-    border-radius: 50%;
-    height: 100%;
-    object-fit: cover;
-  }
-`;
-
 export const PagesContainer = styled.main`
-  margin: 1rem 0;
+  margin: 1rem 0 1rem 1rem;
   display: flex;
   gap: 1rem;
-  margin-left: 1rem;
   width: 100%;
 
   .not-results-search-all-catalog {
@@ -234,7 +233,7 @@ export const PagesContainer = styled.main`
 
             & > .onClickActivedFilters {
               width: 100%;
-              padding: 1.1rem;
+              height: 100%;
               background-color: transparent;
               z-index: 5;
               position: absolute;

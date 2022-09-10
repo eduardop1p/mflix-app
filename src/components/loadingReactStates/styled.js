@@ -3,7 +3,12 @@ import * as colors from '../../colors/index';
 
 export const LoadingSpinner = styled.div`
   display: flex;
-  border-radius: ${(props) => (props.popular ? '10px' : '1rem')};
+  border-radius: ${(props) => {
+    if (props.borderRadiusZero) {
+      return '0';
+    }
+    return props.popular ? '10px' : '1rem';
+  }};
   align-items: center;
   background-color: ${(props) => {
     if (props.colorTranparent) return '#171a23fa';
@@ -12,7 +17,12 @@ export const LoadingSpinner = styled.div`
   }};
   justify-content: center;
   position: ${(props) => (props.colorTranparent ? 'fixed' : 'absolute')};
-  z-index: ${(props) => (props.colorTranparent ? '50' : '6')};
+  z-index: ${(props) => {
+    if (props.zIndexFive) {
+      return '5';
+    }
+    return props.colorTranparent ? '50' : '6';
+  }};
   top: 0;
   left: 0;
   height: 100%;

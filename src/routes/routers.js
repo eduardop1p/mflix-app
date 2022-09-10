@@ -22,11 +22,13 @@ import Search from '../components/verticalHeaderSearch/pages/search/index';
 import MoviePageDetails from '../components/moviePageDetails/index';
 import Error404 from '../components/error404/index';
 import MyRouter from './myRouter';
+import MyRouterMyList from './myRouterMyList';
 
 import clearLinkTitle from '../config/clearLinkTitle';
 
 export default function Routers() {
   const user = useRef(useSelector((state) => state.auth.user));
+  const isLogedIn = useRef(useSelector((state) => state.auth.isLogedIn));
 
   return (
     <Routes>
@@ -35,7 +37,14 @@ export default function Routers() {
         <Route path="filmes" element={<Movies />} />
         <Route path="series" element={<Series />} />
         <Route path="animacoes" element={<Cartoons />} />
-        <Route path="minha-lista" element={<MinhaLista />} />
+        <Route
+          path="minha-lista"
+          element={
+            <MyRouterMyList>
+              <MinhaLista />
+            </MyRouterMyList>
+          }
+        />
       </Route>
 
       <Route path="/vertical" element={<VerticalHeader />}>
@@ -58,40 +67,52 @@ export default function Routers() {
           />
         </Route>
         <Route path="search" element={<Search />} />
-        <Route path="minha-lista" element={<MinhaListaAlt />} />
+        <Route
+          path="minha-lista"
+          element={
+            <MyRouterMyList>
+              <MinhaListaAlt />
+            </MyRouterMyList>
+          }
+        />
       </Route>
 
-      <Route
-        path="/login"
-        element={
-          <MyRouter>
-            <Login />
-          </MyRouter>
-        }
-      />
-      <Route
-        path={clearLinkTitle(
-          `/${user.current.nome !== 'visitor' && user.current.nome}`
-        )}
-        element={<User />}
-      />
+      {!isLogedIn.current && (
+        <Route
+          path="/login"
+          element={
+            <MyRouter>
+              <Login />
+            </MyRouter>
+          }
+        />
+      )}
+      {isLogedIn.current && (
+        <Route path={clearLinkTitle(user.current.nome)} element={<User />} />
+      )}
       <Route path="/criar-conta" element={<Conta />} />
-      <Route
-        path="/recuperar-senha"
-        element={
-          <MyRouter>
-            <RecoveryPasswordEmail />
-          </MyRouter>
-        }
-      />
-      <Route
-        path="/recuperar-senha/:userId"
-        element={
-          <MyRouter>
-            <RecoveryPassword />
-          </MyRouter>
-        }
-      />
+      {!isLogedIn.current && (
+        <Route
+          key="RecoveryPasswordEmail"
+          path="/recuperar-senha"
+          element={
+            <MyRouter>
+              <RecoveryPasswordEmail />
+            </MyRouter>
+          }
+        />
+      )}
+      {!isLogedIn.current && (
+        <Route
+          key="RecoveryPassword"
+          path="/recuperar-senha/:userId"
+          element={
+            <MyRouter>
+              <RecoveryPassword />
+            </MyRouter>
+          }
+        />
+      )}
 
       <Route path="*" element={<Error404 />} />
     </Routes>

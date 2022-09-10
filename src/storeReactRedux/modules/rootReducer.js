@@ -6,14 +6,13 @@ import auth from './auth/reducer';
 import firstBackgroundMovie from './firstBackgroundMovie/reducer';
 import loading from './loading/reducer';
 import loadBgHeader from './loadBgHeader/reducer';
-import loadUserPhoto from './loadUserPhoto/reducer';
 
 /*
-Um recurso interessante do Redux é que podemos ter muitos
-redutores e combiná-los em um redutor raiz que a loja usa,
-usando combineReducers. Isso nos permite organizar
-facilmente nosso código enquanto ainda temos tudo em uma
-árvore de estado raiz.
+  Um recurso interessante do Redux é que podemos ter muitos
+  redutores e combiná-los em um redutor raiz que a loja usa,
+  usando combineReducers. Isso nos permite organizar
+  facilmente nosso código enquanto ainda temos tudo em uma
+  árvore de estado raiz.
 */
 
 const persistConfig = {
@@ -30,7 +29,6 @@ const rootReducer = persistReducer(
     firstBackgroundMovie,
     loading,
     loadBgHeader,
-    loadUserPhoto,
   })
 );
 

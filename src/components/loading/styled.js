@@ -9,6 +9,8 @@ export const LoadingStyled = styled.div`
   /* background-color: transparent; */
   background-color: ${colors.color8};
   z-index: 50;
+  top: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
