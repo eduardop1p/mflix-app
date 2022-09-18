@@ -44,6 +44,7 @@ export default function MovieD() {
   const dispatch = useDispatch();
   const loadingApp = useSelector((state) => state.loading.loadingState);
   const user = useSelector((state) => state.auth.user);
+  const { session } = useSelector((state) => state.auth.user);
   const isLogedIn = useSelector((state) => state.auth.isLogedIn);
 
   const [favoriteUser, setFavoriteUser] = useState(null);
@@ -218,7 +219,8 @@ export default function MovieD() {
 
     try {
       const { data } = await axiosBaseUrlUser.get(
-        `minha-lista/${user.id}/${movieId}/${TOrM}`
+        `minha-lista/${user.id}/${movieId}/${TOrM}`,
+        { headers: { Authorization: session.id } }
       );
       if (get(data, 'id', false)) {
         setFavorite(true);
@@ -242,7 +244,8 @@ export default function MovieD() {
 
       try {
         await axiosBaseUrlUser.delete(
-          `/minha-lista/${user.id}?ids=${favoriteUser.id}`
+          `/minha-lista/${user.id}?ids=${favoriteUser.id}`,
+          { headers: { Authorization: session.id } }
         );
       } catch (err) {}
       return;
@@ -257,7 +260,10 @@ export default function MovieD() {
             id: movieId,
             midiaType: TOrM,
           },
-          { signal: controllerRef.current.signal }
+          {
+            headers: { Authorization: session.id },
+            signal: controllerRef.current.signal,
+          }
         );
       } catch (err) {}
       return;

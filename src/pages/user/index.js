@@ -16,6 +16,7 @@ import { Main, ProfilePhoto, NewUpdateDeletePhotoDiv } from './styled';
 export default function User() {
   const dispatch = useDispatch();
   const user = useRef(useSelector((state) => state.auth.user));
+  const { session } = useSelector((state) => state.auth.user);
   const profileUrl = useRef(useSelector((state) => state.auth.profileUrl));
   const loadingApp = useSelector((state) => state.loading.loadingState);
 
@@ -52,6 +53,7 @@ export default function User() {
         formDataFile,
         {
           headers: {
+            Authorization: session.id,
             'Content-Type': 'multipart/form-data',
           },
         }
@@ -81,7 +83,9 @@ export default function User() {
 
     try {
       setLoadUser(true);
-      await axiosBaseUrlUser.delete(`/fotos/${user.current.id}`);
+      await axiosBaseUrlUser.delete(`/fotos/${user.current.id}`, {
+        headers: { Authorization: session.id },
+      });
       userFoto.src = userNotPhoto;
       setSuccessMessage('Foto de perfil deletada.');
       dispatch(actionsAuth.userLoginPhotoFailure());

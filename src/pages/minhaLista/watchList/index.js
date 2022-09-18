@@ -22,6 +22,7 @@ import {
 export default function WatchList(props) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+  const { session } = useSelector((state) => state.auth.user);
   const isLogedIn = useSelector((state) => state.auth.isLogedIn);
 
   const [loadingFilters, setLoadingFilters] = useState(false);
@@ -54,7 +55,9 @@ export default function WatchList(props) {
     }
 
     try {
-      const { data } = await axiosBaseUrlUser.get(`minha-lista/${user.id}`);
+      const { data } = await axiosBaseUrlUser.get(`minha-lista/${user.id}`, {
+        headers: { Authorization: session.id },
+      });
       setUserList(data);
     } catch (err) {
       console.error('Erro ao pegar lista de usuário.');
@@ -83,7 +86,8 @@ export default function WatchList(props) {
     try {
       setLoadingFilters(true);
       await axiosBaseUrlUser.delete(
-        `/minha-lista/${user.id}?ids=${selectedItems.join(',')}`
+        `/minha-lista/${user.id}?ids=${selectedItems.join(',')}`,
+        { headers: { Authorization: session.id } }
       );
       getUserList();
       setSelectedItems([]);
@@ -106,7 +110,9 @@ export default function WatchList(props) {
 
     try {
       setLoadingFilters(true);
-      await axiosBaseUrlUser.delete(`/minha-lista/${user.id}`);
+      await axiosBaseUrlUser.delete(`/minha-lista/${user.id}`, {
+        headers: { Authorization: session.id },
+      });
       getUserList();
       setSelectedItems([]);
     } catch (err) {
