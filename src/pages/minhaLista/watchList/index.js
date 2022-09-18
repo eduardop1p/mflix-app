@@ -10,6 +10,7 @@ import axiosBaseUrlMovies from '../../../services/axiosBaseUrlMovies';
 import axiosBaseUrlSeries from '../../../services/axiosBaseUrlSeries';
 import clearLinkTitle from '../../../config/clearLinkTitle';
 import Loading from '../../../components/loadingReactStates/index';
+import MessageForm from '../../../components/messageForm';
 import apiConfig from '../../../config/apiConfig';
 import notSearch from '../../../assets/images/search.png';
 import {
@@ -19,45 +20,117 @@ import {
 } from './styled';
 
 export default function WatchList(props) {
-  const { heightVertical, fourVertical, margin } = props;
-
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const isLogedIn = useSelector((state) => state.auth.isLogedIn);
 
-  const [myListTitles, setMyListTitles] = useState([]);
+  const [loadingFilters, setLoadingFilters] = useState(false);
   const [showTitles, setShowTitles] = useState(false);
   const [userList, setUserList] = useState(null);
-
-  useEffect(() => {
-    const getUserList = async () => {
-      if (!isLogedIn) {
-        return;
-      }
-
-      try {
-        const { data } = await axiosBaseUrlUser.get(`minha-lista/${user.id}`);
-        setUserList(data);
-      } catch (err) {
-        console.error('Erro ao pegar lista de usuário.');
-      }
-    };
-    getUserList();
-  }, [dispatch]);
+  const [myListTitles, setMyListTitles] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showFormMsg, setshowFormMsg] = useState(false);
 
   useEffect(() => {
     if (userList || !isLogedIn)
       setTimeout(() => dispatch(actions.loadingFailure()), 500);
-  }, [userList]);
+    getUserList();
+  }, [dispatch, userList]);
 
-  if (!isLogedIn) return <MyListNotLogedIn margin={margin} />;
+  useEffect(() => {
+    const myList = Array.from(document.querySelectorAll('.my-list'));
+    setMyListTitles(myList.map((item) => item.title));
+    const hideFormMsg = document.body.querySelector('#hide-msg-form');
+    if (showFormMsg) {
+      hideFormMsg.onclick = () => setshowFormMsg(false);
+      window.onkeyup = (event) => event.keyCode === 13 && setshowFormMsg(false);
+    }
+  });
+
+  async function getUserList() {
+    if (!isLogedIn) {
+      return;
+    }
+
+    try {
+      const { data } = await axiosBaseUrlUser.get(`minha-lista/${user.id}`);
+      setUserList(data);
+    } catch (err) {
+      console.error('Erro ao pegar lista de usuário.');
+    }
+  }
+
+  function manageCheckBoxDeleteSelectedItems(event) {
+    const { checked, id } = event.target;
+    if (checked && selectedItems.indexOf(id) === -1) {
+      setSelectedItems((selectedItems) => [...selectedItems, id]);
+      return;
+    }
+    const newArrSelectedItems = selectedItems.filter((item) => item !== id);
+    setSelectedItems(newArrSelectedItems);
+    return;
+  }
+
+  async function onDeleteSelectedItems() {
+    setErrorMessage('');
+    if (!selectedItems.length) {
+      setErrorMessage('Nenhum titulo selecionado.');
+      setshowFormMsg(true);
+      return;
+    }
+
+    try {
+      setLoadingFilters(true);
+      await axiosBaseUrlUser.delete(
+        `/minha-lista/${user.id}?ids=${selectedItems.join(',')}`
+      );
+      getUserList();
+      setSelectedItems([]);
+    } catch (err) {
+      setErrorMessage('Erro ao excluir titulos selecionados.');
+      setshowFormMsg(true);
+    } finally {
+      setTimeout(() => setLoadingFilters(false), 100);
+    }
+  }
+
+  async function onDeleteAllItems(event) {
+    setErrorMessage('');
+    const { checked } = event.target.previousElementSibling;
+    if (!checked) {
+      setErrorMessage('Nada foi selecionado.');
+      setshowFormMsg(true);
+      return;
+    }
+
+    try {
+      setLoadingFilters(true);
+      await axiosBaseUrlUser.delete(`/minha-lista/${user.id}`);
+      getUserList();
+      setSelectedItems([]);
+    } catch (err) {
+      setErrorMessage('Erro ao excluir todos os titulos.');
+      setshowFormMsg(true);
+    } finally {
+      setTimeout(() => setLoadingFilters(false), 100);
+    }
+  }
+
+  if (!isLogedIn) return <MyListNotLogedIn />;
 
   return userList && userList.length ? (
     <>
+      {loadingFilters && <Loading colorTranparent />}
+      {showFormMsg && <MessageForm errorMessage={errorMessage} />}
       <RemoveItemsListSelected showTitles={showTitles}>
         <div className="delete-all-items-list">
           <input type="checkbox" />
-          <button type="button" className="delete-items">
+          <button
+            type="button"
+            className="delete-items"
+            onClick={onDeleteAllItems}
+          >
             Excluir todos titulos de minha lista
           </button>
         </div>
@@ -88,8 +161,8 @@ export default function WatchList(props) {
                     <input
                       key={result.id}
                       type="checkbox"
-                      data-midia-type={result.midiaType}
                       id={result.id}
+                      onChange={manageCheckBoxDeleteSelectedItems}
                     />
                   </div>
                 ))}
@@ -97,35 +170,25 @@ export default function WatchList(props) {
             </div>
             <button onClick={() => setShowTitles(!showTitles)}></button>
           </div>
-          <button className="delete-items">Excluir titulos selecionados</button>
+          <button className="delete-items" onClick={onDeleteSelectedItems}>
+            Excluir titulos selecionados
+          </button>
         </div>
       </RemoveItemsListSelected>
-      <WatchListSection
-        heightVertical={heightVertical}
-        fourVertical={fourVertical}
-        margin={margin}
-      >
+      <WatchListSection>
         <div className="my-list-container">
           {userList.map((result) =>
             result.midiaType !== 't' ? (
-              <UserListMovie
-                setMyListTitles={setMyListTitles}
-                key={result.id}
-                id={result.id}
-              />
+              <UserListMovie key={result.id} id={result.id} />
             ) : (
-              <UserListSerie
-                setMyListTitles={setMyListTitles}
-                key={result.id}
-                id={result.id}
-              />
+              <UserListSerie key={result.id} id={result.id} />
             )
           )}
         </div>
       </WatchListSection>
     </>
   ) : (
-    <AddItensList margin={margin}>
+    <AddItensList>
       <img src={notSearch} alt="Nenhum resultado encontrado" />
       <h4>Nada por aqui.</h4>
       <h5>Você ainda não tem nenhum titulo em sua lista.</h5>
@@ -134,17 +197,15 @@ export default function WatchList(props) {
 }
 
 function MyListNotLogedIn(props) {
-  const { margin } = props;
-
   return (
-    <AddItensList margin={margin}>
+    <AddItensList>
       <h1>Você precisa fazer login</h1>
     </AddItensList>
   );
 }
 
 function UserListMovie(props) {
-  const { id, setMyListTitles } = props;
+  const { id } = props;
 
   const [dataList, setDataList] = useState(null);
 
@@ -154,7 +215,6 @@ function UserListMovie(props) {
         const { data } = await axiosBaseUrlMovies.get(
           `/${id}?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
         );
-        setMyListTitles((myListTitles) => [...myListTitles, data.title]);
         setDataList(data);
       } catch {
         console.error('Erro ao obter Id de Filme');
@@ -212,7 +272,7 @@ function UserListMovie(props) {
 }
 
 function UserListSerie(props) {
-  const { id, setMyListTitles } = props;
+  const { id } = props;
 
   const [dataList, setDataList] = useState(null);
 
@@ -222,7 +282,6 @@ function UserListSerie(props) {
         const { data } = await axiosBaseUrlSeries.get(
           `/${id}?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
         );
-        setMyListTitles((myListTitles) => [...myListTitles, data.name]);
         setDataList(data);
       } catch {
         console.error('Erro ao obter Id de Serie');

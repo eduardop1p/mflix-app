@@ -27,8 +27,7 @@ export default function Login(props) {
 
   useEffect(() => {
     const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    if (showFormMsg)
-      hideFormMsg.addEventListener('click', () => setshowFormMsg(false));
+    if (showFormMsg) hideFormMsg.onclick = () => setshowFormMsg(false);
   });
 
   function showPassword() {
@@ -69,13 +68,13 @@ export default function Login(props) {
           isLogedIn: true,
         })
       );
-      setLoadLogin(false);
     } catch (err) {
-      setLoadLogin(false);
       const { data } = err.response;
       data.errors.map((err) => setErrorMessage(err));
       setshowFormMsg(true);
       console.clear();
+    } finally {
+      setLoadLogin(false);
     }
 
     return;

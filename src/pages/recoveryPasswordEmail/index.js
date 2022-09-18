@@ -47,15 +47,15 @@ export default function RecoveryPassworEmail() {
       const { data } = await axiosBaseUrlUser.post('/recuperar-senha', {
         email: inputEmail.value,
       });
-      setLoadRecoveryPasswordEmail(false);
       setSuccessMessage(data.recuperarSenha);
       setshowFormMsg(true);
     } catch (err) {
-      setLoadRecoveryPasswordEmail(false);
       const { data } = err.response;
       data.errors.map((err) => setErrorMessage(err));
       setshowFormMsg(true);
       console.clear();
+    } finally {
+      setLoadRecoveryPasswordEmail(false);
     }
   }
 

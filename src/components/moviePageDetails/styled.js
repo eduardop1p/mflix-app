@@ -63,25 +63,32 @@ export const ContainerDatails = styled.div`
         align-self: flex-end;
         position: relative;
 
+        @keyframes likeAnimaton {
+          0%,
+          to {
+            transform: scale(1);
+          }
+          15% {
+            transform: scale(1.2);
+          }
+          30% {
+            transform: scale(0.95);
+          }
+          45%,
+          80% {
+            transform: scale(1);
+          }
+        }
+
         & > svg {
           width: 100%;
           height: 100%;
+          animation-name: '';
+          animation-duration: 1s;
+          animation-timing-function: linear;
 
           & > path {
             cursor: pointer;
-            transition: all 0.1s linear;
-          }
-
-          & > [data-favorite='true'] {
-            fill: #ff0000;
-          }
-
-          & > [data-favorite='false'] {
-            fill: #fff;
-          }
-
-          & > [data-scale] {
-            transform: scale(1.1);
           }
         }
       }
@@ -536,6 +543,8 @@ export const ImagesPosters = styled.div`
       position: relative;
       display: inline-block;
       width: calc(100% / 1);
+      min-height: 160px;
+      max-height: 420px;
 
       & > img {
         width: 100%;

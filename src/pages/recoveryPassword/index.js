@@ -80,15 +80,15 @@ export default function RecoveryPasswordEmail() {
           RepetPassword: inputRepeatPassword.value,
         }
       );
-      seLoadRecoveryPassword(false);
       setSuccessMessage(data.recuperarSenha);
       setshowFormMsg(true);
     } catch (err) {
-      seLoadRecoveryPassword(false);
       const { data } = err.response;
       data.errors.map((err) => setErrorMessage(err));
       setshowFormMsg(true);
       console.clear();
+    } finally {
+      seLoadRecoveryPassword(false);
     }
   }
 

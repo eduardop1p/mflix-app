@@ -29,7 +29,7 @@ export default function Conta() {
 
   useEffect(() => {
     const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    if (hideFormMsg)
+    if (showFormMsg)
       hideFormMsg.addEventListener('click', () => {
         setshowFormMsg(false);
         if (successMessage) {
@@ -89,7 +89,6 @@ export default function Conta() {
         email: inputEmail.value,
         password: inputPassword.value,
       });
-      setLoadConta(false);
       dispatch(
         actionsLogin.userLoginSuccess({
           user: clearDataUser(data),
@@ -100,11 +99,12 @@ export default function Conta() {
       setSuccessMessage('Conta criada com sucesso!');
       setshowFormMsg(true);
     } catch (err) {
-      setLoadConta(false);
       const { data } = err.response;
       data.errors.map((err) => setErrorMessage(err));
       setshowFormMsg(true);
       console.clear();
+    } finally {
+      setLoadConta(false);
     }
   }
 

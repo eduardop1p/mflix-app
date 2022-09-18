@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import SwiperCore, { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import axiosRetry from 'axios-retry';
@@ -65,6 +65,7 @@ export default function searchMovie(props) {
   const [posterButtonActived, setPosterButtonActived] = useState(null);
   const [logoButtonActived, setLogoButtonActived] = useState(null);
   const [favorite, setFavorite] = useState(false);
+  const controllerRef = useRef(new AbortController());
 
   useEffect(() => {
     const getDetailsMovieId = async (movieId) => {
@@ -266,32 +267,34 @@ export default function searchMovie(props) {
   }
 
   async function setFavoriteFunction(event) {
-    if (!isLogedIn) return (window.location.href = '/login');
+    if (!isLogedIn) return (window.location.href = '/login?redirect=back');
 
     if (favorite) {
       setFavorite(false);
+      event.target.parentElement.style.animationName = '';
+
+      controllerRef.current.abort();
 
       try {
         await axiosBaseUrlUser.delete(
           `/minha-lista/${user.id}?ids=${favoriteUser.id}`
         );
-      } catch (err) {
-        console.error(err.response);
-      }
+      } catch (err) {}
       return;
     } else {
       setFavorite(true);
-      event.target.setAttribute('data-scale', '');
-      setTimeout(() => event.target.removeAttribute('data-scale'), 100);
+      event.target.parentElement.style.animationName = 'likeAnimaton';
 
       try {
-        await axiosBaseUrlUser.post(`/minha-lista/${user.id}`, {
-          id: movieId,
-          midiaType: TOrM,
-        });
-      } catch (err) {
-        console.error(err.response);
-      }
+        await axiosBaseUrlUser.post(
+          `/minha-lista/${user.id}`,
+          {
+            id: movieId,
+            midiaType: TOrM,
+          },
+          { signal: controllerRef.current.signal }
+        );
+      } catch (err) {}
       return;
     }
   }
@@ -604,16 +607,11 @@ export default function searchMovie(props) {
               </div>
             </PosterDetailsSimilarTrailer>
             <div className="midia-files-collection">
-              <div
-                className="favorite"
-                title={
-                  favorite ? 'Remover de minha lista' : 'Adcionar a minha lista'
-                }
-              >
+              <div className="favorite">
                 <svg xmlns="http://www.w3.org/2000/svg">
                   <path
                     onClick={setFavoriteFunction}
-                    data-favorite={favorite ? 'true' : 'false'}
+                    fill={favorite ? '#ff0000' : '#fff'}
                     d="M24 41.95 21.95 40.1Q13.8 32.65 8.9 27.1Q4 21.55 4 15.85Q4 11.35 7.025 8.325Q10.05 5.3 14.5 5.3Q17.05 5.3 19.55 6.525Q22.05 7.75 24 10.55Q26.2 7.75 28.55 6.525Q30.9 5.3 33.5 5.3Q37.95 5.3 40.975 8.325Q44 11.35 44 15.85Q44 21.55 39.1 27.1Q34.2 32.65 26.05 40.1Z"
                   />
                 </svg>
@@ -626,11 +624,9 @@ export default function searchMovie(props) {
                 <div className="buttoms-image-posters-logos">
                   <button
                     onClick={() => {
-                      if (posterButtonActived)
-                        setPosterButtonActived(!posterButtonActived);
-                      if (logoButtonActived)
-                        setLogoButtonActived(!logoButtonActived);
-                      return setImageButtonActived(!imageButtonActived);
+                      setImageButtonActived(true);
+                      setPosterButtonActived(false);
+                      setLogoButtonActived(false);
                     }}
                     className="images"
                   >
@@ -638,11 +634,9 @@ export default function searchMovie(props) {
                   </button>
                   <button
                     onClick={() => {
-                      if (imageButtonActived)
-                        setImageButtonActived(!imageButtonActived);
-                      if (logoButtonActived)
-                        setLogoButtonActived(!logoButtonActived);
-                      return setPosterButtonActived(!posterButtonActived);
+                      setPosterButtonActived(true);
+                      setImageButtonActived(false);
+                      setLogoButtonActived(false);
                     }}
                     className="posters"
                   >
@@ -650,11 +644,9 @@ export default function searchMovie(props) {
                   </button>
                   <button
                     onClick={() => {
-                      if (posterButtonActived)
-                        setPosterButtonActived(!posterButtonActived);
-                      if (imageButtonActived)
-                        setImageButtonActived(!imageButtonActived);
-                      return setLogoButtonActived(!logoButtonActived);
+                      setLogoButtonActived(true);
+                      setPosterButtonActived(false);
+                      setImageButtonActived(false);
                     }}
                     className="logos"
                   >
@@ -673,12 +665,7 @@ export default function searchMovie(props) {
                 >
                   {imagesPostersMovie && imagesPostersMovie.length ? (
                     imagesPostersMovie.map((pqp) => (
-                      <div
-                        key={pqp.file_path}
-                        style={{
-                          height: posterButtonActived ? '420px' : '160px',
-                        }}
-                      >
+                      <div key={pqp.file_path}>
                         <img
                           src={`https://image.tmdb.org/t/p/w1280${pqp.file_path}`}
                           onLoad={removeLoadingSipnner}

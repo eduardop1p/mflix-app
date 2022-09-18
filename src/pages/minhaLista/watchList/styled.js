@@ -32,6 +32,8 @@ export const RemoveItemsListSelected = styled.div`
     color: ${colors.color6};
     border-radius: 2px;
     overflow: hidden;
+    min-width: 15px;
+    min-height: 15px;
     width: 15px;
     height: 15px;
     display: grid;
@@ -167,7 +169,6 @@ export const RemoveItemsListSelected = styled.div`
 
 export const WatchListSection = styled.section`
   width: 100%;
-  margin: ${(props) => (props.margin ? '8px 0 1rem 8px' : '0')};
 
   & > h1 {
     color: ${colors.color1};
@@ -181,7 +182,7 @@ export const WatchListSection = styled.section`
 
     & > .my-list {
       display: inline-block;
-      width: calc(${(props) => (props.fourVertical ? '100% / 4' : '100% / 3')});
+      width: calc(100% / 3);
       padding: 8px;
       transition: transform 0.2s ease-in-out;
 
@@ -209,7 +210,7 @@ export const WatchListSection = styled.section`
         & > .img-my-list-item {
           position: relative;
           width: 100%;
-          height: ${(props) => (props.heightVertical ? '171px' : '222px')};
+          height: 222px;
 
           img {
             width: 100%;

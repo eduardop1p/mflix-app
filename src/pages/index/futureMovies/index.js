@@ -135,7 +135,7 @@ class FutureMovies extends Component {
                       <div className="future-movies-img">
                         <img
                           src={
-                            get(result, 'result.poster_path', null)
+                            result.poster_path
                               ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
                               : imageErrorTop3
                           }

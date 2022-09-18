@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 
 import WatchList from '../../../../pages/minhaLista/watchList/index';
+import VerticalDivMyList from './styled';
 
 export default function MinhaLista() {
   return (
@@ -8,7 +9,9 @@ export default function MinhaLista() {
       <Helmet>
         <title>MFLIX - Minha lista</title>
       </Helmet>
-      <WatchList heightVertical fourVertical margin />
+      <VerticalDivMyList>
+        <WatchList />
+      </VerticalDivMyList>
     </>
   );
 }

@@ -30,8 +30,10 @@ export default function User() {
     if (loadUserPhoto && loadingApp)
       setTimeout(() => dispatch(actionsLoading.loadingFailure()), 500);
     const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    if (hideFormMsg)
-      hideFormMsg.addEventListener('click', () => setshowFormMsg(false));
+    if (showFormMsg) {
+      hideFormMsg.onclick = () => setshowFormMsg(false);
+      window.onkeyup = (event) => event.keyCode === 13 && setshowFormMsg(false);
+    }
   });
 
   async function uploadUserPhoto(event) {
@@ -54,7 +56,6 @@ export default function User() {
           },
         }
       );
-      setLoadUser(false);
       userFoto.src = data.foto.url;
       dispatch(
         actionsAuth.userLoginPhotoSuccess({ profileUrl: data.foto.url })
@@ -62,11 +63,12 @@ export default function User() {
       setSuccessMessage('Foto de perfil alterada.');
       setshowFormMsg(true);
     } catch (err) {
-      setLoadUser(false);
       const { data } = err.response;
       data.error.map((err) => setErrorMessage(err));
       setshowFormMsg(true);
       console.clear();
+    } finally {
+      setLoadUser(false);
     }
   }
 
@@ -80,17 +82,17 @@ export default function User() {
     try {
       setLoadUser(true);
       await axiosBaseUrlUser.delete(`/fotos/${user.current.id}`);
-      setLoadUser(false);
       userFoto.src = userNotPhoto;
       setSuccessMessage('Foto de perfil deletada.');
       dispatch(actionsAuth.userLoginPhotoFailure());
       setshowFormMsg(true);
     } catch (err) {
-      setLoadUser(false);
       const { data } = err.response;
       data.error.map((err) => setErrorMessage(err));
       setshowFormMsg(true);
       console.clear();
+    } finally {
+      setLoadUser(false);
     }
   }
 
@@ -102,12 +104,12 @@ export default function User() {
       await axiosBaseUrlUser.delete('logout');
       dispatch(actionsAuth.userLoginFailure());
       window.location.href = '/';
-      setLoadUser(false);
     } catch (err) {
-      setLoadUser(false);
       setshowFormMsg(true);
       setErrorMessage('Erro ao fazer logout.');
       console.clear();
+    } finally {
+      setLoadUser(false);
     }
   }
 
