@@ -316,15 +316,13 @@ export default function searchMovie(props) {
 
   return (
     <Main>
-      <BgImgPageDetails
-        className="bg-img-page-details"
-        backdrop_path={
-          newMoviesId && newMoviesId.backdrop_path
-            ? `https:image.tmdb.org/t/p/original${newMoviesId.backdrop_path}`
-            : imageError2
-        }
-      >
-        <div className="bg-color-page-details"></div>
+      <BgImgPageDetails>
+        {newMoviesId && (
+          <img
+            src={`https:image.tmdb.org/t/p/original${newMoviesId.backdrop_path}`}
+            alt={newMoviesId.title}
+          />
+        )}
       </BgImgPageDetails>
       {newMoviesId && (
         <ContainerDatails>

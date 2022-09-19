@@ -45,6 +45,7 @@ export default function Header() {
           onError={() =>
             dispatch(actions.loadBgHeaderSuccess({ loadBgHeader: true }))
           }
+          alt="Bg image mflix homer"
         />
         {/* <BackgroundColorHeader></BackgroundColorHeader> */}
       </BackgroundImageHeader>

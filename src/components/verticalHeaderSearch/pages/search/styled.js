@@ -11,15 +11,23 @@ export const Main = styled.main`
 export const BgImgPageDetails = styled.div`
   width: 100%;
   height: 270px;
-  background-image: url(${(props) => props.backdrop_path});
-  background-repeat: no-repeat;
-  background-size: cover;
   position: absolute;
   border-radius: 0 1rem 0 0;
   overflow: hidden;
-  z-index: -1;
+  z-index: -4;
 
-  & > .bg-color-page-details {
+  & > img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -3;
+    object-fit: cover;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: -2;
     background-color: ${colors.color3};
     width: 100%;
     height: 100%;

@@ -6,20 +6,8 @@ export const BackgroundImageHeader = styled.div`
   width: 100%;
   height: 560px;
   position: absolute;
+  z-index: -4;
   overflow: hidden;
-  box-shadow: inset 0 -100px 90px ${colors.color8};
-
-  &::before {
-    content: '';
-    left: 0;
-    top: 0;
-    position: absolute;
-    z-index: -2;
-    width: 100%;
-    height: 100%;
-    opacity: 0.9;
-    background: ${colors.color8};
-  }
 
   & > img {
     position: absolute;
@@ -27,6 +15,28 @@ export const BackgroundImageHeader = styled.div`
     z-index: -3;
     height: 100%;
     object-fit: cover;
+  }
+
+  &::after {
+    box-shadow: inset 0 -100px 90px ${colors.color8};
+    content: '';
+    left: 0;
+    top: 0;
+    position: absolute;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+  }
+
+  &::before {
+    content: '';
+    left: 0;
+    top: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.9;
+    background: ${colors.color8};
   }
 `;
 

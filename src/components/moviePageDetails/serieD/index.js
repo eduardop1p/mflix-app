@@ -292,15 +292,13 @@ export default function serieD() {
       <Helmet>
         <title>{newMoviesId && `MFLIX - ${newMoviesId.name}`}</title>
       </Helmet>
-      <BgImgPageDetails
-        className="bg-img-page-details"
-        backdrop_path={
-          newMoviesId && newMoviesId.backdrop_path
-            ? `https:image.tmdb.org/t/p/original${newMoviesId.backdrop_path}`
-            : imageError2
-        }
-      >
-        <div className="bg-color-page-details"></div>
+      <BgImgPageDetails>
+        {newMoviesId && (
+          <img
+            src={`https:image.tmdb.org/t/p/original${newMoviesId.backdrop_path}`}
+            alt={newMoviesId.name}
+          />
+        )}
       </BgImgPageDetails>
       {newMoviesId && (
         <ContainerDatails>
