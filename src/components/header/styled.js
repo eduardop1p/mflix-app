@@ -3,18 +3,31 @@ import styled from 'styled-components';
 import * as colors from '../../colors';
 
 export const BackgroundImageHeader = styled.div`
-  background-image: url(${(props) => props.movieBackground});
-  background-repeat: no-repeat;
-  background-size: cover;
-  box-shadow: inset 0 -100px 90px ${colors.color8};
-  position: absolute;
-  left: 0;
-  top: 0;
   width: 100%;
   height: 560px;
-  z-index: -2;
-  opacity: 0.1;
+  position: absolute;
   overflow: hidden;
+  box-shadow: inset 0 -100px 90px ${colors.color8};
+
+  &::before {
+    content: '';
+    left: 0;
+    top: 0;
+    position: absolute;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    opacity: 0.9;
+    background: ${colors.color8};
+  }
+
+  & > img {
+    position: absolute;
+    width: 100%;
+    z-index: -3;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
 export const HeaderElement = styled.header`

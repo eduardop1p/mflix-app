@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 
@@ -17,7 +17,6 @@ import {
 
 /* eslint-disable */
 export default function Header() {
-  const [bgHeaderState, setBgHeaderState] = useState(null);
   const [menuActive, setMenuActive] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
   const [headerSearchValue, setHeaderSearchValue] = useState('');
@@ -28,27 +27,6 @@ export default function Header() {
   );
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    bgHeader();
-  }, [movieBackground, dispatch]);
-
-  function bgHeader() {
-    if (movieBackground) {
-      const imgBg = new Image();
-      imgBg.src = `https:image.tmdb.org/t/p/original${movieBackground}`;
-      imgBg.addEventListener('load', () => {
-        setBgHeaderState(imgBg.src);
-        dispatch(actions.loadBgHeaderSuccess({ loadBgHeader: true }));
-      });
-      imgBg.addEventListener('error', () => {
-        setBgHeaderState(imgBg.src);
-        dispatch(actions.loadBgHeaderSuccess({ loadBgHeader: true }));
-      });
-      return;
-    }
-    return;
-  }
-
   function setHeaderSearch(event) {
     if (!headerSearchValue) {
       return event.preventDefault();
@@ -58,11 +36,18 @@ export default function Header() {
 
   return (
     <>
-      {bgHeaderState && (
-        <BackgroundImageHeader movieBackground={bgHeaderState}>
-          {/* <BackgroundColorHeader></BackgroundColorHeader> */}
-        </BackgroundImageHeader>
-      )}
+      <BackgroundImageHeader>
+        <img
+          src={`https:image.tmdb.org/t/p/original${movieBackground}`}
+          onLoad={() =>
+            dispatch(actions.loadBgHeaderSuccess({ loadBgHeader: true }))
+          }
+          onError={() =>
+            dispatch(actions.loadBgHeaderSuccess({ loadBgHeader: true }))
+          }
+        />
+        {/* <BackgroundColorHeader></BackgroundColorHeader> */}
+      </BackgroundImageHeader>
 
       <HeaderElement>
         <section className="section-1">
