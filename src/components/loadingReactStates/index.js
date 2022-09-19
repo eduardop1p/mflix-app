@@ -10,6 +10,7 @@ export default function Loading(props) {
     margin,
     borderRadiusZero,
     zIndexFive,
+    colorMyListVertical,
   } = props;
 
   return (
@@ -20,6 +21,7 @@ export default function Loading(props) {
       margin={margin}
       borderRadiusZero={borderRadiusZero}
       zIndexFive={zIndexFive}
+      colorMyListVertical={colorMyListVertical}
       className="container-load"
     >
       <div className="load-spinner">

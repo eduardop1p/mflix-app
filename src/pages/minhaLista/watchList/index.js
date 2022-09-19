@@ -255,7 +255,7 @@ function UserListMovie(props) {
               src={`https://image.tmdb.org/t/p/w500${dataList.backdrop_path}`}
               alt={dataList.title}
             />
-            <Loading borderRadiusZero zIndexFive />
+            <Loading borderRadiusZero zIndexFive colorMyListVertical />
           </div>
           <div className="my-list-details">
             <h4>{dataList.title}</h4>
@@ -322,7 +322,7 @@ function UserListSerie(props) {
               src={`https://image.tmdb.org/t/p/w500${dataList.backdrop_path}`}
               alt={dataList.name}
             />
-            <Loading borderRadiusZero zIndexFive />
+            <Loading borderRadiusZero zIndexFive colorMyListVertical />
           </div>
           <div className="my-list-details">
             <h4>{dataList.name}</h4>

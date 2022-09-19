@@ -13,6 +13,7 @@ export const LoadingSpinner = styled.div`
   background-color: ${(props) => {
     if (props.colorTranparent) return '#171a23fa';
     if (props.colorVertical) return colors.color7;
+    if (props.colorMyListVertical) return colors.color8;
     return colors.color9;
   }};
   justify-content: center;
