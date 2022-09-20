@@ -34,7 +34,7 @@ export default function WatchList(props) {
   const [showFormMsg, setshowFormMsg] = useState(false);
 
   useEffect(() => {
-    if (userList || !isLogedIn)
+    if ((userList && userList.length >= myListTitles.length) || !isLogedIn)
       setTimeout(() => dispatch(actions.loadingFailure()), 500);
     getUserList();
   }, [dispatch, userList]);

@@ -21,6 +21,7 @@ import MinhaListaAlt from '../components/verticalHeaderSearch/pages/minhaListaAl
 import Search from '../components/verticalHeaderSearch/pages/search/index';
 import MoviePageDetails from '../components/moviePageDetails/index';
 import Error404 from '../components/error404/index';
+import EditProfile from '../pages/user/editProfile';
 import MyRouter from './myRouter';
 import MyRouterMyList from './myRouterMyList';
 
@@ -88,7 +89,9 @@ export default function Routers() {
         />
       )}
       {isLogedIn.current && (
-        <Route path={clearLinkTitle(user.current.nome)} element={<User />} />
+        <Route path={clearLinkTitle(user.current.nome)} element={<User />}>
+          <Route path="editar-perfil" element={<EditProfile />} />
+        </Route>
       )}
       <Route path="/criar-conta" element={<Conta />} />
       {!isLogedIn.current && (

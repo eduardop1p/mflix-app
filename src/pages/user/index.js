@@ -1,9 +1,10 @@
 /* eslint-disable */
 
 import { useEffect, useState, useRef } from 'react';
+import { Link, Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-import { capitalize, get } from 'lodash';
+import { capitalize } from 'lodash';
 
 import * as actionsLoading from '../../storeReactRedux/modules/loading/actions';
 import * as actionsAuth from '../../storeReactRedux/modules/auth/actions';
@@ -122,6 +123,7 @@ export default function User() {
       <Helmet>
         <title>MFLIX - {capitalize(user.current.nome)}</title>
       </Helmet>
+      <Outlet />
       {loadUser && <LoadingForm />}
       {showFormMsg && (
         <MessageForm
@@ -171,9 +173,9 @@ export default function User() {
         <div className="profile-details">
           <h1>{capitalize(user.current.nome)}</h1>
           <div className="edit-logout">
-            <button className="edit" type="button">
+            <Link to="editar-perfil" className="edit">
               Editar perfil
-            </button>
+            </Link>
             <button className="logout" type="button" onClick={logoutUser}>
               Sair
             </button>

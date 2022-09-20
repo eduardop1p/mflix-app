@@ -22,7 +22,8 @@ export const Main = styled.main`
       width: 220px;
       justify-content: space-between;
 
-      & > button {
+      & > button,
+      & > a {
         font-size: 14px;
         font-weight: 600;
         background-color: ${colors.color1};
@@ -55,17 +56,30 @@ export const NewUpdateDeletePhotoDiv = styled.div`
   justify-content: center;
   background-color: #171a23fa;
 
+  @keyframes animationScale {
+    from {
+      transform: scale(0.1);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
   & > form {
     background-color: ${colors.color1};
-    width: 400px;
+    width: 500px;
+    height: 250px;
     border-radius: 10px;
+    animation-name: animationScale;
+    animation-duration: 0.4s;
+    animation-timing-function: linear;
 
     input[type='file'] {
       display: none;
     }
 
     & > div {
-      height: 50px;
+      height: calc(100% / 4);
       display: flex;
       align-items: center;
       justify-content: center;
