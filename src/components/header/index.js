@@ -36,19 +36,21 @@ export default function Header() {
 
   return (
     <>
-      <BackgroundImageHeader>
-        <img
-          src={`https:image.tmdb.org/t/p/original${movieBackground}`}
-          onLoad={() =>
-            dispatch(actions.loadBgHeaderSuccess({ loadBgHeader: true }))
-          }
-          onError={() =>
-            dispatch(actions.loadBgHeaderSuccess({ loadBgHeader: true }))
-          }
-          alt="Bg image mflix homer"
-        />
-        {/* <BackgroundColorHeader></BackgroundColorHeader> */}
-      </BackgroundImageHeader>
+      {movieBackground && (
+        <BackgroundImageHeader>
+          <img
+            src={`https:image.tmdb.org/t/p/original${movieBackground}`}
+            onLoad={() =>
+              dispatch(actions.loadBgHeaderSuccess({ loadBgHeader: true }))
+            }
+            onError={() =>
+              dispatch(actions.loadBgHeaderSuccess({ loadBgHeader: true }))
+            }
+            alt="Bg image mflix homer"
+          />
+          {/* <BackgroundColorHeader></BackgroundColorHeader> */}
+        </BackgroundImageHeader>
+      )}
 
       <HeaderElement>
         <section className="section-1">
