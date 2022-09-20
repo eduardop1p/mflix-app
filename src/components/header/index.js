@@ -39,7 +39,7 @@ export default function Header() {
       {movieBackground && (
         <BackgroundImageHeader>
           <img
-            src={`https:image.tmdb.org/t/p/original${movieBackground}`}
+            src={`https://image.tmdb.org/t/p/original${movieBackground}`}
             onLoad={() =>
               dispatch(actions.loadBgHeaderSuccess({ loadBgHeader: true }))
             }

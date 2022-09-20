@@ -295,7 +295,7 @@ export default function serieD() {
       <BgImgPageDetails>
         {newMoviesId && (
           <img
-            src={`https:image.tmdb.org/t/p/original${newMoviesId.backdrop_path}`}
+            src={`https://image.tmdb.org/t/p/original${newMoviesId.backdrop_path}`}
             alt={newMoviesId.name}
           />
         )}
@@ -658,7 +658,7 @@ export default function serieD() {
                             <img
                               src={
                                 result.poster_path
-                                  ? `https:image.tmdb.org/t/p/w500${result.poster_path}`
+                                  ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
                                   : imageError2
                               }
                               onLoad={removeLoadingSipnner}

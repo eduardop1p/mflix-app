@@ -177,7 +177,7 @@ export default function SlideHeaderNewMovies() {
                       <img
                         src={
                           result.backdrop_path
-                            ? `https:image.tmdb.org/t/p/w500${result.backdrop_path}`
+                            ? `https://image.tmdb.org/t/p/w500${result.backdrop_path}`
                             : imageError1
                         }
                         onLoad={removeLoadingSipnner}

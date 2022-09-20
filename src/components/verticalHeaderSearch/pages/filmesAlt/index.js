@@ -809,7 +809,7 @@ export default function FilmesAlt() {
                       <img
                         src={
                           result.poster_path
-                            ? `https:image.tmdb.org/t/p/w500${result.poster_path}`
+                            ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
                             : imageErrorTop3
                         }
                         onLoad={removeLoadingSipnner}
