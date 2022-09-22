@@ -20,6 +20,8 @@ import {
 } from './styled';
 
 export default function WatchList(props) {
+  const { colorMyListVertical } = props;
+
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const { session } = useSelector((state) => state.auth.user);
@@ -185,9 +187,17 @@ export default function WatchList(props) {
         <div className="my-list-container">
           {userList.map((result) =>
             result.midiaType !== 't' ? (
-              <UserListMovie key={result.id} id={result.id} />
+              <UserListMovie
+                key={result.id}
+                id={result.id}
+                colorMyListVertical={colorMyListVertical}
+              />
             ) : (
-              <UserListSerie key={result.id} id={result.id} />
+              <UserListSerie
+                key={result.id}
+                id={result.id}
+                colorMyListVertical={colorMyListVertical}
+              />
             )
           )}
         </div>
@@ -211,7 +221,7 @@ function MyListNotLogedIn(props) {
 }
 
 function UserListMovie(props) {
-  const { id } = props;
+  const { id, colorMyListVertical } = props;
 
   const [dataList, setDataList] = useState(null);
 
@@ -255,7 +265,11 @@ function UserListMovie(props) {
               src={`https://image.tmdb.org/t/p/w500${dataList.backdrop_path}`}
               alt={dataList.title}
             />
-            <Loading borderRadiusZero zIndexFive colorMyListVertical />
+            <Loading
+              borderRadiusZero
+              zIndexFive
+              colorMyListVertical={colorMyListVertical}
+            />
           </div>
           <div className="my-list-details">
             <h4>{dataList.title}</h4>
@@ -278,7 +292,7 @@ function UserListMovie(props) {
 }
 
 function UserListSerie(props) {
-  const { id } = props;
+  const { id, colorMyListVertical } = props;
 
   const [dataList, setDataList] = useState(null);
 
@@ -322,7 +336,11 @@ function UserListSerie(props) {
               src={`https://image.tmdb.org/t/p/w500${dataList.backdrop_path}`}
               alt={dataList.name}
             />
-            <Loading borderRadiusZero zIndexFive colorMyListVertical />
+            <Loading
+              borderRadiusZero
+              zIndexFive
+              colorMyListVertical={colorMyListVertical}
+            />
           </div>
           <div className="my-list-details">
             <h4>{dataList.name}</h4>

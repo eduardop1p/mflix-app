@@ -10,7 +10,7 @@ export default function MinhaLista() {
         <title>MFLIX - Minha lista</title>
       </Helmet>
       <VerticalDivMyList>
-        <WatchList />
+        <WatchList colorMyListVertical />
       </VerticalDivMyList>
     </>
   );

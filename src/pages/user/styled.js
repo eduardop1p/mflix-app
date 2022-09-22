@@ -71,7 +71,7 @@ export const NewUpdateDeletePhotoDiv = styled.div`
     height: 250px;
     border-radius: 10px;
     animation-name: animationScale;
-    animation-duration: 0.4s;
+    animation-duration: 0.2s;
     animation-timing-function: linear;
 
     input[type='file'] {

@@ -21,6 +21,7 @@ import Loading from '../../../components/loadingReactStates/index';
 import RatingSystem from '../../ratingSystem/index';
 import RatingSystem2 from '../../ratingSystem2/index';
 import clearLinkTitle from '../../../config/clearLinkTitle';
+import MessageForm from '../../../components/messageForm';
 import TrailerMovie from '../../getTrailerMovieForId/index';
 import {
   Main,
@@ -65,6 +66,8 @@ export default function MovieD() {
   const [logoButtonActived, setLogoButtonActived] = useState(null);
   const [favorite, setFavorite] = useState(false);
   const controllerRef = useRef(new AbortController());
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showFormMsg, setshowFormMsg] = useState(false);
 
   useEffect(() => {
     const getDetailsMovieId = async (movieId) => {
@@ -187,6 +190,12 @@ export default function MovieD() {
         return;
       }
     }
+
+    const hideFormMsg = document.body.querySelector('#hide-msg-form');
+    if (showFormMsg) {
+      hideFormMsg.onclick = () => setshowFormMsg(false);
+      window.onkeyup = (event) => event.keyCode === 13 && setshowFormMsg(false);
+    }
   });
 
   function getCreditsFilters(data) {
@@ -253,6 +262,8 @@ export default function MovieD() {
       setFavorite(true);
       event.target.parentElement.style.animationName = 'likeAnimaton';
 
+      setErrorMessage('');
+
       try {
         await axiosBaseUrlUser.post(
           `/minha-lista/${user.id}`,
@@ -265,7 +276,12 @@ export default function MovieD() {
             signal: controllerRef.current.signal,
           }
         );
-      } catch (err) {}
+      } catch (err) {
+        const { data } = err.response;
+        data.errors.map((err) => setErrorMessage(err));
+        setshowFormMsg(true);
+        console.clear();
+      }
       return;
     }
   }
@@ -292,6 +308,7 @@ export default function MovieD() {
           />
         )}
       </BgImgPageDetails>
+      {showFormMsg && <MessageForm errorMessage={errorMessage} />}
       {newMoviesId && (
         <ContainerDatails>
           <div className="d0">

@@ -32,7 +32,7 @@ export const EditProfileDivFather = styled.div`
     background-color: ${colors.color1};
     position: relative;
     animation-name: animationScale;
-    animation-duration: 1.5s;
+    animation-duration: 0.2s;
     animation-timing-function: linear;
     position: relative;
 
