@@ -16,14 +16,12 @@ export const Main = styled.main`
       font-size: 1.8rem;
     }
 
-    & > .edit-logout {
+    & > :last-child {
       margin: 15px 0;
       display: flex;
-      width: 220px;
       justify-content: space-between;
 
-      & > button,
-      & > a {
+      & > button {
         font-size: 14px;
         font-weight: 600;
         background-color: ${colors.color1};
@@ -33,12 +31,13 @@ export const Main = styled.main`
         cursor: pointer;
       }
 
-      & > .edit {
+      & > :first-child {
         color: #111;
       }
 
-      & > .logout {
+      & > :last-child {
         color: red;
+        margin-left: 15px;
       }
     }
   }

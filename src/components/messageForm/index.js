@@ -6,7 +6,7 @@ export default function messageForm(props) {
   const { errorMessage, successMessage } = props;
 
   return (
-    <FormMsgContainer errorMessage={errorMessage}>
+    <FormMsgContainer errorMessage={errorMessage} data-bg-error-success="">
       <div>
         {errorMessage ? (
           <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48">

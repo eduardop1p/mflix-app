@@ -1,7 +1,6 @@
 /* eslint-disable */
 
 import { useEffect, useState, useRef } from 'react';
-import { Link, Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { capitalize } from 'lodash';
@@ -10,6 +9,7 @@ import * as actionsLoading from '../../storeReactRedux/modules/loading/actions';
 import * as actionsAuth from '../../storeReactRedux/modules/auth/actions';
 import axiosBaseUrlUser from '../../services/axiosUserBaseUrl';
 import LoadingForm from '../../components/loadingForm/index';
+import AccountManage from './accountManage/index';
 import MessageForm from '../../components/messageForm';
 import userNotPhoto from '../../assets/images/profile-not-photo.jpg';
 import { Main, ProfilePhoto, NewUpdateDeletePhotoDiv } from './styled';
@@ -29,14 +29,23 @@ export default function User() {
   const [loadUserPhoto, setLoadUserPhoto] = useState(false);
 
   useEffect(() => {
+    axiosBaseUrlUser.defaults.headers = { Authorization: session.id };
+  }, []);
+
+  useEffect(() => {
     if (loadUserPhoto && loadingApp)
       setTimeout(() => dispatch(actionsLoading.loadingFailure()), 500);
     const hideFormMsg = document.body.querySelector('#hide-msg-form');
+    const hideFormMsgToBg = document.body.querySelector(
+      '[data-bg-error-success]'
+    );
     if (showFormMsg) {
       hideFormMsg.onclick = () => setshowFormMsg(false);
       window.onkeyup = (event) => event.keyCode === 13 && setshowFormMsg(false);
+      hideFormMsgToBg.onclick = (event) =>
+        event.target === event.currentTarget && setshowFormMsg(false);
     }
-  });
+  }, [showFormMsg, loadUserPhoto, loadingApp]);
 
   async function uploadUserPhoto(event) {
     setSuccessMessage('');
@@ -54,7 +63,6 @@ export default function User() {
         formDataFile,
         {
           headers: {
-            Authorization: session.id,
             'Content-Type': 'multipart/form-data',
           },
         }
@@ -84,9 +92,7 @@ export default function User() {
 
     try {
       setLoadUser(true);
-      await axiosBaseUrlUser.delete(`/fotos/${user.current.id}`, {
-        headers: { Authorization: session.id },
-      });
+      await axiosBaseUrlUser.delete(`/fotos/${user.current.id}`);
       userFoto.src = userNotPhoto;
       setSuccessMessage('Foto de perfil deletada.');
       dispatch(actionsAuth.userLoginPhotoFailure());
@@ -123,7 +129,6 @@ export default function User() {
       <Helmet>
         <title>MFLIX - {capitalize(user.current.nome)}</title>
       </Helmet>
-      <Outlet />
       {loadUser && <LoadingForm />}
       {showFormMsg && (
         <MessageForm
@@ -133,13 +138,20 @@ export default function User() {
       )}
       <Main>
         {showNewUpdateDeletePhoto && (
-          <NewUpdateDeletePhotoDiv>
+          <NewUpdateDeletePhotoDiv
+            onClick={(event) =>
+              event.target === event.currentTarget &&
+              setShowNewUpdateDelete(false)
+            }
+          >
             <form encType="multipart/form-data">
               <div>
-                <h1>Alterar foto de perfil</h1>
+                <h1>Alterar&nbsp;foto&nbsp;de&nbsp;perfil</h1>
               </div>
               <div>
-                <label htmlFor="new-user-foto">Adcionar nova foto</label>
+                <label htmlFor="new-user-foto">
+                  Adcionar&nbsp;nova&nbsp;foto
+                </label>
                 <input
                   type="file"
                   name="user-foto"
@@ -150,7 +162,7 @@ export default function User() {
                 />
               </div>
               <div onClick={deleteUserPhoto}>
-                <span id="delete-user-foto">Deletar foto</span>
+                <span id="delete-user-foto">Deletar&nbsp;foto</span>
               </div>
               <div onClick={() => setShowNewUpdateDelete(false)}>
                 <span id="cancel-user-foto">Fechar</span>
@@ -172,15 +184,15 @@ export default function User() {
         </ProfilePhoto>
         <div className="profile-details">
           <h1>{capitalize(user.current.nome)}</h1>
-          <div className="edit-logout">
-            <Link to="editar-perfil" className="edit">
-              Editar perfil
-            </Link>
+          <div>
+            <button>Compatilhar&nbsp;perfil</button>
             <button className="logout" type="button" onClick={logoutUser}>
               Sair
             </button>
           </div>
         </div>
+
+        <AccountManage />
       </Main>
     </>
   );

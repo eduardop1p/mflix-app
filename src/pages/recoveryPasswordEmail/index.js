@@ -26,9 +26,15 @@ export default function RecoveryPassworEmail() {
 
   useEffect(() => {
     const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    if (hideFormMsg)
-      hideFormMsg.addEventListener('click', () => setshowFormMsg(false));
-  });
+    const hideFormMsgToBg = document.body.querySelector(
+      '[data-bg-error-success]'
+    );
+    if (hideFormMsg) {
+      hideFormMsg.onclick = () => setshowFormMsg(false);
+      hideFormMsgToBg.onclick = (event) =>
+        event.target === event.currentTarget && setshowFormMsg(false);
+    }
+  }, [hideFormMsg]);
 
   async function setRecoveryPasswordSubmit(event) {
     event.preventDefault();

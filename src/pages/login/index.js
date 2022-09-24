@@ -27,8 +27,15 @@ export default function Login(props) {
 
   useEffect(() => {
     const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    if (showFormMsg) hideFormMsg.onclick = () => setshowFormMsg(false);
-  });
+    const hideFormMsgToBg = document.body.querySelector(
+      '[data-bg-error-success]'
+    );
+    if (showFormMsg) {
+      hideFormMsg.onclick = () => setshowFormMsg(false);
+      hideFormMsgToBg.onclick = (event) =>
+        event.target === event.currentTarget && setshowFormMsg(false);
+    }
+  }, [showFormMsg]);
 
   function showPassword() {
     inputPasswordType !== 'text'

@@ -153,6 +153,10 @@ export default function MovieD() {
   }, []);
 
   useEffect(() => {
+    axiosBaseUrlUser.defaults.headers = { Authorization: session.id };
+  }, []);
+
+  useEffect(() => {
     if (
       favoriteUser &&
       newMoviesId &&

@@ -29,15 +29,21 @@ export default function Conta() {
 
   useEffect(() => {
     const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    if (showFormMsg)
-      hideFormMsg.addEventListener('click', () => {
+    const hideFormMsgToBg = document.body.querySelector(
+      '[data-bg-error-success]'
+    );
+    if (showFormMsg) {
+      hideFormMsg.onclick = () => {
         setshowFormMsg(false);
         if (successMessage) {
           setTimeout(() => (window.location.href = '/'), 50);
           return;
         }
-      });
-  });
+      };
+      hideFormMsgToBg.onclick = (event) =>
+        event.target === event.currentTarget && setshowFormMsg(false);
+    }
+  }, [showFormMsg]);
 
   function showPassword() {
     inputPasswordType !== 'text'
