@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import * as colors from '../../colors/index';
 
 export const Main = styled.main`
-  margin-top: 3rem;
+  margin-top: 2rem;
   display: flex;
   align-items: center;
   flex-direction: column;

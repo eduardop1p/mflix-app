@@ -36,14 +36,8 @@ export default function User() {
     if (loadUserPhoto && loadingApp)
       setTimeout(() => dispatch(actionsLoading.loadingFailure()), 500);
     const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    const hideFormMsgToBg = document.body.querySelector(
-      '[data-bg-error-success]'
-    );
     if (showFormMsg) {
       hideFormMsg.onclick = () => setshowFormMsg(false);
-      window.onkeyup = (event) => event.keyCode === 13 && setshowFormMsg(false);
-      hideFormMsgToBg.onclick = (event) =>
-        event.target === event.currentTarget && setshowFormMsg(false);
     }
   }, [showFormMsg, loadUserPhoto, loadingApp]);
 
@@ -56,6 +50,7 @@ export default function User() {
     const formDataFile = new FormData();
     formDataFile.append('user-foto', file);
     const userFoto = document.body.querySelector('#user-foto');
+    const userFoto2 = document.body.querySelector('#user-foto-2');
     try {
       setLoadUser(true);
       const { data } = await axiosBaseUrlUser.post(
@@ -68,6 +63,7 @@ export default function User() {
         }
       );
       userFoto.src = data.foto.url;
+      userFoto2.src = data.foto.url;
       dispatch(
         actionsAuth.userLoginPhotoSuccess({ profileUrl: data.foto.url })
       );
@@ -75,7 +71,7 @@ export default function User() {
       setshowFormMsg(true);
     } catch (err) {
       const { data } = err.response;
-      data.error.map((err) => setErrorMessage(err));
+      data.errors.map((err) => setErrorMessage(err));
       setshowFormMsg(true);
       console.clear();
     } finally {
@@ -99,7 +95,7 @@ export default function User() {
       setshowFormMsg(true);
     } catch (err) {
       const { data } = err.response;
-      data.error.map((err) => setErrorMessage(err));
+      data.errors.map((err) => setErrorMessage(err));
       setshowFormMsg(true);
       console.clear();
     } finally {
@@ -185,7 +181,9 @@ export default function User() {
         <div className="profile-details">
           <h1>{capitalize(user.current.nome)}</h1>
           <div>
-            <button>Compatilhar&nbsp;perfil</button>
+            <button type="button" onClick={() => setShowNewUpdateDelete(true)}>
+              Editar&nbsp;perfil
+            </button>
             <button className="logout" type="button" onClick={logoutUser}>
               Sair
             </button>

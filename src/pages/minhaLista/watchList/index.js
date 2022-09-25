@@ -47,7 +47,6 @@ export default function WatchList(props) {
     const hideFormMsg = document.body.querySelector('#hide-msg-form');
     if (showFormMsg) {
       hideFormMsg.onclick = () => setshowFormMsg(false);
-      window.onkeyup = (event) => event.keyCode === 13 && setshowFormMsg(false);
     }
   });
 

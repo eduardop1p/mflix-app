@@ -1,70 +1,38 @@
 /* eslint-disable */
 
-import { NavLink, Outlet } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { isEmail } from 'validator/validator';
 
 import * as actionsAuth from '../../../storeReactRedux/modules/auth/actions';
 import axiosBaseUrlUser from '../../../services/axiosUserBaseUrl';
 import LoadingForm from '../../../components/loadingForm/index';
+import clearLinkTitle from '../../../config/clearLinkTitle';
 import MessageForm from '../../../components/messageForm';
 import userNotPhoto from '../../../assets/images/profile-not-photo.jpg';
-import {
-  AccountManageContainer,
-  EditPhotoContainer,
-  InforPessContainer,
-} from './styled';
+import { AccountManageContainer, InforPessContainer } from './styled';
 
 export default function accountManage() {
   return (
     <AccountManageContainer>
       <div className="account-manage">
         <div>
-          <NavLink
-            to="editar-foto-perfil"
-            className={({ isActive }) =>
-              isActive ? 'link-account-manage-active' : ''
-            }
-          >
-            Editar&nbsp;foto
-          </NavLink>
-          <NavLink
-            to="informacoes-pessoais"
-            className={({ isActive }) =>
-              isActive ? 'link-account-manage-active' : ''
-            }
-          >
-            Infromações&nbsp;pessoais
-          </NavLink>
-          <NavLink
-            to="deletar-conta"
-            className={({ isActive }) =>
-              isActive ? 'link-account-manage-active' : ''
-            }
-          >
-            Deletar&nbsp;conta
-          </NavLink>
+          <button>Atualizar&nbsp;dados</button>
+          <button type="button">Deletar&nbsp;conta</button>
         </div>
         <div>
-          <Outlet />
+          <InforPess />
         </div>
       </div>
     </AccountManageContainer>
   );
 }
 
-export function EditPhoto() {
-  return (
-    <EditPhotoContainer>
-      <h1>Foto aqui</h1>
-    </EditPhotoContainer>
-  );
-}
-
-export function InforPess() {
+function InforPess() {
   const dispatch = useDispatch();
 
   const user = useRef(useSelector((state) => state.auth.user));
+  const userNotRef = useSelector((state) => state.auth.user);
   const profileUrl = useRef(useSelector((state) => state.auth.profileUrl));
 
   const [loadUser, setLoadUser] = useState(false);
@@ -74,16 +42,16 @@ export function InforPess() {
 
   useEffect(() => {
     const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    const hideFormMsgToBg = document.body.querySelector(
-      '[data-bg-error-success]'
-    );
     if (showFormMsg) {
-      hideFormMsg.onclick = () => setshowFormMsg(false);
-      window.onkeyup = (event) => event.keyCode === 13 && setshowFormMsg(false);
-      hideFormMsgToBg.onclick = (event) =>
-        event.target === event.currentTarget && setshowFormMsg(false);
+      hideFormMsg.onclick = () => {
+        setshowFormMsg(false);
+        if (successMessage === 'Dados alterados com sucesso!')
+          window.location.href = `/${clearLinkTitle(
+            userNotRef.nome
+          )}/informacoes-pessoais`;
+      };
     }
-  }, [showFormMsg]);
+  }, [showFormMsg, successMessage]);
 
   async function uploadUserPhoto(event) {
     setSuccessMessage('');
@@ -114,7 +82,70 @@ export function InforPess() {
       setshowFormMsg(true);
     } catch (err) {
       const { data } = err.response;
-      data.error.map((err) => setErrorMessage(err));
+      data.errors.map((err) => setErrorMessage(err));
+      setshowFormMsg(true);
+      console.clear();
+    } finally {
+      setLoadUser(false);
+    }
+  }
+
+  async function haldleValidaNewDataUser() {
+    setErrorMessage('');
+    setSuccessMessage('');
+    const editNEP = document.querySelector('.edit-name-email-password');
+    const inputNome = editNEP.querySelector('input#nome');
+    const inputEmail = editNEP.querySelector('input#email');
+    const inputPassword = editNEP.querySelector('input#password');
+    const inputPasswordRepetir = editNEP.querySelector('input#repeat-password');
+
+    if (inputNome.value.length < 3 || inputNome.value.length > 8) {
+      setErrorMessage('Usuário deve ter entre 3 e 8 caracteres.');
+      setshowFormMsg(true);
+      return;
+    }
+    if (!isEmail(inputEmail.value)) {
+      setErrorMessage('E-mail inválido.');
+      setshowFormMsg(true);
+      return;
+    }
+    if (inputPassword.value.length < 3 || inputPassword.value.length > 9) {
+      setErrorMessage('Senha deve ter entre 3 e 9 caracteres.');
+      setshowFormMsg(true);
+      return;
+    }
+    if (inputPasswordRepetir.value !== inputPassword.value) {
+      setErrorMessage('As senhas não coincidem.');
+      setshowFormMsg(true);
+      return;
+    }
+
+    try {
+      setLoadUser(true);
+      await axiosBaseUrlUser.put(`/users/${user.current.id}`, {
+        nome: inputNome.value,
+        email: inputEmail.value,
+        password: inputPassword.value,
+        RepetPassword: inputPasswordRepetir.value,
+      });
+      dispatch(
+        actionsAuth.userNewDataSuccess({
+          user: {
+            id: user.current.id,
+            nome: inputNome.value,
+            email: inputEmail.value,
+            session: {
+              id: user.current.session.id,
+              expires: user.current.session.expires,
+            },
+          },
+        })
+      );
+      setSuccessMessage('Dados alterados com sucesso!');
+      setshowFormMsg(true);
+    } catch (err) {
+      const { data } = err.response;
+      data.errors.map((err) => setErrorMessage(err));
       setshowFormMsg(true);
       console.clear();
     } finally {
@@ -152,18 +183,56 @@ export function InforPess() {
           </div>
         </div>
       </div>
-      <div className="edit-name-email">
+      <div className="edit-name-email-password">
         <form>
-          <label htmlFor="name">Nome</label>
-          <input type="text" id="name" name="nome" />
-          <label htmlFor="email">Email</label>
-          <input type="text" id="email" name="email" />
+          <div>
+            <div>
+              <label htmlFor="name">Nome</label>
+              <input
+                type="text"
+                id="nome"
+                maxLength="8"
+                name="nome"
+                defaultValue={user.current.nome}
+              />
+            </div>
+            <div>
+              <label htmlFor="email">Email</label>
+              <input
+                type="text"
+                id="email"
+                name="email"
+                defaultValue={user.current.email}
+              />
+            </div>
+          </div>
+          <div>
+            <div>
+              <label htmlFor="new-password">Nova&nbsp;senha</label>
+              <input
+                type="text"
+                id="password"
+                name="password"
+                maxLength="9"
+                placeholder="Nova senha"
+              />
+            </div>
+            <div>
+              <label htmlFor="repeat-password">Repetir&nbsp;senha</label>
+              <input
+                type="text"
+                id="repeat-password"
+                name="repeat password"
+                maxLength="9"
+                placeholder="Repetir senha"
+              />
+            </div>
+          </div>
         </form>
       </div>
+      <button id="save-alter-user" onClick={haldleValidaNewDataUser}>
+        Salvar
+      </button>
     </InforPessContainer>
   );
-}
-
-export function DeletAccount() {
-  return <h1>Deletar aqui</h1>;
 }

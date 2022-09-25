@@ -36,9 +36,6 @@ export default function RecoveryPasswordEmail() {
 
   useEffect(() => {
     const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    const hideFormMsgToBg = document.body.querySelector(
-      '[data-bg-error-success]'
-    );
     if (hideFormMsg) {
       hideFormMsg.addEventListener('click', () => {
         setshowFormMsg(false);
@@ -47,8 +44,6 @@ export default function RecoveryPasswordEmail() {
           return;
         }
       });
-      hideFormMsgToBg.onclick = (event) =>
-        event.target === event.currentTarget && setshowFormMsg(false);
     }
   }, [hideFormMsg]);
 

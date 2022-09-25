@@ -24,6 +24,13 @@ export default function auth(state = initialState, action) {
       return newState;
     }
 
+    case types.USER_NEW_DATA_SUCCESS: {
+      const newState = { ...state };
+      newState.user = action.payload.user;
+
+      return newState;
+    }
+
     case types.USER_LOGIN_PHOTO_SUCCESS: {
       const newState = { ...state };
       newState.profileUrl = action.payload.profileUrl;
@@ -34,15 +41,6 @@ export default function auth(state = initialState, action) {
     case types.USER_LOGIN_PHOTO_FAILURE: {
       const newState = { ...state };
       newState.profileUrl = '';
-
-      return newState;
-    }
-
-    case types.USER_LOGIN_REQUEST: {
-      const newState = { ...state };
-      newState.user = action.payload.user;
-      newState.profileUrl = action.payload.profileUrl;
-      newState.isLogedIn = action.payload.isLogedIn;
 
       return newState;
     }

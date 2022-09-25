@@ -14,22 +14,23 @@ export function userLoginFailure(payload) {
   };
 }
 
-export function userLoginRequest(payload) {
-  return {
-    type: types.USER_LOGIN_REQUEST,
-    payload,
-  };
-}
-
 export function userLoginPhotoSuccess(payload) {
   return {
     type: types.USER_LOGIN_PHOTO_SUCCESS,
     payload,
   };
 }
+
 export function userLoginPhotoFailure(payload) {
   return {
     type: types.USER_LOGIN_PHOTO_FAILURE,
+    payload,
+  };
+}
+
+export function userNewDataSuccess(payload) {
+  return {
+    type: types.USER_NEW_DATA_SUCCESS,
     payload,
   };
 }

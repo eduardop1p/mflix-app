@@ -29,9 +29,6 @@ export default function Conta() {
 
   useEffect(() => {
     const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    const hideFormMsgToBg = document.body.querySelector(
-      '[data-bg-error-success]'
-    );
     if (showFormMsg) {
       hideFormMsg.onclick = () => {
         setshowFormMsg(false);
@@ -40,8 +37,6 @@ export default function Conta() {
           return;
         }
       };
-      hideFormMsgToBg.onclick = (event) =>
-        event.target === event.currentTarget && setshowFormMsg(false);
     }
   }, [showFormMsg]);
 
@@ -206,9 +201,9 @@ export default function Conta() {
         </form>
         <div className="sing-up-recover-password">
           <Link reloadDocument to="/login">
-            Fazer login.
+            Fazer&nbsp;login.
           </Link>
-          <small>*Todos os campos são obrigatórios*</small>
+          <small>*Todos&nbsp;os&nbsp;campos&nbsp;são&nbsp;obrigatórios*</small>
         </div>
       </div>
     </ContaSection>
