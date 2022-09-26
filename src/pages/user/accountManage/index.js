@@ -17,6 +17,7 @@ import {
 } from './styled';
 
 export default function accountManage() {
+  const dispatch = useDispatch();
   const user = useRef(useSelector((state) => state.auth.user));
 
   const [showDeleteAccount, setShowDeleteAccount] = useState(false);
