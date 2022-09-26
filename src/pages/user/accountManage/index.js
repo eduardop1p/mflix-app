@@ -10,15 +10,83 @@ import LoadingForm from '../../../components/loadingForm/index';
 import clearLinkTitle from '../../../config/clearLinkTitle';
 import MessageForm from '../../../components/messageForm';
 import userNotPhoto from '../../../assets/images/profile-not-photo.jpg';
-import { AccountManageContainer, InforPessContainer } from './styled';
+import {
+  AccountManageContainer,
+  InforPessContainer,
+  DeleteAccountContainer,
+} from './styled';
 
 export default function accountManage() {
+  const user = useRef(useSelector((state) => state.auth.user));
+
+  const [showDeleteAccount, setShowDeleteAccount] = useState(false);
+  const [loadUser, setLoadUser] = useState(false);
+  const [showFormMsg, setshowFormMsg] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
+  useEffect(() => {
+    const hideFormMsg = document.body.querySelector('#hide-msg-form');
+    if (showFormMsg)
+      hideFormMsg.onclick = () => {
+        setshowFormMsg(false);
+        if (successMessage == 'Conta deletada com sucesso!')
+          window.location.href = '/criar-conta';
+      };
+  }, [showFormMsg]);
+
+  async function deleteUser() {
+    setErrorMessage('');
+    setSuccessMessage('');
+    setShowDeleteAccount(false);
+
+    try {
+      setLoadUser(true);
+      await axiosBaseUrlUser.delete(`users/${user.current.id}`);
+      dispatch(actionsAuth.userLoginFailure());
+      setSuccessMessage('Conta deletada com sucesso!');
+      setshowFormMsg(true);
+    } catch (err) {
+      const { data } = err.response;
+      data.errors.map((err) => setErrorMessage(err));
+      setshowFormMsg(true);
+      console.clear();
+    } finally {
+      setLoadUser(false);
+    }
+  }
+
   return (
     <AccountManageContainer>
+      {loadUser && <LoadingForm />}
+      {showFormMsg && (
+        <MessageForm
+          errorMessage={errorMessage}
+          successMessage={successMessage}
+        />
+      )}
+      {showDeleteAccount && (
+        <DeleteAccountContainer>
+          <div>
+            <h1>Tem&nbsp;certeza?</h1>
+            <div>
+              <button type="button" onClick={deleteUser}>
+                Deletar
+              </button>
+              <button type="button" onClick={() => setShowDeleteAccount(false)}>
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </DeleteAccountContainer>
+      )}
+
       <div className="account-manage">
         <div>
           <button>Atualizar&nbsp;dados</button>
-          <button type="button">Deletar&nbsp;conta</button>
+          <button type="button" onClick={() => setShowDeleteAccount(true)}>
+            Deletar&nbsp;conta
+          </button>
         </div>
         <div>
           <InforPess />
@@ -45,49 +113,16 @@ function InforPess() {
     if (showFormMsg) {
       hideFormMsg.onclick = () => {
         setshowFormMsg(false);
-        if (successMessage === 'Dados alterados com sucesso!')
-          window.location.href = `/${clearLinkTitle(
-            userNotRef.nome
-          )}/informacoes-pessoais`;
+        if (successMessage === 'Dados atualizados com sucesso!')
+          window.location.href = `/${clearLinkTitle(userNotRef.nome)}`;
       };
     }
   }, [showFormMsg, successMessage]);
 
-  async function uploadUserPhoto(event) {
-    setSuccessMessage('');
-    setErrorMessage('');
-
+  function alterPhoto(event) {
     const file = event.target.files[0];
-    const formDataFile = new FormData();
-    formDataFile.append('user-foto', file);
-    const userFoto = document.body.querySelector('#user-foto');
-    const userFoto2 = document.body.querySelector('#user-foto-2');
-    try {
-      setLoadUser(true);
-      const { data } = await axiosBaseUrlUser.post(
-        `/fotos/${user.current.id}`,
-        formDataFile,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
-      userFoto.src = data.foto.url;
-      userFoto2.src = data.foto.url;
-      dispatch(
-        actionsAuth.userLoginPhotoSuccess({ profileUrl: data.foto.url })
-      );
-      setSuccessMessage('Foto de perfil alterada.');
-      setshowFormMsg(true);
-    } catch (err) {
-      const { data } = err.response;
-      data.errors.map((err) => setErrorMessage(err));
-      setshowFormMsg(true);
-      console.clear();
-    } finally {
-      setLoadUser(false);
-    }
+    const userPhoto = document.querySelector('#user-foto-2');
+    userPhoto.src = URL.createObjectURL(file);
   }
 
   async function haldleValidaNewDataUser() {
@@ -122,6 +157,20 @@ function InforPess() {
 
     try {
       setLoadUser(true);
+
+      const file = document.querySelector('#new-user-foto-2').files[0];
+      const formDataFile = new FormData();
+      formDataFile.append('user-foto', file);
+
+      const { data } = await axiosBaseUrlUser.post(
+        `/fotos/${user.current.id}`,
+        formDataFile,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
       await axiosBaseUrlUser.put(`/users/${user.current.id}`, {
         nome: inputNome.value,
         email: inputEmail.value,
@@ -139,9 +188,10 @@ function InforPess() {
               expires: user.current.session.expires,
             },
           },
+          profileUrl: data.foto.url,
         })
       );
-      setSuccessMessage('Dados alterados com sucesso!');
+      setSuccessMessage('Dados atualizados com sucesso!');
       setshowFormMsg(true);
     } catch (err) {
       const { data } = err.response;
@@ -176,7 +226,7 @@ function InforPess() {
               type="file"
               name="user-foto"
               id="new-user-foto-2"
-              onChange={uploadUserPhoto}
+              onChange={alterPhoto}
               size={2048576}
               accept="image/png, image/jpeg"
             />

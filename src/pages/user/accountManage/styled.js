@@ -151,3 +151,69 @@ export const InforPessContainer = styled.div`
     );
   }
 `;
+
+export const DeleteAccountContainer = styled.div`
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #171a23fa;
+
+  @keyframes animationScale {
+    from {
+      transform: scale(0.1);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  & > div {
+    background-color: ${colors.color1};
+    width: 400px;
+    height: 200px;
+    border-radius: 10px;
+    animation-name: animationScale;
+    animation-duration: 0.2s;
+    animation-timing-function: linear;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    & > h1 {
+      font-size: 1.2rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    & > div {
+      display: flex;
+      justify-content: space-between;
+
+      & > button {
+        font-size: 15px;
+        font-weight: 500;
+        padding: 8px 1rem;
+        border-radius: 1.5rem;
+      }
+
+      & > :first-child {
+        background-color: red;
+        color: ${colors.color1};
+        margin-right: 1rem;
+      }
+
+      & > :last-child {
+        background-color: transparent;
+        color: #111;
+        border: 2px solid #ccc;
+      }
+    }
+  }
+`;

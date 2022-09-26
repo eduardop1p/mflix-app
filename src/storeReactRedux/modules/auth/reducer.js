@@ -27,6 +27,7 @@ export default function auth(state = initialState, action) {
     case types.USER_NEW_DATA_SUCCESS: {
       const newState = { ...state };
       newState.user = action.payload.user;
+      newState.profileUrl = action.payload.profileUrl;
 
       return newState;
     }

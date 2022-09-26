@@ -85,11 +85,14 @@ export default function User() {
     setShowNewUpdateDelete(false);
 
     const userFoto = document.body.querySelector('#user-foto');
+    const userFoto2 = document.body.querySelector('#user-foto-2');
 
     try {
       setLoadUser(true);
       await axiosBaseUrlUser.delete(`/fotos/${user.current.id}`);
+
       userFoto.src = userNotPhoto;
+      userFoto2.src = userNotPhoto;
       setSuccessMessage('Foto de perfil deletada.');
       dispatch(actionsAuth.userLoginPhotoFailure());
       setshowFormMsg(true);
