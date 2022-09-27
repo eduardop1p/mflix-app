@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { isEmail } from 'validator/validator';
+import { isEmail, isAlphanumeric } from 'validator/validator';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch } from 'react-redux';
 
@@ -59,6 +59,11 @@ export default function Conta() {
 
     if (inputNome.value.length < 3 || inputNome.value.length > 8) {
       setErrorMessage('Usuário deve ter entre 3 e 8 caracteres.');
+      setshowFormMsg(true);
+      return;
+    }
+    if (!isAlphanumeric(inputNome.value)) {
+      setErrorMessage('Usuário deve conter apenas letras e números.');
       setshowFormMsg(true);
       return;
     }
