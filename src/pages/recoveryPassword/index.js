@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-import { isMongoId } from 'validator/validator';
 
 import * as actions from '../../storeReactRedux/modules/loading/actions';
 import axiosBaseUrlUser from '../../services/axiosUserBaseUrl';
@@ -23,16 +22,21 @@ export default function RecoveryPasswordEmail() {
   const [showFormMsg, setshowFormMsg] = useState(false);
 
   useEffect(() => {
-    if (isMongoId(userId)) {
-      setTimeout(() => dispatch(actions.loadingFailure()), 500);
+    const userExist = async (userId) => {
+      try {
+        await axiosBaseUrlUser.get(`/recuperar-senha/${userId}`);
+        setTimeout(() => dispatch(actions.loadingFailure()), 500);
+      } catch {
+        window.location.href = `/recuperar-senha/${userId}/bad`;
+      }
       return;
-    }
-    window.location.href = `/recuperar-senha/${userId}/bad`;
+    };
+    userExist(userId);
   }, []);
 
   useEffect(() => {
     const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    if (hideFormMsg) {
+    if (showFormMsg) {
       hideFormMsg.addEventListener('click', () => {
         setshowFormMsg(false);
         if (successMessage) {
@@ -41,7 +45,7 @@ export default function RecoveryPasswordEmail() {
         }
       });
     }
-  }, [hideFormMsg]);
+  }, [showFormMsg]);
 
   function showPassword() {
     inputPasswordType !== 'text'

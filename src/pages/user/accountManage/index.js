@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { isEmail } from 'validator/validator';
+import { isEmail, isAlphanumeric } from 'validator/validator';
 
 import * as actionsAuth from '../../../storeReactRedux/modules/auth/actions';
 import axiosBaseUrlUser from '../../../services/axiosUserBaseUrl';
@@ -57,6 +57,10 @@ export default function accountManage() {
     }
   }
 
+  function creatNewAccount() {
+    window.location.href = '/criar-conta';
+  }
+
   return (
     <AccountManageContainer>
       {loadUser && <LoadingForm />}
@@ -85,6 +89,7 @@ export default function accountManage() {
       <div className="account-manage">
         <div>
           <button>Atualizar&nbsp;dados</button>
+          <button onClick={creatNewAccount}>Criar&nbsp;nova&nbsp;conta</button>
           <button type="button" onClick={() => setShowDeleteAccount(true)}>
             Deletar&nbsp;conta
           </button>
@@ -137,6 +142,11 @@ function InforPess() {
 
     if (inputNome.value.length < 3 || inputNome.value.length > 8) {
       setErrorMessage('Usuário deve ter entre 3 e 8 caracteres.');
+      setshowFormMsg(true);
+      return;
+    }
+    if (!isAlphanumeric(inputNome.value)) {
+      setErrorMessage('Usuário deve conter apenas letras e números.');
       setshowFormMsg(true);
       return;
     }
