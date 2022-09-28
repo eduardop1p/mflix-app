@@ -15,3 +15,6 @@ export const color7 = '#1D202B';
 export const color8 = '#171A23';
 
 export const color9 = '#12151C';
+
+export const color10 = '#12151C';
+
