@@ -120,6 +120,8 @@ export const MenuHambuguer = styled.button`
   align-items: flex-end;
   gap: 4px;
   width: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
   cursor: pointer;
 
   div:nth-child(odd) {
