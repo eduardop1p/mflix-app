@@ -85,6 +85,7 @@ export const HeaderElement = styled.header`
   .section-2 {
     display: flex;
     align-items: center;
+    margin-left: 3rem;
     gap: 1.5rem;
   }
 `;
@@ -92,21 +93,23 @@ export const HeaderElement = styled.header`
 export const Search = styled.div`
   display: flex;
   align-items: center;
-  position: ${(props) => (props.searchActive ? 'relative' : 'static')};
+  position: relative;
 
   input {
     background-color: transparent;
     color: ${colors.color1};
-    padding: ${(props) => (props.searchActive ? '10px 2.5rem 10px 13px' : 0)};
-    width: ${(props) => (props.searchActive ? '15rem' : 0)};
-    border: ${(props) => (props.searchActive ? '1px solid #ddd' : 'none')};
+    transition: transform 0.2s ease-in-out;
+    padding: 10px 2.5rem 10px 13px;
+    width: 100%;
+    border: 1px solid #ddd;
     border-radius: 1.5rem;
-    transition: width 0.2s ease-in-out;
+    transform-origin: right;
+    transform: scaleX(${(props) => (props.searchActive ? '1' : '0')});
   }
 
   svg {
     cursor: pointer;
-    position: ${(props) => (props.searchActive ? 'absolute' : 'static')};
+    position: absolute;
     right: 10px;
   }
 `;
