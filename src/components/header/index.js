@@ -14,6 +14,7 @@ import {
   HeaderElement,
   Search,
   MenuHambuguer,
+  MenuActive,
 } from './styled';
 
 /* eslint-disable */
@@ -121,9 +122,11 @@ export default function Header() {
               <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
             </svg>
           </Search>
-          {isLogedIn.current
-            ? !breackPoint950 && <UserPhoto />
-            : !breackPoint950 && (
+          {!breackPoint950 && (
+            <div>
+              {isLogedIn.current ? (
+                <UserPhoto />
+              ) : (
                 <Link
                   title="Login"
                   reloadDocument
@@ -133,14 +136,81 @@ export default function Header() {
                   Login
                 </Link>
               )}
+            </div>
+          )}
           {breackPoint950 && (
-            <MenuHambuguer
-              menuActive={menuActive}
-              onClick={() => setMenuActive(!menuActive)}
-            >
-              <div></div>
-              <div></div>
-              <div></div>
+            <MenuHambuguer menuActive={menuActive}>
+              <div onClick={() => setMenuActive(!menuActive)}>
+                <div className="h-1"></div>
+                <div className="h-2"></div>
+                <div className="h-1"></div>
+              </div>
+              {
+                <MenuActive
+                  onClick={(event) =>
+                    event.target === event.currentTarget &&
+                    setMenuActive(!menuActive)
+                  }
+                  menuActive={menuActive}
+                >
+                  <div>
+                    {isLogedIn.current ? (
+                      <UserPhoto width60 />
+                    ) : (
+                      <Link
+                        title="Login"
+                        reloadDocument
+                        className="singn-up"
+                        to="/login"
+                      >
+                        Login
+                      </Link>
+                    )}
+                    <nav>
+                      <NavLink
+                        title="Filmes"
+                        className={({ isActive }) =>
+                          isActive ? 'link-actived' : ''
+                        }
+                        reloadDocument
+                        to="/filmes"
+                      >
+                        Filmes
+                      </NavLink>
+                      <NavLink
+                        title="Series"
+                        className={({ isActive }) =>
+                          isActive ? 'link-actived' : ''
+                        }
+                        reloadDocument
+                        to="/series"
+                      >
+                        Series
+                      </NavLink>
+                      <NavLink
+                        title="Animaçãoes"
+                        className={({ isActive }) =>
+                          isActive ? 'link-actived' : ''
+                        }
+                        reloadDocument
+                        to="/animacoes"
+                      >
+                        Animações
+                      </NavLink>
+                      <NavLink
+                        title="Minha lista"
+                        className={({ isActive }) =>
+                          isActive ? 'link-actived' : ''
+                        }
+                        reloadDocument
+                        to="/minha-lista"
+                      >
+                        Minha&nbsp;lista
+                      </NavLink>
+                    </nav>
+                  </div>
+                </MenuActive>
+              }
             </MenuHambuguer>
           )}
         </section>

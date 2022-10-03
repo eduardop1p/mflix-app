@@ -98,13 +98,13 @@ export const Search = styled.div`
   input {
     background-color: transparent;
     color: ${colors.color1};
-    transition: transform 0.2s ease-in-out;
+    transition: width 0.2s linear, opacity 0.2s linear;
     padding: 10px 2.5rem 10px 13px;
-    width: 100%;
+    opacity: ${(props) => (props.searchActive ? '1' : '0')};
+    width: ${(props) => (props.searchActive ? '100%' : '0')};
     border: 1px solid #ddd;
     border-radius: 1.5rem;
-    transform-origin: right;
-    transform: scaleX(${(props) => (props.searchActive ? '1' : '0')});
+    float: right;
   }
 
   svg {
@@ -115,26 +115,81 @@ export const Search = styled.div`
 `;
 
 export const MenuHambuguer = styled.button`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-  width: 2rem;
-  max-width: 2rem;
-  min-width: 2rem;
-  cursor: pointer;
+  & > :first-child {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    cursor: pointer;
+    width: 2rem;
+    max-width: 2rem;
+    min-width: 2rem;
 
-  div:nth-child(odd) {
-    background-color: ${colors.color1};
-    width: ${(props) => (props.menuActive ? '1.5rem' : '2rem')};
-    height: 2px;
-    transition: width 0.3s ease-in-out;
+    & > .h-1 {
+      background-color: ${colors.color1};
+      width: ${(props) => (props.menuActive ? '1.5rem' : '2rem')};
+      height: 2px;
+      transition: width 0.3s ease-in-out;
+    }
+
+    & > .h-2 {
+      background-color: ${colors.color1};
+      width: ${(props) => (props.menuActive ? '2rem' : '1.5rem')};
+      height: 2px;
+      transition: width 0.3s ease-in-out;
+    }
   }
+`;
 
-  div:nth-child(2) {
-    background-color: ${colors.color1};
-    width: ${(props) => (props.menuActive ? '2rem' : '1.5rem')};
-    height: 2px;
-    transition: width 0.3s ease-in-out;
+export const MenuActive = styled.div`
+  width: 100%;
+  height: 100vh;
+  transition: visibility 0.25s linear;
+  visibility: ${(props) => (props.menuActive ? 'visible' : 'hidden')};
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: right;
+  cursor: default;
+
+  & > div {
+    background-color: ${colors.color7};
+    width: 17rem;
+    margin: 10px;
+    border-radius: 1rem;
+    transition: transform 0.2s linear;
+    transform: translateX(${(props) => (props.menuActive ? '0' : '18rem')});
+    padding: 1.5rem 2rem;
+
+    & > :first-child {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    & > nav {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2rem;
+
+      a {
+        font-size: 13px;
+        color: ${colors.color1};
+        transition: color 0.2s ease-in-out;
+        font-weight: 500;
+
+        &:hover {
+          color: ${colors.color2};
+        }
+      }
+
+      .link-actived {
+        color: ${colors.color2};
+      }
+    }
   }
 `;

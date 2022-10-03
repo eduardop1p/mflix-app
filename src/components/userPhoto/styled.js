@@ -4,8 +4,8 @@ import * as colors from '../../colors/index';
 
 const ProfilePhoto = styled.div`
   & > a > .profile-photo {
-    width: 47px;
-    height: 47px;
+    width: ${(props) => (props.width60 ? '60px' : '47px')};
+    height: ${(props) => (props.width60 ? '60px' : '47px')};
     cursor: pointer;
     border: 2px solid ${colors.color2};
     border-radius: 50%;
