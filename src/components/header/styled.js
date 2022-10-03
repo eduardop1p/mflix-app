@@ -111,6 +111,7 @@ export const Search = styled.div`
     cursor: pointer;
     position: absolute;
     right: 10px;
+    z-index: 8;
   }
 `;
 
@@ -143,7 +144,7 @@ export const MenuHambuguer = styled.button`
 
 export const MenuActive = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   transition: visibility 0.25s linear;
   visibility: ${(props) => (props.menuActive ? 'visible' : 'hidden')};
   position: fixed;
@@ -157,6 +158,7 @@ export const MenuActive = styled.div`
   & > div {
     background-color: ${colors.color7};
     width: 17rem;
+    height: auto;
     margin: 10px;
     border-radius: 1rem;
     transition: transform 0.2s linear;
