@@ -38,8 +38,11 @@ export default function WatchList(props) {
   useEffect(() => {
     if ((userList && userList.length >= myListTitles.length) || !isLogedIn)
       setTimeout(() => dispatch(actions.loadingFailure()), 500);
+  }, [dispatch, userList, myListTitles]);
+
+  useEffect(() => {
     getUserList();
-  }, [dispatch, userList]);
+  }, []);
 
   useEffect(() => {
     const myList = Array.from(document.querySelectorAll('.my-list'));
@@ -138,7 +141,7 @@ export default function WatchList(props) {
             className="delete-items"
             onClick={onDeleteAllItems}
           >
-            Excluir todos titulos de minha lista
+            Excluir todos titulos
           </button>
         </div>
         <div className="delete-selected-items-list">

@@ -171,8 +171,22 @@ export const MenuActive = styled.div`
       align-items: center;
     }
 
+    & > h5 {
+      color: ${colors.color1};
+      margin-top: 5px;
+      font-weight: 500;
+    }
+
+    & > a {
+      border-radius: 100%;
+      padding: 0;
+      width: 60px;
+      height: 60px;
+      margin: 0 auto;
+    }
+
     & > nav {
-      margin-top: 2rem;
+      margin-top: 1.5rem;
       display: flex;
       flex-direction: column;
       align-items: flex-start;

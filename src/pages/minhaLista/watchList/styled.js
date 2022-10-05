@@ -19,6 +19,8 @@ export const RemoveItemsListSelected = styled.div`
     font-weight: 400;
     height: fit-content;
     margin-left: 10px;
+    text-align: left;
+    min-width: 100px;
 
     &:hover {
       transition: color 0.2s ease-in-out;
@@ -65,6 +67,7 @@ export const RemoveItemsListSelected = styled.div`
   & > .delete-selected-items-list {
     display: flex;
     align-items: center;
+    margin-left: 1rem;
 
     & > div {
       display: flex;
@@ -75,12 +78,13 @@ export const RemoveItemsListSelected = styled.div`
       justify-content: center;
       justify-content: space-between;
       position: relative;
-      width: 200px;
+      width: 100%;
       border-radius: 1.5rem;
 
       & > :first-child {
         width: 20px;
         height: 20px;
+        margin-left: 7px;
 
         & > svg {
           transform: rotateZ(${(props) => (props.showTitles ? '180deg' : 0)});
@@ -211,6 +215,7 @@ export const WatchListSection = styled.section`
           position: relative;
           width: 100%;
           height: 222px;
+          font-size: 0;
 
           img {
             width: 100%;

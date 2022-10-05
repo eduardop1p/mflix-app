@@ -26,6 +26,7 @@ export default function Header() {
   const breackPoint950 = useMedia({ maxWidth: 950 });
 
   const isLogedIn = useRef(useSelector((state) => state.auth.isLogedIn));
+  const userName = useRef(useSelector((state) => state.auth.user.nome));
   const movieBackground = useSelector(
     (state) => state.firstBackgroundMovie.movieBackground
   );
@@ -155,7 +156,10 @@ export default function Header() {
                 >
                   <div>
                     {isLogedIn.current ? (
-                      <UserPhoto width60 />
+                      <>
+                        <UserPhoto width60 />
+                        <h5>{userName.current}</h5>
+                      </>
                     ) : (
                       <Link
                         title="Login"
@@ -163,7 +167,7 @@ export default function Header() {
                         className="singn-up"
                         to="/login"
                       >
-                        Login
+                        {breackPoint950 ? 'L' : 'Login'}
                       </Link>
                     )}
                     <nav>
