@@ -28,10 +28,6 @@ const GlobalStyled = createGlobalStyle`
     }
   }
 
-  #root{
-    min-width: 520px;
-  }
-
   a {
     text-decoration: none;
   }
