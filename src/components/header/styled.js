@@ -98,9 +98,9 @@ export const Search = styled.div`
   input {
     background-color: transparent;
     color: ${colors.color1};
-    transition: width 0.2s linear, opacity 0.2s linear;
+    transition: width 0.2s linear, visibility 0.1s linear;
     padding: 10px 2.5rem 10px 13px;
-    opacity: ${(props) => (props.searchActive ? '1' : '0')};
+    visibility: ${(props) => (props.searchActive ? 'visible' : 'hidden')};
     width: ${(props) => (props.searchActive ? '100%' : '0')};
     border: 1px solid #ddd;
     border-radius: 1.5rem;
