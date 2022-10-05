@@ -67,7 +67,7 @@ export const RemoveItemsListSelected = styled.div`
   & > .delete-selected-items-list {
     display: flex;
     align-items: center;
-    margin-left: 1rem;
+    margin-left: 0.8rem;
 
     & > div {
       display: flex;
