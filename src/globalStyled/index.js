@@ -13,7 +13,6 @@ const GlobalStyled = createGlobalStyle`
 
   body{
     background-color: ${colors.color8};
-    min-width: 520px;
 
     &::-webkit-scrollbar{
       width: 5px;
@@ -27,6 +26,10 @@ const GlobalStyled = createGlobalStyle`
     &::-webkit-scrollbar-track{
       background-color: transparent;
     }
+  }
+
+  #root{
+    min-width: 520px;
   }
 
   a {
