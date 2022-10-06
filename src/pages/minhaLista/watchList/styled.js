@@ -261,6 +261,13 @@ export const WatchListSection = styled.section`
       padding: 8px;
       transition: transform 0.2s ease-in-out;
 
+      @media (max-width: 950px) {
+        width: calc(100% / 2);
+      }
+      @media (max-width: 450px) {
+        width: 100%;
+      }
+
       &:hover {
         transform: scale(1.02);
       }

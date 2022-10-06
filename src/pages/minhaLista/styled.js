@@ -40,6 +40,10 @@ export const CreditsFooter = styled.footer`
       font-weight: 500;
       color: ${colors.color5};
     }
+
+    & > .redes-sociais {
+      margin-left: 1rem;
+    }
   }
 `;
 
