@@ -28,8 +28,8 @@ export default class MinhaLista extends Component {
           <div className="line-footer"></div>
           <div className="credits-container">
             <div className="credits">
-              &copy;&nbsp;{new Date().getFullYear()}
-              &nbsp;Direitos&nbsp;reservados&nbsp;a&nbsp;Eduardo&nbsp;Lavoura
+              &copy; {new Date().getFullYear()}
+              Direitos reservados a Eduardo Lavoura
             </div>
             <div className="redes-sociais">
               <a href="https://www.instagram.com/yfg.lavoura/" target="_blank">

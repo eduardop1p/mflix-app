@@ -20,7 +20,10 @@ export const RemoveItemsListSelected = styled.div`
     height: fit-content;
     margin-left: 10px;
     text-align: left;
-    min-width: 100px;
+
+    @media (max-width: 440px) {
+      margin-left: 5px;
+    }
 
     &:hover {
       transition: color 0.2s ease-in-out;
@@ -169,6 +172,74 @@ export const RemoveItemsListSelected = styled.div`
       }
     }
   }
+
+  & > .mobile-delete-selected-items-list {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+
+    & > .mobile-d-s-i-l-down {
+      & > svg {
+        transition: transform 0.2s linear;
+        transform: rotateZ(${(props) => (props.showTitles ? '180deg' : 0)});
+      }
+    }
+
+    & > .mobile-menu-delete-items {
+      position: absolute;
+      background-color: ${colors.color7};
+      width: 150px;
+      top: 23px;
+      left: -3rem;
+      height: 100px;
+      border-radius: 1rem;
+
+      & > fieldset {
+        display: flex;
+        flex-direction: column;
+        border: none;
+        width: fit-content;
+        height: 70px;
+        overflow-x: hidden;
+        overflow-y: ${(props) => (props.showTitles ? 'visible' : 'hidden')};
+        margin: 1rem 1.2rem 0;
+
+        &::-webkit-scrollbar {
+          width: 3px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: ${colors.color2};
+          border-radius: 1rem;
+        }
+
+        &::-webkit-scrollbar-track {
+          background-color: transparent;
+        }
+
+        & > div {
+          display: flex;
+          flex-direction: row-reverse;
+          width: fit-content;
+          margin-bottom: 8px;
+
+          & > label {
+            color: ${colors.color5};
+            font-size: 13.5px;
+            cursor: pointer;
+            margin-left: 10px;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+          }
+        }
+      }
+    }
+  }
 `;
 
 export const WatchListSection = styled.section`
@@ -214,7 +285,7 @@ export const WatchListSection = styled.section`
         & > .img-my-list-item {
           position: relative;
           width: 100%;
-          height: 222px;
+          height: auto;
           font-size: 0;
 
           img {

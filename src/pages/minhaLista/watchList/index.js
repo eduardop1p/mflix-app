@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useMedia } from 'use-media';
 
 import * as actions from '../../../storeReactRedux/modules/loading/actions';
 import axiosBaseUrlUser from '../../../services/axiosUserBaseUrl';
@@ -21,6 +22,8 @@ import {
 
 export default function WatchList(props) {
   const { colorMyListVertical } = props;
+
+  const breackPoint440 = useMedia({ maxWidth: 440 });
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -141,12 +144,57 @@ export default function WatchList(props) {
             className="delete-items"
             onClick={onDeleteAllItems}
           >
-            Excluir todos titulos
+            Excluir todos
           </button>
         </div>
-        <div className="delete-selected-items-list">
-          <div>
-            <span>
+        {!breackPoint440 ? (
+          <div className="delete-selected-items-list">
+            <div>
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="100%"
+                  viewBox="0 0 24 24"
+                  width="100%"
+                  fill="#FFFFFF"
+                >
+                  <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
+                  <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
+                </svg>
+              </span>
+              <span>Selecionar</span>
+              <div>
+                <fieldset>
+                  {userList.map((result, index) => (
+                    <div
+                      className="delete-checkbox-one-item-list"
+                      title={myListTitles[index]}
+                      key={result.id}
+                    >
+                      <label htmlFor={result.id}>{myListTitles[index]}</label>
+                      <input
+                        key={result.id}
+                        type="checkbox"
+                        id={result.id}
+                        onChange={manageCheckBoxDeleteSelectedItems}
+                      />
+                    </div>
+                  ))}
+                </fieldset>
+              </div>
+              <button onClick={() => setShowTitles(!showTitles)}></button>
+            </div>
+            <button className="delete-items" onClick={onDeleteSelectedItems}>
+              Excluir
+            </button>
+          </div>
+        ) : (
+          <div className="mobile-delete-selected-items-list">
+            <div
+              onClick={() => setShowTitles(!showTitles)}
+              style={{ width: '25px', height: '25px' }}
+              className="mobile-d-s-i-l-down"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="100%"
@@ -157,33 +205,33 @@ export default function WatchList(props) {
                 <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
                 <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
               </svg>
-            </span>
-            <span>Selecionar</span>
-            <div>
-              <fieldset>
-                {userList.map((result, index) => (
-                  <div
-                    className="delete-checkbox-one-item-list"
-                    title={myListTitles[index]}
-                    key={result.id}
-                  >
-                    <label htmlFor={result.id}>{myListTitles[index]}</label>
-                    <input
-                      key={result.id}
-                      type="checkbox"
-                      id={result.id}
-                      onChange={manageCheckBoxDeleteSelectedItems}
-                    />
-                  </div>
-                ))}
-              </fieldset>
             </div>
-            <button onClick={() => setShowTitles(!showTitles)}></button>
+            <button className="delete-items" onClick={onDeleteSelectedItems}>
+              Excluir
+            </button>
+            {showTitles && (
+              <div className="mobile-menu-delete-items">
+                <fieldset>
+                  {userList.map((result, index) => (
+                    <div
+                      className="delete-checkbox-one-item-list"
+                      title={myListTitles[index]}
+                      key={result.id}
+                    >
+                      <label htmlFor={result.id}>{myListTitles[index]}</label>
+                      <input
+                        key={result.id}
+                        type="checkbox"
+                        id={result.id}
+                        onChange={manageCheckBoxDeleteSelectedItems}
+                      />
+                    </div>
+                  ))}
+                </fieldset>
+              </div>
+            )}
           </div>
-          <button className="delete-items" onClick={onDeleteSelectedItems}>
-            Excluir titulos selecionados
-          </button>
-        </div>
+        )}
       </RemoveItemsListSelected>
       <WatchListSection>
         <div className="my-list-container">

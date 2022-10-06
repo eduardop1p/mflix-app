@@ -46,6 +46,13 @@ export const HeaderElement = styled.header`
   align-items: center;
   padding: 2rem 4rem;
 
+  @media (max-width: 800px) {
+    padding: 1.5rem 3rem;
+  }
+  @media (max-width: 520px) {
+    padding: 1rem 2rem;
+  }
+
   .section-1 {
     display: flex;
     justify-content: space-between;
@@ -85,8 +92,12 @@ export const HeaderElement = styled.header`
   .section-2 {
     display: flex;
     align-items: center;
-    margin-left: 3rem;
+    margin-left: 1rem;
     gap: 1.5rem;
+
+    @media (max-width: 440px) {
+      gap: 1rem;
+    }
   }
 `;
 
@@ -164,6 +175,10 @@ export const MenuActive = styled.div`
     transition: transform 0.2s linear;
     transform: translateX(${(props) => (props.menuActive ? '0' : '18rem')});
     padding: 1.5rem 2rem;
+
+    @media (max-width: 480px) {
+      width: calc(100% - 50%);
+    }
 
     & > :first-child {
       display: flex;
