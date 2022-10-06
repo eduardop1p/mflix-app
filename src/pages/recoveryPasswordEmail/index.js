@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { isEmail } from 'validator/validator';
+import { useMedia } from 'use-media';
 
 import * as actions from '../../storeReactRedux/modules/loading/actions';
 import axiosBaseUrlUser from '../../services/axiosUserBaseUrl';
@@ -13,6 +14,8 @@ import { RecoveryPassworSection } from './styled';
 
 export default function RecoveryPassworEmail() {
   const dispatch = useDispatch();
+
+  const breackPoint290 = useMedia({ maxWidth: 290 });
 
   const [loadRecoveryPasswordEmail, setLoadRecoveryPasswordEmail] =
     useState(false);
@@ -77,10 +80,27 @@ export default function RecoveryPassworEmail() {
         <div>
           <h1>Insira seu email</h1>
           <form onSubmit={setRecoveryPasswordSubmit}>
-            <div className="relative-input">
-              <input type="text" id="email" placeholder="Email" name="email" />
-              <button type="submit">Enviar</button>
-            </div>
+            {!breackPoint290 ? (
+              <div className="relative-input">
+                <input
+                  type="text"
+                  id="email"
+                  placeholder="Email"
+                  name="email"
+                />
+                <button type="submit">Enviar</button>
+              </div>
+            ) : (
+              <div className="mobile-relative-input">
+                <input
+                  type="text"
+                  id="email"
+                  placeholder="Email"
+                  name="email"
+                />
+                <button type="submit">Enviar</button>
+              </div>
+            )}
           </form>
         </div>
       </RecoveryPassworSection>

@@ -22,7 +22,8 @@ export const LoginSection = styled.section`
 
   & > .login {
     background-color: ${colors.color1};
-    width: 500px;
+    width: calc(100% - 4rem);
+    max-width: 500px;
     padding: 1rem;
     display: flex;
     flex-direction: column;

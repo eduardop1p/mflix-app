@@ -24,7 +24,7 @@ export default function Header() {
   const [headerSearchValue, setHeaderSearchValue] = useState('');
 
   const breackPoint950 = useMedia({ maxWidth: 950 });
-  const breackPoint390 = useMedia({ maxWidth: 390 });
+  const breackPoint370 = useMedia({ maxWidth: 370 });
 
   const isLogedIn = useRef(useSelector((state) => state.auth.isLogedIn));
   const userName = useRef(useSelector((state) => state.auth.user.nome));
@@ -102,7 +102,7 @@ export default function Header() {
           )}
         </section>
         <section className="section-2">
-          {!breackPoint390 ? (
+          {!breackPoint370 ? (
             <Search searchActive={searchActive}>
               <form onSubmit={setHeaderSearch} action="/vertical/search">
                 <input

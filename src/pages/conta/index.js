@@ -206,9 +206,9 @@ export default function Conta() {
         </form>
         <div className="sing-up-recover-password">
           <Link reloadDocument to="/login">
-            Fazer&nbsp;login.
+            Fazer login.
           </Link>
-          <small>*Todos&nbsp;os&nbsp;campos&nbsp;são&nbsp;obrigatórios*</small>
+          <small>*Todos os campos são obrigatórios*</small>
         </div>
       </div>
     </ContaSection>

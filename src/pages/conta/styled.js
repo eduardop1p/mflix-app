@@ -18,7 +18,8 @@ export const ContaSection = styled.section`
 
   & > .conta {
     background-color: ${colors.color1};
-    width: 500px;
+    width: calc(100% - 4rem);
+    max-width: 500px;
     padding: 1rem;
     display: flex;
     flex-direction: column;
@@ -39,6 +40,10 @@ export const ContaSection = styled.section`
       & > .container-input {
         display: flex;
         position: relative;
+
+        @media (max-width: 420px) {
+          flex-direction: column;
+        }
 
         & > .container-1 {
           margin-right: 1rem;

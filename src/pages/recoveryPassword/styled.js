@@ -20,7 +20,8 @@ export const RecoveryPassworSection = styled.div`
 
   & > div {
     background-color: ${colors.color1};
-    width: 500px;
+    width: calc(100% - 4rem);
+    max-width: 500px;
     padding: 1rem;
     display: flex;
     flex-direction: column;
