@@ -73,7 +73,7 @@ export const ElementFooter = styled.footer`
 
       & > .text-subscribe {
         color: ${colors.color1};
-        font-size: 12px;
+        font-size: 0.75rem;
       }
 
       & > form {
@@ -84,7 +84,7 @@ export const ElementFooter = styled.footer`
         & > small {
           margin-bottom: 5px;
           margin-left: 2px;
-          font-size: 12px;
+          font-size: 0.75rem;
           font-weight: 400;
           color: red;
         }
@@ -114,7 +114,7 @@ export const ElementFooter = styled.footer`
             padding: 9px 1.2rem;
             border-radius: 1rem;
             color: ${colors.color1};
-            font-size: 13px;
+            font-size: 0.81rem;
             background: linear-gradient(
               to right,
               ${colors.color2} 10%,
@@ -146,7 +146,7 @@ export const CreditsFooter = styled.div`
     justify-content: space-between;
 
     & > .credits {
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 500;
       color: ${colors.color5};
     }

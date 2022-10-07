@@ -86,7 +86,7 @@ export const ContaSection = styled.section`
         margin: 0 auto;
         border-radius: 1rem;
         color: ${colors.color1};
-        font-size: 13px;
+        font-size: 0.81rem;
         background: linear-gradient(
           to right,
           ${colors.color2} 10%,
@@ -101,14 +101,14 @@ export const ContaSection = styled.section`
       gap: 10px;
 
       & > a {
-        font-size: 12px;
+        font-size: 0.75rem;
         font-weight: 500;
         text-decoration: underline;
         color: ${colors.color2};
       }
 
       & > small {
-        font-size: 10px;
+        font-size: 0.62rem;
         font-weight: 500;
         color: red;
       }

@@ -23,7 +23,7 @@ export const Popular = styled.section`
 
       & > h5 {
         color: ${colors.color5};
-        font-size: 13px;
+        font-size: 0.81rem;
         font-weight: 600;
       }
 
@@ -32,7 +32,7 @@ export const Popular = styled.section`
         align-items: center;
         justify-content: space-between;
         color: ${colors.color1};
-        font-size: 13px;
+        font-size: 0.81rem;
         background-color: ${colors.color7};
         padding: 8px 1.2rem;
         width: 130px;
@@ -185,13 +185,13 @@ export const PopularCatalog = styled.div`
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
-        font-size: 15px;
+        font-size: 0.93rem;
         font-weight: 600;
         color: ${colors.color1};
       }
 
       & > .popular-year-genre {
-        font-size: 13px;
+        font-size: 0.81rem;
         font-weight: 400;
         color: ${colors.color5};
         gap: 5px;
@@ -200,7 +200,7 @@ export const PopularCatalog = styled.div`
 
       & > .popular-imdb-rating-voteAverage {
         color: ${colors.color5};
-        font-size: 13px;
+        font-size: 0.81rem;
         font-weight: 500;
 
         & > .popular-rating-voteAverage {
@@ -218,7 +218,7 @@ export const PopularCatalog = styled.div`
         font-weight: 400;
         color: ${colors.color1};
         border-radius: 1.5rem;
-        font-size: 12px;
+        font-size: 0.75rem;
         width: fit-content;
         padding: 8px 1.2rem;
         transition: all 0.2s ease-in-out;

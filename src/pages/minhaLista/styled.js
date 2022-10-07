@@ -36,7 +36,7 @@ export const CreditsFooter = styled.footer`
     justify-content: space-between;
 
     & > .credits {
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 500;
       color: ${colors.color5};
     }

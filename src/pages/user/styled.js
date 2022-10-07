@@ -22,7 +22,7 @@ export const Main = styled.main`
       justify-content: space-between;
 
       & > button {
-        font-size: 14px;
+        font-size: 0.87rem;
         font-weight: 600;
         background-color: ${colors.color1};
         padding: 5px 1rem;
@@ -100,7 +100,7 @@ export const NewUpdateDeletePhotoDiv = styled.div`
       width: 100%;
       height: 100%;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 0.87rem;
       color: dodgerblue;
       font-weight: 600;
     }
@@ -111,7 +111,7 @@ export const NewUpdateDeletePhotoDiv = styled.div`
       justify-content: center;
       width: 100%;
       height: 100%;
-      font-size: 14px;
+      font-size: 0.87rem;
       cursor: pointer;
       font-weight: 600;
     }

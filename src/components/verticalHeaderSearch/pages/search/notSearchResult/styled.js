@@ -38,12 +38,12 @@ export const Main = styled.main`
           border: none;
           background-color: transparent;
           color: ${colors.color5};
-          font-size: 13px;
+          font-size: 0.81rem;
           font-weight: 500;
 
           &::placeholder {
             color: ${colors.color5};
-            font-size: 13px;
+            font-size: 0.81rem;
             font-weight: 500;
           }
         }
@@ -84,7 +84,7 @@ export const Main = styled.main`
 
             & > li {
               color: ${colors.color1};
-              font-size: 14px;
+              font-size: 0.87rem;
             }
           }
         }

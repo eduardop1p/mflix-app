@@ -44,7 +44,7 @@ const FormMsgContainer = styled.div`
       text-align: center;
       max-width: calc(100% - 100px);
       color: ${color8};
-      font-size: 15px;
+      font-size: 0.93rem;
       font-weight: 400;
       margin-bottom: 3.5rem;
     }
@@ -55,7 +55,7 @@ const FormMsgContainer = styled.div`
       width: 100%;
       padding: 12px 0;
       cursor: pointer;
-      font-size: 15px;
+      font-size: 0.93rem;
       font-weight: 400;
       background-color: ${(props) =>
         props.errorMessage ? '#ff4d4d' : '#4DFF4D'};

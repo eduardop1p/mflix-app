@@ -77,7 +77,7 @@ export const Slider = styled.section`
 
       .titleNewMovies {
         margin-bottom: 1rem;
-        font-size: 12px;
+        font-size: 0.75rem;
         margin-left: 5px;
         font-weight: 500;
       }
@@ -128,7 +128,7 @@ export const GridMovies = styled.div`
       justify-content: space-between;
 
       & > h5 {
-        font-size: 12px;
+        font-size: 0.75rem;
         font-weight: 600;
         max-width: 8rem;
         overflow: hidden;
@@ -140,7 +140,7 @@ export const GridMovies = styled.div`
       }
 
       & > div {
-        font-size: 12px;
+        font-size: 0.75rem;
         font-weight: 400;
         color: ${colors.color1};
       }
@@ -148,7 +148,7 @@ export const GridMovies = styled.div`
       .rating {
         display: flex;
         gap: 1rem;
-        font-size: 12px;
+        font-size: 0.75rem;
         font-weight: 400;
         position: absolute;
         left: 12px;

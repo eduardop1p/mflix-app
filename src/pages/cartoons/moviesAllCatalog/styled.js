@@ -23,7 +23,7 @@ export const Catalog = styled.section`
       color: ${colors.color1};
       background-color: ${colors.color7};
       padding: 8px 1.2rem;
-      font-size: 13px;
+      font-size: 0.81rem;
       border-radius: 1.5rem;
       font-weight: 500;
       display: flex;
@@ -46,12 +46,12 @@ export const Catalog = styled.section`
           border: none;
           background-color: transparent;
           color: ${colors.color1};
-          font-size: 13px;
+          font-size: 0.81rem;
           font-weight: 500;
 
           &::placeholder {
             color: #ccc;
-            font-size: 13px;
+            font-size: 0.81rem;
             font-weight: 500;
           }
         }
@@ -136,7 +136,7 @@ export const Catalog = styled.section`
       background-color: ${colors.color7};
       border-radius: 1.5rem;
       padding: 8px 1.2rem;
-      font-size: 13px;
+      font-size: 0.81rem;
       font-weight: 500;
       display: flex;
       align-items: center;
@@ -167,12 +167,12 @@ export const Catalog = styled.section`
             border: none;
             background-color: transparent;
             color: ${colors.color1};
-            font-size: 13px;
+            font-size: 0.81rem;
             font-weight: 500;
 
             &::placeholder {
               color: #ccc;
-              font-size: 13px;
+              font-size: 0.81rem;
               font-weight: 500;
             }
           }
@@ -216,7 +216,7 @@ export const CatalogMovies = styled.div`
     & > h4 {
       color: ${colors.color5};
       font-weight: 400;
-      font-size: 12px;
+      font-size: 0.75rem;
       margin-top: 5px;
     }
   }
@@ -250,7 +250,7 @@ export const CatalogMovies = styled.div`
       width: 100%;
       height: 100%;
       color: ${colors.color1};
-      font-size: 12px;
+      font-size: 0.75rem;
     }
   }
 
@@ -269,7 +269,7 @@ export const CatalogMovies = styled.div`
     position: absolute;
     top: 0;
     z-index: 6;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 400;
     padding: 14px;
     color: ${colors.color1};
@@ -285,7 +285,7 @@ export const CatalogMovies = styled.div`
     color: ${colors.color1};
 
     & > h5 {
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 600;
       max-width: 8rem;
       margin-bottom: 10px;
@@ -296,7 +296,7 @@ export const CatalogMovies = styled.div`
       justify-content: space-between;
 
       div:last-child {
-        font-size: 12px;
+        font-size: 0.75rem;
         font-weight: 400;
       }
     }
@@ -321,7 +321,7 @@ export const ContainerPagenation = styled.div`
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        font-size: 13px;
+        font-size: 0.81rem;
         font-weight: 500;
         color: ${colors.color1};
         height: 35px;

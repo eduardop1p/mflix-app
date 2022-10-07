@@ -29,7 +29,7 @@ export const Error = styled.div`
     }
 
     & > :first-child {
-      margin-right: 7px;
+      margin-right: 0.43rem;
     }
 
     #moon {
@@ -82,7 +82,7 @@ export const Error = styled.div`
       ${colors.color3}
     );
     text-align: center;
-    border-radius: 10px;
+    border-radius: 0.62rem;
     width: 18rem;
     height: 3rem;
     line-height: 3rem;

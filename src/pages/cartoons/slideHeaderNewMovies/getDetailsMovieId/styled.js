@@ -9,7 +9,7 @@ export const MovieForId = styled.div`
   }
 
   .vote-average {
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 500;
     margin: 8px 0;
     display: flex;
@@ -20,7 +20,7 @@ export const MovieForId = styled.div`
   }
 
   .overview {
-    font-size: 10px;
+    font-size: 0.62rem;
     font-weight: 400;
     max-width: 15rem;
     height: 38px;
@@ -47,14 +47,14 @@ export const MovieForId = styled.div`
 
   .genres {
     color: ${colors.color2};
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 500;
     margin-top: 10px;
     margin-bottom: 5px;
   }
 
   .release-date {
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 400;
   }
 

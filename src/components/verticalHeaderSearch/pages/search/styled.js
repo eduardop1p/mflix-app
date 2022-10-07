@@ -43,13 +43,13 @@ export const ContainerDatails = styled.div`
   width: 100%;
 
   h4 {
-    font-size: 16.5px;
+    font-size: 1rem;
     font-weight: 500;
     color: ${colors.color1};
   }
 
   h5 {
-    font-size: 12.5px;
+    font-size: 0.78rem;
     font-weight: 600;
     color: #57566c;
   }
@@ -125,7 +125,7 @@ export const ContainerDatails = styled.div`
     height: 270px;
 
     & > h4 {
-      font-size: 17px;
+      font-size: 1.06rem;
       margin-bottom: 1.2rem;
       font-weight: 600;
     }
@@ -175,7 +175,7 @@ export const PosterDetailsSimilarTrailer = styled.div`
         & > :last-child {
           color: #57566c;
           font-weight: 400;
-          font-size: 12.5px;
+          font-size: 0.78rem;
           flex: none;
           width: 100%;
           height: 150px;
@@ -234,7 +234,7 @@ export const PosterDetailsSimilarTrailer = styled.div`
           gap: 5px;
           color: ${colors.color1};
           font-weight: 400;
-          font-size: 15.5px;
+          font-size: 0.96rem;
         }
 
         & > .rating-imdb-details {
@@ -250,7 +250,7 @@ export const PosterDetailsSimilarTrailer = styled.div`
 
               & > :last-child {
                 margin-left: 10px;
-                font-size: 15px;
+                font-size: 0.93rem;
               }
             }
           }
@@ -289,7 +289,7 @@ export const PosterDetailsSimilarTrailer = styled.div`
                   & > li {
                     color: #57566c;
                     font-weight: 400;
-                    font-size: 12.5px;
+                    font-size: 0.78rem;
                   }
                 }
               }
@@ -330,7 +330,7 @@ export const PosterDetailsSimilarTrailer = styled.div`
     & > :last-child {
       color: #57566c;
       font-weight: 400;
-      font-size: 12.5px;
+      font-size: 0.78rem;
       width: 100%;
       overflow: hidden;
 
@@ -364,7 +364,7 @@ export const PosterDetailsSimilarTrailer = styled.div`
 
     & > .msg-video-trailer-error {
       color: ${colors.color1};
-      font-size: 10px;
+      font-size: 0.62rem;
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
@@ -417,14 +417,14 @@ export const ResultsS = styled.div`
         overflow: hidden;
         text-overflow: ellipsis;
         flex: none;
-        font-size: 15px;
+        font-size: 0.93rem;
         font-weight: 600;
         color: ${colors.color1};
         transition: color 0.2s ease-in-out;
       }
 
       & > .popular-year-genre {
-        font-size: 13px;
+        font-size: 0.81rem;
         font-weight: 400;
         color: #57566c;
         display: flex;
@@ -444,7 +444,7 @@ export const ResultsS = styled.div`
       }
 
       & > .vertical-overview {
-        font-size: 13px;
+        font-size: 0.81rem;
         flex: none;
         color: #57566c;
         max-width: 10rem;
@@ -473,7 +473,7 @@ export const ResultsS = styled.div`
 
       & > .popular-imdb-rating-voteAverage {
         color: #57566c;
-        font-size: 13px;
+        font-size: 0.81rem;
         font-weight: 500;
 
         & > .popular-rating-voteAverage {
@@ -491,7 +491,7 @@ export const ResultsS = styled.div`
         font-weight: 400;
         color: ${colors.color1};
         border-radius: 1.5rem;
-        font-size: 12px;
+        font-size: 0.75rem;
         width: fit-content;
         padding: 8px 1.2rem;
         transition: all 0.2s ease-in-out;
@@ -517,7 +517,7 @@ export const ImagesPosters = styled.div`
       padding: 7px 0;
       width: 100%;
       color: ${colors.color1};
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 500;
       transition: background 0.2s ease-in-out;
 
@@ -652,7 +652,7 @@ export const Collections = styled.div`
             font-weight: 500;
             color: ${colors.color1};
             border-radius: 1.5rem;
-            font-size: 12.5px;
+            font-size: 0.78rem;
             width: fit-content;
             padding: 8px 1.2rem;
             transition: background 0.2s ease-in-out;
@@ -673,7 +673,7 @@ export const Collections = styled.div`
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        font-size: 14px;
+        font-size: 0.87rem;
         color: ${colors.color1};
         font-weight: 600;
         padding: 0 2px;
@@ -687,7 +687,7 @@ export const Collections = styled.div`
 
         & > div {
           padding: 0 2px;
-          font-size: 13px;
+          font-size: 0.81rem;
           font-weight: 500;
         }
 
@@ -739,14 +739,14 @@ export const Recomends = styled.div`
         overflow: hidden;
         text-overflow: ellipsis;
         flex: none;
-        font-size: 15px;
+        font-size: 0.93rem;
         font-weight: 600;
         color: ${colors.color1};
         transition: color 0.2s ease-in-out;
       }
 
       & > .popular-year-genre {
-        font-size: 13px;
+        font-size: 0.81rem;
         font-weight: 400;
         color: #57566c;
         display: flex;
@@ -762,7 +762,7 @@ export const Recomends = styled.div`
       }
 
       & > .vertical-overview {
-        font-size: 13px;
+        font-size: 0.81rem;
         flex: none;
         color: #57566c;
         max-width: 10rem;
@@ -791,7 +791,7 @@ export const Recomends = styled.div`
 
       & > .popular-imdb-rating-voteAverage {
         color: #57566c;
-        font-size: 13px;
+        font-size: 0.81rem;
         font-weight: 500;
 
         & > .popular-rating-voteAverage {
@@ -809,7 +809,7 @@ export const Recomends = styled.div`
         font-weight: 400;
         color: ${colors.color1};
         border-radius: 1.5rem;
-        font-size: 12px;
+        font-size: 0.75rem;
         width: fit-content;
         padding: 8px 1.2rem;
         transition: all 0.2s ease-in-out;

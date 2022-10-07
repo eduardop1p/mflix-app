@@ -47,14 +47,14 @@ const GlobalStyled = createGlobalStyle`
     padding: 13px 3rem;
     border-radius: 1.5rem;
     color: ${colors.color1};
-    font-size: 13px;
+    font-size: 0.81rem;
     background: linear-gradient(to right, ${colors.color2} 10%, ${colors.color3});
   }
 
   .new{
     color: ${colors.color2};
     font-weight: 600;
-    font-size: 14px;
+    font-size: 0.87rem;
   }
 
   ul {

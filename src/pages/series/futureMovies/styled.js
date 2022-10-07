@@ -45,7 +45,7 @@ export const FutureM = styled.section`
       }
 
       & > .future-movies-release-date {
-        font-size: 14px;
+        font-size: 0.87rem;
         display: flex;
         align-items: center;
         gap: 8px;
@@ -57,7 +57,7 @@ export const FutureM = styled.section`
       }
 
       & > .future-movies-info {
-        font-size: 13px;
+        font-size: 0.81rem;
         color: ${colors.color5};
         height: 320px;
         overflow-y: scroll;
@@ -89,7 +89,7 @@ export const FutureM = styled.section`
         text-align: center;
         position: relative;
         color: ${colors.color1};
-        font-size: 10px;
+        font-size: 0.62rem;
       }
 
       & > video {

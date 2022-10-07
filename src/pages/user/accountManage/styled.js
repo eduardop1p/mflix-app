@@ -58,7 +58,7 @@ export const InforPessContainer = styled.div`
   & > .photo-alter {
     width: fit-content;
     & > span {
-      font-size: 12px;
+      font-size: 0.75rem;
       color: #111;
       font-weight: 500;
       margin-bottom: 5px;
@@ -79,7 +79,7 @@ export const InforPessContainer = styled.div`
       & > :last-child {
         & > label {
           color: #111;
-          font-size: 15px;
+          font-size: 0.93rem;
           font-weight: 600;
           cursor: pointer;
           background-color: #eee;
@@ -102,7 +102,7 @@ export const InforPessContainer = styled.div`
       flex-direction: column;
 
       label {
-        font-size: 12px;
+        font-size: 0.75rem;
         color: #111;
         font-weight: 500;
         margin-bottom: 5px;
@@ -112,7 +112,7 @@ export const InforPessContainer = styled.div`
         padding: 8px 1rem;
         border-radius: 1.5rem;
         border: 2px solid #ccc;
-        font-size: 15px;
+        font-size: 0.93rem;
         color: ${colors.color8};
         font-weight: 500;
       }
@@ -143,7 +143,7 @@ export const InforPessContainer = styled.div`
     padding: 8px 1rem;
     border-radius: 1.5rem;
     color: ${colors.color1};
-    font-size: 15px;
+    font-size: 0.93rem;
     background: linear-gradient(
       to right,
       ${colors.color2} 10%,
@@ -197,7 +197,7 @@ export const DeleteAccountContainer = styled.div`
       justify-content: space-between;
 
       & > button {
-        font-size: 15px;
+        font-size: 0.93rem;
         font-weight: 500;
         padding: 8px 1rem;
         border-radius: 1.5rem;

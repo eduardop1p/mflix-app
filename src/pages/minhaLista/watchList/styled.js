@@ -14,7 +14,7 @@ export const RemoveItemsListSelected = styled.div`
 
   .delete-items {
     cursor: pointer;
-    font-size: 12.5px;
+    font-size: 0.78rem;
     color: ${colors.color5};
     font-weight: 400;
     height: fit-content;
@@ -101,7 +101,7 @@ export const RemoveItemsListSelected = styled.div`
 
       & > :nth-child(2) {
         color: ${colors.color1};
-        font-size: 13px;
+        font-size: 0.81rem;
         font-weight: 500;
       }
 
@@ -151,7 +151,7 @@ export const RemoveItemsListSelected = styled.div`
 
             & > label {
               color: ${colors.color5};
-              font-size: 13.5px;
+              font-size: 0.84rem;
               cursor: pointer;
               margin-left: 10px;
               max-width: 100%;
@@ -230,7 +230,7 @@ export const RemoveItemsListSelected = styled.div`
 
           & > label {
             color: ${colors.color5};
-            font-size: 13.5px;
+            font-size: 0.84rem;
             cursor: pointer;
             margin-left: 10px;
             max-width: 100%;
@@ -290,7 +290,7 @@ export const WatchListSection = styled.section`
           position: absolute;
           z-index: 6;
           top: 0;
-          font-size: 13px;
+          font-size: 0.81rem;
           font-weight: 400;
           padding: 14px;
           color: ${colors.color1};
@@ -299,7 +299,9 @@ export const WatchListSection = styled.section`
         & > .img-my-list-item {
           position: relative;
           width: 100%;
-          height: auto;
+          height: 100%;
+          min-width: 100%;
+          min-height: 100%;
           font-size: 0;
 
           img {
@@ -339,12 +341,12 @@ export const WatchListSection = styled.section`
               display: -webkit-box;
               -webkit-line-clamp: 1;
               -webkit-box-orient: vertical;
-              font-size: 14px;
+              font-size: 0.87rem;
               font-weight: 400;
             }
 
             & > .release-date {
-              font-size: 14px;
+              font-size: 0.87rem;
               font-weight: 400;
             }
           }

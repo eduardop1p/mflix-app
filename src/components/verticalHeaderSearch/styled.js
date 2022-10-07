@@ -37,7 +37,7 @@ export const ContainerHeaderVertical = styled.header`
       align-items: center;
       justify-content: center;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 0.87rem;
       background: linear-gradient(
         to right,
         ${colors.color2} 10%,
@@ -137,7 +137,7 @@ export const PagesContainer = styled.main`
     & > h4 {
       color: ${colors.color5};
       font-weight: 400;
-      font-size: 12px;
+      font-size: 0.75rem;
       margin-top: 5px;
     }
   }
@@ -197,12 +197,12 @@ export const PagesContainer = styled.main`
               border: none;
               background-color: transparent;
               color: ${colors.color5};
-              font-size: 13px;
+              font-size: 0.81rem;
               font-weight: 500;
 
               &::placeholder {
                 color: ${colors.color5};
-                font-size: 13px;
+                font-size: 0.81rem;
                 font-weight: 500;
               }
             }
@@ -216,7 +216,7 @@ export const PagesContainer = styled.main`
 
           & > h5 {
             color: ${colors.color5};
-            font-size: 13px;
+            font-size: 0.81rem;
             font-weight: 600;
           }
 
@@ -225,7 +225,7 @@ export const PagesContainer = styled.main`
             align-items: center;
             justify-content: space-between;
             color: ${colors.color1};
-            font-size: 13px;
+            font-size: 0.81rem;
             background-color: ${colors.color7};
             padding: 8px 1.2rem;
             width: 130px;
@@ -354,7 +354,7 @@ export const FiltersMovies = styled.div`
       width: 100%;
 
       & > h5 {
-        font-size: 14px;
+        font-size: 0.87rem;
         color: ${colors.color1};
         font-weight: 600;
       }
@@ -380,7 +380,7 @@ export const FiltersMovies = styled.div`
             position: absolute;
             background-color: ${colors.color6};
             color: ${colors.color5};
-            font-size: 10px;
+            font-size: 0.62rem;
             width: 180px;
             padding: 5px;
             border-radius: 5px;
@@ -495,7 +495,7 @@ export const FiltersMovies = styled.div`
 
           & > span {
             color: ${colors.color5};
-            font-size: 13.5px;
+            font-size: 0.84rem;
             margin-top: 10px;
           }
         }
@@ -547,7 +547,7 @@ export const FiltersMovies = styled.div`
     }
 
     & > h5 {
-      font-size: 14px;
+      font-size: 0.87rem;
       color: ${colors.color1};
       font-weight: 600;
     }
@@ -619,7 +619,7 @@ export const FiltersMovies = styled.div`
 
         & > label {
           color: ${colors.color5};
-          font-size: 13.5px;
+          font-size: 0.84rem;
           cursor: pointer;
         }
       }
@@ -668,14 +668,14 @@ export const NewMovies = styled.div`
         overflow: hidden;
         text-overflow: ellipsis;
         flex: none;
-        font-size: 15px;
+        font-size: 0.93rem;
         font-weight: 600;
         color: ${colors.color1};
         transition: color 0.2s ease-in-out;
       }
 
       & > .popular-year-genre {
-        font-size: 13px;
+        font-size: 0.81rem;
         font-weight: 400;
         color: ${colors.color5};
         display: flex;
@@ -691,7 +691,7 @@ export const NewMovies = styled.div`
       }
 
       & > .vertical-overview {
-        font-size: 13px;
+        font-size: 0.81rem;
         flex: none;
         color: ${colors.color5};
         max-width: 10rem;
@@ -720,7 +720,7 @@ export const NewMovies = styled.div`
 
       & > .popular-imdb-rating-voteAverage {
         color: ${colors.color5};
-        font-size: 13px;
+        font-size: 0.81rem;
         font-weight: 500;
 
         & > .popular-rating-voteAverage {
@@ -738,7 +738,7 @@ export const NewMovies = styled.div`
         font-weight: 400;
         color: ${colors.color1};
         border-radius: 1.5rem;
-        font-size: 12px;
+        font-size: 0.75rem;
         width: fit-content;
         padding: 8px 1.2rem;
         transition: all 0.2s ease-in-out;
@@ -818,7 +818,7 @@ export const PopularMovies = styled.div`
             font-weight: 500;
             color: ${colors.color1};
             border-radius: 1.5rem;
-            font-size: 12.5px;
+            font-size: 0.78rem;
             width: fit-content;
             padding: 8px 1.2rem;
             transition: background 0.2s ease-in-out;
@@ -839,7 +839,7 @@ export const PopularMovies = styled.div`
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        font-size: 14px;
+        font-size: 0.87rem;
         color: ${colors.color1};
         font-weight: 600;
         padding: 0 2px;
@@ -853,7 +853,7 @@ export const PopularMovies = styled.div`
 
         & > div {
           padding: 0 2px;
-          font-size: 13px;
+          font-size: 0.81rem;
           font-weight: 500;
         }
 

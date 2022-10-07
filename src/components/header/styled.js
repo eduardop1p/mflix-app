@@ -73,7 +73,7 @@ export const HeaderElement = styled.header`
       gap: 2rem;
 
       a {
-        font-size: 13px;
+        font-size: 0.81rem;
         color: ${colors.color1};
         transition: color 0.2s ease-in-out;
         font-weight: 500;
@@ -208,7 +208,7 @@ export const MenuActive = styled.div`
       gap: 2rem;
 
       a {
-        font-size: 13px;
+        font-size: 0.81rem;
         color: ${colors.color1};
         transition: color 0.2s ease-in-out;
         font-weight: 500;

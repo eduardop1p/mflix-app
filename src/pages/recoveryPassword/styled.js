@@ -41,7 +41,7 @@ export const RecoveryPassworSection = styled.div`
 
       & > small {
         margin-bottom: 5px;
-        font-size: 12.5px;
+        font-size: 0.78rem;
         font-weight: 500;
         color: red;
       }
@@ -77,7 +77,7 @@ export const RecoveryPassworSection = styled.div`
         margin: 0 auto;
         border-radius: 1rem;
         color: ${colors.color1};
-        font-size: 13px;
+        font-size: 0.81rem;
         background: linear-gradient(
           to right,
           ${colors.color2} 10%,
