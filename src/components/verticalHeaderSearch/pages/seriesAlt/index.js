@@ -67,7 +67,7 @@ export default function SeriesAlt() {
         );
         setAllGenresMovies(data);
       } catch {
-        console.error('Erro ao pegar generos');
+        console.error('Erro ao pegar gêneros');
       }
     };
     setNewsMoviesFunction();
@@ -206,7 +206,7 @@ export default function SeriesAlt() {
       );
       setNewsMovies(data);
     } catch {
-      console.error('Erro ao pegar novas series por generos.');
+      console.error('Erro ao pegar novas series por gêneros.');
     }
   }
 
@@ -238,7 +238,7 @@ export default function SeriesAlt() {
         originalResult: data.results,
       });
     } catch {
-      console.error('Erro ao pegar series populares por generos.');
+      console.error('Erro ao pegar series populares por gêneros.');
     } finally {
       !infiniteScroll && setTimeout(() => setLoadingFilters(false), 100);
     }
@@ -304,7 +304,7 @@ export default function SeriesAlt() {
       >
         <div className="vertical genres">
           <div>
-            <h5>Generos</h5>
+            <h5>Gêneros</h5>
             <span
               className="genre"
               onClick={() => setGenresArrowActived(!genresArrowActived)}

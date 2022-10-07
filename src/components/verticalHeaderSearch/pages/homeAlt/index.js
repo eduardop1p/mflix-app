@@ -75,10 +75,10 @@ export default function HomeAlt() {
           const data2 = axiosData2.data;
           concatGenresAndClear([data1, data2]);
         } catch {
-          console.error('Erro ao pegar generos');
+          console.error('Erro ao pegar gêneros');
         }
       } catch {
-        console.error('Erro ao pegar generos');
+        console.error('Erro ao pegar gêneros');
       }
     };
     setNewsMoviesFunction();
@@ -332,10 +332,10 @@ export default function HomeAlt() {
         const data2 = axiosData2.data;
         randomArrMovieSeriesNews(data1, data2);
       } catch {
-        console.error('Erro ao pegar novas series por generos.');
+        console.error('Erro ao pegar novas series por gêneros.');
       }
     } catch {
-      console.error('Erro ao pegar novos filmes por generos.');
+      console.error('Erro ao pegar novos filmes por gêneros.');
     }
   }
 
@@ -371,10 +371,10 @@ export default function HomeAlt() {
         const data2 = axiosData2.data;
         randomArrMovieSeriesPopular(data1, data2, 'p2', infiniteScroll);
       } catch {
-        console.error('Erro ao pegar series populares por generos.');
+        console.error('Erro ao pegar series populares por gêneros.');
       }
     } catch {
-      console.error('Erro ao pegar filmes populares por generos.');
+      console.error('Erro ao pegar filmes populares por gêneros.');
     } finally {
       !infiniteScroll && setTimeout(() => setLoadingFilters(false), 100);
     }
@@ -439,7 +439,7 @@ export default function HomeAlt() {
       >
         <div className="vertical genres">
           <div>
-            <h5>Generos</h5>
+            <h5>Gêneros</h5>
             <span
               className="genre"
               onClick={() => setGenresArrowActived(!genresArrowActived)}

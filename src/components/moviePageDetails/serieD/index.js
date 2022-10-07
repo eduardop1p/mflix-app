@@ -129,7 +129,7 @@ export default function serieD() {
         );
         setAllGenresMovies(data);
       } catch {
-        console.error('Erro ao pegar generos de serie');
+        console.error('Erro ao pegar gêneros de serie');
       }
     };
     getDetailsSerieId(movieId);

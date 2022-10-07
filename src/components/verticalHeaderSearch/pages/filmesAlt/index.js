@@ -77,7 +77,7 @@ export default function FilmesAlt() {
         );
         setAllGenresMovies(data);
       } catch {
-        console.error('Erro ao pegar generos');
+        console.error('Erro ao pegar gêneros');
       }
     };
     setNewsMoviesFunction();
@@ -264,7 +264,7 @@ export default function FilmesAlt() {
       );
       setNewsMovies(data);
     } catch {
-      console.error('Erro ao pegar novos filmes por generos ou atores.');
+      console.error('Erro ao pegar novos filmes por gêneros ou atores.');
     }
   }
 
@@ -298,7 +298,7 @@ export default function FilmesAlt() {
         originalResult: data.results,
       });
     } catch {
-      console.error('Erro ao pegar filmes populares por generos.');
+      console.error('Erro ao pegar filmes populares por gêneros.');
     } finally {
       !infiniteScroll && setTimeout(() => setLoadingFilters(false), 100);
     }
@@ -366,7 +366,7 @@ export default function FilmesAlt() {
       >
         <div className="vertical genres">
           <div>
-            <h5>Generos</h5>
+            <h5>Gêneros</h5>
             <span
               className="genre"
               onClick={() => setGenresArrowActived(!genresArrowActived)}

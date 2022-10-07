@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import { useMedia } from 'use-media';
+import { capitalize } from 'lodash';
 
 /* eslint-disable */
 
@@ -25,6 +26,7 @@ export default function Header() {
 
   const breackPoint950 = useMedia({ maxWidth: 950 });
   const breackPoint370 = useMedia({ maxWidth: 370 });
+  const breackPoint265 = useMedia({ maxWidth: 265 });
 
   const isLogedIn = useRef(useSelector((state) => state.auth.isLogedIn));
   const userName = useRef(useSelector((state) => state.auth.user.nome));
@@ -62,7 +64,7 @@ export default function Header() {
         <section className="section-1">
           <Link title="Home" reloadDocument to="/">
             <Logo />
-            MFLIX
+            {!breackPoint265 && 'MFLIX'}
           </Link>
           {!breackPoint950 && (
             <nav>
@@ -178,7 +180,7 @@ export default function Header() {
                     {isLogedIn.current ? (
                       <>
                         <UserPhoto width60 />
-                        <h5>{userName.current}</h5>
+                        <h5>{capitalize(userName.current)}</h5>
                       </>
                     ) : (
                       <Link

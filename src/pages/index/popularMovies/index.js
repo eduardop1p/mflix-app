@@ -62,10 +62,10 @@ export default class PopularMovies extends Component {
             this.concatGenresAndClear
           );
         } catch {
-          console.error('Erro ao pegar generos');
+          console.error('Erro ao pegar gêneros');
         }
       } catch {
-        console.error('Erro ao pegar generos');
+        console.error('Erro ao pegar gêneros');
       }
     };
     this.getAllMoviesPopular();

@@ -146,10 +146,10 @@ export default function searchSerie(props) {
           const data2 = axiosData2.data;
           concatGenresAndClear([data1, data2]);
         } catch {
-          console.error('Erro ao pegar generos de serie');
+          console.error('Erro ao pegar gêneros de serie');
         }
       } catch {
-        console.error('Erro ao pegar generos de filme');
+        console.error('Erro ao pegar gêneros de filme');
       }
     };
     getDetailsSerieId(movieId);

@@ -110,7 +110,7 @@ export default function MovieD() {
         );
         setAllGenresMovies(data);
       } catch {
-        console.error('Erro ao pegar generos de filme');
+        console.error('Erro ao pegar gêneros de filme');
       }
     };
     const getImagesPostersMovie = async (movieId) => {

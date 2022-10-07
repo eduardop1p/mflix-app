@@ -38,7 +38,7 @@ class MoviesAllCatalog extends Component {
       relaceDateActived: false,
       allGenresMoviesSeries: null,
       allGenresMovies: null,
-      genreName: 'Genero',
+      genreName: 'Gênero',
       nameMovieFilterValue: '',
       genreId: null,
       releaseDate: null,
@@ -76,10 +76,10 @@ class MoviesAllCatalog extends Component {
             this.concatGenresAndClear
           );
         } catch {
-          console.error('Erro ao pegar generos');
+          console.error('Erro ao pegar gêneros');
         }
       } catch {
-        console.error('Erro ao pegar generos');
+        console.error('Erro ao pegar gêneros');
       }
     };
     getAllGenresFilters();
@@ -230,7 +230,7 @@ class MoviesAllCatalog extends Component {
         },
         pageCount: data.total_pages >= 500 ? 500 : data.total_pages,
         searchFilterActived: true,
-        genreName: 'Genero',
+        genreName: 'Gênero',
         nameMovieFilterValue: '',
         genreId: null,
         releaseDate: null,
@@ -435,7 +435,7 @@ class MoviesAllCatalog extends Component {
                 {
                   nameMovieFilterValue: '',
                   searchFilterValue: '',
-                  genreName: 'Genero',
+                  genreName: 'Gênero',
                   genreId: null,
                   releaseDate: null,
                   currentPageGlobal: 0,

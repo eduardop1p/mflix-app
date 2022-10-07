@@ -46,7 +46,7 @@ export default class PopularMovies extends Component {
           allGenresMovies: data,
         });
       } catch {
-        console.error('Erro ao pegar generos');
+        console.error('Erro ao pegar gêneros');
       }
     };
     this.getAllMoviesPopular();

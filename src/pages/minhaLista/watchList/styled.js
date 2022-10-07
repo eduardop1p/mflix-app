@@ -81,8 +81,12 @@ export const RemoveItemsListSelected = styled.div`
       justify-content: center;
       justify-content: space-between;
       position: relative;
-      width: 100%;
+      width: 200px;
       border-radius: 1.5rem;
+
+      @media (max-width: 490px) {
+        width: 175px;
+      }
 
       & > :first-child {
         width: 20px;
@@ -191,7 +195,7 @@ export const RemoveItemsListSelected = styled.div`
       background-color: ${colors.color7};
       width: 150px;
       top: 23px;
-      left: -3rem;
+      right: -2rem;
       height: 100px;
       border-radius: 1rem;
 
