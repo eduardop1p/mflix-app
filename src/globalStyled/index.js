@@ -11,12 +11,14 @@ const GlobalStyled = createGlobalStyle`
     font-family: "Montserrat", sans-serif;
 
     @media (max-width: 490px) {
-      font-size: 80%;
+      font-size: 94%;
     }
   }
 
   body{
     background-color: ${colors.color8};
+    max-width: 2500px;
+    margin: 0 auto;
 
     &::-webkit-scrollbar{
       width: 5px;
@@ -30,6 +32,7 @@ const GlobalStyled = createGlobalStyle`
     &::-webkit-scrollbar-track{
       background-color: transparent;
     }
+
   }
 
   a {

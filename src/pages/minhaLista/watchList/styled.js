@@ -261,12 +261,17 @@ export const WatchListSection = styled.section`
 
     & > .my-list {
       display: inline-block;
-      width: calc(100% / 3);
       padding: 8px;
       transition: transform 0.2s ease-in-out;
 
-      @media (min-width: 1400px) {
+      @media (min-width: 2501px) {
+        width: calc(100% / 5);
+      }
+      @media (min-width: 1400px) and (max-width: 2500px) {
         width: calc(100% / 4);
+      }
+      @media (min-width: 951px) and (max-width: 1399px) {
+        width: calc(100% / 3);
       }
       @media (max-width: 950px) {
         width: calc(100% / 2);
@@ -299,10 +304,26 @@ export const WatchListSection = styled.section`
         & > .img-my-list-item {
           position: relative;
           width: 100%;
-          height: 100%;
-          min-width: 100%;
-          min-height: 100%;
           font-size: 0;
+
+          @media (min-width: 2501px) {
+            height: 257.61px;
+          }
+          @media (min-width: 1400px) and (max-width: 2500px) {
+            height: calc(100vw / 7.7098);
+          }
+          @media (min-width: 951px) and (max-width: 1399px) {
+            height: calc(100vw / 6.107);
+          }
+          @media (max-width: 950px) {
+            height: calc(100vw / 4.28);
+          }
+          @media (max-width: 450px) {
+            height: calc(100vw / 2.142);
+          }
+          @media (max-width: 300px) {
+            height: calc(100vw / 2.385);
+          }
 
           img {
             width: 100%;

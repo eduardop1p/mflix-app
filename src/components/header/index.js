@@ -25,8 +25,8 @@ export default function Header() {
   const [headerSearchValue, setHeaderSearchValue] = useState('');
 
   const breackPoint950 = useMedia({ maxWidth: 950 });
-  const breackPoint370 = useMedia({ maxWidth: 370 });
-  const breackPoint265 = useMedia({ maxWidth: 265 });
+  const breackPoint350 = useMedia({ maxWidth: 350 });
+  const breackPoint300 = useMedia({ maxWidth: 300 });
 
   const isLogedIn = useRef(useSelector((state) => state.auth.isLogedIn));
   const userName = useRef(useSelector((state) => state.auth.user.nome));
@@ -64,7 +64,7 @@ export default function Header() {
         <section className="section-1">
           <Link title="Home" reloadDocument to="/">
             <Logo />
-            {!breackPoint265 && 'MFLIX'}
+            {!breackPoint300 && 'MFLIX'}
           </Link>
           {!breackPoint950 && (
             <nav>
@@ -104,7 +104,7 @@ export default function Header() {
           )}
         </section>
         <section className="section-2">
-          {!breackPoint370 ? (
+          {!breackPoint350 ? (
             <Search searchActive={searchActive}>
               <form onSubmit={setHeaderSearch} action="/vertical/search">
                 <input
