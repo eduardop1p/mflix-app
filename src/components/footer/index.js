@@ -1,72 +1,10 @@
 /* eslint-disable */
-import { useSelector } from 'react-redux';
-import { isEmail } from 'validator/validator';
 
 import { ElementFooter, CreditsFooter } from './styled';
 
 export default function Footer() {
-  const movieSerieImage = useSelector(
-    (state) => state.firstBackgroundMovie.movieSerieImage
-  );
-
-  function setSendEmailOnSubmit(event) {
-    event.preventDefault();
-    event.target.querySelectorAll('small').forEach((small) => small.remove());
-    const inputEmail = event.target.querySelector('#email');
-    let inputValid = true;
-
-    if (!isEmail(inputEmail.value)) {
-      const small = document.createElement('small');
-      small.innerText = 'E-mail inválido.';
-      event.target.querySelector('.relative-input').before(small);
-      inputValid = false;
-    }
-
-    if (!inputValid) return;
-
-    return setTimeout(() => alert('Enviar email com nodemailer!'), 100);
-  }
-
   return (
     <ElementFooter>
-      <div className="subscribeToNews">
-        <div className="subscribeToNews-img">
-          {movieSerieImage && (
-            <img
-              src={
-                movieSerieImage.data.posters.length > 0 &&
-                `https://image.tmdb.org/t/p/w1280${movieSerieImage.data.posters[0].file_path}`
-              }
-              alt={movieSerieImage.title}
-            />
-          )}
-        </div>
-        <div className="subscribeToNews-img2">
-          {movieSerieImage && (
-            <img
-              src={
-                movieSerieImage.data.backdrops.length > 1 &&
-                `https://image.tmdb.org/t/p/w1280${movieSerieImage.data.backdrops[1].file_path}`
-              }
-              alt={movieSerieImage.title}
-            />
-          )}
-        </div>
-        <div className="subscribe">
-          <h1>Inscreva-se</h1>
-          <div className="text-subscribe">
-            Inscreva-se para receber dicas de filmes, series e lançamentos e
-            muito mais. O que está esperando? fique por dentro do mundo dos
-            filmes agora.
-          </div>
-          <form onSubmit={setSendEmailOnSubmit}>
-            <div className="relative-input">
-              <input type="text" id="email" placeholder="Email" />
-              <button type="submit">Inscreva-se</button>
-            </div>
-          </form>
-        </div>
-      </div>
       <CreditsFooter>
         <div className="line-footer"></div>
         <div className="credits-container">

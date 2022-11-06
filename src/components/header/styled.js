@@ -178,6 +178,7 @@ export const MenuActive = styled.div`
 
     @media (max-width: 480px) {
       width: calc(100% - 50%);
+      min-width: 130px;
     }
 
     & > :first-child {

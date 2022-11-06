@@ -2,11 +2,11 @@ import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import Footer from '../../components/footer/index';
-import SlideHeaderNewMovies from './slideHeaderNewMovies/index';
-import MoviesAllCatalog from './moviesAllCatalog/index';
-import PopularMovies from './popularMovies/index';
-import FutureMovies from './futureMovies/index';
-import Main from './styled';
+import New from './new/index';
+import AllCatalog from './allCatalog/index';
+import Popular from './popular/index';
+import Future from './future/index';
+import Main from '../styled';
 
 export default class Movies extends Component {
   constructor(props) {
@@ -23,11 +23,11 @@ export default class Movies extends Component {
         </Helmet>
         <Main>
           <div className="amo-vadias">
-            <SlideHeaderNewMovies />
-            <MoviesAllCatalog />
-            <PopularMovies />
+            <New />
+            <AllCatalog />
+            <Popular />
           </div>
-          <FutureMovies />
+          <Future />
         </Main>
         <Footer />
       </>

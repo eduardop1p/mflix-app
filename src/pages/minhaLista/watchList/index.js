@@ -276,7 +276,7 @@ function UserListMovie(props) {
   const [dataList, setDataList] = useState(null);
 
   useEffect(() => {
-    const getDetailsMovieId = async (id) => {
+    const getDetailsId = async (id) => {
       try {
         const { data } = await axiosBaseUrlMovies.get(
           `/${id}?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
@@ -286,7 +286,7 @@ function UserListMovie(props) {
         console.error('Erro ao obter Id de Filme');
       }
     };
-    getDetailsMovieId(id);
+    getDetailsId(id);
   }, []);
 
   function removeLoadingSipnner(event) {
@@ -347,7 +347,7 @@ function UserListSerie(props) {
   const [dataList, setDataList] = useState(null);
 
   useEffect(() => {
-    const getDetailsSerieId = async (id) => {
+    const getDetailsId = async (id) => {
       try {
         const { data } = await axiosBaseUrlSeries.get(
           `/${id}?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
@@ -357,7 +357,7 @@ function UserListSerie(props) {
         console.error('Erro ao obter Id de Serie');
       }
     };
-    getDetailsSerieId(id);
+    getDetailsId(id);
   }, []);
 
   function removeLoadingSipnner(event) {

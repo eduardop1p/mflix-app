@@ -3,7 +3,7 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import auth from './auth/reducer';
-import firstBackgroundMovie from './firstBackgroundMovie/reducer';
+import firstBackground from './firstBackground/reducer';
 import loading from './loading/reducer';
 import loadBgHeader from './loadBgHeader/reducer';
 
@@ -26,7 +26,7 @@ const rootReducer = persistReducer(
   persistConfig,
   combineReducers({
     auth,
-    firstBackgroundMovie,
+    firstBackground,
     loading,
     loadBgHeader,
   })

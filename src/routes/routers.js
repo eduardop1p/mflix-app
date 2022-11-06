@@ -2,8 +2,10 @@ import { useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+/* eslint-disable */
+
 import Header from '../components/header/index';
-import Conta from '../pages/conta/index';
+import Account from '../pages/conta/index';
 import Login from '../pages/login/index';
 import User from '../pages/user/index';
 import RecoveryPasswordEmail from '../pages/recoveryPasswordEmail';
@@ -12,14 +14,14 @@ import Index from '../pages/index/index';
 import Movies from '../pages/movies/index';
 import Series from '../pages/series/index';
 import Cartoons from '../pages/cartoons/index';
-import MinhaLista from '../pages/minhaLista/index';
-import VerticalHeader from '../components/verticalHeaderSearch/index';
-import HomeAlt from '../components/verticalHeaderSearch/pages/homeAlt/index';
-import FilmesAlt from '../components/verticalHeaderSearch/pages/filmesAlt/index';
-import SeriesAlt from '../components/verticalHeaderSearch/pages/seriesAlt/index';
-import MinhaListaAlt from '../components/verticalHeaderSearch/pages/minhaListaAlt/index';
-import Search from '../components/verticalHeaderSearch/pages/search/index';
-import MoviePageDetails from '../components/moviePageDetails/index';
+import MyList from '../pages/minhaLista/index';
+import VerticalPages from '../pages/verticalPages/index';
+import HomeV from '../pages/verticalPages/pages/home/index';
+import MoviesV from '../pages/verticalPages/pages/movie/index';
+import SeriesV from '../pages/verticalPages/pages/serie/index';
+import MyListV from '../pages/verticalPages/pages/myList/index';
+import Search from '../pages/verticalPages/pages/search/index';
+import PageDetailsTitles from '../pages/pageDetailsTitles/index';
 import Error404 from '../components/error404/index';
 import MyRouter from './myRouter';
 import MyRouterMyList from './myRouterMyList';
@@ -41,29 +43,29 @@ export default function Routers() {
           path="minha-lista"
           element={
             <MyRouterMyList>
-              <MinhaLista />
+              <MyList />
             </MyRouterMyList>
           }
         />
       </Route>
 
-      <Route path="/vertical" element={<VerticalHeader />}>
-        <Route path="home" element={<HomeAlt />}>
+      <Route path="/vertical" element={<VerticalPages />}>
+        <Route path="home" element={<HomeV />}>
           <Route
             path=":TOrM/:movieTitle/:movieId"
-            element={<MoviePageDetails />}
+            element={<PageDetailsTitles />}
           />
         </Route>
-        <Route path="filmes" element={<FilmesAlt />}>
+        <Route path="filmes" element={<MoviesV />}>
           <Route
             path=":TOrM/:movieTitle/:movieId"
-            element={<MoviePageDetails />}
+            element={<PageDetailsTitles />}
           />
         </Route>
-        <Route path="series" element={<SeriesAlt />}>
+        <Route path="series" element={<SeriesV />}>
           <Route
             path=":TOrM/:movieTitle/:movieId"
-            element={<MoviePageDetails />}
+            element={<PageDetailsTitles />}
           />
         </Route>
         <Route path="search" element={<Search />} />
@@ -71,7 +73,7 @@ export default function Routers() {
           path="minha-lista"
           element={
             <MyRouterMyList>
-              <MinhaListaAlt />
+              <MyListV />
             </MyRouterMyList>
           }
         />
@@ -90,7 +92,7 @@ export default function Routers() {
       {isLogedIn.current && (
         <Route path={clearLinkTitle(user.current.nome)} element={<User />} />
       )}
-      <Route path="/criar-conta" element={<Conta />} />
+      <Route path="/criar-conta" element={<Account />} />
       {!isLogedIn.current && (
         <Route
           key="RecoveryPasswordEmail"

@@ -5,51 +5,42 @@ import apiConfig from '../../config/apiConfig';
 import video from '../../assets/videos/Downtown but at Night.mp4';
 
 /* eslint-disable*/
-export default class GetTrailerMovie extends Component {
+export default class GetTrailerSerie extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      movieTrailer: null,
+      trailer: [],
     };
   }
 
   componentDidMount() {
-    const { movieId } = this.props;
-    const getMovieTrailer = async (movieId) => {
+    const { id } = this.props;
+    const getTrailer = async (id) => {
       try {
         const { data } = await axiosBaseUrlSeries.get(
-          `/${movieId}/videos?api_key=${apiConfig.apiKey}`
+          `/${id}/videos?api_key=${apiConfig.apiKey}`
         );
         this.setState({
-          movieTrailer: data,
+          trailer: data.results.filter((trailer) => trailer.type === 'Trailer'),
         });
       } catch {
         console.error('Erro ao pegar trailer de filme.');
       }
     };
-    getMovieTrailer(movieId);
+    getTrailer(id);
   }
 
   render() {
-    const { movieTrailer } = this.state;
-    const { widthDetails, loadingDetails } = this.props;
-    let trailer;
-    try {
-      const filterTrailer =
-        movieTrailer &&
-        movieTrailer.results.filter((trailer) => trailer.type === 'Trailer');
-      trailer = filterTrailer[0].key;
-    } catch {
-      trailer = undefined;
-    }
+    const { trailer } = this.state;
+    const { loadingDetails } = this.props;
 
-    return trailer ? (
+    return trailer.length ? (
       <iframe
-        width={widthDetails ? widthDetails : '600'}
+        width="100%"
         height="100%"
         loading={loadingDetails ? loadingDetails : 'lazy'}
-        src={`https://www.youtube.com/embed/${trailer}`}
+        src={`https://www.youtube.com/embed/${trailer[0].key}`}
         title="YouTube video player"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen

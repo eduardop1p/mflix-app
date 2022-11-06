@@ -30,9 +30,7 @@ export default function Header() {
 
   const isLogedIn = useRef(useSelector((state) => state.auth.isLogedIn));
   const userName = useRef(useSelector((state) => state.auth.user.nome));
-  const movieBackground = useSelector(
-    (state) => state.firstBackgroundMovie.movieBackground
-  );
+  const background = useSelector((state) => state.firstBackground.background);
   const dispatch = useDispatch();
 
   function setHeaderSearch(event) {
@@ -44,10 +42,10 @@ export default function Header() {
 
   return (
     <>
-      {movieBackground && (
+      {background && (
         <BackgroundImageHeader>
           <img
-            src={`https://image.tmdb.org/t/p/original${movieBackground}`}
+            src={`https://image.tmdb.org/t/p/original${background}`}
             onLoad={() =>
               dispatch(actions.loadBgHeaderSuccess({ loadBgHeader: true }))
             }
