@@ -13,16 +13,16 @@ import RatingSystem2 from '../../../components/ratingSystem2/index';
 import Loading from '../../../components/loadingReactStates/index';
 import imageErrorTop3 from '../../../assets/images/czx7z2e6uqg81.jpg';
 import { color1 } from '../../../colors/index';
-import { Popular, PopularCatalog } from './styled';
+import { PopularContainer, PopularTitles } from '../../styled';
 
 /* eslint-disable */
-export default class PopularMovies extends Component {
+export default class Popular extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      allMoviesPopular: null,
-      allGenresMovies: null,
+      allPopular: null,
+      allGenres: null,
       loadingFilters: false,
       filterPopularByActived: false,
       filterNamePopular: null,
@@ -30,9 +30,8 @@ export default class PopularMovies extends Component {
       primaryReleaseDateLte: null,
     };
 
-    this.getAllMoviesPopular = this.getAllMoviesPopular.bind(this);
-    this.getAllMoviesPopularFilters =
-      this.getAllMoviesPopularFilters.bind(this);
+    this.getAllPopular = this.getAllPopular.bind(this);
+    this.getAllPopularFilters = this.getAllPopularFilters.bind(this);
     this.date = this.date.bind(this);
   }
 
@@ -43,30 +42,30 @@ export default class PopularMovies extends Component {
           `/list?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
         );
         this.setState({
-          allGenresMovies: data,
+          allGenres: data,
         });
       } catch {
         console.error('Erro ao pegar gêneros');
       }
     };
-    this.getAllMoviesPopular();
+    this.getAllPopular();
     getAllGenresFilters();
   }
 
-  async getAllMoviesPopular() {
+  async getAllPopular() {
     try {
       const { data } = await axiosBaseUrlSeriesDiscover.get(
         `?sort_by=popularity.desc&api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=1`
       );
       this.setState({
-        allMoviesPopular: data,
+        allPopular: data,
       });
     } catch {
       console.error('Erro ao pegar series populares.');
     }
   }
 
-  async getAllMoviesPopularFilters() {
+  async getAllPopularFilters() {
     const { primaryReleaseDateGte, primaryReleaseDateLte } = this.state;
     try {
       this.setState({ loadingFilters: true });
@@ -74,7 +73,7 @@ export default class PopularMovies extends Component {
         `?sort_by=popularity.desc&air_date.gte=${primaryReleaseDateGte}&air_date.lte=${primaryReleaseDateLte}&api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=1`
       );
       this.setState({
-        allMoviesPopular: data,
+        allPopular: data,
       });
     } catch {
       console.error('Erro ao pegar series populares.');
@@ -103,18 +102,18 @@ export default class PopularMovies extends Component {
 
   render() {
     const {
-      allMoviesPopular,
+      allPopular,
       loadingFilters,
-      allGenresMovies,
+      allGenres,
       filterPopularByActived,
       filterNamePopular,
     } = this.state;
     SwiperCore.use([Autoplay]);
 
     return (
-      <Popular filterPopularByActived={filterPopularByActived}>
-        <div className="popularMovies">
-          <h1>Series&nbsp;populares</h1>
+      <PopularContainer filterPopularByActived={filterPopularByActived}>
+        <div className="popular">
+          <h1>Series populares</h1>
           <div className="popularBy">
             <h5>Populares&nbsp;Do(a):</h5>
             <div className="filter-popularBy">
@@ -130,7 +129,7 @@ export default class PopularMovies extends Component {
                           filterNamePopular: event.target.innerText,
                           filterPopularByActived: !filterPopularByActived,
                         },
-                        this.getAllMoviesPopularFilters
+                        this.getAllPopularFilters
                       )
                     }
                   >
@@ -145,7 +144,7 @@ export default class PopularMovies extends Component {
                           filterNamePopular: event.target.innerText,
                           filterPopularByActived: !filterPopularByActived,
                         },
-                        this.getAllMoviesPopularFilters
+                        this.getAllPopularFilters
                       )
                     }
                   >
@@ -160,7 +159,7 @@ export default class PopularMovies extends Component {
                           filterNamePopular: event.target.innerText,
                           filterPopularByActived: !filterPopularByActived,
                         },
-                        this.getAllMoviesPopularFilters
+                        this.getAllPopularFilters
                       )
                     }
                   >
@@ -175,7 +174,7 @@ export default class PopularMovies extends Component {
                           filterNamePopular: event.target.innerText,
                           filterPopularByActived: !filterPopularByActived,
                         },
-                        this.getAllMoviesPopularFilters
+                        this.getAllPopularFilters
                       )
                     }
                   >
@@ -236,9 +235,9 @@ export default class PopularMovies extends Component {
             </div>
           </div>
         </div>
-        <PopularCatalog>
+        <PopularTitles>
           {loadingFilters && <Loading colorTranparent />}
-          {allMoviesPopular && (
+          {allPopular && (
             <Swiper
               autoplay={{
                 delay: 3000,
@@ -255,10 +254,10 @@ export default class PopularMovies extends Component {
               slidesPerView={3}
               loop
             >
-              {allMoviesPopular.results.map((result) => (
+              {allPopular.results.map((result) => (
                 <SwiperSlide key={result.id}>
-                  <div className="popular-movie-slider">
-                    <div className="movie-popular-img">
+                  <div className="popular-slider">
+                    <div className="popular-img">
                       <img
                         src={
                           result.poster_path
@@ -271,7 +270,7 @@ export default class PopularMovies extends Component {
                       />
                       <Loading popular />
                     </div>
-                    <div className="movie-popular-details">
+                    <div className="popular-details">
                       <Link
                         to={`/vertical/series/t/${clearLinkTitle(
                           result.name
@@ -288,8 +287,8 @@ export default class PopularMovies extends Component {
                         </div>
                         &sdot;
                         <div className="popular-genre-genre">
-                          {allGenresMovies &&
-                            allGenresMovies.genres.map(
+                          {allGenres &&
+                            allGenres.genres.map(
                               (genre) =>
                                 genre.id === result.genre_ids[0] && genre.name
                             )}
@@ -326,8 +325,8 @@ export default class PopularMovies extends Component {
               ))}
             </Swiper>
           )}
-        </PopularCatalog>
-      </Popular>
+        </PopularTitles>
+      </PopularContainer>
     );
   }
 }

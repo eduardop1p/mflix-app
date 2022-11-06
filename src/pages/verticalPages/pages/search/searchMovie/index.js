@@ -42,7 +42,7 @@ axiosRetry(axios, {
 
 export default function searchMovie(props) {
   const { search, valueSearch, TOrM } = props;
-  const movieId = search.results[0].id;
+  const id = search.results[0].id;
 
   const dispatch = useDispatch();
   const loadingApp = useSelector((state) => state.loading.loadingState);
@@ -51,13 +51,13 @@ export default function searchMovie(props) {
   const isLogedIn = useSelector((state) => state.auth.isLogedIn);
 
   const [favoriteUser, setFavoriteUser] = useState(null);
-  const [newMoviesId, setNewMoviesId] = useState(null);
+  const [newsId, setNewId] = useState(null);
   const [newSearchData, setNewSearchData] = useState(null);
-  const [allGenresMovies, setAllGenresMovies] = useState(null);
+  const [allGenres, setAllGenres] = useState(null);
   const [newSimilarId, setNewSimilarId] = useState(null);
   const [newCollectionId, setNewCollectionId] = useState(null);
-  const [filesMovie, setFilesMovie] = useState(null);
-  const [imagesPostersMovie, setImagesPostersMovie] = useState(null);
+  const [files, setFiles] = useState(null);
+  const [imagesPosters, setImagesPosters] = useState(null);
   const [arrProducer, setArrProducer] = useState([]);
   const [arrDirector, setArrDirector] = useState([]);
   const [arrDirectorFot, setArrDirectorFot] = useState([]);
@@ -72,12 +72,12 @@ export default function searchMovie(props) {
   const [showFormMsg, setshowFormMsg] = useState(false);
 
   useEffect(() => {
-    const getDetailsMovieId = async (movieId) => {
+    const getDetailsId = async (id) => {
       try {
         const { data } = await axiosBaseUrlMovies.get(
-          `/${movieId}?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
+          `/${id}?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
         );
-        setNewMoviesId(data);
+        setNewId(data);
         if (data.belongs_to_collection)
           getCollection(data.belongs_to_collection.id);
       } catch {
@@ -94,32 +94,32 @@ export default function searchMovie(props) {
         console.error('Erro ao obter dados de pesquisa');
       }
     };
-    const getCreditsMovieId = async (movieId) => {
+    const getCreditsId = async (id) => {
       try {
         const { data } = await axios.get(
-          `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
+          `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
         );
         getCreditsFilters(data);
       } catch {
         console.error('Erro ao pegar creditos de filme');
       }
     };
-    const getSimilarMovieId = async (movieId) => {
+    const getSimilarId = async (id) => {
       try {
         const { data } = await axios.get(
-          `https://api.themoviedb.org/3/movie/${movieId}/recommendations?api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=1`
+          `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=1`
         );
         if (data.total_pages) setNewSimilarId(data);
       } catch {
         console.error('Erro ao pegar filmes recomendados');
       }
     };
-    const getImagesPostersMovie = async (movieId) => {
+    const getImagesPosters = async (id) => {
       try {
         const { data } = await axios.get(
-          `https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${apiConfig.apiKey}`
+          `https://api.themoviedb.org/3/movie/${id}/images?api_key=${apiConfig.apiKey}`
         );
-        setFilesMovie(data);
+        setFiles(data);
       } catch {
         console.error('Erro ao pegar images de filme');
       }
@@ -153,10 +153,10 @@ export default function searchMovie(props) {
         console.error('Erro ao pegar gêneros de filme');
       }
     };
-    getDetailsMovieId(movieId);
-    getCreditsMovieId(movieId);
-    getSimilarMovieId(movieId);
-    getImagesPostersMovie(movieId);
+    getDetailsId(id);
+    getCreditsId(id);
+    getSimilarId(id);
+    getImagesPosters(id);
     getSearchData();
     getAllGenres();
     getFavoriteUser();
@@ -166,38 +166,30 @@ export default function searchMovie(props) {
   useEffect(() => {
     if (
       favoriteUser &&
-      newMoviesId &&
+      newsId &&
       newSearchData &&
-      allGenresMovies &&
-      filesMovie &&
-      movieId &&
+      allGenres &&
+      files &&
+      id &&
       loadingApp
     )
       setTimeout(() => {
         dispatch(actions.loadingFailure());
       }, 500);
-  }, [
-    favoriteUser,
-    newMoviesId,
-    allGenresMovies,
-    newSearchData,
-    filesMovie,
-    movieId,
-    loadingApp,
-  ]);
+  }, [favoriteUser, newsId, allGenres, newSearchData, files, id, loadingApp]);
 
   useEffect(() => {
-    if (filesMovie) {
+    if (files) {
       if (imageButtonActived) {
-        setImagesPostersMovie(filesMovie.backdrops.slice(0, 10));
+        setImagesPosters(files.backdrops.slice(0, 10));
         return;
       }
       if (posterButtonActived) {
-        setImagesPostersMovie(filesMovie.posters.slice(0, 10));
+        setImagesPosters(files.posters.slice(0, 10));
         return;
       }
       if (logoButtonActived) {
-        setImagesPostersMovie(filesMovie.logos.slice(0, 10));
+        setImagesPosters(files.logos.slice(0, 10));
         return;
       }
     }
@@ -230,7 +222,7 @@ export default function searchMovie(props) {
         .indexOf(valueObj1.name) === -1 && newArrGenres.push(valueObj1);
     });
 
-    setAllGenresMovies(newArrGenres);
+    setAllGenres(newArrGenres);
   }
 
   function getCreditsFilters(data) {
@@ -263,7 +255,7 @@ export default function searchMovie(props) {
 
     try {
       const { data } = await axiosBaseUrlUser.get(
-        `minha-lista/${user.id}/${movieId}/${TOrM}`,
+        `minha-lista/${user.id}/${id}/${TOrM}`,
         { headers: { Authorization: session.id } }
       );
       if (get(data, 'id', false)) {
@@ -303,7 +295,7 @@ export default function searchMovie(props) {
         await axiosBaseUrlUser.post(
           `/minha-lista/${user.id}`,
           {
-            id: movieId,
+            id: id,
             midiaType: TOrM,
           },
           {
@@ -333,15 +325,15 @@ export default function searchMovie(props) {
   return (
     <Main>
       <BgImgPageDetails>
-        {newMoviesId && (
+        {newsId && (
           <img
-            src={`https://image.tmdb.org/t/p/original${newMoviesId.backdrop_path}`}
-            alt={newMoviesId.title}
+            src={`https://image.tmdb.org/t/p/original${newsId.backdrop_path}`}
+            alt={newsId.title}
           />
         )}
       </BgImgPageDetails>
       {showFormMsg && <MessageForm errorMessage={errorMessage} />}
-      {newMoviesId && (
+      {newsId && (
         <ContainerDatails>
           <div className="d0">
             <PosterDetailsSimilarTrailer>
@@ -349,13 +341,13 @@ export default function searchMovie(props) {
                 <div className="poster-description">
                   <img
                     src={
-                      newMoviesId.poster_path
-                        ? `https://image.tmdb.org/t/p/w500${newMoviesId.poster_path}`
+                      newsId.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${newsId.poster_path}`
                         : imageError1
                     }
                     onLoad={removeLoadingSipnner}
                     onError={removeLoadingSipnner}
-                    alt={newMoviesId.title}
+                    alt={newsId.title}
                   />
                   <Loading colorVertical />
 
@@ -363,8 +355,8 @@ export default function searchMovie(props) {
                     <div className="description">
                       <h4>Descrição</h4>
                       <div>
-                        {newMoviesId.overview
-                          ? newMoviesId.overview
+                        {newsId.overview
+                          ? newsId.overview
                           : 'Não à descrição para este titulo por enquanto.'}
                       </div>
                     </div>
@@ -372,33 +364,32 @@ export default function searchMovie(props) {
                 </div>
                 <div className="details-similar">
                   <div className="d1">
-                    <h1 title={newMoviesId.title}>{newMoviesId.title}</h1>
+                    <h1 title={newsId.title}>{newsId.title}</h1>
                     <div className="year-genre-details">
                       <span>
-                        {newMoviesId.release_date &&
-                          newMoviesId.release_date.slice(0, 4)}
-                        {newMoviesId.release_date.length < 1 && 'Not data'}
+                        {newsId.release_date && newsId.release_date.slice(0, 4)}
+                        {newsId.release_date.length < 1 && 'Not data'}
                       </span>
                       &sdot;
                       <span>
-                        {newMoviesId.genres
+                        {newsId.genres
                           .slice(0, 2)
                           .map((genre) => genre.name)
                           .join(', ')}
-                        {newMoviesId.genres.length < 1 && 'Not genre'}
+                        {newsId.genres.length < 1 && 'Not genre'}
                       </span>
                     </div>
                     <div className="rating-imdb-details">
                       IMDB
                       <div>
                         <RatingSystem
-                          vote_average={newMoviesId.vote_average}
+                          vote_average={newsId.vote_average}
                           color="#fff"
                         />
                         <div>
-                          {isInt(String(newMoviesId.vote_average))
-                            ? `${newMoviesId.vote_average}.0`
-                            : newMoviesId.vote_average}
+                          {isInt(String(newsId.vote_average))
+                            ? `${newsId.vote_average}.0`
+                            : newsId.vote_average}
                         </div>
                       </div>
                     </div>
@@ -475,7 +466,7 @@ export default function searchMovie(props) {
                           <div>
                             <h5>Bilheteria:</h5>
                             <ul>
-                              <li>${newMoviesId.revenue}</li>
+                              <li>${newsId.revenue}</li>
                             </ul>
                           </div>
                         </div>
@@ -500,8 +491,8 @@ export default function searchMovie(props) {
                             {newSearchData.results.map((result, index) => (
                               <SwiperSlide key={index}>
                                 {
-                                  <div className="popular-movie-slider">
-                                    <div className="movie-popular-img">
+                                  <div className="popular-slider">
+                                    <div className="popular-img">
                                       <img
                                         src={
                                           result.poster_path
@@ -518,7 +509,7 @@ export default function searchMovie(props) {
                                       />
                                       <Loading popular />
                                     </div>
-                                    <div className="movie-popular-details">
+                                    <div className="popular-details">
                                       <Link
                                         to={`/vertical/filmes/${
                                           result.title ? 'm' : 't'
@@ -549,8 +540,8 @@ export default function searchMovie(props) {
                                         </div>
                                         &sdot;
                                         <div className="popular-genre-genre">
-                                          {allGenresMovies &&
-                                            allGenresMovies.map((genre) =>
+                                          {allGenres &&
+                                            allGenres.map((genre) =>
                                               genre.id === result.genre_ids[0]
                                                 ? genre.name
                                                 : ''
@@ -613,18 +604,14 @@ export default function searchMovie(props) {
                 <div className="description">
                   <h4>Descrição</h4>
                   <div>
-                    {newMoviesId.overview
-                      ? newMoviesId.overview
+                    {newsId.overview
+                      ? newsId.overview
                       : 'Não à descrição para este titulo por enquanto.'}
                   </div>
                 </div>
               )}
               <div className="trailer-details-page">
-                <TrailerMovie
-                  movieId={movieId}
-                  widthDetails="100%"
-                  loadingDetails="eager"
-                />
+                <TrailerMovie id={id} loadingDetails="eager" />
               </div>
             </PosterDetailsSimilarTrailer>
             <div className="midia-files-collection">
@@ -684,8 +671,8 @@ export default function searchMovie(props) {
                       : '750px',
                   }}
                 >
-                  {imagesPostersMovie && imagesPostersMovie.length ? (
-                    imagesPostersMovie.map((pqp) => (
+                  {imagesPosters && imagesPosters.length ? (
+                    imagesPosters.map((pqp) => (
                       <div key={pqp.file_path}>
                         <img
                           src={`https://image.tmdb.org/t/p/w1280${pqp.file_path}`}
@@ -766,8 +753,8 @@ export default function searchMovie(props) {
                                 ,
                               </div>
                               <div>
-                                {allGenresMovies &&
-                                  allGenresMovies.map((genre) =>
+                                {allGenres &&
+                                  allGenres.map((genre) =>
                                     genre.id === result.genre_ids[0]
                                       ? genre.name
                                       : ''
@@ -783,7 +770,7 @@ export default function searchMovie(props) {
             </div>
           </div>
           {newSimilarId && (
-            <div className="movies-new">
+            <div className="new">
               <h4>Titulos&nbsp;recomendadas</h4>
               <Recomends>
                 <Swiper
@@ -801,8 +788,8 @@ export default function searchMovie(props) {
                   {newSimilarId.results.map((result) => (
                     <SwiperSlide key={result.id}>
                       {
-                        <div className="popular-movie-slider">
-                          <div className="movie-popular-img">
+                        <div className="popular-slider">
+                          <div className="popular-img">
                             <img
                               src={
                                 result.poster_path
@@ -815,7 +802,7 @@ export default function searchMovie(props) {
                             />
                             <Loading popular />
                           </div>
-                          <div className="movie-popular-details">
+                          <div className="popular-details">
                             <Link
                               to={`/vertical/filmes/${
                                 result.title ? 'm' : 't'
@@ -844,8 +831,8 @@ export default function searchMovie(props) {
                               </div>
                               &sdot;
                               <div className="popular-genre-genre">
-                                {allGenresMovies &&
-                                  allGenresMovies.map((genre) =>
+                                {allGenres &&
+                                  allGenres.map((genre) =>
                                     genre.id === result.genre_ids[0]
                                       ? genre.name
                                       : ''

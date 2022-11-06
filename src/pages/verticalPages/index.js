@@ -7,7 +7,7 @@ import Logo from '../../components/logo/index';
 import { Container, ContainerHeaderVertical } from './styled';
 
 /* eslint-disable */
-export default function VerticalHeader() {
+export default function VerticalPages() {
   const isLogedIn = useRef(useSelector((state) => state.auth.isLogedIn));
 
   return (
@@ -38,7 +38,7 @@ export default function VerticalHeader() {
                 </svg>
               </NavLink>
             </div>
-            <div className="vertical-movie not-search">
+            <div className="vertical not-search">
               <NavLink
                 to="filmes"
                 className={({ isActive }) => (isActive ? 'link-actived' : '')}

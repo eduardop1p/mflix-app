@@ -42,7 +42,7 @@ axiosRetry(axios, {
 
 export default function searchSerie(props) {
   const { search, valueSearch, TOrM } = props;
-  const movieId = search.results[0].id;
+  const id = search.results[0].id;
 
   const dispatch = useDispatch();
   const loadingApp = useSelector((state) => state.loading.loadingState);
@@ -51,13 +51,13 @@ export default function searchSerie(props) {
   const isLogedIn = useSelector((state) => state.auth.isLogedIn);
 
   const [favoriteUser, setFavoriteUser] = useState(null);
-  const [newMoviesId, setNewMoviesId] = useState(null);
+  const [newId, setNewId] = useState(null);
   const [newSearchData, setNewSearchData] = useState(null);
-  const [allGenresMovies, setAllGenresMovies] = useState(null);
+  const [allGenres, setAllGenres] = useState(null);
   const [newSimilarId, setNewSimilarId] = useState(null);
-  const [filesMovie, setFilesMovie] = useState(null);
+  const [files, setFiles] = useState(null);
   const [newCollectionId, setNewCollectionId] = useState(null);
-  const [imagesPostersMovie, setImagesPostersMovie] = useState(null);
+  const [imagesPosters, setImagesPosters] = useState(null);
   const [arrProducer, setArrProducer] = useState([]);
   const [arrDirectorFot, setArrDirectorFot] = useState([]);
   const [arrComposer, setArrComposer] = useState([]);
@@ -70,12 +70,12 @@ export default function searchSerie(props) {
   const [showFormMsg, setshowFormMsg] = useState(false);
 
   useEffect(() => {
-    const getDetailsSerieId = async (movieId) => {
+    const getDetailsId = async (id) => {
       try {
         const { data } = await axiosBaseUrlSeries.get(
-          `/${movieId}?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
+          `/${id}?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
         );
-        setNewMoviesId(data);
+        setNewId(data);
         if (data.belongs_to_collection)
           getCollection(data.belongs_to_collection.id);
       } catch {
@@ -92,10 +92,10 @@ export default function searchSerie(props) {
         console.error('Erro ao obter dados de pesquisa');
       }
     };
-    const getCreditsSerieId = async (movieId) => {
+    const getCreditsId = async (id) => {
       try {
         const { data } = await axios.get(
-          `https://api.themoviedb.org/3/tv/${movieId}/credits?api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=1`
+          `https://api.themoviedb.org/3/tv/${id}/credits?api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=1`
         );
         getCreditsFilters(data);
       } catch (err) {
@@ -103,22 +103,22 @@ export default function searchSerie(props) {
         console.error('Erro ao pegar creditos de serie');
       }
     };
-    const getSimilarSerieId = async (movieId) => {
+    const getSimilarId = async (id) => {
       try {
         const { data } = await axios.get(
-          `https://api.themoviedb.org/3/tv/${movieId}/recommendations?api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=1`
+          `https://api.themoviedb.org/3/tv/${id}/recommendations?api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=1`
         );
         if (data.total_pages) setNewSimilarId(data);
       } catch {
         console.error('Erro ao pegar serie similar');
       }
     };
-    const getImagesPostersMovie = async (movieId) => {
+    const getImagesPosters = async (id) => {
       try {
         const { data } = await axios.get(
-          `https://api.themoviedb.org/3/tv/${movieId}/images?api_key=${apiConfig.apiKey}`
+          `https://api.themoviedb.org/3/tv/${id}/images?api_key=${apiConfig.apiKey}`
         );
-        setFilesMovie(data);
+        setFiles(data);
       } catch {
         console.error('Erro ao pegar images de filme');
       }
@@ -152,10 +152,10 @@ export default function searchSerie(props) {
         console.error('Erro ao pegar gêneros de filme');
       }
     };
-    getDetailsSerieId(movieId);
-    getCreditsSerieId(movieId);
-    getSimilarSerieId(movieId);
-    getImagesPostersMovie(movieId);
+    getDetailsId(id);
+    getCreditsId(id);
+    getSimilarId(id);
+    getImagesPosters(id);
     getSearchData();
     getAllGenres();
     getFavoriteUser();
@@ -164,38 +164,30 @@ export default function searchSerie(props) {
   useEffect(() => {
     if (
       favoriteUser &&
-      newMoviesId &&
+      newId &&
       newSearchData &&
-      allGenresMovies &&
-      filesMovie &&
-      movieId &&
+      allGenres &&
+      files &&
+      id &&
       loadingApp
     )
       setTimeout(() => {
         dispatch(actions.loadingFailure());
       }, 500);
-  }, [
-    favoriteUser,
-    newMoviesId,
-    allGenresMovies,
-    newSearchData,
-    filesMovie,
-    movieId,
-    loadingApp,
-  ]);
+  }, [favoriteUser, newId, allGenres, newSearchData, files, id, loadingApp]);
 
   useEffect(() => {
-    if (filesMovie) {
+    if (files) {
       if (imageButtonActived) {
-        setImagesPostersMovie(filesMovie.backdrops.slice(0, 10));
+        setImagesPosters(files.backdrops.slice(0, 10));
         return;
       }
       if (posterButtonActived) {
-        setImagesPostersMovie(filesMovie.posters.slice(0, 10));
+        setImagesPosters(files.posters.slice(0, 10));
         return;
       }
       if (logoButtonActived) {
-        setImagesPostersMovie(filesMovie.logos.slice(0, 10));
+        setImagesPosters(files.logos.slice(0, 10));
         return;
       }
     }
@@ -228,7 +220,7 @@ export default function searchSerie(props) {
         .indexOf(valueObj1.name) === -1 && newArrGenres.push(valueObj1);
     });
 
-    setAllGenresMovies(newArrGenres);
+    setAllGenres(newArrGenres);
   }
 
   function getCreditsFilters(data) {
@@ -255,7 +247,7 @@ export default function searchSerie(props) {
 
     try {
       const { data } = await axiosBaseUrlUser.get(
-        `minha-lista/${user.id}/${movieId}/${TOrM}`,
+        `minha-lista/${user.id}/${id}/${TOrM}`,
         { headers: { Authorization: session.id } }
       );
       if (get(data, 'id', false)) {
@@ -296,7 +288,7 @@ export default function searchSerie(props) {
         await axiosBaseUrlUser.post(
           `/minha-lista/${user.id}`,
           {
-            id: movieId,
+            id: id,
             midiaType: TOrM,
           },
           {
@@ -326,15 +318,15 @@ export default function searchSerie(props) {
   return (
     <Main>
       <BgImgPageDetails>
-        {newMoviesId && (
+        {newId && (
           <img
-            src={`https://image.tmdb.org/t/p/original${newMoviesId.backdrop_path}`}
-            alt={newMoviesId.name}
+            src={`https://image.tmdb.org/t/p/original${newId.backdrop_path}`}
+            alt={newId.name}
           />
         )}
       </BgImgPageDetails>
       {showFormMsg && <MessageForm errorMessage={errorMessage} />}
-      {newMoviesId && (
+      {newId && (
         <ContainerDatails>
           <div className="d0">
             <PosterDetailsSimilarTrailer>
@@ -342,21 +334,21 @@ export default function searchSerie(props) {
                 <div className="poster-description">
                   <img
                     src={
-                      newMoviesId.poster_path
-                        ? `https://image.tmdb.org/t/p/w500${newMoviesId.poster_path}`
+                      newId.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${newId.poster_path}`
                         : imageError1
                     }
                     onLoad={removeLoadingSipnner}
                     onError={removeLoadingSipnner}
-                    alt={newMoviesId.name}
+                    alt={newId.name}
                   />
                   <Loading colorVertical />
                   {newSearchData && newSearchData.results.length && (
                     <div className="description">
                       <h4>Descrição</h4>
                       <div>
-                        {newMoviesId.overview
-                          ? newMoviesId.overview
+                        {newId.overview
+                          ? newId.overview
                           : 'Não à descrição para este titulo por enquanto.'}
                       </div>
                     </div>
@@ -364,34 +356,33 @@ export default function searchSerie(props) {
                 </div>
                 <div className="details-similar">
                   <div className="d1">
-                    <h1 title={newMoviesId.name}>{newMoviesId.name}</h1>
+                    <h1 title={newId.name}>{newId.name}</h1>
                     <div className="year-genre-details">
                       <span>
-                        {newMoviesId.release_date &&
-                          newMoviesId.release_date.slice(0, 4)}
-                        {newMoviesId.first_air_date &&
-                          newMoviesId.first_air_date.slice(0, 4)}
+                        {newId.release_date && newId.release_date.slice(0, 4)}
+                        {newId.first_air_date &&
+                          newId.first_air_date.slice(0, 4)}
                       </span>
                       &sdot;
                       <span>
-                        {newMoviesId.genres
+                        {newId.genres
                           .slice(0, 2)
                           .map((genre) => genre.name)
                           .join(', ')}
-                        {newMoviesId.genres.length < 1 && 'Not genre'}
+                        {newId.genres.length < 1 && 'Not genre'}
                       </span>
                     </div>
                     <div className="rating-imdb-details">
                       IMDB
                       <div>
                         <RatingSystem
-                          vote_average={newMoviesId.vote_average}
+                          vote_average={newId.vote_average}
                           color="#fff"
                         />
                         <div>
-                          {isInt(String(newMoviesId.vote_average))
-                            ? `${newMoviesId.vote_average}.0`
-                            : newMoviesId.vote_average}
+                          {isInt(String(newId.vote_average))
+                            ? `${newId.vote_average}.0`
+                            : newId.vote_average}
                         </div>
                       </div>
                     </div>
@@ -405,9 +396,9 @@ export default function searchSerie(props) {
                             <h5>Temporada:</h5>
                             <ul>
                               <li>
-                                {newMoviesId.number_of_seasons > 1
-                                  ? `${newMoviesId.number_of_seasons} temporadas`
-                                  : `${newMoviesId.number_of_seasons} temporada`}
+                                {newId.number_of_seasons > 1
+                                  ? `${newId.number_of_seasons} temporadas`
+                                  : `${newId.number_of_seasons} temporada`}
                               </li>
                             </ul>
                           </div>
@@ -443,9 +434,9 @@ export default function searchSerie(props) {
                             <h5>Episódio:</h5>
                             <ul>
                               <li>
-                                {newMoviesId.number_of_episodes > 1
-                                  ? `${newMoviesId.number_of_episodes} episódios`
-                                  : `${newMoviesId.number_of_episodes} episódio`}
+                                {newId.number_of_episodes > 1
+                                  ? `${newId.number_of_episodes} episódios`
+                                  : `${newId.number_of_episodes} episódio`}
                               </li>
                             </ul>
                           </div>
@@ -465,8 +456,8 @@ export default function searchSerie(props) {
                             <h5>Original:</h5>
                             <ul>
                               <li>
-                                {newMoviesId.networks.length
-                                  ? newMoviesId.networks[0].name
+                                {newId.networks.length
+                                  ? newId.networks[0].name
                                   : 'Indisponível'}
                               </li>
                             </ul>
@@ -493,8 +484,8 @@ export default function searchSerie(props) {
                             {newSearchData.results.map((result, index) => (
                               <SwiperSlide key={index}>
                                 {
-                                  <div className="popular-movie-slider">
-                                    <div className="movie-popular-img">
+                                  <div className="popular-slider">
+                                    <div className="popular-img">
                                       <img
                                         src={
                                           result.poster_path
@@ -511,7 +502,7 @@ export default function searchSerie(props) {
                                       />
                                       <Loading popular />
                                     </div>
-                                    <div className="movie-popular-details">
+                                    <div className="popular-details">
                                       <Link
                                         to={`/vertical/filmes/${
                                           result.title ? 'm' : 't'
@@ -542,8 +533,8 @@ export default function searchSerie(props) {
                                         </div>
                                         &sdot;
                                         <div className="popular-genre-genre">
-                                          {allGenresMovies &&
-                                            allGenresMovies.map((genre) =>
+                                          {allGenres &&
+                                            allGenres.map((genre) =>
                                               genre.id === result.genre_ids[0]
                                                 ? genre.name
                                                 : ''
@@ -606,16 +597,15 @@ export default function searchSerie(props) {
                 <div className="description">
                   <h4>Descrição</h4>
                   <div>
-                    {newMoviesId.overview
-                      ? newMoviesId.overview
+                    {newId.overview
+                      ? newId.overview
                       : 'Não à descrição para este titulo por enquanto.'}
                   </div>
                 </div>
               )}
               <div className="trailer-details-page">
                 <SerieTrailer
-                  movieId={movieId}
-                  widthDetails="100%"
+                  id={id}
                   loadingDetails="eager"
                 />
               </div>
@@ -677,8 +667,8 @@ export default function searchSerie(props) {
                       : '750px',
                   }}
                 >
-                  {imagesPostersMovie && imagesPostersMovie.length ? (
-                    imagesPostersMovie.map((pqp) => (
+                  {imagesPosters && imagesPosters.length ? (
+                    imagesPosters.map((pqp) => (
                       <div key={pqp.file_path}>
                         <img
                           src={`https://image.tmdb.org/t/p/w1280${pqp.file_path}`}
@@ -760,8 +750,8 @@ export default function searchSerie(props) {
                                 ,
                               </div>
                               <div>
-                                {allGenresMovies &&
-                                  allGenresMovies.map((genre) =>
+                                {allGenres &&
+                                  allGenres.map((genre) =>
                                     genre.id === result.genre_ids[0]
                                       ? genre.name
                                       : ''
@@ -777,7 +767,7 @@ export default function searchSerie(props) {
             </div>
           </div>
           {newSimilarId && (
-            <div className="movies-new">
+            <div className="new">
               <h4>Titulos&nbsp;recomendadas</h4>
               <Recomends>
                 <Swiper
@@ -795,8 +785,8 @@ export default function searchSerie(props) {
                   {newSimilarId.results.map((result) => (
                     <SwiperSlide key={result.id}>
                       {
-                        <div className="popular-movie-slider">
-                          <div className="movie-popular-img">
+                        <div className="popular-slider">
+                          <div className="popular-img">
                             <img
                               src={
                                 result.poster_path
@@ -809,7 +799,7 @@ export default function searchSerie(props) {
                             />
                             <Loading popular />
                           </div>
-                          <div className="movie-popular-details">
+                          <div className="popular-details">
                             <Link
                               to={`/vertical/filmes/${
                                 result.title ? 'm' : 't'
@@ -838,8 +828,8 @@ export default function searchSerie(props) {
                               </div>
                               &sdot;
                               <div className="popular-genre-genre">
-                                {allGenresMovies &&
-                                  allGenresMovies.map((genre) =>
+                                {allGenres &&
+                                  allGenres.map((genre) =>
                                     genre.id === result.genre_ids[0]
                                       ? genre.name
                                       : ''

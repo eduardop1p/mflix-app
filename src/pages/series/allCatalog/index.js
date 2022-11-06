@@ -17,14 +17,18 @@ import imageErrorTop3 from '../../../assets/images/czx7z2e6uqg81.jpg';
 import notResultsSearch from '../../../assets/images/search.png';
 import Loading from '../../../components/loadingReactStates/index';
 import { color1 } from '../../../colors';
-import { Catalog, CatalogMovies, ContainerPagenation } from './styled';
+import {
+  CatalogContainer,
+  CatalogTitles,
+  PagenationContainer,
+} from '../../styled';
 
-class MoviesAllCatalog extends Component {
+class AllCatalog extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      allMovies: null,
+      all: null,
       pageCount: 0,
       loadingFilters: false,
       searchFilterValue: '',
@@ -32,24 +36,24 @@ class MoviesAllCatalog extends Component {
       currentPageGlobal: 0,
       genreActived: false,
       relaceDateActived: false,
-      allGenresMovies: null,
+      allGenres: null,
       genreName: 'Gênero',
-      nameMovieFilterValue: '',
+      nameFilterValue: '',
       genreId: null,
       releaseDate: null,
-      yearsMovies: [],
+      years: [],
     };
 
-    this.getAllMoviesCatalog = this.getAllMoviesCatalog.bind(this);
+    this.getAllCatalog = this.getAllCatalog.bind(this);
     this.getImages = this.getImages.bind(this);
     this.handlePagenationClick = this.handlePagenationClick.bind(this);
-    this.handleSearchMoviesSubmit = this.handleSearchMoviesSubmit.bind(this);
-    this.getAllMoviesFilters = this.getAllMoviesFilters.bind(this);
-    this.relaceDateMovies = this.relaceDateMovies.bind(this);
+    this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
+    this.getAllFilters = this.getAllFilters.bind(this);
+    this.relaceDate = this.relaceDate.bind(this);
   }
 
   componentDidMount() {
-    this.getAllMoviesCatalog(this.state.currentPageGlobal);
+    this.getAllCatalog(this.state.currentPageGlobal);
 
     const getAllGenresFilters = async () => {
       try {
@@ -57,26 +61,26 @@ class MoviesAllCatalog extends Component {
           `/list?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
         );
         this.setState({
-          allGenresMovies: data,
+          allGenres: data,
         });
       } catch {
         console.error('Erro ao pegar gêneros');
       }
     };
     getAllGenresFilters();
-    this.relaceDateMovies();
+    this.relaceDate();
   }
 
-  async getAllMoviesCatalog(currentPage) {
+  async getAllCatalog(currentPage) {
     try {
       const { data } = await axiosBaseUrlSeries.get(
         `/popular?api_key=${apiConfig.apiKey}&language=${
           apiConfig.language
         }&page=${currentPage + 1}`
       );
-      if (!this.state.allMovies) this.getImages(data);
+      if (!this.state.all) this.getImages(data);
       this.setState({
-        allMovies: data,
+        all: data,
         pageCount: 500,
       });
     } catch {
@@ -84,20 +88,9 @@ class MoviesAllCatalog extends Component {
     }
   }
 
-  async getImages(allMovies) {
-    let movieSerieImage = null;
-    try {
-      const { data } = await axiosBaseUrlSeries.get(
-        `/${allMovies.results[0].id}/images?api_key=${apiConfig.apiKey}&language=${apiConfig.language}&include_image_language=en,null`
-      );
-      movieSerieImage = { data, title: allMovies.results[0].name };
-    } catch {
-      console.error('Erro ao pegar image de serie.');
-    }
-
-    this.props.firstBackgroundMovieSuccess({
-      movieBackground: allMovies.results[0].backdrop_path,
-      movieSerieImage,
+  async getImages(all) {
+    this.props.firstBackgroundSuccess({
+      background: all.results[0].backdrop_path,
     });
   }
 
@@ -110,14 +103,14 @@ class MoviesAllCatalog extends Component {
     const { searchFilterActived, genreId, releaseDate } = this.state;
 
     if (searchFilterActived) {
-      return this.handleSearchMoviesSubmit(null, currentPage);
+      return this.handleSearchSubmit(null, currentPage);
     }
     if (genreId || releaseDate || !currentPage || currentPage) {
-      return this.getAllMoviesFilters(null, currentPage);
+      return this.getAllFilters(null, currentPage);
     }
   }
 
-  async handleSearchMoviesSubmit(event, currentPage) {
+  async handleSearchSubmit(event, currentPage) {
     if (event) event.preventDefault();
     const { searchFilterValue } = this.state;
     if (!searchFilterValue) return;
@@ -134,11 +127,11 @@ class MoviesAllCatalog extends Component {
         }&query=${searchFilterValue}`
       );
       this.setState({
-        allMovies: data,
+        all: data,
         pageCount: data.total_pages >= 500 ? 500 : data.total_pages,
         searchFilterActived: true,
         genreName: 'Gênero',
-        nameMovieFilterValue: '',
+        nameFilterValue: '',
         genreId: null,
         releaseDate: null,
       });
@@ -149,7 +142,7 @@ class MoviesAllCatalog extends Component {
     }
   }
 
-  async getAllMoviesFilters(event, currentPage) {
+  async getAllFilters(event, currentPage) {
     if (event) event.preventDefault();
     const { genreId, releaseDate } = this.state;
     if (!currentPage)
@@ -169,7 +162,7 @@ class MoviesAllCatalog extends Component {
       this.setState({
         searchFilterActived: false,
         searchFilterValue: '',
-        allMovies: data,
+        all: data,
         pageCount: data.total_pages >= 500 ? 500 : data.total_pages,
       });
     } catch {
@@ -179,12 +172,12 @@ class MoviesAllCatalog extends Component {
     }
   }
 
-  relaceDateMovies() {
+  relaceDate() {
     this.currentYear = new Date().getFullYear();
-    const yearsMovies = [];
-    for (let i = 1990; i <= this.currentYear; i++) yearsMovies.unshift(i);
+    const years = [];
+    for (let i = 1990; i <= this.currentYear; i++) years.unshift(i);
     this.setState({
-      yearsMovies,
+      years,
     });
   }
 
@@ -197,48 +190,48 @@ class MoviesAllCatalog extends Component {
 
   render() {
     const {
-      allMovies,
+      all,
       loadingFilters,
       pageCount,
       searchFilterValue,
       currentPageGlobal,
       genreActived,
-      nameMovieFilterValue,
-      allGenresMovies,
+      nameFilterValue,
+      allGenres,
       genreName,
       releaseDate,
-      yearsMovies,
+      years,
       relaceDateActived,
     } = this.state;
 
     return (
-      <Catalog
+      <CatalogContainer
         genreActived={genreActived}
         relaceDateActived={relaceDateActived}
       >
         <h1>Catalogo</h1>
 
         <div className="catalog-filter">
-          <div className="name-movie">
+          <div className="name">
             <form onSubmit={(event) => event.preventDefault()}>
               <input
-                id="movie-name-id"
+                id="name-id"
                 placeholder="Nome serie"
-                value={nameMovieFilterValue}
+                value={nameFilterValue}
                 onChange={(event) =>
                   this.setState({
-                    nameMovieFilterValue: event.target.value,
+                    nameFilterValue: event.target.value,
                   })
                 }
               />
             </form>
           </div>
-          <div className="genre-movie">
+          <div className="genre">
             {genreName}
             <div className="genres">
               <ul>
-                {allGenresMovies &&
-                  allGenresMovies.genres.map((genre) => (
+                {allGenres &&
+                  allGenres.genres.map((genre) => (
                     <li
                       key={genre.id}
                       data-genre-id={genre.id}
@@ -249,7 +242,7 @@ class MoviesAllCatalog extends Component {
                             genreName: genre.name,
                             genreId: event.target.getAttribute('data-genre-id'),
                           },
-                          this.getAllMoviesFilters
+                          this.getAllFilters
                         )
                       }
                     >
@@ -275,11 +268,11 @@ class MoviesAllCatalog extends Component {
               onClick={() => this.setState({ genreActived: !genreActived })}
             ></button>
           </div>
-          <div className="year-movie">
+          <div className="year">
             {!releaseDate ? 'Ano' : releaseDate}
             <div className="relaceDate">
               <ul>
-                {yearsMovies.map((year, index) => (
+                {years.map((year, index) => (
                   <li
                     key={index}
                     onClick={(event) =>
@@ -288,7 +281,7 @@ class MoviesAllCatalog extends Component {
                           relaceDateActived: !relaceDateActived,
                           releaseDate: event.target.innerText,
                         },
-                        this.getAllMoviesFilters
+                        this.getAllFilters
                       )
                     }
                   >
@@ -324,7 +317,7 @@ class MoviesAllCatalog extends Component {
             onClick={() => {
               this.setState(
                 {
-                  nameMovieFilterValue: '',
+                  nameFilterValue: '',
                   searchFilterValue: '',
                   genreName: 'Gênero',
                   genreId: null,
@@ -333,7 +326,7 @@ class MoviesAllCatalog extends Component {
                 },
                 () => {
                   this.setState({ loadingFilters: true });
-                  this.getAllMoviesCatalog(0);
+                  this.getAllCatalog(0);
                   setTimeout(
                     () => this.setState({ loadingFilters: false }),
                     100
@@ -344,10 +337,10 @@ class MoviesAllCatalog extends Component {
           >
             Resetar&nbsp;filtros
           </button>
-          <div className="search-movie-whit-filter">
+          <div className="search-filter">
             <div>
               <svg
-                onClick={this.handleSearchMoviesSubmit}
+                onClick={this.handleSearchSubmit}
                 xmlns="http://www.w3.org/2000/svg"
                 height="18px"
                 viewBox="0 0 24 24"
@@ -357,23 +350,23 @@ class MoviesAllCatalog extends Component {
                 <path d="M0 0h24v24H0V0z" fill="none" />
                 <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
               </svg>
-              <form onSubmit={this.handleSearchMoviesSubmit}>
+              <form onSubmit={this.handleSearchSubmit}>
                 <input
                   value={searchFilterValue}
                   onChange={(event) =>
                     this.setState({ searchFilterValue: event.target.value })
                   }
-                  id="search-movie-filters"
+                  id="search-filters"
                   placeholder="Pesquisar serie..."
                 />
               </form>
             </div>
           </div>
         </div>
-        <CatalogMovies>
+        <CatalogTitles>
           {loadingFilters && <Loading colorTranparent />}
-          {allMovies && allMovies.results.length
-            ? allMovies.results.map((result) => (
+          {all && all.results.length
+            ? all.results.map((result) => (
                 <Link
                   key={result.id}
                   to={`/vertical/series/t/${clearLinkTitle(result.name)}/${
@@ -383,14 +376,13 @@ class MoviesAllCatalog extends Component {
                   data-filter-name={
                     result.name
                       .toLocaleLowerCase()
-                      .indexOf(
-                        nameMovieFilterValue.toLocaleLowerCase().trim()
-                      ) === -1
+                      .indexOf(nameFilterValue.toLocaleLowerCase().trim()) ===
+                    -1
                       ? 'actived'
                       : ''
                   }
                 >
-                  <div className="movie-catalog-img" data-loading>
+                  <div className="catalog-img" data-loading>
                     <img
                       src={
                         result.poster_path
@@ -403,10 +395,10 @@ class MoviesAllCatalog extends Component {
                     />
                     <Loading />
 
-                    <div className="box-shadow-movie-catalog"></div>
-                    <div className="movie-catalog-details">
+                    <div className="box-shadow-catalog"></div>
+                    <div className="catalog-details">
                       <h5>{result.name}</h5>
-                      <div className="movie-catalog-rating-data">
+                      <div className="catalog-rating-data">
                         <div>
                           <RatingSystem
                             vote_average={result.vote_average}
@@ -423,14 +415,14 @@ class MoviesAllCatalog extends Component {
                   </div>
                 </Link>
               ))
-            : allMovies && (
+            : all && (
                 <div className="not-results-search-all-catalog">
                   <img src={notResultsSearch} />
                   <h4>Nenhum resultado.</h4>
                 </div>
               )}
-        </CatalogMovies>
-        <ContainerPagenation>
+        </CatalogTitles>
+        <PagenationContainer>
           <ReactPaginate
             breakLabel="..."
             pageRangeDisplayed={3}
@@ -440,10 +432,10 @@ class MoviesAllCatalog extends Component {
             pageCount={pageCount}
             renderOnZeroPageCount={null}
           />
-        </ContainerPagenation>
-      </Catalog>
+        </PagenationContainer>
+      </CatalogContainer>
     );
   }
 }
 
-export default connect(null, actions)(MoviesAllCatalog);
+export default connect(null, actions)(AllCatalog);

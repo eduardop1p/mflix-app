@@ -32,7 +32,7 @@ import {
   NewSimilar,
   ImagesPosters,
   Collections,
-  NewMovies,
+  News,
 } from '../styled';
 
 axiosRetry(axios, {
@@ -41,7 +41,7 @@ axiosRetry(axios, {
 });
 
 export default function serieD() {
-  const { TOrM, movieTitle, movieId } = useParams();
+  const { TOrM, title, id } = useParams();
 
   const dispatch = useDispatch();
   const loadingApp = useSelector((state) => state.loading.loadingState);
@@ -50,13 +50,13 @@ export default function serieD() {
   const isLogedIn = useSelector((state) => state.auth.isLogedIn);
 
   const [favoriteUser, setFavoriteUser] = useState(null);
-  const [newMoviesId, setNewMoviesId] = useState(null);
-  const [allGenresMovies, setAllGenresMovies] = useState(null);
+  const [newId, setNewId] = useState(null);
+  const [allGenres, setAllGenres] = useState(null);
   const [newSimilarId, setNewSimilarId] = useState(null);
-  const [newsMovies, setNewsMovies] = useState(null);
-  const [filesMovie, setFilesMovie] = useState(null);
+  const [news, setNews] = useState(null);
+  const [files, setFiles] = useState(null);
   const [newCollectionId, setNewCollectionId] = useState(null);
-  const [imagesPostersMovie, setImagesPostersMovie] = useState(null);
+  const [imagesPosters, setImagesPosters] = useState(null);
   const [arrProducer, setArrProducer] = useState([]);
   const [arrDirectorFot, setArrDirectorFot] = useState([]);
   const [arrComposer, setArrComposer] = useState([]);
@@ -69,45 +69,45 @@ export default function serieD() {
   const [showFormMsg, setshowFormMsg] = useState(false);
 
   useEffect(() => {
-    const getDetailsSerieId = async (movieId) => {
+    const getDetailsId = async (id) => {
       try {
         const { data } = await axiosBaseUrlSeries.get(
-          `/${movieId}?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
+          `/${id}?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
         );
-        setNewMoviesId(data);
+        setNewId(data);
         if (data.belongs_to_collection)
           getCollection(data.belongs_to_collection.id);
       } catch {
-        window.location.href = `/vertical/series/${TOrM}/${movieTitle}/${movieId}/bad`;
+        window.location.href = `/vertical/series/${TOrM}/${title}/${id}/bad`;
         console.error('Erro ao obter Id de Serie');
       }
     };
-    const getCreditsSerieId = async (movieId) => {
+    const getCreditsId = async (id) => {
       try {
         const { data } = await axios.get(
-          `https://api.themoviedb.org/3/tv/${movieId}/credits?api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=1`
+          `https://api.themoviedb.org/3/tv/${id}/credits?api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=1`
         );
         getCreditsFilters(data);
       } catch {
         console.error('Erro ao pegar creditos de serie');
       }
     };
-    const getSimilarSerieId = async (movieId) => {
+    const getSimilarId = async (id) => {
       try {
         const { data } = await axios.get(
-          `https://api.themoviedb.org/3/tv/${movieId}/recommendations?api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=1`
+          `https://api.themoviedb.org/3/tv/${id}/recommendations?api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=1`
         );
         if (data.total_pages) setNewSimilarId(data);
       } catch {
         console.error('Erro ao pegar serie similar');
       }
     };
-    const getImagesPostersMovie = async (movieId) => {
+    const getImagesPosters = async (id) => {
       try {
         const { data } = await axios.get(
-          `https://api.themoviedb.org/3/tv/${movieId}/images?api_key=${apiConfig.apiKey}`
+          `https://api.themoviedb.org/3/tv/${id}/images?api_key=${apiConfig.apiKey}`
         );
-        setFilesMovie(data);
+        setFiles(data);
       } catch {
         console.error('Erro ao pegar images de filme');
       }
@@ -122,60 +122,44 @@ export default function serieD() {
         console.error('Erro ao pegar coleção');
       }
     };
-    const getAllGenresSerie = async () => {
+    const getAllGenres = async () => {
       try {
         const { data } = await axiosBaseUrlGenresSeries.get(
           `/list?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
         );
-        setAllGenresMovies(data);
+        setAllGenres(data);
       } catch {
         console.error('Erro ao pegar gêneros de serie');
       }
     };
-    getDetailsSerieId(movieId);
-    getCreditsSerieId(movieId);
-    getSimilarSerieId(movieId);
-    getImagesPostersMovie(movieId);
-    getNewsSeries();
-    getAllGenresSerie();
+    getDetailsId(id);
+    getCreditsId(id);
+    getSimilarId(id);
+    getImagesPosters(id);
+    getNews();
+    getAllGenres();
     getFavoriteUser();
   }, []);
 
   useEffect(() => {
-    if (
-      favoriteUser &&
-      newMoviesId &&
-      allGenresMovies &&
-      filesMovie &&
-      newsMovies &&
-      movieId &&
-      loadingApp
-    )
+    if (favoriteUser && newId && allGenres && files && news && id && loadingApp)
       setTimeout(() => {
         dispatch(actions.loadingFailure());
       }, 500);
-  }, [
-    favoriteUser,
-    newMoviesId,
-    allGenresMovies,
-    filesMovie,
-    newsMovies,
-    movieId,
-    loadingApp,
-  ]);
+  }, [favoriteUser, newId, allGenres, files, news, id, loadingApp]);
 
   useEffect(() => {
-    if (filesMovie) {
+    if (files) {
       if (imageButtonActived) {
-        setImagesPostersMovie(filesMovie.backdrops.slice(0, 10));
+        setImagesPosters(files.backdrops.slice(0, 10));
         return;
       }
       if (posterButtonActived) {
-        setImagesPostersMovie(filesMovie.posters.slice(0, 10));
+        setImagesPosters(files.posters.slice(0, 10));
         return;
       }
       if (logoButtonActived) {
-        setImagesPostersMovie(filesMovie.logos.slice(0, 10));
+        setImagesPosters(files.logos.slice(0, 10));
         return;
       }
     }
@@ -187,7 +171,7 @@ export default function serieD() {
     }
   });
 
-  async function getNewsSeries() {
+  async function getNews() {
     try {
       const { data } = await axiosBaseUrlSeriesDiscover.get(
         `?sort_by=popularity.desc&first_air_date.gte=${setDate(
@@ -196,7 +180,7 @@ export default function serieD() {
           apiConfig.apiKey
         }&language=${apiConfig.language}&page=1`
       );
-      setNewsMovies(data);
+      setNews(data);
     } catch {
       console.log('Erro ao carregar Novas Series.');
     }
@@ -237,7 +221,7 @@ export default function serieD() {
 
     try {
       const { data } = await axiosBaseUrlUser.get(
-        `minha-lista/${user.id}/${movieId}/${TOrM}`,
+        `minha-lista/${user.id}/${id}/${TOrM}`,
         { headers: { Authorization: session.id } }
       );
       if (get(data, 'id', false)) {
@@ -277,7 +261,7 @@ export default function serieD() {
         await axiosBaseUrlUser.post(
           `/minha-lista/${user.id}`,
           {
-            id: movieId,
+            id: id,
             midiaType: TOrM,
           },
           {
@@ -306,18 +290,18 @@ export default function serieD() {
   return (
     <Main>
       <Helmet>
-        <title>{newMoviesId && `MFLIX - ${newMoviesId.name}`}</title>
+        <title>{newId && `MFLIX - ${newId.name}`}</title>
       </Helmet>
       <BgImgPageDetails>
-        {newMoviesId && (
+        {newId && (
           <img
-            src={`https://image.tmdb.org/t/p/original${newMoviesId.backdrop_path}`}
-            alt={newMoviesId.name}
+            src={`https://image.tmdb.org/t/p/original${newId.backdrop_path}`}
+            alt={newId.name}
           />
         )}
       </BgImgPageDetails>
       {showFormMsg && <MessageForm errorMessage={errorMessage} />}
-      {newMoviesId && (
+      {newId && (
         <ContainerDatails>
           <div className="d0">
             <PosterDetailsSimilarTrailer>
@@ -325,21 +309,21 @@ export default function serieD() {
                 <div className="poster-description">
                   <img
                     src={
-                      newMoviesId.poster_path
-                        ? `https://image.tmdb.org/t/p/w500${newMoviesId.poster_path}`
+                      newId.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${newId.poster_path}`
                         : imageError1
                     }
                     onLoad={removeLoadingSipnner}
                     onError={removeLoadingSipnner}
-                    alt={newMoviesId.name}
+                    alt={newId.name}
                   />
                   <Loading colorVertical />
                   {newSimilarId && (
                     <div className="description">
                       <h4>Descrição</h4>
                       <div>
-                        {newMoviesId.overview
-                          ? newMoviesId.overview
+                        {newId.overview
+                          ? newId.overview
                           : 'Não à descrição para este titulo por enquanto.'}
                       </div>
                     </div>
@@ -347,33 +331,33 @@ export default function serieD() {
                 </div>
                 <div className="details-similar">
                   <div className="d1">
-                    <h1 title={newMoviesId.name}>{newMoviesId.name}</h1>
+                    <h1 title={newId.name}>{newId.name}</h1>
                     <div className="year-genre-details">
                       <span>
-                        {newMoviesId.first_air_date &&
-                          newMoviesId.first_air_date.slice(0, 4)}
-                        {!newMoviesId.first_air_date && 'Not data'}
+                        {newId.first_air_date &&
+                          newId.first_air_date.slice(0, 4)}
+                        {!newId.first_air_date && 'Not data'}
                       </span>
                       &sdot;
                       <span>
-                        {newMoviesId.genres
+                        {newId.genres
                           .slice(0, 2)
                           .map((genre) => genre.name)
                           .join(', ')}
-                        {newMoviesId.genres.length < 1 && 'Not genre'}
+                        {newId.genres.length < 1 && 'Not genre'}
                       </span>
                     </div>
                     <div className="rating-imdb-details">
                       IMDB
                       <div>
                         <RatingSystem
-                          vote_average={newMoviesId.vote_average}
+                          vote_average={newId.vote_average}
                           color="#fff"
                         />
                         <div>
-                          {isInt(String(newMoviesId.vote_average))
-                            ? `${newMoviesId.vote_average}.0`
-                            : newMoviesId.vote_average}
+                          {isInt(String(newId.vote_average))
+                            ? `${newId.vote_average}.0`
+                            : newId.vote_average}
                         </div>
                       </div>
                     </div>
@@ -387,9 +371,9 @@ export default function serieD() {
                             <h5>Temporada:</h5>
                             <ul>
                               <li>
-                                {newMoviesId.number_of_seasons > 1
-                                  ? `${newMoviesId.number_of_seasons} temporadas`
-                                  : `${newMoviesId.number_of_seasons} temporada`}
+                                {newId.number_of_seasons > 1
+                                  ? `${newId.number_of_seasons} temporadas`
+                                  : `${newId.number_of_seasons} temporada`}
                               </li>
                             </ul>
                           </div>
@@ -425,9 +409,9 @@ export default function serieD() {
                             <h5>Episódio:</h5>
                             <ul>
                               <li>
-                                {newMoviesId.number_of_episodes > 1
-                                  ? `${newMoviesId.number_of_episodes} episódios`
-                                  : `${newMoviesId.number_of_episodes} episódio`}
+                                {newId.number_of_episodes > 1
+                                  ? `${newId.number_of_episodes} episódios`
+                                  : `${newId.number_of_episodes} episódio`}
                               </li>
                             </ul>
                           </div>
@@ -447,8 +431,8 @@ export default function serieD() {
                             <h5>Original:</h5>
                             <ul>
                               <li>
-                                {newMoviesId.networks.length > 0
-                                  ? newMoviesId.networks[0].name
+                                {newId.networks.length > 0
+                                  ? newId.networks[0].name
                                   : 'Indisponível'}
                               </li>
                             </ul>
@@ -475,8 +459,8 @@ export default function serieD() {
                             {newSimilarId.results.map((result, index) => (
                               <SwiperSlide key={index}>
                                 {
-                                  <div className="popular-movie-slider">
-                                    <div className="movie-popular-img">
+                                  <div className="popular-slider">
+                                    <div className="popular-img">
                                       <img
                                         src={
                                           result.poster_path
@@ -489,7 +473,7 @@ export default function serieD() {
                                       />
                                       <Loading popular />
                                     </div>
-                                    <div className="movie-popular-details">
+                                    <div className="popular-details">
                                       <Link
                                         to={`/vertical/series/t/${clearLinkTitle(
                                           result.name
@@ -507,12 +491,11 @@ export default function serieD() {
                                         </div>
                                         &sdot;
                                         <div className="popular-genre-genre">
-                                          {allGenresMovies &&
-                                            allGenresMovies.genres.map(
-                                              (genre) =>
-                                                genre.id === result.genre_ids[0]
-                                                  ? genre.name
-                                                  : ''
+                                          {allGenres &&
+                                            allGenres.genres.map((genre) =>
+                                              genre.id === result.genre_ids[0]
+                                                ? genre.name
+                                                : ''
                                             )}
                                           {result.genre_ids.length < 1 &&
                                             'Not genre'}
@@ -571,18 +554,14 @@ export default function serieD() {
                 >
                   <h4>Descrição</h4>
                   <div>
-                    {newMoviesId.overview
-                      ? newMoviesId.overview
+                    {newId.overview
+                      ? newId.overview
                       : 'Não à descrição para este titulo por enquanto.'}
                   </div>
                 </div>
               )}
               <div className="trailer-details-page">
-                <SerieTrailer
-                  movieId={movieId}
-                  widthDetails="100%"
-                  loadingDetails="eager"
-                />
+                <SerieTrailer id={id} loadingDetails="eager" />
               </div>
             </PosterDetailsSimilarTrailer>
             <div className="midia-files-collection">
@@ -642,8 +621,8 @@ export default function serieD() {
                       : '750px',
                   }}
                 >
-                  {imagesPostersMovie && imagesPostersMovie.length > 1 ? (
-                    imagesPostersMovie.map((pqp) => (
+                  {imagesPosters && imagesPosters.length > 1 ? (
+                    imagesPosters.map((pqp) => (
                       <div key={pqp.file_path}>
                         <img
                           src={`https://image.tmdb.org/t/p/w1280${pqp.file_path}`}
@@ -711,8 +690,8 @@ export default function serieD() {
                                 ,
                               </div>
                               <div>
-                                {allGenresMovies &&
-                                  allGenresMovies.genres.map((genre) =>
+                                {allGenres &&
+                                  allGenres.genres.map((genre) =>
                                     genre.id === result.genre_ids[0]
                                       ? genre.name
                                       : ''
@@ -727,9 +706,9 @@ export default function serieD() {
               )}
             </div>
           </div>
-          <div className="movies-new">
+          <div className="new">
             <h4>Novas&nbsp;series</h4>
-            <NewMovies>
+            <News>
               <Swiper
                 autoplay={{
                   delay: 3000,
@@ -742,12 +721,12 @@ export default function serieD() {
                 autoHeight
                 loop
               >
-                {newsMovies &&
-                  newsMovies.results.map((result) => (
+                {news &&
+                  news.results.map((result) => (
                     <SwiperSlide key={result.id}>
                       {
-                        <div className="popular-movie-slider">
-                          <div className="movie-popular-img">
+                        <div className="popular-slider">
+                          <div className="popular-img">
                             <img
                               src={
                                 result.poster_path
@@ -760,7 +739,7 @@ export default function serieD() {
                             />
                             <Loading popular />
                           </div>
-                          <div className="movie-popular-details">
+                          <div className="popular-details">
                             <Link
                               to={`/vertical/series/t/${clearLinkTitle(
                                 result.name
@@ -777,8 +756,8 @@ export default function serieD() {
                               </div>
                               &sdot;
                               <div className="popular-genre-genre">
-                                {allGenresMovies &&
-                                  allGenresMovies.genres.map((genre) =>
+                                {allGenres &&
+                                  allGenres.genres.map((genre) =>
                                     genre.id === result.genre_ids[0]
                                       ? genre.name
                                       : ''
@@ -820,7 +799,7 @@ export default function serieD() {
                     </SwiperSlide>
                   ))}
               </Swiper>
-            </NewMovies>
+            </News>
           </div>
         </ContainerDatails>
       )}

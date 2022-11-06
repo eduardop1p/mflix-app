@@ -16,7 +16,7 @@ import Loading from '../../../components/loadingReactStates/index';
 import imageError1 from '../../../assets/images/1150108.png';
 import imageError2 from '../../../assets/images/czx7z2e6uqg81.jpg';
 import { color1 } from '../../../colors';
-import { SliderContainer, GridContainer, ForIdContainer } from '../../styled';
+import { Slider, Grid, ForId } from '../../styled';
 
 export default function New() {
   const [news, setNews] = useState(null);
@@ -91,7 +91,7 @@ export default function New() {
   SwiperCore.use([Autoplay]);
 
   return (
-    <SliderContainer>
+    <Slider>
       <div className="result">
         <Swiper
           autoplay={{
@@ -159,7 +159,7 @@ export default function New() {
         </Swiper>
         <div className="grid">
           <h5 className="titleNew">Top&nbsp;3&nbsp;novas&nbsp;animações</h5>
-          <GridContainer>
+          <Grid>
             <div className="scrollGridNew">
               {news &&
                 news.slice(0, 3).map((result) => (
@@ -212,10 +212,10 @@ export default function New() {
                   </Link>
                 ))}
             </div>
-          </GridContainer>
+          </Grid>
         </div>
       </div>
-    </SliderContainer>
+    </Slider>
   );
 }
 
@@ -241,7 +241,7 @@ function GetDetailsMovieId(props) {
   if (!newId) return;
 
   return (
-    <ForIdContainer>
+    <ForId>
       <div className="production-companies">
         {newId.production_companies.length > 0
           ? newId.production_companies
@@ -275,7 +275,7 @@ function GetDetailsMovieId(props) {
           Assitir&nbsp;online
         </button>
       </Link>
-    </ForIdContainer>
+    </ForId>
   );
 }
 
@@ -303,7 +303,7 @@ function GetDetailsSerieId() {
   if (!newId) return;
 
   return (
-    <ForIdContainer>
+    <ForId>
       <div className="production-companies">
         {newId.production_companies.length > 0
           ? newId.production_companies
@@ -337,6 +337,6 @@ function GetDetailsSerieId() {
           Assitir&nbsp;online
         </button>
       </Link>
-    </ForIdContainer>
+    </ForId>
   );
 }

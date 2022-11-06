@@ -14,7 +14,7 @@ import Index from '../pages/index/index';
 import Movies from '../pages/movies/index';
 import Series from '../pages/series/index';
 import Cartoons from '../pages/cartoons/index';
-import MyList from '../pages/minhaLista/index';
+import MyList from '../pages/myList/index';
 import VerticalPages from '../pages/verticalPages/index';
 import HomeV from '../pages/verticalPages/pages/home/index';
 import MoviesV from '../pages/verticalPages/pages/movie/index';

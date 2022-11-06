@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 /* eslint-disable */
 import * as actions from '../../../../../storeReactRedux/modules/loading/actions';
-import MoviesAllCatalog from '../../../../../pages/index/moviesAllCatalog/index';
+import IndexAllCatalog from '../../../../../pages/index/allCatalog/index';
 import notSearch from '../../../../../assets/images/search.png';
 import { Main } from './styled';
 
@@ -13,7 +13,7 @@ export default function NotSearchResult(porps) {
 
   const dispatch = useDispatch();
   const loadAllCatalog = useSelector(
-    (state) => state.firstBackgroundMovie.loadAllCatalog
+    (state) => state.firstBackground.loadAllCatalog
   );
 
   const [verticalSearchValue, setVerticalSearchValue] = useState('');
@@ -103,7 +103,7 @@ export default function NotSearchResult(porps) {
               />
             </form>
           </div>
-          <MoviesAllCatalog />
+          <IndexAllCatalog />
         </div>
       )}
     </Main>

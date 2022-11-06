@@ -120,7 +120,7 @@ export const ContainerDatails = styled.div`
     }
   }
 
-  & > .movies-new {
+  & > .new {
     position: relative;
     height: 270px;
 
@@ -384,7 +384,7 @@ export const ResultsS = styled.div`
   width: 100%;
   position: absolute;
 
-  .popular-movie-slider {
+  .popular-slider {
     display: flex;
     gap: 1rem;
     background-color: ${colors.color7};
@@ -392,7 +392,7 @@ export const ResultsS = styled.div`
     border-radius: 5px;
     padding: 10px;
 
-    & > .movie-popular-img {
+    & > .popular-img {
       width: 125px;
       flex: none;
       position: relative;
@@ -404,7 +404,7 @@ export const ResultsS = styled.div`
       }
     }
 
-    & > .movie-popular-details {
+    & > .popular-details {
       padding: 10px 10px 1rem 0;
       display: flex;
       max-width: 140px;
@@ -706,7 +706,7 @@ export const Recomends = styled.div`
   width: 100%;
   position: absolute;
 
-  .popular-movie-slider {
+  .popular-slider {
     display: flex;
     gap: 1rem;
     background-color: ${colors.color7};
@@ -714,7 +714,7 @@ export const Recomends = styled.div`
     border-radius: 5px;
     padding: 10px;
 
-    & > .movie-popular-img {
+    & > .popular-img {
       width: 130px;
       flex: none;
       position: relative;
@@ -726,7 +726,7 @@ export const Recomends = styled.div`
       }
     }
 
-    & > .movie-popular-details {
+    & > .popular-details {
       padding: 10px 10px 1rem 0;
       display: flex;
       max-width: 140px;

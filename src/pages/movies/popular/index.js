@@ -13,7 +13,7 @@ import RatingSystem2 from '../../../components/ratingSystem2/index';
 import Loading from '../../../components/loadingReactStates/index';
 import imageErrorTop3 from '../../../assets/images/czx7z2e6uqg81.jpg';
 import { color1 } from '../../../colors/index';
-import { PopularContainer, PopularContainer2 } from '../../styled';
+import { PopularContainer, PopularTitles } from '../../styled';
 
 /* eslint-disable */
 export default class Popular extends Component {
@@ -235,7 +235,7 @@ export default class Popular extends Component {
             </div>
           </div>
         </div>
-        <PopularContainer2>
+        <PopularTitles>
           {loadingFilters && <Loading colorTranparent />}
           {allPopular && (
             <Swiper
@@ -324,7 +324,7 @@ export default class Popular extends Component {
               ))}
             </Swiper>
           )}
-        </PopularContainer2>
+        </PopularTitles>
       </PopularContainer>
     );
   }

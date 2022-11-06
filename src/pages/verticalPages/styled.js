@@ -142,7 +142,7 @@ export const PagesContainer = styled.main`
     }
   }
 
-  & > .movies-search-new-popular {
+  & > .search-new-popular {
     background-color: transparent;
     display: flex;
     flex-direction: column;
@@ -156,7 +156,7 @@ export const PagesContainer = styled.main`
       margin-bottom: 1rem;
     }
 
-    & > .movies-search {
+    & > .search {
       display: flex;
       flex-direction: column;
       gap: 2.5rem;
@@ -309,13 +309,13 @@ export const PagesContainer = styled.main`
       }
     }
 
-    & > .movies-new {
+    & > .new {
       position: relative;
     }
   }
 `;
 
-export const FiltersMovies = styled.div`
+export const Filters = styled.div`
   padding: 1.5rem;
   width: 300px;
   height: 500px;
@@ -631,11 +631,11 @@ export const FiltersMovies = styled.div`
   }
 `;
 
-export const NewMovies = styled.div`
+export const New = styled.div`
   width: 100%;
   position: absolute;
 
-  .popular-movie-slider {
+  .popular-slider {
     display: flex;
     gap: 1.5rem;
     background-color: ${colors.color7};
@@ -643,7 +643,7 @@ export const NewMovies = styled.div`
     border-radius: 5px;
     padding: 10px;
 
-    & > .movie-popular-img {
+    & > .popular-img {
       width: 190px;
       flex: 1 1 0;
       position: relative;
@@ -655,7 +655,7 @@ export const NewMovies = styled.div`
       }
     }
 
-    & > .movie-popular-details {
+    & > .popular-details {
       padding: 0.8rem 10px 1rem 0;
       display: flex;
       max-width: 140px;
@@ -751,7 +751,7 @@ export const NewMovies = styled.div`
   }
 `;
 
-export const PopularMovies = styled.div`
+export const Popular = styled.div`
   overflow-y: scroll;
   overflow-x: hidden;
 

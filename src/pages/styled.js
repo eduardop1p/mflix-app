@@ -12,7 +12,7 @@ const Main = styled.main`
 
 // New styled
 
-export const SliderContainer = styled.section`
+export const Slider = styled.section`
   padding-left: 3.5rem;
   color: ${colors.color1};
 
@@ -20,11 +20,11 @@ export const SliderContainer = styled.section`
     display: flex;
     justify-content: space-between;
 
-    .info-movie {
+    .info {
       margin-top: 2.5rem;
       width: calc(100% - 50%);
 
-      .movieTitle {
+      .title {
         max-width: 20rem;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -82,10 +82,10 @@ export const SliderContainer = styled.section`
       }
     }
 
-    .gridMovies {
+    .grid {
       margin-top: -10px;
 
-      .titleNewMovies {
+      .titleNew {
         margin-bottom: 1rem;
         font-size: 0.75rem;
         margin-left: 5px;
@@ -95,16 +95,16 @@ export const SliderContainer = styled.section`
   }
 `;
 
-export const GridContainer = styled.div`
+export const Grid = styled.div`
   border-radius: 1rem;
 
-  & > .scrollGridNewMovies {
+  & > .scrollGridNew {
     display: flex;
     flex-direction: column;
     gap: 1rem;
   }
 
-  .gridNewMovies {
+  .gridNew {
     background-color: ${colors.color9};
     display: flex;
     flex-direction: column;
@@ -168,7 +168,7 @@ export const GridContainer = styled.div`
   }
 `;
 
-export const ForIdContainer = styled.div`
+export const ForId = styled.div`
   .production-companies {
     font-size: 1rem;
     font-weight: 400;
@@ -265,7 +265,7 @@ export const CatalogContainer = styled.section`
       }
     }
 
-    .name-movie {
+    .name {
       width: 25%;
       form {
         width: 100%;
@@ -297,7 +297,7 @@ export const CatalogContainer = styled.section`
       border-radius: 1.5rem;
     }
 
-    .genre-movie {
+    .genre {
       position: relative;
       cursor: pointer;
       width: 20%;
@@ -359,7 +359,7 @@ export const CatalogContainer = styled.section`
       }
     }
 
-    .year-movie {
+    .year {
       position: relative;
       cursor: pointer;
       width: 15%;
@@ -436,7 +436,7 @@ export const CatalogContainer = styled.section`
       cursor: pointer;
     }
 
-    .search-movie-whit-filter {
+    .search-filter {
       width: 25%;
 
       & > div {
@@ -473,7 +473,7 @@ export const CatalogContainer = styled.section`
   }
 `;
 
-export const CatalogContainer2 = styled.div`
+export const CatalogTitles = styled.div`
   margin-bottom: 4rem;
 
   & > .not-results-search-all-catalog {
@@ -519,7 +519,7 @@ export const CatalogContainer2 = styled.div`
     padding: 8px;
 
     &:hover {
-      & > .movie-catalog-img {
+      & > .catalog-img {
         transform: scale(1.02);
       }
     }
@@ -529,7 +529,7 @@ export const CatalogContainer2 = styled.div`
     display: none;
   }
 
-  .movie-catalog-img {
+  .catalog-img {
     border-radius: 1rem;
     overflow: hidden;
     position: relative;
@@ -545,7 +545,7 @@ export const CatalogContainer2 = styled.div`
     }
   }
 
-  .box-shadow-movie-catalog {
+  .box-shadow-catalog {
     position: absolute;
     z-index: 4;
     width: 100%;
@@ -556,7 +556,7 @@ export const CatalogContainer2 = styled.div`
     cursor: pointer;
   }
 
-  .movie-catalog-details {
+  .catalog-details {
     position: absolute;
     z-index: 6;
     width: 100%;
@@ -572,7 +572,7 @@ export const CatalogContainer2 = styled.div`
       margin-bottom: 10px;
     }
 
-    & > .movie-catalog-rating-data {
+    & > .catalog-rating-data {
       display: flex;
       justify-content: space-between;
 
@@ -625,7 +625,7 @@ export const PagenationContainer = styled.div`
 // Popular styled
 
 export const PopularContainer = styled.section`
-  .popularMovies {
+  .popular {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -758,10 +758,10 @@ export const PopularContainer = styled.section`
   }
 `;
 
-export const PopularContainer2 = styled.div`
+export const PopularTitles = styled.div`
   padding: 1.5rem 0 3rem;
 
-  .popular-movie-slider {
+  .popular-slider {
     display: flex;
     gap: 3rem;
     background-color: ${colors.color7};
@@ -770,7 +770,7 @@ export const PopularContainer2 = styled.div`
     border-radius: 5px;
     padding: 10px;
 
-    & > .movie-popular-img {
+    & > .popular-img {
       width: 130px;
       position: relative;
 
@@ -781,7 +781,7 @@ export const PopularContainer2 = styled.div`
       }
     }
 
-    & > .movie-popular-details {
+    & > .popular-details {
       padding: 1.2rem 10px 1rem 0;
       display: flex;
       flex-direction: column;
@@ -866,11 +866,11 @@ export const FutureContainer = styled.section`
     margin-bottom: 2rem;
   }
 
-  .futureMovie {
+  .future {
     display: flex;
     justify-content: space-between;
 
-    & > .future-movies-img {
+    & > .future-img {
       width: 280px;
       max-height: 450px;
       position: relative;
@@ -883,7 +883,7 @@ export const FutureContainer = styled.section`
       }
     }
 
-    & > .future-movies-details {
+    & > .future-details {
       width: 280px;
       padding: 1.2rem 0;
       display: flex;
@@ -897,7 +897,7 @@ export const FutureContainer = styled.section`
         color: ${colors.color1};
       }
 
-      & > .future-movies-release-date {
+      & > .future-release-date {
         font-size: 0.87rem;
         display: flex;
         align-items: center;
@@ -909,7 +909,7 @@ export const FutureContainer = styled.section`
         }
       }
 
-      & > .future-movies-info {
+      & > .future-info {
         font-size: 0.81rem;
         color: ${colors.color5};
         height: 320px;
@@ -930,7 +930,7 @@ export const FutureContainer = styled.section`
       }
     }
 
-    & > .future-movies-trailer-video {
+    & > .future-trailer-video {
       border-radius: 1rem;
       overflow: hidden;
       width: 600px;

@@ -7,7 +7,7 @@ import Footer from '../../components/footer/index';
 import WatchList from './watchList/index';
 import Main from './styled';
 
-export default class MinhaLista extends Component {
+export default class MyList extends Component {
   constructor(props) {
     super(props);
 

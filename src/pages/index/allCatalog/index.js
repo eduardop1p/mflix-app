@@ -21,7 +21,7 @@ import imageErrorTop3 from '../../../assets/images/czx7z2e6uqg81.jpg';
 import { color1 } from '../../../colors';
 import {
   CatalogContainer,
-  CatalogContainer2,
+  CatalogTitles,
   PagenationContainer,
 } from '../../styled';
 
@@ -459,7 +459,7 @@ class AllCatalog extends Component {
           </div>
         </div>
 
-        <CatalogContainer2>
+        <CatalogTitles>
           {loadingFilters && <Loading colorTranparent />}
           {all && all.results.length
             ? all.results.map((result) => (
@@ -531,7 +531,7 @@ class AllCatalog extends Component {
                   <h4>Nenhum resultado.</h4>
                 </div>
               )}
-        </CatalogContainer2>
+        </CatalogTitles>
         <PagenationContainer>
           <ReactPaginate
             breakLabel="..."

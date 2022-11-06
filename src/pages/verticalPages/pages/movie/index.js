@@ -22,34 +22,29 @@ import Loading from '../../../../components/loadingReactStates/index';
 import LoadingActor from '../../../../components/loadingActor/index';
 import LoadingScrollInfinit from '../../../../components/loadingActor/index';
 import * as colors from '../../../../colors';
-import {
-  PagesContainer,
-  FiltersMovies,
-  NewMovies,
-  PopularMovies,
-} from '../../styled';
+import { PagesContainer, Filters, New, Popular } from '../../styled';
 
-export default function FilmesAlt() {
-  const { movieId } = useParams();
+export default function MovieV() {
+  const { id } = useParams();
 
   const loadingApp = useSelector((state) => state.loading.loadingState);
   const dispatch = useDispatch();
 
-  const [newsMovies, setNewsMovies] = useState(null);
+  const [news, setNews] = useState(null);
   const [loadingFilters, setLoadingFilters] = useState(false);
-  const [allMoviesPopular, setAllMoviesPopular] = useState({
+  const [allPopular, setAllPopular] = useState({
     midiaType: '',
     results: [],
     originalResult: [],
   });
-  const [allGenresMovies, setAllGenresMovies] = useState(null);
+  const [allGenres, setAllGenres] = useState(null);
   const [filterNamePopular, setFilterNamePopular] = useState(null);
   const [inputVerticalValue, setInputVerticalValue] = useState('');
   const [filterPopularByActived, setFilterPopularByActived] = useState(false);
   const [genresArrowActived, setGenresArrowActived] = useState(true);
   const [yearsArrowActived, setYearsArrowActived] = useState(true);
   const [actorArrowActived, setActorArrowActived] = useState(true);
-  const [arrayYearsMovies, setArrayYearsMovies] = useState(null);
+  const [arrayYears, setArrayYears] = useState(null);
   const [percentRange1, setPercentRange1] = useState(null);
   const [percentRange2, setPercentRange2] = useState(null);
   const [verticalSearchValue, setVerticalSearchValue] = useState('');
@@ -75,63 +70,56 @@ export default function FilmesAlt() {
         const { data } = await axiosBaseUrlGenres.get(
           `/list?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
         );
-        setAllGenresMovies(data);
+        setAllGenres(data);
       } catch {
         console.error('Erro ao pegar gêneros');
       }
     };
-    setNewsMoviesFunction();
-    setPopularMoviesFunction(false);
-    setRelaceDateMovies();
+    setNewsFunction();
+    setPopularFunction(false);
+    setRelaceDate();
     setAllActorsFunction();
     setAllGenresFilters();
   }, []); // componentDidMount() class metod
 
   useEffect(() => {
     if (
-      allGenresMovies &&
-      newsMovies &&
-      allMoviesPopular.results.length &&
+      allGenres &&
+      news &&
+      allPopular.results.length &&
       allActors &&
-      !movieId &&
+      !id &&
       loadingApp
     )
       setTimeout(() => {
         dispatch(actions.loadingFailure());
       }, 500);
-  }, [
-    allGenresMovies,
-    newsMovies,
-    allMoviesPopular,
-    allActors,
-    movieId,
-    loadingApp,
-  ]);
+  }, [allGenres, news, allPopular, allActors, id, loadingApp]);
 
-  async function setNewsMoviesFunction() {
+  async function setNewsFunction() {
     try {
       const { data } = await axiosBaseUrlMovies.get(
         `/now_playing?api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=1`
       );
-      setNewsMovies(data);
+      setNews(data);
     } catch {
       console.log('Erro ao carregar Novos Filmes.');
     }
   }
 
-  async function setPopularMoviesFunction(infiniteScroll) {
+  async function setPopularFunction(infiniteScroll) {
     try {
       const { data } = await axiosDetailsFilters.get(
         `?sort_by=popularity.desc&api_key=${apiConfig.apiKey}&language=${
           apiConfig.language
         }&page=${infiniteScroll ? (currentPagePopular.current += 1) : 1}`
       );
-      setAllMoviesPopular({
+      setAllPopular({
         midiaType: 'popular',
         results:
-          allMoviesPopular.midiaType !== 'popular' || !infiniteScroll
+          allPopular.midiaType !== 'popular' || !infiniteScroll
             ? data.results
-            : allMoviesPopular.results.concat(data.results),
+            : allPopular.results.concat(data.results),
         originalResult: data.results,
       });
     } catch {
@@ -173,7 +161,7 @@ export default function FilmesAlt() {
     )}`;
   }
 
-  async function setAllMoviesByPopularData(infiniteScroll) {
+  async function setAllByPopularData(infiniteScroll) {
     try {
       !infiniteScroll && setLoadingFilters(true);
       const { data } = await axiosDetailsFilters.get(
@@ -185,12 +173,12 @@ export default function FilmesAlt() {
           infiniteScroll ? (currentByPopularData.current += 1) : 1
         }`
       );
-      setAllMoviesPopular({
+      setAllPopular({
         midiaType: 'byPopularData',
         results:
-          allMoviesPopular.midiaType !== 'byPopularData' || !infiniteScroll
+          allPopular.midiaType !== 'byPopularData' || !infiniteScroll
             ? data.results
-            : allMoviesPopular.results.concat(data.results),
+            : allPopular.results.concat(data.results),
         originalResult: data.results,
       });
     } catch {
@@ -212,16 +200,16 @@ export default function FilmesAlt() {
           !genresIdsCheckBox.current.length &&
           !actorIdsCheckBox.current.length
         ) {
-          setNewsMoviesFunction();
-          setMoviesYearsActorGenres(false);
+          setNewsFunction();
+          setYearsActorGenres(false);
         }
-        setMoviesCheckBoxGenres();
-        setMoviesYearsActorGenres(false);
+        setCheckBoxGenres();
+        setYearsActorGenres(false);
         return;
       }
       genresIdsCheckBox.current.push(eventValue);
-      setMoviesCheckBoxGenres();
-      setMoviesYearsActorGenres(false);
+      setCheckBoxGenres();
+      setYearsActorGenres(false);
       return;
     }
 
@@ -236,22 +224,22 @@ export default function FilmesAlt() {
           !actorIdsCheckBox.current.length &&
           !genresIdsCheckBox.current.length
         ) {
-          setNewsMoviesFunction();
-          setMoviesYearsActorGenres(false);
+          setNewsFunction();
+          setYearsActorGenres(false);
           return;
         }
-        setMoviesCheckBoxGenres();
-        setMoviesYearsActorGenres(false);
+        setCheckBoxGenres();
+        setYearsActorGenres(false);
         return;
       }
       actorIdsCheckBox.current.push(eventValue);
-      setMoviesCheckBoxGenres();
-      setMoviesYearsActorGenres(false);
+      setCheckBoxGenres();
+      setYearsActorGenres(false);
       return;
     }
   }
 
-  async function setMoviesCheckBoxGenres() {
+  async function setCheckBoxGenres() {
     try {
       const { data } = await axiosDetailsFilters.get(
         `?sort_by=popularity.desc&with_genres=${genresIdsCheckBox.current.join(
@@ -262,17 +250,17 @@ export default function FilmesAlt() {
           ','
         )}&api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=1`
       );
-      setNewsMovies(data);
+      setNews(data);
     } catch {
       console.error('Erro ao pegar novos filmes por gêneros ou atores.');
     }
   }
 
-  async function setMoviesYearsActorGenres(infiniteScroll) {
+  async function setYearsActorGenres(infiniteScroll) {
     if (filterNamePopular) setFilterNamePopular(false);
-    const arrayMoviesPrimaryYears = arrayYearsMovies.slice(
-      arrayYearsMovies.indexOf(valueRange1.current),
-      arrayYearsMovies.indexOf(valueRange2.current) + 1
+    const arrayPrimaryYears = arrayYears.slice(
+      arrayYears.indexOf(valueRange1.current),
+      arrayYears.indexOf(valueRange2.current) + 1
     );
 
     try {
@@ -280,7 +268,7 @@ export default function FilmesAlt() {
       const { data } = await axiosDetailsFilters.get(
         `?sort_by=popularity.desc&with_genres=${genresIdsCheckBox.current.join(
           ','
-        )}&primary_release_year=${arrayMoviesPrimaryYears.join(
+        )}&primary_release_year=${arrayPrimaryYears.join(
           ','
         )}&with_people=${actorIdsCheckBox.current.join(',')}&api_key=${
           apiConfig.apiKey
@@ -288,13 +276,12 @@ export default function FilmesAlt() {
           infiniteScroll ? (currentYearsActorGenres.current += 1) : 1
         }`
       );
-      setAllMoviesPopular({
+      setAllPopular({
         midiaType: 'popularYearsActorGenres',
         results:
-          allMoviesPopular.midiaType !== 'popularYearsActorGenres' ||
-          !infiniteScroll
+          allPopular.midiaType !== 'popularYearsActorGenres' || !infiniteScroll
             ? data.results
-            : allMoviesPopular.results.concat(data.results),
+            : allPopular.results.concat(data.results),
         originalResult: data.results,
       });
     } catch {
@@ -304,11 +291,11 @@ export default function FilmesAlt() {
     }
   }
 
-  function setRelaceDateMovies() {
+  function setRelaceDate() {
     const currentYear = new Date().getFullYear();
-    const yearsMovies = [];
-    for (let i = 1990; i <= currentYear; i++) yearsMovies.push(i);
-    setArrayYearsMovies(yearsMovies);
+    const years = [];
+    for (let i = 1990; i <= currentYear; i++) years.push(i);
+    setArrayYears(years);
   }
 
   function setRange1(event) {
@@ -318,10 +305,9 @@ export default function FilmesAlt() {
     if (valueRange2.current - valueRange1.current <= minGap.current) {
       valueRange1.current = valueRange2.current - minGap.current;
     }
-    arrayYearsMovies.indexOf(valueRange1.current) !== -1
+    arrayYears.indexOf(valueRange1.current) !== -1
       ? setPercentRange1(
-          (100 / arrayYearsMovies.length) *
-            arrayYearsMovies.indexOf(valueRange1.current)
+          (100 / arrayYears.length) * arrayYears.indexOf(valueRange1.current)
         )
       : setPercentRange1('Não tem kkk');
   }
@@ -333,10 +319,9 @@ export default function FilmesAlt() {
     if (valueRange2.current - valueRange1.current <= minGap.current) {
       valueRange2.current = valueRange1.current + minGap.current;
     }
-    arrayYearsMovies.indexOf(valueRange2.current) !== -1
+    arrayYears.indexOf(valueRange2.current) !== -1
       ? setPercentRange2(
-          (100 / arrayYearsMovies.length) *
-            arrayYearsMovies.indexOf(valueRange2.current)
+          (100 / arrayYears.length) * arrayYears.indexOf(valueRange2.current)
         )
       : setPercentRange2('Não tem kkk');
   }
@@ -350,7 +335,7 @@ export default function FilmesAlt() {
 
   SwiperCore.use(Autoplay);
 
-  return movieId ? (
+  return id ? (
     <>
       <Outlet />
     </>
@@ -359,7 +344,7 @@ export default function FilmesAlt() {
       <Helmet>
         <title>{'MFLIX - Filmes'}</title>
       </Helmet>
-      <FiltersMovies
+      <Filters
         genresArrowActived={genresArrowActived}
         yearsArrowActived={yearsArrowActived}
         actorArrowActived={actorArrowActived}
@@ -385,8 +370,8 @@ export default function FilmesAlt() {
           </div>
           <div>
             <fieldset>
-              {allGenresMovies &&
-                allGenresMovies.genres.map((genre) => (
+              {allGenres &&
+                allGenres.genres.map((genre) => (
                   <div className="filter-name" key={genre.id}>
                     <input
                       data-genre-id={genre.id}
@@ -443,27 +428,23 @@ export default function FilmesAlt() {
                 ${colors.color5} ${
                       percentRange1 !== null
                         ? percentRange1
-                        : arrayYearsMovies &&
-                          (100 / arrayYearsMovies.length) * 10
+                        : arrayYears && (100 / arrayYears.length) * 10
                     }%,
                 ${colors.color2} ${
                       percentRange1 !== null
                         ? percentRange1
-                        : arrayYearsMovies &&
-                          (100 / arrayYearsMovies.length) * 10
+                        : arrayYears && (100 / arrayYears.length) * 10
                     }%,
                 ${colors.color2} ${
                       !percentRange2
-                        ? arrayYearsMovies &&
-                          (100 / arrayYearsMovies.length) *
-                            arrayYearsMovies.length
+                        ? arrayYears &&
+                          (100 / arrayYears.length) * arrayYears.length
                         : percentRange2
                     }%,
                     ${colors.color5} ${
                       !percentRange2
-                        ? arrayYearsMovies &&
-                          (100 / arrayYearsMovies.length) *
-                            arrayYearsMovies.length
+                        ? arrayYears &&
+                          (100 / arrayYears.length) * arrayYears.length
                         : percentRange2
                     }%
               )`,
@@ -476,7 +457,7 @@ export default function FilmesAlt() {
                   max={new Date().getFullYear()}
                   onChange={setRange1}
                   onMouseUp={() => {
-                    setMoviesYearsActorGenres(false);
+                    setYearsActorGenres(false);
                   }}
                   id="range-1"
                 />
@@ -487,7 +468,7 @@ export default function FilmesAlt() {
                   max={new Date().getFullYear()}
                   onChange={setRange2}
                   onMouseUp={() => {
-                    setMoviesYearsActorGenres(false);
+                    setYearsActorGenres(false);
                   }}
                   id="range-2"
                 />
@@ -552,9 +533,9 @@ export default function FilmesAlt() {
             </fieldset>
           </div>
         </div>
-      </FiltersMovies>
-      <div className="movies-search-new-popular">
-        <div className="movies-search">
+      </Filters>
+      <div className="search-new-popular">
+        <div className="search">
           <div className="container-search">
             <div className="vertical-search-popular">
               <form onSubmit={setVerticalSearch} action="/vertical/search">
@@ -592,7 +573,7 @@ export default function FilmesAlt() {
                         primaryReleaseDateLte.current = setDate();
                         setFilterNamePopular(event.target.innerText);
                         setFilterPopularByActived(!filterPopularByActived);
-                        setAllMoviesByPopularData(false);
+                        setAllByPopularData(false);
                       }}
                     >
                       Dia
@@ -603,7 +584,7 @@ export default function FilmesAlt() {
                         primaryReleaseDateLte.current = setDate();
                         setFilterNamePopular(event.target.innerText);
                         setFilterPopularByActived(!filterPopularByActived);
-                        setAllMoviesByPopularData(false);
+                        setAllByPopularData(false);
                       }}
                     >
                       Semana
@@ -614,7 +595,7 @@ export default function FilmesAlt() {
                         primaryReleaseDateLte.current = setDate();
                         setFilterNamePopular(event.target.innerText);
                         setFilterPopularByActived(!filterPopularByActived);
-                        setAllMoviesByPopularData(false);
+                        setAllByPopularData(false);
                       }}
                     >
                       Mês
@@ -625,7 +606,7 @@ export default function FilmesAlt() {
                         primaryReleaseDateLte.current = setDate();
                         setFilterNamePopular(event.target.innerText);
                         setFilterPopularByActived(!filterPopularByActived);
-                        setAllMoviesByPopularData(false);
+                        setAllByPopularData(false);
                       }}
                     >
                       Ano
@@ -655,14 +636,14 @@ export default function FilmesAlt() {
           </div>
         </div>
         <div
-          className="movies-new"
+          className="new"
           style={{
-            height: newsMovies && newsMovies.results.length ? '265px' : '150px',
+            height: news && news.results.length ? '265px' : '150px',
           }}
         >
           <h1>Novos&nbsp;filmes</h1>
-          <NewMovies>
-            {newsMovies && newsMovies.results.length ? (
+          <New>
+            {news && news.results.length ? (
               <Swiper
                 autoplay={{
                   delay: 3000,
@@ -673,13 +654,13 @@ export default function FilmesAlt() {
                 spaceBetween={30}
                 slidesPerView={3}
                 autoHeight
-                loop={newsMovies.results.length < 3 ? false : true}
+                loop={news.results.length < 3 ? false : true}
               >
-                {newsMovies.results.map((result) => (
+                {news.results.map((result) => (
                   <SwiperSlide key={result.id}>
                     {
-                      <div className="popular-movie-slider">
-                        <div className="movie-popular-img">
+                      <div className="popular-slider">
+                        <div className="popular-img">
                           <img
                             src={
                               result.poster_path
@@ -692,7 +673,7 @@ export default function FilmesAlt() {
                           />
                           <Loading popular />
                         </div>
-                        <div className="movie-popular-details">
+                        <div className="popular-details">
                           <Link
                             to={`m/${clearLinkTitle(result.title)}/${
                               result.id
@@ -709,8 +690,8 @@ export default function FilmesAlt() {
                             </div>
                             &sdot;
                             <div className="popular-genre-genre">
-                              {allGenresMovies &&
-                                allGenresMovies.genres.map((genre) =>
+                              {allGenres &&
+                                allGenres.genres.map((genre) =>
                                   genre.id === result.genre_ids[0]
                                     ? genre.name
                                     : ''
@@ -753,39 +734,39 @@ export default function FilmesAlt() {
                 ))}
               </Swiper>
             ) : (
-              newsMovies && (
+              news && (
                 <div className="not-results-search-all-catalog">
                   <img src={notResultsSearch} />
                   <h4>Nenhum resultado.</h4>
                 </div>
               )
             )}
-          </NewMovies>
+          </New>
         </div>
-        <div className="movies-popular">
+        <div className="popular">
           <h1>Filmes&nbsp;populares</h1>
-          <PopularMovies
+          <Popular
             id="scrollableDivPopular"
             style={{
-              height: allMoviesPopular.results.length ? '975px' : '150px',
+              height: allPopular.results.length ? '975px' : '150px',
             }}
           >
             {loadingFilters && <Loading colorTranparent />}
-            {allMoviesPopular.results.length ? (
+            {allPopular.results.length ? (
               <InfiniteScroll
-                dataLength={allMoviesPopular.results.length}
+                dataLength={allPopular.results.length}
                 next={() => {
-                  if (allMoviesPopular.midiaType === 'popular')
-                    return setPopularMoviesFunction(true);
-                  if (allMoviesPopular.midiaType === 'byPopularData')
-                    return setAllMoviesByPopularData(true);
-                  if (allMoviesPopular.midiaType === 'popularYearsActorGenres')
-                    return setMoviesYearsActorGenres(true);
+                  if (allPopular.midiaType === 'popular')
+                    return setPopularFunction(true);
+                  if (allPopular.midiaType === 'byPopularData')
+                    return setAllByPopularData(true);
+                  if (allPopular.midiaType === 'popularYearsActorGenres')
+                    return setYearsActorGenres(true);
                 }}
                 hasMore={true}
                 scrollThreshold={1}
                 loader={
-                  allMoviesPopular.originalResult.length ? (
+                  allPopular.originalResult.length ? (
                     <LoadingScrollInfinit />
                   ) : (
                     <p
@@ -803,7 +784,7 @@ export default function FilmesAlt() {
                 scrollableTarget="scrollableDivPopular"
                 style={{ overflow: 'hidden' }}
               >
-                {allMoviesPopular.results.map((result) => (
+                {allPopular.results.map((result) => (
                   <div key={result.id} className="vertical-popular-img-details">
                     <div>
                       <img
@@ -842,8 +823,8 @@ export default function FilmesAlt() {
                           ,
                         </div>
                         <div>
-                          {allGenresMovies &&
-                            allGenresMovies.genres.map((genre) =>
+                          {allGenres &&
+                            allGenres.genres.map((genre) =>
                               genre.id === result.genre_ids[0] ? genre.name : ''
                             )}
                         </div>
@@ -858,7 +839,7 @@ export default function FilmesAlt() {
                 <h4>Nenhum resultado.</h4>
               </div>
             )}
-          </PopularMovies>
+          </Popular>
         </div>
       </div>
     </PagesContainer>

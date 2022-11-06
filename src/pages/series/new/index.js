@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import SwiperCore, { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import axiosBaseUrlSeries from '../../../services/axiosBaseUrlSeries';
 import axiosBaseUrlSeriesDiscover from '../../../services/axiosBaseUrlSeriesDiscover';
 import apiConfig from '../../../config/apiConfig';
-import GetDetailsMovieId from './getDetailsMovieId/index';
 import RatingSystem from '../../../components/ratingSystem';
 import SlidePagenateCustom from '../../../components/slidePagenateCustom/index';
 import Loading from '../../../components/loadingReactStates/index';
@@ -14,13 +14,13 @@ import clearLinkTitle from '../../../config/clearLinkTitle';
 import imageErrorPoster from '../../../assets/images/czx7z2e6uqg81.jpg';
 import imageErrorTop3 from '../../../assets/images/1150108.png';
 import { color1 } from '../../../colors';
-import { Slider, GridMovies } from './styled';
+import { Slider, Grid, ForId } from '../../styled';
 
-export default function SlideHeaderNewMovies() {
-  const [newsMovies, setNewsMovies] = useState(null);
+export default function New() {
+  const [news, setNews] = useState(null);
 
   useEffect(() => {
-    const getNewsMovies = async () => {
+    const getNews = async () => {
       try {
         const { data } = await axiosBaseUrlSeriesDiscover.get(
           `?sort_by=popularity.desc&first_air_date.gte=${setDate(
@@ -29,12 +29,12 @@ export default function SlideHeaderNewMovies() {
             apiConfig.apiKey
           }&language=${apiConfig.language}&page=1`
         );
-        setNewsMovies(data);
+        setNews(data);
       } catch {
         console.error('Erro ao carregar novas series.');
       }
     };
-    getNewsMovies();
+    getNews();
   }, []);
 
   function setDate(past7Day = 0) {
@@ -70,18 +70,18 @@ export default function SlideHeaderNewMovies() {
             nextEl: '.next-element',
             prevEl: '.prev-element',
           }}
-          style={{ height: '440px' }}
+          style={{ height: 'auto' }}
           modules={[Navigation]}
-          spaceBetween={50}
+          spaceBetween={20}
           slidesPerView={1}
           loop
         >
           <SlidePagenateCustom />
-          {newsMovies &&
-            newsMovies.results.map((result) => (
+          {news &&
+            news.results.map((result) => (
               <SwiperSlide key={result.id}>
                 <div className="slider">
-                  <div className="info-movie">
+                  <div className="info">
                     <div className="new">NEW</div>
                     <Link
                       to={`/vertical/series/t/${clearLinkTitle(result.name)}/${
@@ -89,11 +89,11 @@ export default function SlideHeaderNewMovies() {
                       }`}
                       reloadDocument
                     >
-                      <h1 title={result.name} className="movieTitle">
+                      <h1 title={result.name} className="title">
                         {result.name}
                       </h1>
                     </Link>
-                    <GetDetailsMovieId movieId={result.id} />
+                    <GetDetailsSerieId id={result.id} />
                   </div>
 
                   <div className="poster-path">
@@ -113,12 +113,12 @@ export default function SlideHeaderNewMovies() {
               </SwiperSlide>
             ))}
         </Swiper>
-        <div className="gridMovies">
-          <h5 className="titleNewMovies">Top&nbsp;3&nbsp;novas&nbsp;series</h5>
-          <GridMovies>
-            <div className="scrollGridNewMovies">
-              {newsMovies &&
-                newsMovies.results.slice(0, 3).map((result) => (
+        <div className="grid">
+          <h5 className="titleNew">Top&nbsp;3&nbsp;novas&nbsp;series</h5>
+          <Grid>
+            <div className="scrollGridNew">
+              {news &&
+                news.results.slice(0, 3).map((result) => (
                   <Link
                     key={result.id}
                     to={`/vertical/series/t/${clearLinkTitle(result.name)}/${
@@ -126,7 +126,7 @@ export default function SlideHeaderNewMovies() {
                     }`}
                     reloadDocument
                   >
-                    <div className="gridNewMovies" key={result.id}>
+                    <div className="gridNew" key={result.id}>
                       <img
                         src={
                           result.backdrop_path
@@ -159,9 +159,73 @@ export default function SlideHeaderNewMovies() {
                   </Link>
                 ))}
             </div>
-          </GridMovies>
+          </Grid>
         </div>
       </div>
     </Slider>
+  );
+}
+
+function GetDetailsSerieId(props) {
+  const { id } = this.props;
+
+  const [newId, setNewId] = useState(null);
+
+  useEffect(() => {
+    const getDetailsId = async (id) => {
+      try {
+        const { data } = await axiosBaseUrlSeries.get(
+          `/${id}?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
+        );
+        this.setState({
+          newId: data,
+        });
+      } catch {
+        console.error('Erro ao obter Id de Serie');
+      }
+    };
+    getDetailsId(id);
+  }, []);
+
+  if (!newId) return;
+
+  return (
+    <ForId>
+      <div className="production-companies">
+        {newId.production_companies.length > 0
+          ? newId.production_companies
+              .slice(-1)
+              .map((objValue) => objValue.name)
+          : 'Estúdio desconhecido.'}
+      </div>
+      <div className="vote-average">
+        Rating
+        <div className="rating-system">
+          <RatingSystem vote_average={newId.vote_average} />
+        </div>
+      </div>
+      <div className="overview">
+        {newId.overview
+          ? newId.overview
+          : 'Não à descrição para este titulo por enquanto.'}
+      </div>
+      <div className="genres">
+        {newId.genres
+          .slice(0, 2)
+          .map((value) => value.name)
+          .join(', ')}
+      </div>
+      <div className="release-date">
+        {newId.first_air_date ? newId.first_air_date.slice(0, 4) : 'Not data'}
+      </div>
+      <Link
+        to={`/vertical/series/t/${clearLinkTitle(newId.name)}/${newId.id}`}
+        reloadDocument
+      >
+        <button type="button" className="watch-online">
+          Assitir&nbsp;online
+        </button>
+      </Link>
+    </ForId>
   );
 }
