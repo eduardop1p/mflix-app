@@ -89,7 +89,6 @@ class Future extends Component {
     const newArrIndex = [
       0, 21, 1, 22, 2, 23, 3, 24, 4, 25, 5, 26, 6, 27, 7, 28, 8, 29, 9, 30, 10,
       31, 11, 32, 12, 33, 13, 34, 14, 35, 15, 36, 16, 37, 17, 38, 18, 39, 19,
-      40,
     ];
 
     newArrIndex.forEach((valueIndex) => {
@@ -113,15 +112,15 @@ class Future extends Component {
 
     return (
       <FutureContainer>
-        <h1>Animações&nbsp;futuras</h1>
+        <h1>Animações futuras</h1>
         <Swiper
           autoplay={{
             delay: 5000,
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
           }}
-          style={{ height: '450px' }}
-          spaceBetween={40}
+          style={{ height: 'auto' }}
+          spaceBetween={20}
           slidesPerView={1}
           loop
         >
@@ -132,6 +131,9 @@ class Future extends Component {
                   <SwiperSlide key={result.id}>
                     <div className="future">
                       <div className="future-img">
+                        <div className="movie-or-serie-future">
+                          {result.title ? 'Filme' : 'Serie'}
+                        </div>
                         <img
                           src={
                             result.poster_path
@@ -147,7 +149,6 @@ class Future extends Component {
                       <div className="future-details">
                         <h3>{result.title ? result.title : result.name}</h3>
                         <div className="future-release-date">
-                          <span>{result.title ? 'Filme,' : 'Serie,'}</span>
                           <span>Lançamento:</span>
                           <span>
                             {new Date(

@@ -675,9 +675,7 @@ export default function MovieV() {
                         </div>
                         <div className="popular-details">
                           <Link
-                            to={`m/${clearLinkTitle(result.title)}/${
-                              result.id
-                            }`}
+                            to={`${clearLinkTitle(result.title)}/${result.id}`}
                             reloadDocument
                           >
                             <h3 title={result.title}>{result.title}</h3>
@@ -718,9 +716,7 @@ export default function MovieV() {
                             </div>
                           </div>
                           <Link
-                            to={`m/${clearLinkTitle(result.title)}/${
-                              result.id
-                            }`}
+                            to={`${clearLinkTitle(result.title)}/${result.id}`}
                             reloadDocument
                           >
                             <button className="popular-watch-now">
@@ -734,12 +730,10 @@ export default function MovieV() {
                 ))}
               </Swiper>
             ) : (
-              news && (
-                <div className="not-results-search-all-catalog">
-                  <img src={notResultsSearch} />
-                  <h4>Nenhum resultado.</h4>
-                </div>
-              )
+              <div className="not-results-search-all-catalog">
+                <img src={notResultsSearch} />
+                <h4>Nenhum resultado.</h4>
+              </div>
             )}
           </New>
         </div>
@@ -801,7 +795,7 @@ export default function MovieV() {
 
                       <div>
                         <Link
-                          to={`m/${clearLinkTitle(result.title)}/${result.id}`}
+                          to={`${clearLinkTitle(result.title)}/${result.id}`}
                           reloadDocument
                         >
                           <button>Assistir</button>
@@ -810,7 +804,7 @@ export default function MovieV() {
                     </div>
                     <div className="popular-conatiner-details">
                       <Link
-                        to={`m/${clearLinkTitle(result.title)}/${result.id}`}
+                        to={`${clearLinkTitle(result.title)}/${result.id}`}
                         reloadDocument
                       >
                         <h5 title={result.title}>{result.title}</h5>

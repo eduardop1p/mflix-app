@@ -3,5 +3,5 @@ import axios from 'axios';
 /* eslint-disable */
 
 export default axios.create({
-  baseURL: 'https://mflix-server.vercel.com',
+  baseURL: 'https://mflix-server.vercel.app',
 });

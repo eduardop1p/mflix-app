@@ -5,7 +5,14 @@ import MovieD from './movieD';
 import SerieD from './serieD';
 
 export default function PageDetailsTitles() {
-  const { id, TOrM } = useParams();
+  const { id } = useParams();
+  const location = useLocation();
 
-  return TOrM !== 't' ? <MovieD id={id} /> : <SerieD id={id} />;
+  const movie = location.pathname.includes('filmes');
+
+  return movie ? (
+    <MovieD id={id} midiaType="movie" />
+  ) : (
+    <SerieD id={id} midiaType="tv" />
+  );
 }

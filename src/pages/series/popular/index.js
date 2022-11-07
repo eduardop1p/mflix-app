@@ -248,9 +248,9 @@ export default class Popular extends Component {
                 nextEl: '.button-next-element',
                 prevEl: '.button-previous-element',
               }}
-              style={{ height: '200px' }}
               modules={[Navigation]}
-              spaceBetween={40}
+              style={{ height: 'auto' }}
+              spaceBetween={20}
               slidesPerView={3}
               loop
             >
@@ -272,9 +272,9 @@ export default class Popular extends Component {
                     </div>
                     <div className="popular-details">
                       <Link
-                        to={`/vertical/series/t/${clearLinkTitle(
-                          result.name
-                        )}/${result.id}`}
+                        to={`/vertical/series/${clearLinkTitle(result.name)}/${
+                          result.id
+                        }`}
                         reloadDocument
                       >
                         <h3 title={result.name}>{result.name}</h3>
@@ -310,9 +310,9 @@ export default class Popular extends Component {
                         </div>
                       </div>
                       <Link
-                        to={`/vertical/series/t/${clearLinkTitle(
-                          result.name
-                        )}/${result.id}`}
+                        to={`/vertical/series/${clearLinkTitle(result.name)}/${
+                          result.id
+                        }`}
                         reloadDocument
                       >
                         <button className="popular-watch-now">

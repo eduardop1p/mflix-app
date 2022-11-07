@@ -51,22 +51,13 @@ export default function Routers() {
 
       <Route path="/vertical" element={<VerticalPages />}>
         <Route path="home" element={<HomeV />}>
-          <Route
-            path=":TOrM/:movieTitle/:movieId"
-            element={<PageDetailsTitles />}
-          />
+          <Route path=":title/:id" element={<PageDetailsTitles />} />
         </Route>
         <Route path="filmes" element={<MoviesV />}>
-          <Route
-            path=":TOrM/:movieTitle/:movieId"
-            element={<PageDetailsTitles />}
-          />
+          <Route path=":title/:id" element={<PageDetailsTitles />} />
         </Route>
         <Route path="series" element={<SeriesV />}>
-          <Route
-            path=":TOrM/:movieTitle/:movieId"
-            element={<PageDetailsTitles />}
-          />
+          <Route path=":title/:id" element={<PageDetailsTitles />} />
         </Route>
         <Route path="search" element={<Search />} />
         <Route

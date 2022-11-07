@@ -41,7 +41,7 @@ axiosRetry(axios, {
 });
 
 export default function searchSerie(props) {
-  const { search, valueSearch, TOrM } = props;
+  const { search, searchValue, midiaType } = props;
   const id = search.results[0].id;
 
   const dispatch = useDispatch();
@@ -85,7 +85,7 @@ export default function searchSerie(props) {
     const getSearchData = async () => {
       try {
         const { data } = await axiosBaseUrlMultSearch.get(
-          `/multi?api_key=${apiConfig.apiKey}&language=${apiConfig.language}&query=${valueSearch}`
+          `/multi?api_key=${apiConfig.apiKey}&language=${apiConfig.language}&query=${searchValue}`
         );
         clearSearchMidiaType(data);
       } catch {
@@ -247,7 +247,7 @@ export default function searchSerie(props) {
 
     try {
       const { data } = await axiosBaseUrlUser.get(
-        `minha-lista/${user.id}/${id}/${TOrM}`,
+        `minha-lista/${user.id}/${id}/${midiaType}`,
         { headers: { Authorization: session.id } }
       );
       if (get(data, 'id', false)) {
@@ -289,7 +289,7 @@ export default function searchSerie(props) {
           `/minha-lista/${user.id}`,
           {
             id: id,
-            midiaType: TOrM,
+            midiaType,
           },
           {
             headers: { Authorization: session.id },
@@ -504,8 +504,8 @@ export default function searchSerie(props) {
                                     </div>
                                     <div className="popular-details">
                                       <Link
-                                        to={`/vertical/filmes/${
-                                          result.title ? 'm' : 't'
+                                        to={`/vertical/${
+                                          result.title ? 'filmes' : 'series'
                                         }/${clearLinkTitle(
                                           result.title
                                             ? result.title
@@ -568,8 +568,8 @@ export default function searchSerie(props) {
                                         </div>
                                       </div>
                                       <Link
-                                        to={`/vertical/filmes/${
-                                          result.title ? 'm' : 't'
+                                        to={`/vertical/${
+                                          result.title ? 'filmes' : 'series'
                                         }/${clearLinkTitle(
                                           result.title
                                             ? result.title
@@ -604,10 +604,7 @@ export default function searchSerie(props) {
                 </div>
               )}
               <div className="trailer-details-page">
-                <SerieTrailer
-                  id={id}
-                  loadingDetails="eager"
-                />
+                <SerieTrailer id={id} loadingDetails="eager" />
               </div>
             </PosterDetailsSimilarTrailer>
             <div className="midia-files-collection">
@@ -710,8 +707,8 @@ export default function searchSerie(props) {
 
                             <div>
                               <Link
-                                to={`/vertical/filmes/${
-                                  result.title ? 'm' : 't'
+                                to={`/vertical/${
+                                  result.title ? 'filmes' : 'series'
                                 }/${clearLinkTitle(
                                   result.title ? result.title : result.name
                                 )}/${result.id}`}
@@ -723,8 +720,8 @@ export default function searchSerie(props) {
                           </div>
                           <div className="popular-conatiner-details">
                             <Link
-                              to={`/vertical/filmes/${
-                                result.title ? 'm' : 't'
+                              to={`/vertical/${
+                                result.title ? 'filmes' : 'series'
                               }/${clearLinkTitle(
                                 result.title ? result.title : result.name
                               )}/${result.id}`}
@@ -801,8 +798,8 @@ export default function searchSerie(props) {
                           </div>
                           <div className="popular-details">
                             <Link
-                              to={`/vertical/filmes/${
-                                result.title ? 'm' : 't'
+                              to={`/vertical/${
+                                result.title ? 'filmes' : 'series'
                               }/${clearLinkTitle(
                                 result.title ? result.title : result.name
                               )}/${result.id}`}
@@ -856,8 +853,8 @@ export default function searchSerie(props) {
                               </div>
                             </div>
                             <Link
-                              to={`/vertical/filmes/${
-                                result.title ? 'm' : 't'
+                              to={`/vertical/${
+                                result.title ? 'filmes' : 'series'
                               }/${clearLinkTitle(
                                 result.title ? result.title : result.name
                               )}/${result.id}`}

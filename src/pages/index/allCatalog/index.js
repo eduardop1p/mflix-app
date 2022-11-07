@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ReactPaginate from 'react-paginate';
 /* eslint-disable */
 
-import * as actions from '../../../storeReactRedux/modules/firstBackgroundMovie/actions';
+import * as actions from '../../../storeReactRedux/modules/firstBackground/actions';
 import apiConfig from '../../../config/apiConfig';
 import axiosBaseUrlGenres from '../../../services/axiosBaseUrlGenres';
 import axiosBaseUrlMoviesDiscover from '../../../services/axiosBaseUrlDetailsFilters';
@@ -146,7 +146,6 @@ class AllCatalog extends Component {
     const newArrIndex = [
       0, 21, 1, 22, 2, 23, 3, 24, 4, 25, 5, 26, 6, 27, 7, 28, 8, 29, 9, 30, 10,
       31, 11, 32, 12, 33, 13, 34, 14, 35, 15, 36, 16, 37, 17, 38, 18, 39, 19,
-      40,
     ];
     newArrIndex.forEach((valueIndex) => {
       randomArrMovieSeriesPopular.results.push(newArr[valueIndex]);
@@ -461,76 +460,79 @@ class AllCatalog extends Component {
 
         <CatalogTitles>
           {loadingFilters && <Loading colorTranparent />}
-          {all && all.results.length
-            ? all.results.map((result) => (
-                <Link
-                  key={result.id}
-                  to={`/vertical/${result.title ? 'filmes' : 'series'}/${
-                    result.title ? 'm' : 't'
-                  }/${clearLinkTitle(
-                    result.title ? result.title : result.name
-                  )}/${result.id}`}
-                  reloadDocument
-                  data-filter-name={
-                    result.title
-                      ? result.title
-                          .toLocaleLowerCase()
-                          .indexOf(
-                            nameFilterValue.toLocaleLowerCase().trim()
-                          ) === -1
+          {all && all.results.length ? (
+            all.results.map(
+              (result) =>
+                result !== undefined && (
+                  <Link
+                    key={result.id}
+                    to={`/vertical/${
+                      result.title ? 'filmes' : 'series'
+                    }/${clearLinkTitle(
+                      result.title ? result.title : result.name
+                    )}/${result.id}`}
+                    reloadDocument
+                    data-filter-name={
+                      result.title
+                        ? result.title
+                            .toLocaleLowerCase()
+                            .indexOf(
+                              nameFilterValue.toLocaleLowerCase().trim()
+                            ) === -1
+                          ? 'actived'
+                          : ''
+                        : result.name
+                            .toLocaleLowerCase()
+                            .indexOf(
+                              nameFilterValue.toLocaleLowerCase().trim()
+                            ) === -1
                         ? 'actived'
                         : ''
-                      : result.name
-                          .toLocaleLowerCase()
-                          .indexOf(
-                            nameFilterValue.toLocaleLowerCase().trim()
-                          ) === -1
-                      ? 'actived'
-                      : ''
-                  }
-                >
-                  <div className="catalog-img">
-                    <img
-                      src={
-                        result.poster_path
-                          ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                          : imageErrorTop3
-                      }
-                      onLoad={this.removeLoadingSipnner}
-                      onError={this.removeLoadingSipnner}
-                      alt={result.title ? result.title : result.name}
-                    />
-                    <Loading />
-                    <div className="box-shadow-catalog"></div>
-                    <div className="movie-or-serie-catalog">
-                      {result.title ? 'Filme' : 'Serie'}
-                    </div>
-                    <div className="catalog-details">
-                      <h5>{result.title ? result.title : result.name}</h5>
-                      <div className="catalog-rating-data">
-                        <div>
-                          <RatingSystem
-                            vote_average={result.vote_average}
-                            color={color1}
-                          />
-                        </div>
-                        <div>
-                          {result.release_date &&
-                            result.release_date.slice(0, 4)}
-                          {result.first_air_date &&
-                            result.first_air_date.slice(0, 4)}
+                    }
+                  >
+                    <div className="catalog-img">
+                      <img
+                        src={
+                          result.poster_path
+                            ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                            : imageErrorTop3
+                        }
+                        onLoad={this.removeLoadingSipnner}
+                        onError={this.removeLoadingSipnner}
+                        alt={result.title ? result.title : result.name}
+                      />
+                      <Loading />
+                      <div className="box-shadow-catalog"></div>
+                      <div className="movie-or-serie-catalog">
+                        {result.title ? 'Filme' : 'Serie'}
+                      </div>
+                      <div className="catalog-details">
+                        <h5>{result.title ? result.title : result.name}</h5>
+                        <div className="catalog-rating-data">
+                          <div>
+                            <RatingSystem
+                              vote_average={result.vote_average}
+                              color={color1}
+                            />
+                          </div>
+                          <div>
+                            {result.release_date &&
+                              result.release_date.slice(0, 4)}
+                            {result.first_air_date &&
+                              result.first_air_date.slice(0, 4)}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </Link>
-              ))
-            : all && (
-                <div className="not-results-search-all-catalog">
-                  <img src={notResultsSearch} />
-                  <h4>Nenhum resultado.</h4>
-                </div>
-              )}
+                  </Link>
+                )
+            )
+          ) : (
+            <div className="not-results-search-all-catalog">
+              <img src={notResultsSearch} />
+              <h4>Nenhum resultado.</h4>
+            </div>
+          )}
         </CatalogTitles>
         <PagenationContainer>
           <ReactPaginate

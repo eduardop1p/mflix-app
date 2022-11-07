@@ -365,62 +365,61 @@ class AllCatalog extends Component {
 
         <CatalogTitles>
           {loadingFilters && <Loading colorTranparent />}
-          {all && all.results.length
-            ? all.results.map((result) => (
-                <Link
-                  key={result.id}
-                  to={`/vertical/filmes/m/${clearLinkTitle(result.title)}/${
-                    result.id
-                  }`}
-                  reloadDocument
-                  data-filter-name={
-                    result.title
-                      .toLocaleLowerCase()
-                      .indexOf(nameFilterValue.toLocaleLowerCase().trim()) ===
-                    -1
-                      ? 'actived'
-                      : ''
-                  }
-                >
-                  <div className="catalog-img">
-                    <img
-                      src={
-                        result.poster_path
-                          ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                          : imageErrorTop3
-                      }
-                      onLoad={this.removeLoadingSipnner}
-                      onError={this.removeLoadingSipnner}
-                      alt={result.title}
-                    />
-                    <Loading />
+          {all && all.results.length ? (
+            all.results.map((result) => (
+              <Link
+                key={result.id}
+                to={`/vertical/filmes/${clearLinkTitle(result.title)}/${
+                  result.id
+                }`}
+                reloadDocument
+                data-filter-name={
+                  result.title
+                    .toLocaleLowerCase()
+                    .indexOf(nameFilterValue.toLocaleLowerCase().trim()) === -1
+                    ? 'actived'
+                    : ''
+                }
+              >
+                <div className="catalog-img">
+                  <img
+                    src={
+                      result.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                        : imageErrorTop3
+                    }
+                    onLoad={this.removeLoadingSipnner}
+                    onError={this.removeLoadingSipnner}
+                    alt={result.title}
+                  />
+                  <Loading />
 
-                    <div className="box-shadow-catalog"></div>
-                    <div className="catalog-details">
-                      <h5>{result.title}</h5>
-                      <div className="catalog-rating-data">
-                        <div>
-                          <RatingSystem
-                            vote_average={result.vote_average}
-                            color={color1}
-                          />
-                        </div>
-                        <div>
-                          {result.release_date
-                            ? result.release_date.slice(0, 4)
-                            : 'Not Data'}
-                        </div>
+                  <div className="box-shadow-catalog"></div>
+                  <div className="catalog-details">
+                    <h5>{result.title}</h5>
+                    <div className="catalog-rating-data">
+                      <div>
+                        <RatingSystem
+                          vote_average={result.vote_average}
+                          color={color1}
+                        />
+                      </div>
+                      <div>
+                        {result.release_date
+                          ? result.release_date.slice(0, 4)
+                          : 'Not Data'}
                       </div>
                     </div>
                   </div>
-                </Link>
-              ))
-            : all && (
-                <div className="not-results-search-all-catalog">
-                  <img src={notResultsSearch} />
-                  <h4>Nenhum resultado.</h4>
                 </div>
-              )}
+              </Link>
+            ))
+          ) : (
+            <div className="not-results-search-all-catalog">
+              <img src={notResultsSearch} />
+              <h4>Nenhum resultado.</h4>
+            </div>
+          )}
         </CatalogTitles>
         <PagenationContainer>
           <ReactPaginate

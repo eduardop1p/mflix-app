@@ -40,8 +40,9 @@ axiosRetry(axios, {
   retries: 5,
 });
 
-export default function serieD() {
-  const { TOrM, title, id } = useParams();
+export default function serieD(props) {
+  const { title, id } = useParams();
+  const { midiaType } = props;
 
   const dispatch = useDispatch();
   const loadingApp = useSelector((state) => state.loading.loadingState);
@@ -78,7 +79,7 @@ export default function serieD() {
         if (data.belongs_to_collection)
           getCollection(data.belongs_to_collection.id);
       } catch {
-        window.location.href = `/vertical/series/${TOrM}/${title}/${id}/bad`;
+        window.location.href = `/vertical/series/${title}/${id}/bad`;
         console.error('Erro ao obter Id de Serie');
       }
     };
@@ -221,7 +222,7 @@ export default function serieD() {
 
     try {
       const { data } = await axiosBaseUrlUser.get(
-        `minha-lista/${user.id}/${id}/${TOrM}`,
+        `minha-lista/${user.id}/${id}/${midiaType}`,
         { headers: { Authorization: session.id } }
       );
       if (get(data, 'id', false)) {
@@ -262,7 +263,7 @@ export default function serieD() {
           `/minha-lista/${user.id}`,
           {
             id: id,
-            midiaType: TOrM,
+            midiaType,
           },
           {
             headers: { Authorization: session.id },
@@ -475,7 +476,7 @@ export default function serieD() {
                                     </div>
                                     <div className="popular-details">
                                       <Link
-                                        to={`/vertical/series/t/${clearLinkTitle(
+                                        to={`/vertical/series/${clearLinkTitle(
                                           result.name
                                         )}/${result.id}`}
                                         reloadDocument
@@ -526,7 +527,7 @@ export default function serieD() {
                                         </div>
                                       </div>
                                       <Link
-                                        to={`/vertical/series/t/${clearLinkTitle(
+                                        to={`/vertical/series/${clearLinkTitle(
                                           result.name
                                         )}/${result.id}`}
                                         reloadDocument
@@ -664,7 +665,7 @@ export default function serieD() {
                             <Loading colorVertical />
                             <div>
                               <Link
-                                to={`/vertical/series/t/${clearLinkTitle(
+                                to={`/vertical/series/${clearLinkTitle(
                                   result.name
                                 )}/${result.id}`}
                                 reloadDocument
@@ -675,7 +676,7 @@ export default function serieD() {
                           </div>
                           <div className="popular-conatiner-details">
                             <Link
-                              to={`/vertical/series/t/${clearLinkTitle(
+                              to={`/vertical/series/${clearLinkTitle(
                                 result.name
                               )}/${result.id}`}
                               reloadDocument
@@ -741,7 +742,7 @@ export default function serieD() {
                           </div>
                           <div className="popular-details">
                             <Link
-                              to={`/vertical/series/t/${clearLinkTitle(
+                              to={`/vertical/series/${clearLinkTitle(
                                 result.name
                               )}/${result.id}`}
                               reloadDocument
@@ -784,7 +785,7 @@ export default function serieD() {
                               </div>
                             </div>
                             <Link
-                              to={`/vertical/series/t/${clearLinkTitle(
+                              to={`/vertical/series/${clearLinkTitle(
                                 result.name
                               )}/${result.id}`}
                               reloadDocument

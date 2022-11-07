@@ -115,7 +115,6 @@ export default class Popular extends Component {
     const newArrIndex = [
       0, 21, 1, 22, 2, 23, 3, 24, 4, 25, 5, 26, 6, 27, 7, 28, 8, 29, 9, 30, 10,
       31, 11, 32, 12, 33, 13, 34, 14, 35, 15, 36, 16, 37, 17, 38, 18, 39, 19,
-      40,
     ];
 
     newArrIndex.forEach((valueIndex) => {
@@ -146,7 +145,7 @@ export default class Popular extends Component {
     return (
       <PopularContainer filterPopularByActived={filterPopularByActived}>
         <div className="popular">
-          <h1>Animações&nbsp;populares</h1>
+          <h1>Animações populares</h1>
           <div className="popularBy">
             <h5>Populares&nbsp;Do(a):</h5>
             <div className="filter-popularBy">
@@ -268,7 +267,7 @@ export default class Popular extends Component {
             </div>
           </div>
         </div>
-        <PopularContainer2>
+        <PopularTitles>
           {loadingFilters && <Loading colorTranparent />}
 
           {allPopular && (
@@ -282,85 +281,92 @@ export default class Popular extends Component {
                 nextEl: '.button-next-element',
                 prevEl: '.button-previous-element',
               }}
-              style={{ height: '200px' }}
               modules={[Navigation]}
-              spaceBetween={40}
+              style={{ height: 'auto' }}
+              spaceBetween={20}
               slidesPerView={3}
               loop
             >
-              {allPopular.results.map((result) => (
-                <SwiperSlide key={result.id}>
-                  <div className="popular-slider">
-                    <div className="popular-img">
-                      <img
-                        src={
-                          result.poster_path
-                            ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                            : imageErrorTop3
-                        }
-                        onLoad={this.removeLoadingSipnner}
-                        onError={this.removeLoadingSipnner}
-                        alt={result.title ? result.title : result.name}
-                      />
-                      <Loading popular />
-                    </div>
-                    <div className="popular-details">
-                      <Link
-                        to={`/vertical/${result.title ? 'filmes' : 'series'}/${
-                          result.title ? 'm' : 't'
-                        }/${clearLinkTitle(
-                          result.title ? result.title : result.name
-                        )}/${result.id}`}
-                        reloadDocument
-                      >
-                        <h3 title={result.title ? result.title : result.name}>
-                          {result.title ? result.title : result.name}
-                        </h3>
-                      </Link>
-                      <div className="popular-year-genre">
-                        <div>{result.title ? 'Filme,' : 'Serie,'}</div>
-                        <div className="popular-year-year">
-                          {result.release_date &&
-                            result.release_date.slice(0, 4)}
-                          {result.first_air_date &&
-                            result.first_air_date.slice(0, 4)}
+              {allPopular.results.map(
+                (result) =>
+                  result !== undefined && (
+                    <SwiperSlide key={result.id}>
+                      <div className="popular-slider">
+                        <div className="popular-img">
+                        <div className="movie-or-serie-popular">
+                          {result.title ? 'Filme' : 'Serie'}
                         </div>
-                        &sdot;
-                        <div className="popular-genre-genre">Animação</div>
-                      </div>
-                      <div className="popular-imdb-rating-voteAverage">
-                        IMDB
-                        <div className="popular-rating-voteAverage">
-                          <RatingSystem2
-                            vote_average={result.vote_average}
-                            color={color1}
+                          <img
+                            src={
+                              result.poster_path
+                                ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                                : imageErrorTop3
+                            }
+                            onLoad={this.removeLoadingSipnner}
+                            onError={this.removeLoadingSipnner}
+                            alt={result.title ? result.title : result.name}
                           />
-                          <div className="popular-voteAverage">
-                            {isInt(String(result.vote_average))
-                              ? `${result.vote_average}.0`
-                              : result.vote_average}
+                          <Loading popular />
+                        </div>
+                        <div className="popular-details">
+                          <Link
+                            to={`/vertical/${
+                              result.title ? 'filmes' : 'series'
+                            }/${clearLinkTitle(
+                              result.title ? result.title : result.name
+                            )}/${result.id}`}
+                            reloadDocument
+                          >
+                            <h3
+                              title={result.title ? result.title : result.name}
+                            >
+                              {result.title ? result.title : result.name}
+                            </h3>
+                          </Link>
+                          <div className="popular-year-genre">
+                            <div className="popular-year-year">
+                              {result.release_date &&
+                                result.release_date.slice(0, 4)}
+                              {result.first_air_date &&
+                                result.first_air_date.slice(0, 4)}
+                            </div>
+                            &sdot;
+                            <div className="popular-genre-genre">Animação</div>
                           </div>
+                          <div className="popular-imdb-rating-voteAverage">
+                            IMDB
+                            <div className="popular-rating-voteAverage">
+                              <RatingSystem2
+                                vote_average={result.vote_average}
+                                color={color1}
+                              />
+                              <div className="popular-voteAverage">
+                                {isInt(String(result.vote_average))
+                                  ? `${result.vote_average}.0`
+                                  : result.vote_average}
+                              </div>
+                            </div>
+                          </div>
+                          <Link
+                            to={`/vertical/${
+                              result.title ? 'filmes' : 'series'
+                            }/${clearLinkTitle(
+                              result.title ? result.title : result.name
+                            )}/${result.id}`}
+                            reloadDocument
+                          >
+                            <button className="popular-watch-now">
+                              Assistir&nbsp;agora
+                            </button>
+                          </Link>
                         </div>
                       </div>
-                      <Link
-                        to={`/vertical/${result.title ? 'filmes' : 'series'}/${
-                          result.title ? 'm' : 't'
-                        }/${clearLinkTitle(
-                          result.title ? result.title : result.name
-                        )}/${result.id}`}
-                        reloadDocument
-                      >
-                        <button className="popular-watch-now">
-                          Assistir&nbsp;agora
-                        </button>
-                      </Link>
-                    </div>
-                  </div>
-                </SwiperSlide>
-              ))}
+                    </SwiperSlide>
+                  )
+              )}
             </Swiper>
           )}
-        </PopularContainer2>
+        </PopularTitles>
       </PopularContainer>
     );
   }

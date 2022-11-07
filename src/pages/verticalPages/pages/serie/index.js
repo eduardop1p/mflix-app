@@ -550,7 +550,7 @@ export default function SeriesV() {
                           <img
                             src={
                               result.poster_path
-                                ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                                ? `https://image.tmdb.org/p/w500${result.poster_path}`
                                 : imageErrorTop3
                             }
                             onLoad={removeLoadingSipnner}
@@ -561,7 +561,7 @@ export default function SeriesV() {
                         </div>
                         <div className="popular-details">
                           <Link
-                            to={`t/${clearLinkTitle(result.name)}/${result.id}`}
+                            to={`${clearLinkTitle(result.name)}/${result.id}`}
                             reloadDocument
                           >
                             <h3 title={result.name}>{result.name}</h3>
@@ -603,7 +603,7 @@ export default function SeriesV() {
                             </div>
                           </div>
                           <Link
-                            to={`t/${clearLinkTitle(result.name)}/${result.id}`}
+                            to={`${clearLinkTitle(result.name)}/${result.id}`}
                             reloadDocument
                           >
                             <button className="popular-watch-now">
@@ -617,12 +617,10 @@ export default function SeriesV() {
                 ))}
               </Swiper>
             ) : (
-              news && (
-                <div className="not-results-search-all-catalog">
-                  <img src={notResultsSearch} />
-                  <h4>Nenhum resultado.</h4>
-                </div>
-              )
+              <div className="not-results-search-all-catalog">
+                <img src={notResultsSearch} />
+                <h4>Nenhum resultado.</h4>
+              </div>
             )}
           </New>
         </div>
@@ -674,7 +672,7 @@ export default function SeriesV() {
                       <img
                         src={
                           result.poster_path
-                            ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                            ? `https://image.tmdb.org/p/w500${result.poster_path}`
                             : imageErrorTop3
                         }
                         onLoad={removeLoadingSipnner}
@@ -684,7 +682,7 @@ export default function SeriesV() {
                       <Loading colorVertical />
                       <div>
                         <Link
-                          to={`t/${clearLinkTitle(result.name)}/${result.id}`}
+                          to={`${clearLinkTitle(result.name)}/${result.id}`}
                           reloadDocument
                         >
                           <button>Assistir</button>
@@ -693,7 +691,7 @@ export default function SeriesV() {
                     </div>
                     <div className="popular-conatiner-details">
                       <Link
-                        to={`t/${clearLinkTitle(result.name)}/${result.id}`}
+                        to={`${clearLinkTitle(result.name)}/${result.id}`}
                         reloadDocument
                       >
                         <h5 title={result.name}>{result.name}</h5>

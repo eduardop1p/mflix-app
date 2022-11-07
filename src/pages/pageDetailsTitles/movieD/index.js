@@ -39,8 +39,9 @@ axiosRetry(axios, {
   retries: 5,
 });
 
-export default function MovieD() {
-  const { TOrM, title, id } = useParams();
+export default function MovieD(props) {
+  const { title, id } = useParams();
+  const { midiaType } = props;
 
   const dispatch = useDispatch();
   const loadingApp = useSelector((state) => state.loading.loadingState);
@@ -79,7 +80,7 @@ export default function MovieD() {
         if (data.belongs_to_collection)
           getCollection(data.belongs_to_collection.id);
       } catch {
-        window.location.href = `/vertical/filmes/${TOrM}/${title}/${id}/bad`;
+        window.location.href = `/vertical/filmes/${title}/${id}/bad`;
         console.error('Erro ao obter Id de Filme');
       }
     };
@@ -216,7 +217,7 @@ export default function MovieD() {
 
     try {
       const { data } = await axiosBaseUrlUser.get(
-        `minha-lista/${user.id}/${id}/${TOrM}`,
+        `minha-lista/${user.id}/${id}/${midiaType}`,
         { headers: { Authorization: session.id } }
       );
       if (get(data, 'id', false)) {
@@ -257,7 +258,7 @@ export default function MovieD() {
           `/minha-lista/${user.id}`,
           {
             id: id,
-            midiaType: TOrM,
+            midiaType,
           },
           {
             headers: { Authorization: session.id },
@@ -470,7 +471,7 @@ export default function MovieD() {
                                     </div>
                                     <div className="popular-details">
                                       <Link
-                                        to={`/vertical/filmes/m/${clearLinkTitle(
+                                        to={`/vertical/filmes/${clearLinkTitle(
                                           result.title
                                         )}/${result.id}`}
                                         reloadDocument
@@ -521,7 +522,7 @@ export default function MovieD() {
                                         </div>
                                       </div>
                                       <Link
-                                        to={`/vertical/filmes/m/${clearLinkTitle(
+                                        to={`/vertical/filmes/${clearLinkTitle(
                                           result.title
                                         )}/${result.id}`}
                                         reloadDocument
@@ -658,7 +659,7 @@ export default function MovieD() {
                             <Loading colorVertical />
                             <div>
                               <Link
-                                to={`/vertical/filmes/m/${clearLinkTitle(
+                                to={`/vertical/filmes/${clearLinkTitle(
                                   result.title
                                 )}/${result.id}`}
                                 reloadDocument
@@ -669,7 +670,7 @@ export default function MovieD() {
                           </div>
                           <div className="popular-conatiner-details">
                             <Link
-                              to={`/vertical/filmes/m/${clearLinkTitle(
+                              to={`/vertical/filmes/${clearLinkTitle(
                                 result.title
                               )}/${result.id}`}
                               reloadDocument
@@ -735,7 +736,7 @@ export default function MovieD() {
                           </div>
                           <div className="popular-details">
                             <Link
-                              to={`/vertical/filmes/m/${clearLinkTitle(
+                              to={`/vertical/filmes/${clearLinkTitle(
                                 result.title
                               )}/${result.id}`}
                               reloadDocument
@@ -778,7 +779,7 @@ export default function MovieD() {
                               </div>
                             </div>
                             <Link
-                              to={`/vertical/filmes/m/${clearLinkTitle(
+                              to={`/vertical/filmes/${clearLinkTitle(
                                 result.title
                               )}/${result.id}`}
                               reloadDocument

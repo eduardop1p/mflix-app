@@ -299,9 +299,7 @@ function UserListMovie(props) {
   return (
     dataList && (
       <Link
-        to={`/vertical/filmes/m/${clearLinkTitle(dataList.title)}/${
-          dataList.id
-        }`}
+        to={`/vertical/filmes/${clearLinkTitle(dataList.title)}/${dataList.id}`}
         reloadDocument
         title={dataList.title}
         className="my-list"
@@ -370,9 +368,7 @@ function UserListSerie(props) {
   return (
     dataList && (
       <Link
-        to={`/vertical/series/t/${clearLinkTitle(dataList.name)}/${
-          dataList.id
-        }`}
+        to={`/vertical/series/${clearLinkTitle(dataList.name)}/${dataList.id}`}
         reloadDocument
         title={dataList.name}
         className="my-list"

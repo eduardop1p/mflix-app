@@ -5,7 +5,7 @@ import ReactPaginate from 'react-paginate';
 
 /* eslint-disable */
 
-import * as actions from '../../../storeReactRedux/modules/firstBackgroundMovie/actions';
+import * as actions from '../../../storeReactRedux/modules/firstBackground/actions';
 import apiConfig from '../../../config/apiConfig';
 import axiosBaseUrlGenresSeries from '../../../services/axiosBaseUrlGenresSeries';
 import axiosBaseUrlSeriesDiscover from '../../../services/axiosBaseUrlSeriesDiscover';
@@ -365,62 +365,61 @@ class AllCatalog extends Component {
         </div>
         <CatalogTitles>
           {loadingFilters && <Loading colorTranparent />}
-          {all && all.results.length
-            ? all.results.map((result) => (
-                <Link
-                  key={result.id}
-                  to={`/vertical/series/t/${clearLinkTitle(result.name)}/${
-                    result.id
-                  }`}
-                  reloadDocument
-                  data-filter-name={
-                    result.name
-                      .toLocaleLowerCase()
-                      .indexOf(nameFilterValue.toLocaleLowerCase().trim()) ===
-                    -1
-                      ? 'actived'
-                      : ''
-                  }
-                >
-                  <div className="catalog-img" data-loading>
-                    <img
-                      src={
-                        result.poster_path
-                          ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                          : imageErrorTop3
-                      }
-                      onLoad={this.removeLoadingSipnner}
-                      onError={this.removeLoadingSipnner}
-                      alt={result.name}
-                    />
-                    <Loading />
+          {all && all.results.length ? (
+            all.results.map((result) => (
+              <Link
+                key={result.id}
+                to={`/vertical/series/${clearLinkTitle(result.name)}/${
+                  result.id
+                }`}
+                reloadDocument
+                data-filter-name={
+                  result.name
+                    .toLocaleLowerCase()
+                    .indexOf(nameFilterValue.toLocaleLowerCase().trim()) === -1
+                    ? 'actived'
+                    : ''
+                }
+              >
+                <div className="catalog-img" data-loading>
+                  <img
+                    src={
+                      result.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                        : imageErrorTop3
+                    }
+                    onLoad={this.removeLoadingSipnner}
+                    onError={this.removeLoadingSipnner}
+                    alt={result.name}
+                  />
+                  <Loading />
 
-                    <div className="box-shadow-catalog"></div>
-                    <div className="catalog-details">
-                      <h5>{result.name}</h5>
-                      <div className="catalog-rating-data">
-                        <div>
-                          <RatingSystem
-                            vote_average={result.vote_average}
-                            color={color1}
-                          />
-                        </div>
-                        <div>
-                          {result.first_air_date
-                            ? result.first_air_date.slice(0, 4)
-                            : 'Not Data'}
-                        </div>
+                  <div className="box-shadow-catalog"></div>
+                  <div className="catalog-details">
+                    <h5>{result.name}</h5>
+                    <div className="catalog-rating-data">
+                      <div>
+                        <RatingSystem
+                          vote_average={result.vote_average}
+                          color={color1}
+                        />
+                      </div>
+                      <div>
+                        {result.first_air_date
+                          ? result.first_air_date.slice(0, 4)
+                          : 'Not Data'}
                       </div>
                     </div>
                   </div>
-                </Link>
-              ))
-            : all && (
-                <div className="not-results-search-all-catalog">
-                  <img src={notResultsSearch} />
-                  <h4>Nenhum resultado.</h4>
                 </div>
-              )}
+              </Link>
+            ))
+          ) : (
+            <div className="not-results-search-all-catalog">
+              <img src={notResultsSearch} />
+              <h4>Nenhum resultado.</h4>
+            </div>
+          )}
         </CatalogTitles>
         <PagenationContainer>
           <ReactPaginate

@@ -71,15 +71,15 @@ class Future extends Component {
 
     return (
       <FutureContainer>
-        <h1>Filmes&nbsp;futuros</h1>
+        <h1>Filmes futuros</h1>
         <Swiper
           autoplay={{
             delay: 5000,
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
           }}
-          style={{ height: '450px' }}
-          spaceBetween={40}
+          style={{ height: 'auto' }}
+          spaceBetween={20}
           slidesPerView={1}
           loop
         >

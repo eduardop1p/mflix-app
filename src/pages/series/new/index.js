@@ -70,8 +70,8 @@ export default function New() {
             nextEl: '.next-element',
             prevEl: '.prev-element',
           }}
-          style={{ height: 'auto' }}
           modules={[Navigation]}
+          style={{ height: 'auto' }}
           spaceBetween={20}
           slidesPerView={1}
           loop
@@ -84,7 +84,7 @@ export default function New() {
                   <div className="info">
                     <div className="new">NEW</div>
                     <Link
-                      to={`/vertical/series/t/${clearLinkTitle(result.name)}/${
+                      to={`/vertical/series/${clearLinkTitle(result.name)}/${
                         result.id
                       }`}
                       reloadDocument
@@ -121,7 +121,7 @@ export default function New() {
                 news.results.slice(0, 3).map((result) => (
                   <Link
                     key={result.id}
-                    to={`/vertical/series/t/${clearLinkTitle(result.name)}/${
+                    to={`/vertical/series/${clearLinkTitle(result.name)}/${
                       result.id
                     }`}
                     reloadDocument
@@ -139,19 +139,23 @@ export default function New() {
                       />
                       <Loading />
                       <div>
-                        <h5>{result.name}</h5>
                         <div>
-                          {result.first_air_date
-                            ? result.first_air_date.slice(0, 4)
-                            : 'Not data'}
-                        </div>
-                        <div className="rating">
-                          Rating
+                          <h5>{result.name}</h5>
                           <div>
-                            <RatingSystem
-                              vote_average={result.vote_average}
-                              color={color1}
-                            />
+                            {result.first_air_date
+                              ? result.first_air_date.slice(0, 4)
+                              : 'Not data'}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="rating">
+                            Rating
+                            <div>
+                              <RatingSystem
+                                vote_average={result.vote_average}
+                                color={color1}
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -167,7 +171,7 @@ export default function New() {
 }
 
 function GetDetailsSerieId(props) {
-  const { id } = this.props;
+  const { id } = props;
 
   const [newId, setNewId] = useState(null);
 
@@ -177,9 +181,7 @@ function GetDetailsSerieId(props) {
         const { data } = await axiosBaseUrlSeries.get(
           `/${id}?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
         );
-        this.setState({
-          newId: data,
-        });
+        setNewId(data);
       } catch {
         console.error('Erro ao obter Id de Serie');
       }
@@ -219,7 +221,7 @@ function GetDetailsSerieId(props) {
         {newId.first_air_date ? newId.first_air_date.slice(0, 4) : 'Not data'}
       </div>
       <Link
-        to={`/vertical/series/t/${clearLinkTitle(newId.name)}/${newId.id}`}
+        to={`/vertical/series/${clearLinkTitle(newId.name)}/${newId.id}`}
         reloadDocument
       >
         <button type="button" className="watch-online">

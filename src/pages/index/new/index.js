@@ -5,6 +5,7 @@ import SwiperCore, { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import axiosBaseUrlMovies from '../../../services/axiosBaseUrlMovies';
+import axiosBaseUrlSeries from '../../../services/axiosBaseUrlSeries';
 import axiosBaseUrlSeriesDiscover from '../../../services/axiosBaseUrlSeriesDiscover';
 import apiConfig from '../../../config/apiConfig';
 import RatingSystem from '../../../components/ratingSystem';
@@ -17,7 +18,7 @@ import { color1 } from '../../../colors';
 import { Slider, Grid, ForId } from '../../styled';
 
 export default function New() {
-  const [newws, setNews] = useState(null);
+  const [news, setNews] = useState(null);
 
   useEffect(() => {
     const getNews = async () => {
@@ -65,7 +66,6 @@ export default function New() {
     const newArrIndex = [
       0, 21, 1, 22, 2, 23, 3, 24, 4, 25, 5, 26, 6, 27, 7, 28, 8, 29, 9, 30, 10,
       31, 11, 32, 12, 33, 13, 34, 14, 35, 15, 36, 16, 37, 17, 38, 18, 39, 19,
-      40,
     ];
 
     newArrIndex.forEach((valueIndex) => {
@@ -97,114 +97,120 @@ export default function New() {
             nextEl: '.next-element',
             prevEl: '.prev-element',
           }}
-          style={{ height: '440px' }}
           modules={[Navigation]}
-          spaceBetween={50}
+          style={{ height: 'auto' }}
+          spaceBetween={20}
           slidesPerView={1}
           loop
         >
           <SlidePagenateCustom />
-          {newws &&
-            news.map((result) => (
-              <SwiperSlide key={result.id}>
-                <div className="slider">
-                  <div className="info">
-                    <div className="new">
-                      NEW {result.title ? 'FILME' : 'SERIE'}
-                    </div>
-                    <Link
-                      to={`/vertical/${result.title ? 'filmes' : 'series'}/${
-                        result.title ? 'm' : 't'
-                      }/${clearLinkTitle(
-                        result.title ? result.title : result.name
-                      )}/${result.id}`}
-                      reloadDocument
-                    >
-                      <h1
-                        title={result.title ? result.title : result.name}
-                        className="title"
-                      >
-                        {result.title ? result.title : result.name}
-                      </h1>
-                    </Link>
-                    {result.title ? (
-                      <GetDetailsMovieId id={result.id} />
-                    ) : (
-                      <GetDetailsSerieId id={result.id} />
-                    )}
-                  </div>
+          {news &&
+            news.map(
+              (result) =>
+                result !== undefined && (
+                  <SwiperSlide key={result.id}>
+                    <div className="slider">
+                      <div className="info">
+                        <div className="new">
+                          NEW {result.title ? 'FILME' : 'SERIE'}
+                        </div>
+                        <Link
+                          to={`/vertical/${
+                            result.title ? 'filmes' : 'series'
+                          }/${clearLinkTitle(
+                            result.title ? result.title : result.name
+                          )}/${result.id}`}
+                          reloadDocument
+                        >
+                          <h1
+                            title={result.title ? result.title : result.name}
+                            className="title"
+                          >
+                            {result.title ? result.title : result.name}
+                          </h1>
+                        </Link>
+                        {result.title ? (
+                          <GetDetailsMovieId id={result.id} />
+                        ) : (
+                          <GetDetailsSerieId id={result.id} />
+                        )}
+                      </div>
 
-                  <div className="poster-path">
-                    <img
-                      src={
-                        result.poster_path
-                          ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                          : imageErrorPoster
-                      }
-                      onLoad={removeLoadingSipnner}
-                      onError={removeLoadingSipnner}
-                      alt={result.title ? result.title : result.name}
-                    />
-                    <Loading />
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
+                      <div className="poster-path">
+                        <img
+                          src={
+                            result.poster_path
+                              ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                              : imageErrorPoster
+                          }
+                          onLoad={removeLoadingSipnner}
+                          onError={removeLoadingSipnner}
+                          alt={result.title ? result.title : result.name}
+                        />
+                        <Loading />
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                )
+            )}
         </Swiper>
         <div className="grid">
-          <h5 className="titleNew">Top&nbsp;3&nbsp;novos</h5>
+          <h5 className="titleNew">Top&nbsp;3&nbsp;novos&nbsp;titulos</h5>
           <Grid>
             <div className="scrollGridNew">
               {news &&
-                news.slice(0, 3).map((result) => (
-                  <Link
-                    key={result.id}
-                    to={`/vertical/${result.title ? 'filmes' : 'series'}/${
-                      result.title ? 'm' : 't'
-                    }/${clearLinkTitle(
-                      result.title ? result.title : result.name
-                    )}/${result.id}`}
-                    reloadDocument
-                  >
-                    <div className="gridNew" key={result.id}>
-                      <img
-                        src={
-                          result.backdrop_path
-                            ? `https://image.tmdb.org/t/p/w500${result.backdrop_path}`
-                            : imageErrorTop3
-                        }
-                        onLoad={removeLoadingSipnner}
-                        onError={removeLoadingSipnner}
-                        alt={result.title ? result.title : result.name}
-                      />
-                      <Loading />
-                      <div>
-                        <div className="top-3-title-date">
-                          <h5 className="top-3-title">
-                            {result.title ? result.title : result.name}
-                          </h5>
-                          <div className="top-3-date">
-                            {result.release_date
-                              ? result.release_date.slice(0, 4)
-                              : result.first_air_date.slice(0, 4)}
-                          </div>
-                        </div>
-                        <div className="rating-serie">
-                          <div className="rating">
-                            Rating
+                news.slice(0, 3).map(
+                  (result) =>
+                    result !== undefined && (
+                      <Link
+                        key={result.id}
+                        to={`/vertical/${
+                          result.title ? 'filmes' : 'series'
+                        }/${clearLinkTitle(
+                          result.title ? result.title : result.name
+                        )}/${result.id}`}
+                        reloadDocument
+                      >
+                        <div className="gridNew" key={result.id}>
+                          <img
+                            src={
+                              result.backdrop_path
+                                ? `https://image.tmdb.org/t/p/w500${result.backdrop_path}`
+                                : imageErrorTop3
+                            }
+                            onLoad={removeLoadingSipnner}
+                            onError={removeLoadingSipnner}
+                            alt={result.title ? result.title : result.name}
+                          />
+                          <Loading />
+                          <div>
                             <div>
-                              <RatingSystem
-                                vote_average={result.vote_average}
-                                color={color1}
-                              />
+                              <h5>
+                                {result.title ? result.title : result.name}
+                              </h5>
+                              <div>{result.title ? 'Filme' : 'Serie'}</div>
+                            </div>
+                            <div>
+                              <div className="rating">
+                                Rating
+                                <div>
+                                  <RatingSystem
+                                    vote_average={result.vote_average}
+                                    color={color1}
+                                  />
+                                </div>
+                              </div>
+                              <div className="date">
+                                {result.release_date
+                                  ? result.release_date.slice(0, 4)
+                                  : result.first_air_date.slice(0, 4)}
+                              </div>
                             </div>
                           </div>
-                          <div>{result.title ? 'Filme' : 'Serie'}</div>
                         </div>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
+                      </Link>
+                    )
+                )}
             </div>
           </Grid>
         </div>
@@ -262,7 +268,7 @@ function GetDetailsMovieId(props) {
       </div>
       <div className="release-date">{newId.release_date.slice(0, 4)}</div>
       <Link
-        to={`/vertical/filmes/m/${clearLinkTitle(newId.title)}/${newId.id}`}
+        to={`/vertical/filmes/${clearLinkTitle(newId.title)}/${newId.id}`}
         reloadDocument
       >
         <button type="button" className="watch-online">
@@ -321,7 +327,7 @@ function GetDetailsSerieId(props) {
       </div>
       <div className="release-date">{newId.first_air_date.slice(0, 4)}</div>
       <Link
-        to={`/vertical/series/t/${clearLinkTitle(newId.name)}/${newId.id}`}
+        to={`/vertical/series/${clearLinkTitle(newId.name)}/${newId.id}`}
         reloadDocument
       >
         <button type="button" className="watch-online">

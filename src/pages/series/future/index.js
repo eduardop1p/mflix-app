@@ -78,8 +78,8 @@ class Future extends Component {
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
           }}
-          style={{ height: '450px' }}
-          spaceBetween={40}
+          style={{ height: 'auto' }}
+          spaceBetween={20}
           slidesPerView={1}
           loop
         >

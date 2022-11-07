@@ -54,9 +54,9 @@ export default function New() {
             nextEl: '.next-element',
             prevEl: '.prev-element',
           }}
-          style={{ height: '440px' }}
           modules={[Navigation]}
-          spaceBetween={50}
+          style={{ height: 'auto' }}
+          spaceBetween={20}
           slidesPerView={1}
           loop
         >
@@ -68,7 +68,7 @@ export default function New() {
                   <div className="info">
                     <div className="new">NEW</div>
                     <Link
-                      to={`/vertical/filmes/m/${clearLinkTitle(result.title)}/${
+                      to={`/vertical/filmes/${clearLinkTitle(result.title)}/${
                         result.id
                       }`}
                       reloadDocument
@@ -105,7 +105,7 @@ export default function New() {
                 news.results.slice(0, 3).map((result) => (
                   <Link
                     key={result.id}
-                    to={`/vertical/filmes/m/${clearLinkTitle(result.title)}/${
+                    to={`/vertical/filmes/${clearLinkTitle(result.title)}/${
                       result.id
                     }`}
                     reloadDocument
@@ -123,15 +123,19 @@ export default function New() {
                       />
                       <Loading />
                       <div>
-                        <h5>{result.title}</h5>
-                        <div>{result.release_date.slice(0, 4)}</div>
-                        <div className="rating">
-                          Rating
-                          <div>
-                            <RatingSystem
-                              vote_average={result.vote_average}
-                              color={color1}
-                            />
+                        <div>
+                          <h5>{result.title}</h5>
+                          <div>{result.release_date.slice(0, 4)}</div>
+                        </div>
+                        <div>
+                          <div className="rating">
+                            Rating
+                            <div>
+                              <RatingSystem
+                                vote_average={result.vote_average}
+                                color={color1}
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -157,9 +161,7 @@ function GetDetailsMovieId(props) {
         const { data } = await axiosBaseUrlMovies.get(
           `/${id}?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
         );
-        this.setState({
-          newId: data,
-        });
+        serNewId(data);
       } catch {
         console.error('Erro ao obter Id de Filme');
       }
@@ -197,7 +199,7 @@ function GetDetailsMovieId(props) {
       </div>
       <div className="release-date">{newId.release_date.slice(0, 4)}</div>
       <Link
-        to={`/vertical/filmes/m/${clearLinkTitle(newId.title)}/${newId.id}`}
+        to={`/vertical/filmes/${clearLinkTitle(newId.title)}/${newId.id}`}
         reloadDocument
       >
         <button type="button" className="watch-online">

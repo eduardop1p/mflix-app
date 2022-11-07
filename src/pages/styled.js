@@ -87,7 +87,7 @@ export const Slider = styled.section`
 
       .titleNew {
         margin-bottom: 1rem;
-        font-size: 0.75rem;
+        font-size: 0.76rem;
         margin-left: 5px;
         font-weight: 500;
       }
@@ -130,6 +130,7 @@ export const Grid = styled.div`
 
     & > :last-child {
       display: flex;
+      flex-direction: column;
       width: 100%;
       height: 100%;
       position: absolute;
@@ -137,32 +138,50 @@ export const Grid = styled.div`
       padding: 12px;
       justify-content: space-between;
 
-      & > h5 {
-        font-size: 0.75rem;
-        font-weight: 600;
-        max-width: 8rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;
-        color: ${colors.color1};
-      }
-
-      & > div {
-        font-size: 0.75rem;
-        font-weight: 400;
-        color: ${colors.color1};
-      }
-
-      .rating {
+      & > :first-child {
         display: flex;
-        gap: 1rem;
-        font-size: 0.75rem;
-        font-weight: 400;
-        position: absolute;
-        left: 12px;
-        bottom: 12px;
+        justify-content: space-between;
+        width: 100%;
+        height: fit-content;
+
+        & > h5 {
+          font-size: 0.75rem;
+          font-weight: 600;
+          max-width: 8rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
+          color: ${colors.color1};
+        }
+
+        & > div {
+          font-size: 0.75rem;
+          font-weight: 400;
+          color: ${colors.color1};
+        }
+      }
+
+      & > :last-child {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        height: fit-content;
+
+        & > .rating {
+          color: ${colors.color1};
+          display: flex;
+          gap: 12px;
+          font-size: 0.75rem;
+          font-weight: 400;
+        }
+
+        & > .date {
+          font-size: 0.75rem;
+          font-weight: 400;
+          color: ${colors.color1};
+        }
       }
     }
   }
@@ -545,6 +564,15 @@ export const CatalogTitles = styled.div`
     }
   }
 
+  .movie-or-serie-catalog {
+    position: absolute;
+    top: 0;
+    z-index: 6;
+    margin: 14px;
+    font-size: 12px;
+    color: ${colors.color1};
+  }
+
   .box-shadow-catalog {
     position: absolute;
     z-index: 4;
@@ -774,6 +802,15 @@ export const PopularTitles = styled.div`
       width: 130px;
       position: relative;
 
+      .movie-or-serie-popular {
+        position: absolute;
+        top: 0;
+        z-index: 2;
+        margin: 14px;
+        font-size: 12px;
+        color: ${colors.color1};
+      }
+
       & > img {
         border-radius: 10px;
         width: 100%;
@@ -858,7 +895,7 @@ export const PopularTitles = styled.div`
 export const FutureContainer = styled.section`
   width: 100%;
   padding: 3rem 4rem 3rem;
-  background-color: ${colors.color7};
+  background-color: ${colors.color8};
 
   & > h1 {
     color: ${colors.color1};
@@ -874,6 +911,15 @@ export const FutureContainer = styled.section`
       width: 280px;
       max-height: 450px;
       position: relative;
+
+      .movie-or-serie-future {
+        position: absolute;
+        top: 0;
+        z-index: 2;
+        margin: 14px;
+        font-size: 12px;
+        color: ${colors.color1};
+      }
 
       & > img {
         border-radius: 1rem;
