@@ -10,14 +10,12 @@ const GlobalStyled = createGlobalStyle`
     box-sizing: border-box;
     font-family: "Montserrat", sans-serif;
 
-    @media (max-width: 490px) {
-      font-size: 94%;
-    }
   }
 
   body{
     background-color: ${colors.color8};
     max-width: 2500px;
+    min-width: 250px;
     margin: 0 auto;
 
     &::-webkit-scrollbar{

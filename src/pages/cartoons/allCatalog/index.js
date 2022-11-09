@@ -35,7 +35,6 @@ class AllCatalog extends Component {
       searchFilterActived: false,
       currentPageGlobal: 0,
       relaceDateActived: false,
-      nameFilterValue: '',
       releaseDate: null,
       years: [],
     };
@@ -162,7 +161,6 @@ class AllCatalog extends Component {
             ? 1
             : null,
         searchFilterActived: true,
-        nameFilterValue: '',
         releaseDate: null,
       });
     } catch {
@@ -241,33 +239,23 @@ class AllCatalog extends Component {
       pageCount,
       searchFilterValue,
       currentPageGlobal,
-      nameFilterValue,
       releaseDate,
       years,
       relaceDateActived,
     } = this.state;
 
     return (
-      <CatalogContainer relaceDateActived={relaceDateActived}>
+      <CatalogContainer relaceDateActived={relaceDateActived} cartoons>
         <h1>Catalogo</h1>
-
         <div className="catalog-filter">
-          <div className="name">
-            <form onSubmit={(event) => event.preventDefault()}>
-              <input
-                id="name-id"
-                placeholder="Nome da animação"
-                value={nameFilterValue}
-                onChange={(event) =>
-                  this.setState({
-                    nameFilterValue: event.target.value,
-                  })
-                }
-              />
-            </form>
-          </div>
-          <div className="year">
-            {!releaseDate ? 'Ano' : releaseDate}
+          <div
+            className="year"
+            onClick={(event) =>
+              event.target.offsetHeight <= 36 &&
+              this.setState({ relaceDateActived: !relaceDateActived })
+            }
+          >
+            <span>{!releaseDate ? 'Ano' : releaseDate}</span>
             <div className="relaceDate">
               <ul>
                 {years.map((year, index) => (
@@ -300,40 +288,8 @@ class AllCatalog extends Component {
                 <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
               </svg>
             </span>
-            <button
-              className="onClickActivedFilters"
-              onClick={() =>
-                this.setState({
-                  relaceDateActived: !relaceDateActived,
-                })
-              }
-            ></button>
           </div>
-          <button
-            type="button"
-            className="reset-filters"
-            onClick={() => {
-              this.setState(
-                {
-                  nameFilterValue: '',
-                  searchFilterValue: '',
-                  releaseDate: null,
-                  currentPageGlobal: 0,
-                },
-                () => {
-                  this.setState({ loadingFilters: true });
-                  this.getAllCatalog(0);
-                  setTimeout(
-                    () => this.setState({ loadingFilters: false }),
-                    100
-                  );
-                }
-              );
-            }}
-          >
-            Resetar&nbsp;filtros
-          </button>
-          <div className="searchz-filter">
+          <div className="search-filter">
             <div>
               <svg
                 onClick={this.handleSearchSubmit}
@@ -361,7 +317,7 @@ class AllCatalog extends Component {
         </div>
 
         <CatalogTitles>
-          {loadingFilters && <Loading />}
+          {loadingFilters && <Loading colorTranparent />}
           {all && all.results.length ? (
             all.results.map(
               (result) =>
@@ -374,23 +330,6 @@ class AllCatalog extends Component {
                       result.title ? result.title : result.name
                     )}/${result.id}`}
                     reloadDocument
-                    data-filter-name={
-                      result.title
-                        ? result.title
-                            .toLocaleLowerCase()
-                            .indexOf(
-                              nameFilterValue.toLocaleLowerCase().trim()
-                            ) === -1
-                          ? 'actived'
-                          : ''
-                        : result.name
-                            .toLocaleLowerCase()
-                            .indexOf(
-                              nameFilterValue.toLocaleLowerCase().trim()
-                            ) === -1
-                        ? 'actived'
-                        : ''
-                    }
                   >
                     <div className="catalog-img">
                       <div className="movie-or-serie-catalog">

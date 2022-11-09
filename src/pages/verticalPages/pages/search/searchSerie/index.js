@@ -170,10 +170,11 @@ export default function searchSerie(props) {
       files &&
       id &&
       loadingApp
-    )
+    ) {
       setTimeout(() => {
         dispatch(actions.loadingFailure());
       }, 500);
+    }
   }, [favoriteUser, newId, allGenres, newSearchData, files, id, loadingApp]);
 
   useEffect(() => {

@@ -222,6 +222,7 @@ export const PagesContainer = styled.main`
 
           & > .filter-popularBy {
             display: flex;
+            cursor: pointer;
             align-items: center;
             justify-content: space-between;
             color: ${colors.color1};
@@ -232,19 +233,10 @@ export const PagesContainer = styled.main`
             border-radius: 1.5rem;
             position: relative;
 
-            & > .onClickActivedFilters {
-              width: 100%;
-              height: 100%;
-              background-color: transparent;
-              z-index: 5;
-              position: absolute;
-              right: 0;
-              border-radius: 1.5rem;
-            }
-
             & > .ul-filters-popularBy {
               background-color: ${colors.color7};
-              top: 6px;
+              top: 8px;
+              cursor: default;
               z-index: -1;
               right: 0;
               position: absolute;
@@ -255,18 +247,12 @@ export const PagesContainer = styled.main`
               transition: all 0.2s ease-in-out;
 
               & > ul {
-                border-radius: 0 0 1rem 1rem;
+                margin: 1.8rem 1.2rem 0;
+                overflow: hidden scroll;
+                height: 65%;
                 display: flex;
-                padding-left: 1.2rem;
                 gap: 5px;
                 flex-direction: column;
-                margin-top: 1.8rem;
-                width: 81%;
-                height: ${(props) =>
-                  props.filterPopularByActived ? '62px' : '0'};
-                overflow-y: ${(props) =>
-                  props.filterPopularByActived ? 'scroll' : 'hidden'};
-                transition: all 0.2s ease-in-out;
 
                 &::-webkit-scrollbar {
                   width: 3px;

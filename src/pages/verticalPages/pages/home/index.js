@@ -583,8 +583,16 @@ export default function Home() {
 
             <div className="popularBy">
               <h5>Populares&nbsp;Do(a):</h5>
-              <div className="filter-popularBy">
-                {!filterNamePopular ? 'Filtrar' : filterNamePopular}
+              <div
+                className="filter-popularBy"
+                onClick={(event) =>
+                  event.target.offsetHeight <= 36 &&
+                  setFilterPopularByActived(!filterPopularByActived)
+                }
+              >
+                <span>
+                  {!filterNamePopular ? 'Filtrar' : filterNamePopular}
+                </span>
                 <div className="ul-filters-popularBy">
                   <ul>
                     <li
@@ -645,12 +653,6 @@ export default function Home() {
                     <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
                   </svg>
                 </span>
-                <button
-                  className="onClickActivedFilters"
-                  onClick={() => {
-                    setFilterPopularByActived(!filterPopularByActived);
-                  }}
-                ></button>
               </div>
             </div>
           </div>
@@ -697,7 +699,9 @@ export default function Home() {
                             </div>
                             <div className="popular-details">
                               <Link
-                                to={`/vertical/${result.title ? 'filmes' : 'series'}/${clearLinkTitle(
+                                to={`/vertical/${
+                                  result.title ? 'filmes' : 'series'
+                                }/${clearLinkTitle(
                                   result.title ? result.title : result.name
                                 )}/${result.id}`}
                                 reloadDocument
@@ -749,7 +753,9 @@ export default function Home() {
                                 </div>
                               </div>
                               <Link
-                                to={`/vertical/${result.title ? 'filmes' : 'series'}/${clearLinkTitle(
+                                to={`/vertical/${
+                                  result.title ? 'filmes' : 'series'
+                                }/${clearLinkTitle(
                                   result.title ? result.title : result.name
                                 )}/${result.id}`}
                                 reloadDocument
@@ -835,7 +841,9 @@ export default function Home() {
                           <Loading colorVertical={true} />
                           <div>
                             <Link
-                              to={`/vertical/${result.title ? 'filmes' : 'series'}/${clearLinkTitle(
+                              to={`/vertical/${
+                                result.title ? 'filmes' : 'series'
+                              }/${clearLinkTitle(
                                 result.title ? result.title : result.name
                               )}/${result.id}`}
                               reloadDocument
@@ -846,7 +854,9 @@ export default function Home() {
                         </div>
                         <div className="popular-conatiner-details">
                           <Link
-                            to={`/vertical/${result.title ? 'filmes' : 'series'}/${clearLinkTitle(
+                            to={`/vertical/${
+                              result.title ? 'filmes' : 'series'
+                            }/${clearLinkTitle(
                               result.title ? result.title : result.name
                             )}/${result.id}`}
                             reloadDocument

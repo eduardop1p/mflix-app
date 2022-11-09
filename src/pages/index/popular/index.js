@@ -198,8 +198,16 @@ export default class Popular extends Component {
           <h1>Titulos populares</h1>
           <div className="popularBy">
             <h5>Populares&nbsp;Do(a):</h5>
-            <div className="filter-popularBy">
-              {!filterNamePopular ? 'Filtrar' : filterNamePopular}
+            <div
+              className="filter-popularBy"
+              onClick={(event) =>
+                event.target.offsetHeight <= 36 &&
+                this.setState({
+                  filterPopularByActived: !filterPopularByActived,
+                })
+              }
+            >
+              <span>{!filterNamePopular ? 'Filtrar' : filterNamePopular}</span>
               <div className="ul-filters-popularBy">
                 <ul>
                   <li
@@ -276,14 +284,6 @@ export default class Popular extends Component {
                   <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
                 </svg>
               </span>
-              <button
-                className="onClickActivedFilters"
-                onClick={() =>
-                  this.setState({
-                    filterPopularByActived: !filterPopularByActived,
-                  })
-                }
-              ></button>
             </div>
             <div className="navigation-popularBy">
               <button className="button-previous-element">

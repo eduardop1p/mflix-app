@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 /* eslint-disable */
 import * as actions from '../../../../../storeReactRedux/modules/loading/actions';
 import notSearch from '../../../../../assets/images/search.png';
-import { Main } from './styled';
+import { MainIndexSearch } from '../styled';
 
 export default function NotSearchResult(porps) {
   const { value } = porps;
@@ -28,7 +28,7 @@ export default function NotSearchResult(porps) {
   }
 
   return (
-    <Main>
+    <MainIndexSearch>
       <div className="search">
         <Helmet>
           <title>MFLIX - Nenhum resultado encontrado para: {value}</title>
@@ -68,6 +68,6 @@ export default function NotSearchResult(porps) {
           </div>
         </div>
       </div>
-    </Main>
+    </MainIndexSearch>
   );
 }

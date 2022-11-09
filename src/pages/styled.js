@@ -213,7 +213,7 @@ export const ForId = styled.div`
 
     &:hover,
     &:focus {
-      overflow-y: auto;
+      overflow: hidden visible;
 
       &::-webkit-scrollbar {
         width: 3px;
@@ -267,7 +267,9 @@ export const CatalogContainer = styled.section`
     color: #ddd;
     padding: 1.5rem 0 2rem;
 
-    & > div {
+    & > .genre,
+    & > .year,
+    & > .search-filter {
       color: ${colors.color1};
       background-color: ${colors.color7};
       padding: 8px 1.2rem;
@@ -284,42 +286,10 @@ export const CatalogContainer = styled.section`
       }
     }
 
-    .name {
-      width: 25%;
-      form {
-        width: 100%;
-
-        & > input {
-          width: 100%;
-          border: none;
-          background-color: transparent;
-          color: ${colors.color1};
-          font-size: 0.81rem;
-          font-weight: 500;
-
-          &::placeholder {
-            color: #ccc;
-            font-size: 0.81rem;
-            font-weight: 500;
-          }
-        }
-      }
-    }
-
-    .onClickActivedFilters {
-      width: 100%;
-      height: 100%;
-      background-color: transparent;
-      z-index: 5;
-      position: absolute;
-      right: 0;
-      border-radius: 1.5rem;
-    }
-
     .genre {
       position: relative;
       cursor: pointer;
-      width: 20%;
+      width: 30%;
 
       .genres {
         border-radius: 1rem;
@@ -330,22 +300,16 @@ export const CatalogContainer = styled.section`
         background-color: ${colors.color7};
         width: 100%;
         height: ${(props) => (props.genreActived ? '120px' : '0')};
-        overflow: ${(props) => (props.genreActived ? 'visible' : 'hidden')};
         position: absolute;
         transition: height 0.2s ease-in-out;
 
         & > ul {
-          border-radius: 0 0 1rem 1rem;
+          margin: 1.8rem 1.2rem 0;
+          overflow: hidden scroll;
+          height: 65%;
           display: flex;
-          padding-left: 1.2rem;
-          margin-top: 1.8rem;
           gap: 5px;
           flex-direction: column;
-          width: 90%;
-          height: ${(props) => (props.genreActived ? '82px' : '0')};
-          overflow-y: ${(props) => (props.genreActived ? 'scroll' : 'hidden')};
-          overflow-x: ${(props) => (props.genreActived ? 'hidden' : 'hidden')};
-          transition: height 0.2s ease-in-out;
 
           &::-webkit-scrollbar {
             width: 3px;
@@ -373,6 +337,7 @@ export const CatalogContainer = styled.section`
       }
 
       svg {
+        flex-shrink: 0;
         transform: rotateZ(${(props) => (props.genreActived ? '180deg' : '0')});
         transition: transform 0.2s ease-in-out;
       }
@@ -381,7 +346,7 @@ export const CatalogContainer = styled.section`
     .year {
       position: relative;
       cursor: pointer;
-      width: 15%;
+      width: 20%;
 
       .relaceDate {
         border-radius: 1rem;
@@ -396,17 +361,12 @@ export const CatalogContainer = styled.section`
         transition: height 0.2s ease-in-out;
 
         & > ul {
-          border-radius: 0 0 1rem 1rem;
-          margin-top: 1.8rem;
+          margin: 1.8rem 1.2rem 0;
+          overflow: hidden scroll;
+          height: 65%;
           display: flex;
-          padding-left: 1.2rem;
           gap: 5px;
           flex-direction: column;
-          width: 85%;
-          height: ${(props) => (props.relaceDateActived ? '82px' : '0')};
-          overflow-y: ${(props) =>
-            props.relaceDateActived ? 'scroll' : 'hidden'};
-          transition: height 0.2s ease-in-out;
 
           &::-webkit-scrollbar {
             width: 3px;
@@ -434,6 +394,7 @@ export const CatalogContainer = styled.section`
       }
 
       svg {
+        flex-shrink: 0;
         transform: rotateZ(
           ${(props) => (props.relaceDateActived ? '180deg' : '0')}
         );
@@ -441,22 +402,8 @@ export const CatalogContainer = styled.section`
       }
     }
 
-    .reset-filters {
-      color: ${colors.color1};
-      background-color: ${colors.color7};
-      border-radius: 1.5rem;
-      padding: 8px 1.2rem;
-      font-size: 0.81rem;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 15%;
-      cursor: pointer;
-    }
-
     .search-filter {
-      width: 25%;
+      width: ${(props) => (props.cartoons ? '80%' : '50%')};
 
       & > div {
         display: flex;
@@ -465,7 +412,7 @@ export const CatalogContainer = styled.section`
         width: 100%;
 
         & > svg {
-          flex: none;
+          flex-shrink: 0;
           cursor: pointer;
         }
 
@@ -481,7 +428,7 @@ export const CatalogContainer = styled.section`
             font-weight: 500;
 
             &::placeholder {
-              color: #ccc;
+              color: #aaa;
               font-size: 0.81rem;
               font-weight: 500;
             }
@@ -542,10 +489,6 @@ export const CatalogTitles = styled.div`
         transform: scale(1.02);
       }
     }
-  }
-
-  [data-filter-name='actived'] {
-    display: none;
   }
 
   .catalog-img {
@@ -679,6 +622,7 @@ export const PopularContainer = styled.section`
 
       & > .filter-popularBy {
         display: flex;
+        cursor: pointer;
         align-items: center;
         justify-content: space-between;
         color: ${colors.color1};
@@ -689,20 +633,11 @@ export const PopularContainer = styled.section`
         border-radius: 1.5rem;
         position: relative;
 
-        & > .onClickActivedFilters {
-          width: 100%;
-          height: 100%;
-          background-color: transparent;
-          z-index: 5;
-          position: absolute;
-          right: 0;
-          border-radius: 1.5rem;
-        }
-
         & > .ul-filters-popularBy {
           background-color: ${colors.color7};
-          top: 6px;
+          top: 8px;
           z-index: -1;
+          cursor: default;
           right: 0;
           position: absolute;
           border-radius: 1rem;
@@ -711,17 +646,12 @@ export const PopularContainer = styled.section`
           transition: all 0.2s ease-in-out;
 
           & > ul {
-            border-radius: 0 0 1rem 1rem;
-            margin-top: 1.8rem;
+            margin: 1.8rem 1.2rem 0;
+            overflow: hidden scroll;
+            height: 65%;
             display: flex;
-            padding-left: 1.2rem;
             gap: 5px;
             flex-direction: column;
-            width: 81%;
-            height: ${(props) => (props.filterPopularByActived ? '62px' : '0')};
-            overflow-y: ${(props) =>
-              props.filterPopularByActived ? 'scroll' : 'hidden'};
-            transition: height 0.2s ease-in-out;
 
             &::-webkit-scrollbar {
               width: 3px;
@@ -823,7 +753,7 @@ export const PopularTitles = styled.div`
       display: flex;
       flex-direction: column;
       gap: 9px;
-      overflow-y: scroll;
+      overflow: hidden scroll;
 
       &::-webkit-scrollbar {
         width: 5px;
@@ -959,7 +889,7 @@ export const FutureContainer = styled.section`
         font-size: 0.81rem;
         color: ${colors.color5};
         height: 320px;
-        overflow-y: scroll;
+        overflow: hidden scroll;
 
         &::-webkit-scrollbar {
           width: 3px;

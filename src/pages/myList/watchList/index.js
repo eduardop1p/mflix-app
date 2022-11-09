@@ -169,11 +169,10 @@ export default function WatchList(props) {
                     <div
                       className="delete-checkbox-one-item-list"
                       title={myListTitles[index]}
-                      key={result.id}
+                      key={index}
                     >
                       <label htmlFor={result.id}>{myListTitles[index]}</label>
                       <input
-                        key={result.id}
                         type="checkbox"
                         id={result.id}
                         onChange={manageCheckBoxDeleteSelectedItems}
@@ -216,11 +215,10 @@ export default function WatchList(props) {
                     <div
                       className="delete-checkbox-one-item-list"
                       title={myListTitles[index]}
-                      key={result.id}
+                      key={index}
                     >
                       <label htmlFor={result.id}>{myListTitles[index]}</label>
                       <input
-                        key={result.id}
                         type="checkbox"
                         id={result.id}
                         onChange={manageCheckBoxDeleteSelectedItems}
@@ -235,16 +233,16 @@ export default function WatchList(props) {
       </RemoveItemsListSelected>
       <WatchListSection>
         <div className="my-list-container">
-          {userList.map((result) =>
+          {userList.map((result, index) =>
             result.midiaType !== 't' ? (
               <UserListMovie
-                key={result.id}
+                key={index}
                 id={result.id}
                 colorMyListVertical={colorMyListVertical}
               />
             ) : (
               <UserListSerie
-                key={result.id}
+                key={index}
                 id={result.id}
                 colorMyListVertical={colorMyListVertical}
               />

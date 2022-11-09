@@ -43,7 +43,6 @@ class AllCatalog extends Component {
       allGenresMoviesSeries: null,
       allGenres: null,
       genreName: 'Gênero',
-      nameFilterValue: '',
       genreId: null,
       releaseDate: null,
       years: [],
@@ -140,6 +139,7 @@ class AllCatalog extends Component {
 
   randomArrMovieSeries() {
     const { allMoviesArr, allSeriesArr, all } = this.state;
+    const { search } = this.props;
 
     const newArr = [...allMoviesArr.results, ...allSeriesArr.results];
     const randomArrMovieSeriesPopular = { results: [] };
@@ -151,7 +151,11 @@ class AllCatalog extends Component {
       randomArrMovieSeriesPopular.results.push(newArr[valueIndex]);
     });
 
-    if (!all) this.getImages(randomArrMovieSeriesPopular);
+    if (!all && !search) this.getImages(randomArrMovieSeriesPopular);
+    if (search)
+      this.props.firstBackgroundSuccess({
+        loadAllCatalog: true,
+      });
 
     this.setState({
       all: randomArrMovieSeriesPopular,
@@ -209,7 +213,6 @@ class AllCatalog extends Component {
         pageCount: data.total_pages >= 500 ? 500 : data.total_pages,
         searchFilterActived: true,
         genreName: 'Gênero',
-        nameFilterValue: '',
         genreId: null,
         releaseDate: null,
       });
@@ -290,7 +293,6 @@ class AllCatalog extends Component {
       searchFilterValue,
       currentPageGlobal,
       genreActived,
-      nameFilterValue,
       allGenres,
       genreName,
       releaseDate,
@@ -306,22 +308,55 @@ class AllCatalog extends Component {
         <h1>Catalogo</h1>
 
         <div className="catalog-filter">
-          <div className="name">
-            <form onSubmit={(event) => event.preventDefault()}>
-              <input
-                id="name-id"
-                placeholder="Nome do tituto"
-                value={nameFilterValue}
-                onChange={(event) =>
-                  this.setState({
-                    nameFilterValue: event.target.value,
-                  })
-                }
-              />
-            </form>
+          <div
+            className="year"
+            onClick={(event) =>
+              event.target.offsetHeight <= 36 &&
+              this.setState({ relaceDateActived: !relaceDateActived })
+            }
+          >
+            <span>{!releaseDate ? 'Ano' : releaseDate}</span>
+            <div className="relaceDate">
+              <ul>
+                {years.map((year, index) => (
+                  <li
+                    key={index}
+                    onClick={(event) =>
+                      this.setState(
+                        {
+                          relaceDateActived: !relaceDateActived,
+                          releaseDate: event.target.innerText,
+                        },
+                        this.getAllFilters
+                      )
+                    }
+                  >
+                    {year}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="20px"
+                viewBox="0 0 24 24"
+                width="20px"
+                fill="#FFFFFF"
+              >
+                <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
+                <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
+              </svg>
+            </span>
           </div>
-          <div className="genre">
-            {genreName}
+          <div
+            className="genre"
+            onClick={(event) =>
+              event.target.offsetHeight <= 36 &&
+              this.setState({ genreActived: !genreActived })
+            }
+          >
+            <span>{genreName}</span>
             <div className="genres">
               <ul>
                 {allGenres &&
@@ -357,80 +392,8 @@ class AllCatalog extends Component {
                 <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
               </svg>
             </span>
-            <button
-              className="onClickActivedFilters"
-              onClick={() => this.setState({ genreActived: !genreActived })}
-            ></button>
           </div>
-          <div className="year">
-            {!releaseDate ? 'Ano' : releaseDate}
-            <div className="relaceDate">
-              <ul>
-                {years.map((year, index) => (
-                  <li
-                    key={index}
-                    onClick={(event) =>
-                      this.setState(
-                        {
-                          relaceDateActived: !relaceDateActived,
-                          releaseDate: event.target.innerText,
-                        },
-                        this.getAllFilters
-                      )
-                    }
-                  >
-                    {year}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="20px"
-                viewBox="0 0 24 24"
-                width="20px"
-                fill="#FFFFFF"
-              >
-                <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
-                <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
-              </svg>
-            </span>
-            <button
-              className="onClickActivedFilters"
-              onClick={() =>
-                this.setState({
-                  relaceDateActived: !relaceDateActived,
-                })
-              }
-            ></button>
-          </div>
-          <button
-            type="button"
-            className="reset-filters"
-            onClick={() => {
-              this.setState(
-                {
-                  nameFilterValue: '',
-                  searchFilterValue: '',
-                  genreName: 'Gênero',
-                  genreId: null,
-                  releaseDate: null,
-                  currentPageGlobal: 0,
-                },
-                () => {
-                  this.setState({ loadingFilters: true });
-                  this.getAllCatalog(0);
-                  setTimeout(
-                    () => this.setState({ loadingFilters: false }),
-                    100
-                  );
-                }
-              );
-            }}
-          >
-            Resetar&nbsp;filtros
-          </button>
+
           <div className="search-filter">
             <div>
               <svg
@@ -472,23 +435,6 @@ class AllCatalog extends Component {
                       result.title ? result.title : result.name
                     )}/${result.id}`}
                     reloadDocument
-                    data-filter-name={
-                      result.title
-                        ? result.title
-                            .toLocaleLowerCase()
-                            .indexOf(
-                              nameFilterValue.toLocaleLowerCase().trim()
-                            ) === -1
-                          ? 'actived'
-                          : ''
-                        : result.name
-                            .toLocaleLowerCase()
-                            .indexOf(
-                              nameFilterValue.toLocaleLowerCase().trim()
-                            ) === -1
-                        ? 'actived'
-                        : ''
-                    }
                   >
                     <div className="catalog-img">
                       <img
@@ -501,7 +447,7 @@ class AllCatalog extends Component {
                         onError={this.removeLoadingSipnner}
                         alt={result.title ? result.title : result.name}
                       />
-                      <Loading />
+                      <Loading colorVertical={this.props.colorVertical} />
                       <div className="box-shadow-catalog"></div>
                       <div className="movie-or-serie-catalog">
                         {result.title ? 'Filme' : 'Serie'}
