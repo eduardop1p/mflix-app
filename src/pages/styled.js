@@ -643,7 +643,7 @@ export const PopularContainer = styled.section`
           border-radius: 1rem;
           width: 100%;
           height: ${(props) => (props.filterPopularByActived ? '100px' : '0')};
-          transition: all 0.2s ease-in-out;
+          transition: right 0.2s ease-in-out;
 
           & > ul {
             margin: 1.8rem 1.2rem 0;

@@ -566,7 +566,8 @@ export default function MovieV() {
               <div
                 className="filter-popularBy"
                 onClick={(event) =>
-                  event.target.offsetHeight <= 36 &&
+                  event.target.offsetHeight ===
+                    event.currentTarget.offsetHeight &&
                   setFilterPopularByActived(!filterPopularByActived)
                 }
               >

@@ -83,13 +83,32 @@ export const LoginSection = styled.section`
 
     & > .sing-up-recover-password {
       display: flex;
-      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
 
-      & > a {
-        font-size: 0.75rem;
+      & > div {
+        display: flex;
+        gap: 10px;
+
+        @media (max-width: 460px) {
+          flex-direction: ${(props) => (props.expires ? 'column' : 'row')};
+          gap: ${(props) => (props.expires ? '5px' : '10px')};
+        }
+
+        & > a {
+          font-size: 0.75rem;
+          font-weight: 500;
+          text-decoration: underline;
+          color: ${colors.color2};
+        }
+      }
+
+      & > small {
+        width: 150px;
+        font-size: 11px;
+        color: red;
         font-weight: 500;
-        text-decoration: underline;
-        color: ${colors.color2};
+        margin-left: 1rem;
       }
     }
   }

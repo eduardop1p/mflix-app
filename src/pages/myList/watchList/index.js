@@ -160,7 +160,12 @@ export default function WatchList(props) {
         </div>
         {!breackPoint440 ? (
           <div className="delete-selected-items-list">
-            <div>
+            <div
+              onClick={(event) =>
+                event.target.offsetHeight ===
+                  event.currentTarget.offsetHeight && setShowTitles(!showTitles)
+              }
+            >
               <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -192,7 +197,6 @@ export default function WatchList(props) {
                   ))}
                 </fieldset>
               </div>
-              <button onClick={() => setShowTitles(!showTitles)}></button>
             </div>
             <button className="delete-items" onClick={onDeleteSelectedItems}>
               Excluir

@@ -73,6 +73,7 @@ export const RemoveItemsListSelected = styled.div`
     margin-left: 0.8rem;
 
     & > div {
+      cursor: pointer;
       display: flex;
       background-color: ${colors.color7};
       padding: 8px 1.2rem;
@@ -106,8 +107,9 @@ export const RemoveItemsListSelected = styled.div`
       }
 
       & > :nth-child(3) {
+        cursor: default;
         position: absolute;
-        top: 1.45rem;
+        top: 8px;
         display: flex;
         justify-content: center;
         left: 0;
@@ -124,11 +126,9 @@ export const RemoveItemsListSelected = styled.div`
           flex-direction: column;
           border: none;
           background-color: inherit;
-          width: 100%;
-          height: 90px;
-          overflow-x: hidden;
-          overflow-y: ${(props) => (props.showTitles ? 'visible' : 'hidden')};
-          margin: 1rem 1.2rem 0;
+          height: 65%;
+          overflow: hidden scroll;
+          margin: 1.8rem 1.2rem 0;
 
           &::-webkit-scrollbar {
             width: 3px;
@@ -150,6 +150,7 @@ export const RemoveItemsListSelected = styled.div`
             margin-bottom: 8px;
 
             & > label {
+              cursor: pointer;
               color: ${colors.color5};
               font-size: 0.84rem;
               cursor: pointer;
@@ -163,16 +164,6 @@ export const RemoveItemsListSelected = styled.div`
             }
           }
         }
-      }
-
-      & > button {
-        width: 100%;
-        height: 100%;
-        cursor: pointer;
-        background-color: transparent;
-        position: absolute;
-        right: 0;
-        border-radius: 1.5rem;
       }
     }
   }

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { isEmail } from 'validator/validator';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch } from 'react-redux';
@@ -15,14 +15,17 @@ import { LoginMain, LoginSection } from './styled';
 
 export default function Login(props) {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const [inputEmailValue, setInputEmailValue] = useState('');
   const [inputPasswordType, setInputPasswordType] = useState('password');
   const [loadLogin, setLoadLogin] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [showFormMsg, setshowFormMsg] = useState(false);
+  const [expires, setExpires] = useState(false);
 
   useEffect(() => {
+    getSessionExpires();
     setTimeout(() => dispatch(actions.loadingFailure()), 500);
   }, []);
 
@@ -104,6 +107,12 @@ export default function Login(props) {
     };
   }
 
+  function getSessionExpires() {
+    const search = location.search;
+    const sessionExpires = new URLSearchParams(search).get('session_expires');
+    sessionExpires && setExpires(sessionExpires);
+  }
+
   return (
     <LoginMain>
       <Helmet>
@@ -111,7 +120,7 @@ export default function Login(props) {
       </Helmet>
       {loadLogin && <LoadingForm />}
       {showFormMsg && <MessageForm errorMessage={errorMessage} />}
-      <LoginSection inputPasswordType={inputPasswordType}>
+      <LoginSection inputPasswordType={inputPasswordType} expires={expires}>
         <h1>MFILX</h1>
         <div className="login">
           <h1>Login</h1>
@@ -157,12 +166,17 @@ export default function Login(props) {
             </button>
           </form>
           <div className="sing-up-recover-password">
-            <Link reloadDocument to="/criar-conta">
-              Criar conta.
-            </Link>
-            <Link reloadDocument to="/recuperar-senha">
-              Recuperar senha.
-            </Link>
+            <div>
+              <Link reloadDocument to="/criar-conta">
+                Criar conta.
+              </Link>
+              <Link reloadDocument to="/recuperar-senha">
+                Recuperar senha.
+              </Link>
+            </div>
+            {expires && (
+              <small>Sua sessão expirou faça login novalmente*</small>
+            )}
           </div>
         </div>
       </LoginSection>

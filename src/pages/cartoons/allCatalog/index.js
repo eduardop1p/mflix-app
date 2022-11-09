@@ -251,7 +251,7 @@ class AllCatalog extends Component {
           <div
             className="year"
             onClick={(event) =>
-              event.target.offsetHeight <= 36 &&
+              event.target.offsetHeight === event.currentTarget.offsetHeight &&
               this.setState({ relaceDateActived: !relaceDateActived })
             }
           >
