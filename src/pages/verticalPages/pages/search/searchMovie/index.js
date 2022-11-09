@@ -252,6 +252,7 @@ export default function searchMovie(props) {
       setFavoriteUser({});
       return;
     }
+    setErrorMessage('');
 
     try {
       const { data } = await axiosBaseUrlUser.get(
@@ -265,12 +266,22 @@ export default function searchMovie(props) {
       }
       setFavoriteUser({});
     } catch (err) {
-      console.error('Erro ao pegar favorito de usuario.');
+      if (get(err, 'response.data', false)) {
+        const { data } = err.response;
+        data.errors.map((err) => setErrorMessage(err));
+        setshowFormMsg(true);
+        console.clear();
+        return;
+      }
+      setErrorMessage('Erro desconhecido contate o administrador do sistema.');
+      setshowFormMsg(true);
+      console.clear();
     }
   }
 
   async function setFavoriteFunction(event) {
     if (!isLogedIn) return (window.location.href = '/login?redirect=back');
+    setErrorMessage('');
 
     if (favorite) {
       setFavorite(false);
@@ -283,13 +294,24 @@ export default function searchMovie(props) {
           `/minha-lista/${user.id}?ids=${favoriteUser.id}`,
           { headers: { Authorization: session.id } }
         );
-      } catch (err) {}
+      } catch (err) {
+        if (get(err, 'response.data', false)) {
+          const { data } = err.response;
+          data.errors.map((err) => setErrorMessage(err));
+          setshowFormMsg(true);
+          console.clear();
+          return;
+        }
+        setErrorMessage(
+          'Erro desconhecido contate o administrador do sistema.'
+        );
+        setshowFormMsg(true);
+        console.clear();
+      }
       return;
     } else {
       setFavorite(true);
       event.target.parentElement.style.animationName = 'likeAnimaton';
-
-      setErrorMessage('');
 
       try {
         await axiosBaseUrlUser.post(
@@ -304,8 +326,16 @@ export default function searchMovie(props) {
           }
         );
       } catch (err) {
-        const { data } = err.response;
-        data.errors.map((err) => setErrorMessage(err));
+        if (get(err, 'response.data', false)) {
+          const { data } = err.response;
+          data.errors.map((err) => setErrorMessage(err));
+          setshowFormMsg(true);
+          console.clear();
+          return;
+        }
+        setErrorMessage(
+          'Erro desconhecido contate o administrador do sistema.'
+        );
         setshowFormMsg(true);
         console.clear();
       }

@@ -15,7 +15,7 @@ const GlobalStyled = createGlobalStyle`
   body{
     background-color: ${colors.color8};
     max-width: 2500px;
-    min-width: 250px;
+    min-width: 230px;
     margin: 0 auto;
 
     &::-webkit-scrollbar{

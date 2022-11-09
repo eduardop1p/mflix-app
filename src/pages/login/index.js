@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { isEmail } from 'validator/validator';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch } from 'react-redux';
+import { get } from 'lodash';
 
 import * as actions from '../../storeReactRedux/modules/loading/actions';
 import * as actionsLogin from '../../storeReactRedux/modules/auth/actions';
@@ -72,8 +73,14 @@ export default function Login(props) {
         })
       );
     } catch (err) {
-      const { data } = err.response;
-      data.errors.map((err) => setErrorMessage(err));
+      if (get(err, 'response.data', false)) {
+        const { data } = err.response;
+        data.errors.map((err) => setErrorMessage(err));
+        setshowFormMsg(true);
+        console.clear();
+        return;
+      }
+      setErrorMessage('Erro desconhecido contate o administrador do sistema.');
       setshowFormMsg(true);
       console.clear();
     } finally {

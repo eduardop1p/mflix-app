@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useMedia } from 'use-media';
+import { get } from 'lodash';
 
 import * as actions from '../../../storeReactRedux/modules/loading/actions';
 import axiosBaseUrlUser from '../../../services/axiosUserBaseUrl';
@@ -60,6 +61,7 @@ export default function WatchList(props) {
     if (!isLogedIn) {
       return;
     }
+    setErrorMessage('');
 
     try {
       const { data } = await axiosBaseUrlUser.get(`minha-lista/${user.id}`, {
@@ -67,7 +69,16 @@ export default function WatchList(props) {
       });
       setUserList(data);
     } catch (err) {
-      console.error('Erro ao pegar lista de usuário.');
+      if (get(err, 'response.data', false)) {
+        const { data } = err.response;
+        data.errors.map((err) => setErrorMessage(err));
+        setshowFormMsg(true);
+        console.clear();
+        return;
+      }
+      setErrorMessage('Erro desconhecido contate o administrador do sistema.');
+      setshowFormMsg(true);
+      console.clear();
     }
   }
 

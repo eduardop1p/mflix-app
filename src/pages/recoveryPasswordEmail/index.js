@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { isEmail } from 'validator/validator';
 import { useMedia } from 'use-media';
+import { get } from 'lodash';
 
 import * as actions from '../../storeReactRedux/modules/loading/actions';
 import axiosBaseUrlUser from '../../services/axiosUserBaseUrl';
@@ -54,8 +55,14 @@ export default function RecoveryPassworEmail() {
       setSuccessMessage(data.recuperarSenha);
       setshowFormMsg(true);
     } catch (err) {
-      const { data } = err.response;
-      data.errors.map((err) => setErrorMessage(err));
+      if (get(err, 'response.data', false)) {
+        const { data } = err.response;
+        data.errors.map((err) => setErrorMessage(err));
+        setshowFormMsg(true);
+        console.clear();
+        return;
+      }
+      setErrorMessage('Erro desconhecido contate o administrador do sistema.');
       setshowFormMsg(true);
       console.clear();
     } finally {

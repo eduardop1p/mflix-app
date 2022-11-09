@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
+import { get } from 'lodash';
 
 import * as actions from '../../storeReactRedux/modules/loading/actions';
 import axiosBaseUrlUser from '../../services/axiosUserBaseUrl';
@@ -27,7 +28,7 @@ export default function RecoveryPasswordEmail() {
         await axiosBaseUrlUser.get(`/recuperar-senha/${userId}`);
         setTimeout(() => dispatch(actions.loadingFailure()), 500);
       } catch {
-        window.location.href = `/recuperar-senha/${userId}/bad`;
+        window.location.href = `/recuperar-senha/${userId}/404`;
       }
       return;
     };
@@ -84,8 +85,14 @@ export default function RecoveryPasswordEmail() {
       setSuccessMessage(data.recuperarSenha);
       setshowFormMsg(true);
     } catch (err) {
-      const { data } = err.response;
-      data.errors.map((err) => setErrorMessage(err));
+      if (get(err, 'response.data', false)) {
+        const { data } = err.response;
+        data.errors.map((err) => setErrorMessage(err));
+        setshowFormMsg(true);
+        console.clear();
+        return;
+      }
+      setErrorMessage('Erro desconhecido contate o administrador do sistema.');
       setshowFormMsg(true);
       console.clear();
     } finally {

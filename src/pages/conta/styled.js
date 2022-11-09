@@ -41,7 +41,7 @@ export const ContaSection = styled.section`
         display: flex;
         position: relative;
 
-        @media (max-width: 420px) {
+        @media (max-width: 390px) {
           flex-direction: column;
         }
 

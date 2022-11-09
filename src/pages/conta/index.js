@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { isEmail, isAlphanumeric } from 'validator/validator';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch } from 'react-redux';
+import { get } from 'lodash';
 
 /* eslint-disable */
 
@@ -105,10 +106,14 @@ export default function Conta() {
       setSuccessMessage('Conta criada com sucesso!');
       setshowFormMsg(true);
     } catch (err) {
-      const { data } = err.response;
-      data.errors.map((err) => setErrorMessage(err));
+      if (get(err, 'response.data', false)) {
+        const { data } = err.response;
+        data.errors.map((err) => setErrorMessage(err));
+        setshowFormMsg(true);
+        return;
+      }
+      setErrorMessage('Erro desconhecido contate o administrador do sistema.');
       setshowFormMsg(true);
-      console.clear();
     } finally {
       setLoadConta(false);
     }

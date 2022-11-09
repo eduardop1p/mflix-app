@@ -80,7 +80,7 @@ export default function MovieD(props) {
         if (data.belongs_to_collection)
           getCollection(data.belongs_to_collection.id);
       } catch {
-        window.location.href = `/vertical/filmes/${title}/${id}/bad`;
+        window.location.href = `/vertical/filmes/${title}/${id}/404`;
         console.error('Erro ao obter Id de Filme');
       }
     };
@@ -214,6 +214,7 @@ export default function MovieD(props) {
       setFavoriteUser({});
       return;
     }
+    setErrorMessage('');
 
     try {
       const { data } = await axiosBaseUrlUser.get(
@@ -227,12 +228,20 @@ export default function MovieD(props) {
       }
       setFavoriteUser({});
     } catch (err) {
-      console.error('Erro ao pegar favorito de usuario.');
+      if (get(err, 'response.data', false)) {
+        const { data } = err.response;
+        data.errors.map((err) => setErrorMessage(err));
+        setshowFormMsg(true);
+        return;
+      }
+      setErrorMessage('Erro desconhecido contate o administrador do sistema.');
+      setshowFormMsg(true);
     }
   }
 
   async function setFavoriteFunction(event) {
     if (!isLogedIn) return (window.location.href = '/login?redirect=back');
+    setErrorMessage('');
 
     if (favorite) {
       setFavorite(false);
@@ -245,13 +254,24 @@ export default function MovieD(props) {
           `/minha-lista/${user.id}?ids=${favoriteUser.id}`,
           { headers: { Authorization: session.id } }
         );
-      } catch (err) {}
+      } catch (err) {
+        if (get(err, 'response.data', false)) {
+          const { data } = err.response;
+          data.errors.map((err) => setErrorMessage(err));
+          setshowFormMsg(true);
+          console.clear();
+          return;
+        }
+        setErrorMessage(
+          'Erro desconhecido contate o administrador do sistema.'
+        );
+        setshowFormMsg(true);
+        console.clear();
+      }
       return;
     } else {
       setFavorite(true);
       event.target.parentElement.style.animationName = 'likeAnimaton';
-
-      setErrorMessage('');
 
       try {
         await axiosBaseUrlUser.post(
@@ -266,9 +286,17 @@ export default function MovieD(props) {
           }
         );
       } catch (err) {
-        const { data } = err.response;
-        data.errors.map((err) => setErrorMessage(err));
+        if (get(err, 'response.data', false)) {
+          const { data } = err.response;
+          data.errors.map((err) => setErrorMessage(err));
+          setshowFormMsg(true);
+          return;
+        }
+        setErrorMessage(
+          'Erro desconhecido contate o administrador do sistema.'
+        );
         setshowFormMsg(true);
+
         console.clear();
       }
       return;
