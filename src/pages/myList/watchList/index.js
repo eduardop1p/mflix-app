@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useMedia } from 'use-media';
 import { get } from 'lodash';
+import { useMediaQuery } from 'react-responsive';
 
 import * as actions from '../../../storeReactRedux/modules/loading/actions';
 import axiosBaseUrlUser from '../../../services/axiosUserBaseUrl';
@@ -24,7 +24,7 @@ import {
 export default function WatchList(props) {
   const { colorMyListVertical } = props;
 
-  const breackPoint440 = useMedia({ maxWidth: 440 });
+  const breackPoint440 = useMediaQuery({ maxWidth: 440 });
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);

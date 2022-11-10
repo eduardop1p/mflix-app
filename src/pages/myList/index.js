@@ -21,9 +21,7 @@ export default class MyList extends Component {
           <title>MFLIX - Minha lista</title>
         </Helmet>
         <Main>
-          <div className="amo-vadias">
-            <WatchList />
-          </div>
+          <WatchList />
         </Main>
         <Footer />
       </>

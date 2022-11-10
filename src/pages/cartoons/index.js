@@ -24,11 +24,9 @@ export default class Cartoons extends Component {
           <title>MFLIX - Animações</title>
         </Helmet>
         <Main>
-          <div className="amo-vadias">
-            <New />
-            <AllCatalog />
-            <Popular />
-          </div>
+          <New />
+          <AllCatalog />
+          <Popular />
           <Future />
         </Main>
         <Footer />

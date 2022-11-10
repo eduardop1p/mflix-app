@@ -24,11 +24,9 @@ export default class Index extends Component {
           <title>MFLIX</title>
         </Helmet>
         <Main>
-          <div className="amo-vadias">
-            <New />
-            <AllCatalog />
-            <Popular />
-          </div>
+          <New />
+          <AllCatalog />
+          <Popular />
           <Future />
         </Main>
         <Footer />

@@ -22,11 +22,9 @@ export default class Movies extends Component {
           <title>MFLIX - Filmes</title>
         </Helmet>
         <Main>
-          <div className="amo-vadias">
-            <New />
-            <AllCatalog />
-            <Popular />
-          </div>
+          <New />
+          <AllCatalog />
+          <Popular />
           <Future />
         </Main>
         <Footer />

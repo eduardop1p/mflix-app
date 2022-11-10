@@ -6,6 +6,8 @@ import { userLoginFailure } from '../modules/auth/actions';
 
 function* mySagaLogout() {
   const auth = JSON.parse(localStorage.getItem('persist:auth'));
+  if (!auth) return;
+
   const { user, isLogedIn } = JSON.parse(auth.auth);
 
   if (!isLogedIn) return;

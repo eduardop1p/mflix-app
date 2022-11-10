@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, NavLink, Outlet } from 'react-router-dom';
-import { useMedia } from 'use-media';
+import { useMediaQuery } from 'react-responsive';
 import { capitalize } from 'lodash';
 
 /* eslint-disable */
@@ -24,9 +24,9 @@ export default function Header() {
   const [searchActive, setSearchActive] = useState(false);
   const [headerSearchValue, setHeaderSearchValue] = useState('');
 
-  const breackPoint950 = useMedia({ maxWidth: 950 });
-  const breackPoint350 = useMedia({ maxWidth: 350 });
-  const breackPoint300 = useMedia({ maxWidth: 300 });
+  const breackPoint950 = useMediaQuery({ maxWidth: 950 });
+  const breackPoint350 = useMediaQuery({ maxWidth: 350 });
+  const breackPoint300 = useMediaQuery({ maxWidth: 300 });
 
   const isLogedIn = useRef(useSelector((state) => state.auth.isLogedIn));
   const userName = useRef(useSelector((state) => state.auth.user.nome));

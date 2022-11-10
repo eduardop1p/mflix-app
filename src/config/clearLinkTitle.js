@@ -3,6 +3,6 @@ import { deburr } from 'lodash';
 export default function clearLinkTitle(linkTitle) {
   return deburr(linkTitle)
     .toLocaleLowerCase()
-    .replaceAll(' ', '-')
-    .replaceAll(':', '');
+    .replace(/ /g, '-')
+    .replace(/:/g, '');
 }

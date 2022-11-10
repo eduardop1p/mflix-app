@@ -5,38 +5,22 @@ import * as colors from '../colors/index';
 // Main
 
 const Main = styled.main`
-  & > .amo-vadias {
-    padding: 0 4rem;
+  margin: auto 3rem;
+
+  & > section {
+    margin-bottom: 2rem;
   }
 `;
 
 // New styled
 
 export const Slider = styled.section`
-  padding-left: 3.5rem;
+  margin-left: 1rem;
   color: ${colors.color1};
 
   .result {
     display: flex;
     justify-content: space-between;
-
-    .info {
-      margin-top: 2.5rem;
-      width: calc(100% - 50%);
-
-      .title {
-        max-width: 20rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        font-size: 2rem;
-        font-weight: 700;
-        margin: 3px 0;
-        color: ${colors.color1};
-      }
-    }
 
     .next-element {
       position: absolute;
@@ -66,13 +50,55 @@ export const Slider = styled.section`
     }
 
     .slider {
-      margin-right: 3rem;
-      display: flex;
+      display: grid;
+      grid-template: auto / auto auto;
+
+      & * {
+        flex-shrink: 0;
+      }
+
+      @media (max-width: 990px) {
+        display: flex;
+        justify-content: space-between;
+        grid-template: none;
+      }
+
+      & > .info {
+        margin-top: 2rem;
+        margin-right: 1rem;
+        width: fit-content;
+        max-width: 300px;
+
+        @media (max-width: 1050px) and (min-width: 991px), (max-width: 770px) {
+          max-width: 275px;
+        }
+        @media (max-width: 680px) {
+          max-width: 225px;
+        }
+
+        .title {
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          font-size: 2rem;
+          font-weight: 700;
+          margin: 3px 0;
+          color: ${colors.color1};
+        }
+      }
 
       & > .poster-path {
-        width: 300px;
+        width: 290px;
         height: 435px;
         position: relative;
+
+        @media (max-width: 1050px) and (min-width: 991px), (max-width: 770px) {
+          width: 275px;
+          height: 415px;
+        }
 
         img {
           width: 100%;
@@ -84,6 +110,7 @@ export const Slider = styled.section`
 
     .grid {
       margin-top: -10px;
+      margin-left: 1rem;
 
       .titleNew {
         margin-bottom: 1rem;
@@ -110,9 +137,14 @@ export const Grid = styled.div`
     flex-direction: column;
     position: relative;
     width: 225px;
-    height: 129px;
+    height: 127px;
     border-radius: 1rem;
     overflow: hidden;
+
+    @media (max-width: 1050px) {
+      width: 215px;
+      height: 120px;
+    }
 
     & > img {
       width: 100%;
@@ -251,8 +283,6 @@ export const ForId = styled.div`
 // All catalog styled
 
 export const CatalogContainer = styled.section`
-  padding: 2rem 0;
-
   h1 {
     color: ${colors.color1};
     font-size: 1.8rem;
@@ -265,7 +295,8 @@ export const CatalogContainer = styled.section`
     gap: 1rem;
     display: flex;
     color: #ddd;
-    padding: 1.5rem 0 2rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
 
     & > .genre,
     & > .year,
@@ -440,7 +471,7 @@ export const CatalogContainer = styled.section`
 `;
 
 export const CatalogTitles = styled.div`
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 
   & > .not-results-search-all-catalog {
     margin: 0 auto;
@@ -597,6 +628,7 @@ export const PagenationContainer = styled.div`
 
 export const PopularContainer = styled.section`
   .popular {
+    margin-bottom: 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -717,8 +749,6 @@ export const PopularContainer = styled.section`
 `;
 
 export const PopularTitles = styled.div`
-  padding: 1.5rem 0 3rem;
-
   .popular-slider {
     display: flex;
     gap: 3rem;
@@ -824,13 +854,12 @@ export const PopularTitles = styled.div`
 
 export const FutureContainer = styled.section`
   width: 100%;
-  padding: 3rem 4rem 3rem;
   background-color: ${colors.color8};
 
   & > h1 {
     color: ${colors.color1};
     font-size: 1.8rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
 
   .future {

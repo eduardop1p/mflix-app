@@ -1,11 +1,11 @@
 /* eslint-disable */
 
-import { ElementFooter, CreditsFooter } from './styled';
+import { ElementFooter } from './styled';
 
 export default function Footer() {
   return (
     <ElementFooter>
-      <CreditsFooter>
+      <div>
         <div className="line-footer"></div>
         <div className="credits-container">
           <div className="credits">
@@ -26,7 +26,7 @@ export default function Footer() {
             </a>
           </div>
         </div>
-      </CreditsFooter>
+      </div>
     </ElementFooter>
   );
 }

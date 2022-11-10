@@ -14,9 +14,11 @@ import imageErrorPoster from '../../../assets/images/czx7z2e6uqg81.jpg';
 import imageErrorTop3 from '../../../assets/images/1150108.png';
 import { color1 } from '../../../colors';
 import { Slider, Grid, ForId } from '../../styled';
+import { useMediaQuery } from 'react-responsive';
 
 export default function New() {
   const [news, setNews] = useState(null);
+  const breackPoint990 = useMediaQuery({ maxWidth: 990 });
 
   useEffect(() => {
     const getNews = async () => {
@@ -45,11 +47,11 @@ export default function New() {
     <Slider>
       <div className="result">
         <Swiper
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          }}
+          // autoplay={{
+          //   delay: 3000,
+          //   disableOnInteraction: false,
+          //   pauseOnMouseEnter: true,
+          // }}
           navigation={{
             nextEl: '.next-element',
             prevEl: '.prev-element',
@@ -97,54 +99,56 @@ export default function New() {
               </SwiperSlide>
             ))}
         </Swiper>
-        <div className="grid">
-          <h5 className="titleNew">Top&nbsp;3&nbsp;novos&nbsp;filmes</h5>
-          <Grid>
-            <div className="scrollGridNew">
-              {news &&
-                news.results.slice(0, 3).map((result) => (
-                  <Link
-                    key={result.id}
-                    to={`/vertical/filmes/${clearLinkTitle(result.title)}/${
-                      result.id
-                    }`}
-                    reloadDocument
-                  >
-                    <div className="gridNew" key={result.id}>
-                      <img
-                        src={
-                          result.backdrop_path
-                            ? `https://image.tmdb.org/t/p/w500${result.backdrop_path}`
-                            : imageErrorTop3
-                        }
-                        onLoad={removeLoadingSipnner}
-                        onError={removeLoadingSipnner}
-                        alt={result.title}
-                      />
-                      <Loading />
-                      <div>
+        {!breackPoint990 && (
+          <div className="grid">
+            <h5 className="titleNew">Top&nbsp;3&nbsp;novos&nbsp;filmes</h5>
+            <Grid>
+              <div className="scrollGridNew">
+                {news &&
+                  news.results.slice(0, 3).map((result) => (
+                    <Link
+                      key={result.id}
+                      to={`/vertical/filmes/${clearLinkTitle(result.title)}/${
+                        result.id
+                      }`}
+                      reloadDocument
+                    >
+                      <div className="gridNew" key={result.id}>
+                        <img
+                          src={
+                            result.backdrop_path
+                              ? `https://image.tmdb.org/t/p/w500${result.backdrop_path}`
+                              : imageErrorTop3
+                          }
+                          onLoad={removeLoadingSipnner}
+                          onError={removeLoadingSipnner}
+                          alt={result.title}
+                        />
+                        <Loading />
                         <div>
-                          <h5>{result.title}</h5>
-                          <div>{result.release_date.slice(0, 4)}</div>
-                        </div>
-                        <div>
-                          <div className="rating">
-                            Rating
-                            <div>
-                              <RatingSystem
-                                vote_average={result.vote_average}
-                                color={color1}
-                              />
+                          <div>
+                            <h5>{result.title}</h5>
+                            <div>{result.release_date.slice(0, 4)}</div>
+                          </div>
+                          <div>
+                            <div className="rating">
+                              Rating
+                              <div>
+                                <RatingSystem
+                                  vote_average={result.vote_average}
+                                  color={color1}
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                ))}
-            </div>
-          </Grid>
-        </div>
+                    </Link>
+                  ))}
+              </div>
+            </Grid>
+          </div>
+        )}
       </div>
     </Slider>
   );

@@ -5,6 +5,7 @@ import * as colors from '../../colors';
 export const BackgroundImageHeader = styled.div`
   width: 100%;
   height: 560px;
+  top: 0;
   position: absolute;
   z-index: -4;
   overflow: hidden;
@@ -44,20 +45,16 @@ export const HeaderElement = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 4rem;
+  margin: 2rem 3rem;
 
-  @media (max-width: 800px) {
-    padding: 1.5rem 3rem;
-  }
   @media (max-width: 520px) {
-    padding: 1rem 2rem;
+    margin: 1rem 2rem;
   }
 
   .section-1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 6rem;
 
     a {
       font-size: 2rem;
@@ -71,6 +68,7 @@ export const HeaderElement = styled.header`
     nav {
       display: flex;
       gap: 2rem;
+      margin-left: 4rem;
 
       a {
         font-size: 0.81rem;
@@ -156,7 +154,8 @@ export const MenuHambuguer = styled.button`
 export const MenuActive = styled.div`
   width: 100%;
   height: 100%;
-  transition: visibility 0.25s linear;
+  background-color: #171a23ab;
+  transition: visibility 0.2s linear;
   visibility: ${(props) => (props.menuActive ? 'visible' : 'hidden')};
   position: fixed;
   z-index: 10;

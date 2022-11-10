@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { isEmail } from 'validator/validator';
-import { useMedia } from 'use-media';
 import { get } from 'lodash';
+import { useMediaQuery } from 'react-responsive';
 
 import * as actions from '../../storeReactRedux/modules/loading/actions';
 import axiosBaseUrlUser from '../../services/axiosUserBaseUrl';
@@ -16,7 +16,7 @@ import { RecoveryPassworSection } from './styled';
 export default function RecoveryPassworEmail() {
   const dispatch = useDispatch();
 
-  const breackPoint290 = useMedia({ maxWidth: 290 });
+  const breackPoint290 = useMediaQuery({ maxWidth: 290 });
 
   const [loadRecoveryPasswordEmail, setLoadRecoveryPasswordEmail] =
     useState(false);
