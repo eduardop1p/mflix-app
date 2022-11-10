@@ -99,6 +99,10 @@ export const Slider = styled.section`
           width: 275px;
           height: 415px;
         }
+        @media (max-width: 680px) {
+          width: 260px;
+          height: 395px;
+        }
 
         img {
           width: 100%;
