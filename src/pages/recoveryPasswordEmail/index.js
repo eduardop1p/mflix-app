@@ -16,7 +16,7 @@ import { RecoveryPassworSection } from './styled';
 export default function RecoveryPassworEmail() {
   const dispatch = useDispatch();
 
-  const breackPoint290 = useMediaQuery({ maxWidth: 290 });
+  const breakPoint290 = useMediaQuery({ maxWidth: 290 });
 
   const [loadRecoveryPasswordEmail, setLoadRecoveryPasswordEmail] =
     useState(false);
@@ -87,7 +87,7 @@ export default function RecoveryPassworEmail() {
         <div>
           <h1>Insira seu email</h1>
           <form onSubmit={setRecoveryPasswordSubmit}>
-            {!breackPoint290 ? (
+            {!breakPoint290 ? (
               <div className="relative-input">
                 <input
                   type="text"

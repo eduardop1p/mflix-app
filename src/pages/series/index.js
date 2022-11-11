@@ -1,6 +1,5 @@
 /* eslint-disable */
 
-import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import Footer from '../../components/footer/index';
@@ -10,27 +9,19 @@ import Popular from './popular/index';
 import Future from './future/index';
 import Main from '../styled';
 
-export default class Series extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
-  render() {
-    return (
-      <>
-        <Helmet>
-          <title>MFLIX - Series</title>
-        </Helmet>
-        <Main>
-          <New />
-          <AllCatalog />
-          <Popular />
-          <Future />
-        </Main>
-        <Footer />
-      </>
-    );
-  }
+export default function Series() {
+  return (
+    <>
+      <Helmet>
+        <title>MFLIX - Series</title>
+      </Helmet>
+      <Main>
+        <New />
+        <AllCatalog />
+        <Popular />
+        <Future />
+      </Main>
+      <Footer />
+    </>
+  );
 }

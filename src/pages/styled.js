@@ -475,7 +475,7 @@ export const CatalogContainer = styled.section`
 `;
 
 export const CatalogTitles = styled.div`
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 
   & > .not-results-search-all-catalog {
     margin: 0 auto;
@@ -516,8 +516,27 @@ export const CatalogTitles = styled.div`
   a {
     width: calc(100% / 5);
     display: inline-block;
-    height: 375px;
+    height: calc(100vw / 3.65);
     padding: 8px;
+
+    @media (max-width: 1210px) {
+      width: calc(100% / 4);
+      height: calc(100vw / 2.95);
+    }
+    @media (max-width: 1060px) {
+      height: calc(100vw / 3);
+    }
+    @media (max-width: 910px) {
+      width: calc(100% / 3);
+      height: calc(100vw / 2.3);
+    }
+    @media (max-width: 760px) {
+      height: calc(100vw / 2.35);
+    }
+    /* @media (max-width: 650px) {
+      width: calc(100% / 2);
+      height: calc(100vw / 1.6);
+    } */
 
     &:hover {
       & > .catalog-img {
@@ -645,10 +664,12 @@ export const PopularContainer = styled.section`
       font-size: 1.8rem;
     }
 
-    & > .popularBy {
+    & > .popularBy,
+    & > .popularBy-mobile {
       display: flex;
       align-items: center;
       gap: 1rem;
+      margin-left: 1rem;
 
       & > h5 {
         color: ${colors.color5};
@@ -719,11 +740,60 @@ export const PopularContainer = styled.section`
           align-items: center;
 
           & > svg {
+            transition: transform 0.2s ease-in-out;
             transform: rotateZ(
               ${(props) => (props.filterPopularByActived ? '180deg' : '0')}
             );
-            transition: transform 0.2s ease-in-out;
           }
+        }
+      }
+
+      & > .menu-poular-mobile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 25px;
+        height: 25px;
+        position: relative;
+
+        & > div {
+          background-color: ${colors.color7};
+          width: 124px;
+          flex-shrink: 0;
+          position: absolute;
+          top: 22px;
+          right: -20px;
+          border-radius: 10px;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+
+          & > h5 {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            text-align: center;
+            font-size: 12px;
+            color: ${colors.color5};
+          }
+
+          ul {
+            padding: 0 10px 10px;
+            width: 100%;
+
+            & > li {
+              font-size: 13px;
+              font-weight: 400;
+              width: fit-content;
+            }
+          }
+        }
+
+        & > svg {
+          flex-shrink: 0;
+          transition: transform 0.2s ease-in-out;
+          transform: rotateZ(
+            ${(props) => (props.menuMobileActived ? '180deg' : '0')}
+          );
         }
       }
 
@@ -755,16 +825,52 @@ export const PopularContainer = styled.section`
 export const PopularTitles = styled.div`
   .popular-slider {
     display: flex;
-    gap: 3rem;
+    justify-content: space-between;
     background-color: ${colors.color7};
     width: 100%;
-    height: 200px;
     border-radius: 5px;
     padding: 10px;
 
+    @media (max-width: 1100px) {
+      flex-direction: column;
+      justify-content: normal;
+      align-items: center;
+      height: 411px;
+    }
+    @media (max-width: 1020px) {
+      height: 418px;
+    }
+    @media (max-width: 950px) {
+      height: 443px;
+    }
+    @media (max-width: 800px) {
+      height: 475px;
+    }
+    @media (max-width: 650px) {
+      height: 415px;
+    }
+
     & > .popular-img {
+      flex-shrink: 0;
       width: 130px;
+      height: 190px;
+      margin-right: 2rem;
       position: relative;
+
+      @media (max-width: 1100px) {
+        margin-right: 0;
+        width: 100%;
+        height: calc(100vw / 4.55);
+      }
+      @media (max-width: 950px) {
+        height: calc(100vw / 3.6);
+      }
+      @media (max-width: 800px) {
+        height: calc(100vw / 2.7);
+      }
+      @media (max-width: 650px) {
+        height: calc(100vw / 2.9);
+      }
 
       .movie-or-serie-popular {
         position: absolute;
@@ -783,11 +889,15 @@ export const PopularTitles = styled.div`
     }
 
     & > .popular-details {
-      padding: 1.2rem 10px 1rem 0;
+      margin: 1rem 0;
       display: flex;
       flex-direction: column;
       gap: 9px;
-      overflow: hidden scroll;
+
+      @media (max-width: 1100px) {
+        margin: 0;
+        margin-top: 1rem;
+      }
 
       &::-webkit-scrollbar {
         width: 5px;
@@ -802,7 +912,7 @@ export const PopularTitles = styled.div`
       }
 
       & > a > h3 {
-        max-width: 10rem;
+        max-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
@@ -836,18 +946,23 @@ export const PopularTitles = styled.div`
         }
       }
 
-      & > a > .popular-watch-now {
-        background-color: ${colors.color6};
-        font-weight: 400;
-        color: ${colors.color1};
-        border-radius: 1.5rem;
-        font-size: 0.75rem;
-        width: fit-content;
-        padding: 8px 1.2rem;
-        transition: all 0.2s ease-in-out;
+      & > :last-child {
+        @media (max-width: 1100px) {
+          align-self: center;
+        }
 
-        &:hover {
-          background-color: ${colors.color2};
+        & > .popular-watch-now {
+          background-color: ${colors.color6};
+          font-weight: 400;
+          color: ${colors.color1};
+          border-radius: 1.5rem;
+          font-size: 0.75rem;
+          padding: 8px 1.2rem;
+          transition: all 0.2s ease-in-out;
+
+          &:hover {
+            background-color: ${colors.color2};
+          }
         }
       }
     }

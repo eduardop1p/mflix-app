@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactPaginate from 'react-paginate';
+// import useMediaQuery from 'react-responsive';
 
 /* eslint-disable */
 import * as actions from '../../../storeReactRedux/modules/firstBackground/actions';

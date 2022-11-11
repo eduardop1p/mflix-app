@@ -24,7 +24,7 @@ import {
 export default function WatchList(props) {
   const { colorMyListVertical } = props;
 
-  const breackPoint440 = useMediaQuery({ maxWidth: 440 });
+  const breakPoint440 = useMediaQuery({ maxWidth: 440 });
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -158,7 +158,7 @@ export default function WatchList(props) {
             Excluir todos
           </button>
         </div>
-        {!breackPoint440 ? (
+        {!breakPoint440 ? (
           <div className="delete-selected-items-list">
             <div
               onClick={(event) =>

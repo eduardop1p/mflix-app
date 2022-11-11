@@ -24,9 +24,9 @@ export default function Header() {
   const [searchActive, setSearchActive] = useState(false);
   const [headerSearchValue, setHeaderSearchValue] = useState('');
 
-  const breackPoint950 = useMediaQuery({ maxWidth: 950 });
-  const breackPoint350 = useMediaQuery({ maxWidth: 350 });
-  const breackPoint300 = useMediaQuery({ maxWidth: 300 });
+  const breakPoint950 = useMediaQuery({ maxWidth: 950 });
+  const breakPoint350 = useMediaQuery({ maxWidth: 350 });
+  const breakPoint300 = useMediaQuery({ maxWidth: 300 });
 
   const isLogedIn = useRef(useSelector((state) => state.auth.isLogedIn));
   const userName = useRef(useSelector((state) => state.auth.user.nome));
@@ -62,9 +62,9 @@ export default function Header() {
         <section className="section-1">
           <Link title="Home" reloadDocument to="/">
             <Logo />
-            {!breackPoint300 && 'MFLIX'}
+            {!breakPoint300 && 'MFLIX'}
           </Link>
-          {!breackPoint950 && (
+          {!breakPoint950 && (
             <nav>
               <NavLink
                 title="Filmes"
@@ -102,7 +102,7 @@ export default function Header() {
           )}
         </section>
         <section className="section-2">
-          {!breackPoint350 ? (
+          {!breakPoint350 ? (
             <Search searchActive={searchActive}>
               <form onSubmit={setHeaderSearch} action="/vertical/search">
                 <input
@@ -143,7 +143,7 @@ export default function Header() {
               </svg>
             </Link>
           )}
-          {!breackPoint950 && (
+          {!breakPoint950 && (
             <div>
               {isLogedIn.current ? (
                 <UserPhoto />
@@ -159,7 +159,7 @@ export default function Header() {
               )}
             </div>
           )}
-          {breackPoint950 && (
+          {breakPoint950 && (
             <MenuHambuguer menuActive={menuActive}>
               <div onClick={() => setMenuActive(!menuActive)}>
                 <div className="h-1"></div>
@@ -187,7 +187,7 @@ export default function Header() {
                         className="singn-up"
                         to="/login"
                       >
-                        {breackPoint950 ? 'L' : 'Login'}
+                        {breakPoint950 ? 'L' : 'Login'}
                       </Link>
                     )}
                     <nav>
