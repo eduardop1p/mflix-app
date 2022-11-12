@@ -47,8 +47,8 @@ export const HeaderElement = styled.header`
   align-items: center;
   margin: 2rem 3rem;
 
-  @media (max-width: 520px) {
-    margin: 1rem 2rem;
+  @media (max-width: 680px) {
+    margin: 2rem 2.5rem;
   }
 
   .section-1 {

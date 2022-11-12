@@ -7,6 +7,10 @@ import * as colors from '../colors/index';
 const Main = styled.main`
   margin: auto 3rem;
 
+  @media (max-width: 680px) {
+    margin: auto 2.5rem;
+  }
+
   & > section {
     margin-bottom: 2rem;
   }
@@ -18,9 +22,17 @@ export const Slider = styled.section`
   margin-left: 1rem;
   color: ${colors.color1};
 
+  @media (max-width: 680px) {
+    margin-left: 13px;
+  }
+
   .result {
     display: flex;
     justify-content: space-between;
+
+    @media (max-width: 570px) {
+      justify-content: normal;
+    }
 
     .next-element {
       position: absolute;
@@ -49,6 +61,73 @@ export const Slider = styled.section`
       }
     }
 
+    .slider-mobile {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      & > a {
+        width: 290px;
+        height: 435px;
+        border-radius: 1rem;
+        overflow: hidden;
+        position: relative;
+
+        & > .mobile-new-details {
+          position: absolute;
+          padding: 14px;
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+          &::before {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            bottom: 0;
+            box-shadow: inset 0px -70px 70px -15px ${colors.color7};
+          }
+
+          & > div {
+            display: flex;
+            justify-content: space-between;
+
+            & > h4 {
+              margin-right: 1rem;
+              color: ${colors.color1};
+              text-overflow: ellipsis;
+              overflow: hidden;
+              display: -webkit-box;
+              -webkit-line-clamp: 3;
+              -webkit-box-orient: vertical;
+            }
+
+            & > :last-child {
+              font-size: 13px;
+              color: ${colors.color1};
+              align-self: flex-end;
+            }
+          }
+        }
+
+        & > .poster-path {
+          width: 100%;
+          height: 100%;
+
+          & > img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+
     .slider {
       display: grid;
       grid-template: auto / auto auto;
@@ -74,6 +153,9 @@ export const Slider = styled.section`
         }
         @media (max-width: 680px) {
           max-width: 225px;
+        }
+        @media (max-width: 615px) {
+          max-width: 200px;
         }
 
         .title {
@@ -302,6 +384,11 @@ export const CatalogContainer = styled.section`
     margin-top: 1.5rem;
     margin-bottom: 1rem;
 
+    @media (max-width: 550px) {
+      flex-direction: column;
+      gap: 13px;
+    }
+
     & > .genre,
     & > .year,
     & > .search-filter {
@@ -314,6 +401,7 @@ export const CatalogContainer = styled.section`
       display: flex;
       align-items: center;
       justify-content: space-between;
+      position: relative;
 
       & > span {
         display: flex;
@@ -322,9 +410,15 @@ export const CatalogContainer = styled.section`
     }
 
     .genre {
-      position: relative;
       cursor: pointer;
       width: 30%;
+
+      @media (max-width: 750px) {
+        width: 35%;
+      }
+      @media (max-width: 550px) {
+        width: 100%;
+      }
 
       .genres {
         border-radius: 1rem;
@@ -379,9 +473,15 @@ export const CatalogContainer = styled.section`
     }
 
     .year {
-      position: relative;
       cursor: pointer;
       width: 20%;
+
+      @media (max-width: 750px) {
+        width: 25%;
+      }
+      @media (max-width: 550px) {
+        width: 100%;
+      }
 
       .relaceDate {
         border-radius: 1rem;
@@ -439,6 +539,13 @@ export const CatalogContainer = styled.section`
 
     .search-filter {
       width: ${(props) => (props.cartoons ? '80%' : '50%')};
+
+      @media (max-width: 750px) {
+        width: ${(props) => (props.cartoons ? '80%' : '40%')};
+      }
+      @media (max-width: 550px) {
+        width: 100%;
+      }
 
       & > div {
         display: flex;
@@ -578,7 +685,6 @@ export const CatalogTitles = styled.div`
     left: 0;
     bottom: 0;
     box-shadow: inset 0px -70px 70px -15px ${colors.color7};
-    cursor: pointer;
   }
 
   .catalog-details {
@@ -835,7 +941,7 @@ export const PopularTitles = styled.div`
       flex-direction: column;
       justify-content: normal;
       align-items: center;
-      height: 411px;
+      height: 421px;
     }
     @media (max-width: 1020px) {
       height: 418px;
@@ -985,10 +1091,29 @@ export const FutureContainer = styled.section`
     display: flex;
     justify-content: space-between;
 
-    & > .future-img {
+    .future-mobile-img-details {
+      display: flex;
+      flex-direction: column;
+
+      @media (max-width: 950px) {
+        margin-right: 1rem;
+      }
+    }
+
+    .future-img {
       width: 280px;
-      max-height: 450px;
+      height: 420px;
       position: relative;
+      flex-shrink: 0;
+
+      @media (max-width: 950px) {
+        width: 200px;
+        height: 300px;
+      }
+      @media (max-width: 700px) {
+        width: calc(100vw / 3.55);
+        height: calc(100vw / 2.35);
+      }
 
       .movie-or-serie-future {
         position: absolute;
@@ -1007,15 +1132,33 @@ export const FutureContainer = styled.section`
       }
     }
 
-    & > .future-details {
-      width: 280px;
-      padding: 1.2rem 0;
+    .future-details {
+      width: 230px;
+      margin: 1rem 1.5rem 0;
       display: flex;
       flex-direction: column;
       gap: 12px;
+      flex-shrink: 0;
+
+      @media (max-width: 1150px) {
+        width: 185px;
+      }
+      @media (max-width: 950px) {
+        margin: 10px 0 0;
+        width: 200px;
+        gap: 5px;
+      }
+      @media (max-width: 700px) {
+        width: calc(100vw / 3.55);
+      }
 
       & > h3 {
-        max-width: 12rem;
+        max-width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
         font-size: 1rem;
         font-weight: 600;
         color: ${colors.color1};
@@ -1024,11 +1167,10 @@ export const FutureContainer = styled.section`
       & > .future-release-date {
         font-size: 0.87rem;
         display: flex;
-        align-items: center;
-        gap: 8px;
         color: ${colors.color5};
 
         & > span {
+          margin-left: 8px;
           color: ${colors.color1};
         }
       }
@@ -1036,8 +1178,12 @@ export const FutureContainer = styled.section`
       & > .future-info {
         font-size: 0.81rem;
         color: ${colors.color5};
-        height: 320px;
+        height: 300px;
         overflow: hidden scroll;
+
+        @media (max-width: 950px) {
+          height: 45px;
+        }
 
         &::-webkit-scrollbar {
           width: 3px;
@@ -1057,14 +1203,16 @@ export const FutureContainer = styled.section`
     & > .future-trailer-video {
       border-radius: 1rem;
       overflow: hidden;
-      width: 600px;
+      width: 100%;
       height: 420px;
       background-color: #111;
+      position: relative;
+      display: flex;
+      justify-content: center;
 
       & > .msg-video-trailer-error {
-        top: 24rem;
-        text-align: center;
-        position: relative;
+        position: absolute;
+        bottom: 2rem;
         color: ${colors.color1};
         font-size: 0.62rem;
       }

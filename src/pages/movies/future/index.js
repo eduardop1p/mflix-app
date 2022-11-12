@@ -16,12 +16,24 @@ class Future extends Component {
   constructor(props) {
     super(props);
 
+    this.useMedia1150 = matchMedia('(max-width: 1150px)');
+    this.useMedia950 = matchMedia('(max-width: 950px)');
+
     this.state = {
       futureAll: null,
+      breakPoint1150: this.useMedia1150.matches,
+      breakPoint950: this.useMedia950.matches,
     };
   }
 
   componentDidMount() {
+    this.useMedia1150.addEventListener('change', (event) => {
+      this.setState({ breakPoint1150: event.matches });
+    });
+    this.useMedia950.addEventListener('change', (event) => {
+      this.setState({ breakPoint950: event.matches });
+    });
+
     const date = (past7Day = 0) => {
       const date = new Date();
       date.setDate(date.getDate() + past7Day);
@@ -67,17 +79,17 @@ class Future extends Component {
   }
 
   render() {
-    const { futureAll } = this.state;
+    const { futureAll, breakPoint1150, breakPoint950 } = this.state;
 
     return (
       <FutureContainer>
         <h1>Filmes futuros</h1>
         <Swiper
-          autoplay={{
-            delay: 5000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          }}
+          // autoplay={{
+          //   delay: 5000,
+          //   disableOnInteraction: false,
+          //   pauseOnMouseEnter: true,
+          // }}
           style={{ height: 'auto' }}
           spaceBetween={20}
           slidesPerView={1}
@@ -89,37 +101,76 @@ class Future extends Component {
                 result !== undefined && (
                   <SwiperSlide key={result.id}>
                     <div className="future">
-                      <div className="future-img">
-                        <img
-                          src={
-                            result.poster_path
-                              ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                              : imageErrorTop3
-                          }
-                          onLoad={this.removeLoadingSipnner}
-                          onError={this.removeLoadingSipnner}
-                          alt={result.title}
-                        />
-                        <Loading />
-                      </div>
-                      <div className="future-details">
-                        <h3>{result.title}</h3>
-                        <div className="future-release-date">
-                          Lançamento:
-                          <span>
-                            {new Date(
-                              `${result.release_date}`
-                            ).toLocaleDateString('pt-BR', {
-                              dateStyle: 'long',
-                            })}
-                          </span>
+                      {!breakPoint950 ? (
+                        <>
+                          <div className="future-img">
+                            <img
+                              src={
+                                result.poster_path
+                                  ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                                  : imageErrorTop3
+                              }
+                              onLoad={this.removeLoadingSipnner}
+                              onError={this.removeLoadingSipnner}
+                              alt={result.title}
+                            />
+                            <Loading />
+                          </div>
+                          <div className="future-details">
+                            <h3>{result.title}</h3>
+                            <div className="future-release-date">
+                              Estreia:
+                              <span>
+                                {new Date(
+                                  `${result.release_date}`
+                                ).toLocaleDateString('pt-BR', {
+                                  dateStyle: breakPoint1150 ? 'medium' : 'long',
+                                })}
+                              </span>
+                            </div>
+                            <div className="future-info">
+                              {!result.overview
+                                ? 'Não à descrição para este titulo por enquanto.'
+                                : result.overview}
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="future-mobile-img-details">
+                          <div className="future-img">
+                            <img
+                              src={
+                                result.poster_path
+                                  ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                                  : imageErrorTop3
+                              }
+                              onLoad={this.removeLoadingSipnner}
+                              onError={this.removeLoadingSipnner}
+                              alt={result.title}
+                            />
+                            <Loading />
+                          </div>
+                          <div className="future-details">
+                            <h3>{result.title}</h3>
+                            <div className="future-release-date">
+                              Estreia:
+                              <span>
+                                {new Date(
+                                  `${result.release_date}`
+                                ).toLocaleDateString('pt-BR', {
+                                  dateStyle: breakPoint1150 ? 'medium' : 'long',
+                                })}
+                              </span>
+                            </div>
+                            <div className="future-info">
+                              {!result.overview
+                                ? 'Não à descrição para este titulo por enquanto.'
+                                : result.overview}
+                            </div>
+                          </div>
                         </div>
-                        <div className="future-info">
-                          {!result.overview
-                            ? 'Não à descrição para este titulo por enquanto.'
-                            : result.overview}
-                        </div>
-                      </div>
+                      )}
+
                       <div className="future-trailer-video">
                         <GetTrailerMovie id={result.id} />
                       </div>

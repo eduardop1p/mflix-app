@@ -19,6 +19,7 @@ import { useMediaQuery } from 'react-responsive';
 export default function New() {
   const [news, setNews] = useState(null);
   const breackPoint990 = useMediaQuery({ maxWidth: 990 });
+  const breackPoint570 = useMediaQuery({ maxWidth: 570 });
 
   useEffect(() => {
     const getNews = async () => {
@@ -66,36 +67,65 @@ export default function New() {
           {news &&
             news.results.map((result) => (
               <SwiperSlide key={result.id}>
-                <div className="slider">
-                  <div className="info">
-                    <div className="new">NEW</div>
+                {!breackPoint570 ? (
+                  <div className="slider">
+                    <div className="info">
+                      <div className="new">NEW</div>
+                      <Link
+                        to={`/vertical/filmes/${clearLinkTitle(result.title)}/${
+                          result.id
+                        }`}
+                        reloadDocument
+                      >
+                        <h1 title={result.title} className="title">
+                          {result.title}
+                        </h1>
+                      </Link>
+                      <GetDetailsMovieId id={result.id} />
+                    </div>
+
+                    <div className="poster-path">
+                      <img
+                        src={
+                          result.poster_path
+                            ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                            : imageErrorPoster
+                        }
+                        onLoad={removeLoadingSipnner}
+                        onError={removeLoadingSipnner}
+                        alt={result.title}
+                      />
+                      <Loading />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="slider-mobile">
                     <Link
                       to={`/vertical/filmes/${clearLinkTitle(result.title)}/${
                         result.id
                       }`}
                       reloadDocument
                     >
-                      <h1 title={result.title} className="title">
-                        {result.title}
-                      </h1>
-                    </Link>
-                    <GetDetailsMovieId id={result.id} />
-                  </div>
+                      <div className="mobile-new-details">
+                        <GetDetailsMovieId id={result.id} mobile />
+                      </div>
 
-                  <div className="poster-path">
-                    <img
-                      src={
-                        result.poster_path
-                          ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                          : imageErrorPoster
-                      }
-                      onLoad={removeLoadingSipnner}
-                      onError={removeLoadingSipnner}
-                      alt={result.title}
-                    />
-                    <Loading />
+                      <div className="poster-path">
+                        <img
+                          src={
+                            result.poster_path
+                              ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                              : imageErrorPoster
+                          }
+                          onLoad={removeLoadingSipnner}
+                          onError={removeLoadingSipnner}
+                          alt={result.title}
+                        />
+                        <Loading />
+                      </div>
+                    </Link>
                   </div>
-                </div>
+                )}
               </SwiperSlide>
             ))}
         </Swiper>
@@ -155,7 +185,7 @@ export default function New() {
 }
 
 function GetDetailsMovieId(props) {
-  const { id } = props;
+  const { id, mobile } = props;
 
   const [newId, serNewId] = useState(null);
 
@@ -175,7 +205,7 @@ function GetDetailsMovieId(props) {
 
   if (!newId) return;
 
-  return (
+  return !mobile ? (
     <ForId>
       <div className="production-companies">
         {newId.production_companies.length > 0
@@ -211,5 +241,18 @@ function GetDetailsMovieId(props) {
         </button>
       </Link>
     </ForId>
+  ) : (
+    <>
+      <div>
+        <div className="new">NEW</div>
+        <div className="date">
+          {newId.release_date ? newId.release_date.slice(0, 4) : 'Not data'}
+        </div>
+      </div>
+      <div>
+        <h4>{newId.title}</h4>
+        <div>{newId.genres[0].name}</div>
+      </div>
+    </>
   );
 }

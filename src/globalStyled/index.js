@@ -50,6 +50,10 @@ const GlobalStyled = createGlobalStyle`
     color: ${colors.color1};
     font-size: 0.81rem;
     background: linear-gradient(to right, ${colors.color2} 10%, ${colors.color3});
+
+    @media (max-width: 615px) {
+      padding: 13px 2.5rem;
+    }
   }
 
   .new{
