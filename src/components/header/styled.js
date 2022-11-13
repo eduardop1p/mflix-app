@@ -50,6 +50,9 @@ export const HeaderElement = styled.header`
   @media (max-width: 680px) {
     margin: 2rem 2.5rem;
   }
+  @media (max-width: 570px) {
+    margin: 1.5rem 2rem;
+  }
 
   .section-1 {
     display: flex;

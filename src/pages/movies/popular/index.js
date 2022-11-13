@@ -32,10 +32,9 @@ export default class Popular extends Component {
       loadingFilters: false,
       allGenres: null,
       filterPopularByActived: false,
-      filterNamePopular: null,
+      filterNamePopular: 'Filtrar',
       primaryReleaseDateGte: null,
       primaryReleaseDateLte: null,
-      menuMobileActived: false,
       breakPoint1350: this.useMedia1350.matches,
       breakPoint1100: this.useMedia1100.matches,
       breakPoint950: this.useMedia950.matches,
@@ -48,6 +47,7 @@ export default class Popular extends Component {
     this.getAllPopularFilters = this.getAllPopularFilters.bind(this);
     this.date = this.date.bind(this);
     this.useMediaQuery = this.useMediaQuery.bind(this);
+    this.filterNamePopularFuction = this.filterNamePopularFuction.bind(this);
   }
 
   componentDidMount() {
@@ -138,6 +138,63 @@ export default class Popular extends Component {
     return loadingSpinner.remove();
   }
 
+  filterNamePopularFuction(name, event) {
+    const { filterNamePopular } = this.state;
+
+    if (event.target.innerText === filterNamePopular) return;
+
+    event.target.parentElement
+      .querySelectorAll('li')
+      .forEach((li) => li.removeAttribute('data-active'));
+
+    event.target.setAttribute('data-active', '');
+
+    if (name === 'dia') {
+      this.setState(
+        {
+          primaryReleaseDateGte: this.date(1),
+          primaryReleaseDateLte: this.date(),
+          filterNamePopular: event.target.innerText,
+        },
+        this.getAllPopularFilters
+      );
+      return;
+    }
+    if (name === 'semana') {
+      this.setState(
+        {
+          primaryReleaseDateGte: this.date(7),
+          primaryReleaseDateLte: this.date(),
+          filterNamePopular: event.target.innerText,
+        },
+        this.getAllPopularFilters
+      );
+      return;
+    }
+    if (name === 'mes') {
+      this.setState(
+        {
+          primaryReleaseDateGte: this.date(31),
+          primaryReleaseDateLte: this.date(),
+          filterNamePopular: event.target.innerText,
+        },
+        this.getAllPopularFilters
+      );
+      return;
+    }
+    if (name === 'ano') {
+      this.setState(
+        {
+          primaryReleaseDateGte: this.date(365),
+          primaryReleaseDateLte: this.date(),
+          filterNamePopular: event.target.innerText,
+        },
+        this.getAllPopularFilters
+      );
+      return;
+    }
+  }
+
   render() {
     const {
       allPopular,
@@ -145,7 +202,6 @@ export default class Popular extends Component {
       allGenres,
       filterPopularByActived,
       filterNamePopular,
-      menuMobileActived,
       breakPoint1350,
       breakPoint1100,
       breakPoint950,
@@ -156,10 +212,7 @@ export default class Popular extends Component {
     SwiperCore.use([Autoplay]);
 
     return (
-      <PopularContainer
-        filterPopularByActived={filterPopularByActived}
-        menuMobileActived={menuMobileActived}
-      >
+      <PopularContainer filterPopularByActived={filterPopularByActived}>
         <div className="popular">
           <h1>Filmes populares</h1>
           {!breakPoint650 ? (
@@ -168,74 +221,39 @@ export default class Popular extends Component {
               <div
                 className="filter-popularBy"
                 onClick={(event) =>
-                  event.target.offsetHeight ===
-                    event.currentTarget.offsetHeight &&
+                  !event.target.classList.contains('stop-event') &&
                   this.setState({
                     filterPopularByActived: !filterPopularByActived,
                   })
                 }
               >
-                <span>
-                  {!filterNamePopular ? 'Filtrar' : filterNamePopular}
-                </span>
-                <div className="ul-filters-popularBy">
-                  <ul>
+                <span>{filterNamePopular}</span>
+                <div className="ul-filters-popularBy stop-event">
+                  <ul className="stop-event">
                     <li
                       onClick={(event) =>
-                        this.setState(
-                          {
-                            primaryReleaseDateGte: this.date(1),
-                            primaryReleaseDateLte: this.date(),
-                            filterNamePopular: event.target.innerText,
-                            filterPopularByActived: !filterPopularByActived,
-                          },
-                          this.getAllPopularFilters
-                        )
+                        this.filterNamePopularFuction('dia', event)
                       }
                     >
                       Dia
                     </li>
                     <li
                       onClick={(event) =>
-                        this.setState(
-                          {
-                            primaryReleaseDateGte: this.date(7),
-                            primaryReleaseDateLte: this.date(),
-                            filterNamePopular: event.target.innerText,
-                            filterPopularByActived: !filterPopularByActived,
-                          },
-                          this.getAllPopularFilters
-                        )
+                        this.filterNamePopularFuction('semana', event)
                       }
                     >
                       Semana
                     </li>
                     <li
                       onClick={(event) =>
-                        this.setState(
-                          {
-                            primaryReleaseDateGte: this.date(31),
-                            primaryReleaseDateLte: this.date(),
-                            filterNamePopular: event.target.innerText,
-                            filterPopularByActived: !filterPopularByActived,
-                          },
-                          this.getAllPopularFilters
-                        )
+                        this.filterNamePopularFuction('mes', event)
                       }
                     >
                       Mês
                     </li>
                     <li
                       onClick={(event) =>
-                        this.setState(
-                          {
-                            primaryReleaseDateGte: this.date(365),
-                            primaryReleaseDateLte: this.date(),
-                            filterNamePopular: event.target.innerText,
-                            filterPopularByActived: !filterPopularByActived,
-                          },
-                          this.getAllPopularFilters
-                        )
+                        this.filterNamePopularFuction('ano', event)
                       }
                     >
                       Ano
@@ -291,23 +309,22 @@ export default class Popular extends Component {
               <div className="menu-poular-mobile">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  height="25px"
+                  height="100%"
                   viewBox="0 0 24 24"
-                  width="25px"
+                  width="100%"
                   fill="#FFFFFF"
-                  onClick={(event) =>
-                    event.target.offsetHeight ===
-                      event.currentTarget.offsetHeight &&
-                    this.setState({ menuMobileActived: !menuMobileActived })
+                  onClick={() =>
+                    this.setState({
+                      filterPopularByActived: !filterPopularByActived,
+                    })
                   }
                 >
                   <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
                   <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
                 </svg>
 
-                {menuMobileActived && (
+                {filterPopularByActived && (
                   <div>
-                    <h5>Populares&nbsp;Do(a):</h5>
                     <ul>
                       <li
                         style={{
@@ -347,6 +364,8 @@ export default class Popular extends Component {
                       >
                         Semana
                       </li>
+                    </ul>
+                    <ul>
                       <li
                         style={{
                           color:

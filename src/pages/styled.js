@@ -10,6 +10,9 @@ const Main = styled.main`
   @media (max-width: 680px) {
     margin: auto 2.5rem;
   }
+  @media (max-width: 570px) {
+    margin: auto 2rem;
+  }
 
   & > section {
     margin-bottom: 2rem;
@@ -75,7 +78,7 @@ export const Slider = styled.section`
 
         & > .mobile-new-details {
           position: absolute;
-          padding: 14px;
+          padding: 1rem 1rem 1.2rem;
           z-index: 1;
           width: 100%;
           height: 100%;
@@ -91,7 +94,7 @@ export const Slider = styled.section`
             height: 100%;
             left: 0;
             bottom: 0;
-            box-shadow: inset 0px -70px 70px -15px ${colors.color7};
+            box-shadow: inset 0px -70px 70px -15px ${colors.color9};
           }
 
           & > div {
@@ -99,6 +102,7 @@ export const Slider = styled.section`
             justify-content: space-between;
 
             & > h4 {
+              font-size: 15px;
               margin-right: 1rem;
               color: ${colors.color1};
               text-overflow: ellipsis;
@@ -384,14 +388,21 @@ export const CatalogContainer = styled.section`
     margin-top: 1.5rem;
     margin-bottom: 1rem;
 
-    @media (max-width: 550px) {
+    @media (max-width: 750px) {
+      gap: 12px;
+    }
+    @media (max-width: 570px) {
       flex-direction: column;
+    }
+
+    .mobile-year-genre {
+      display: flex;
       gap: 13px;
     }
 
-    & > .genre,
-    & > .year,
-    & > .search-filter {
+    .genre,
+    .year,
+    .search-filter {
       color: ${colors.color1};
       background-color: ${colors.color7};
       padding: 8px 1.2rem;
@@ -402,6 +413,21 @@ export const CatalogContainer = styled.section`
       align-items: center;
       justify-content: space-between;
       position: relative;
+
+      & > div > ul > li {
+        &[data-active] {
+          color: ${colors.color2};
+        }
+
+        width: fit-content;
+        cursor: pointer;
+        transition: color 0.2s ease-in-out;
+        color: ${colors.color1};
+
+        &:hover {
+          color: ${colors.color2};
+        }
+      }
 
       & > span {
         display: flex;
@@ -416,8 +442,8 @@ export const CatalogContainer = styled.section`
       @media (max-width: 750px) {
         width: 35%;
       }
-      @media (max-width: 550px) {
-        width: 100%;
+      @media (max-width: 570px) {
+        width: 65%;
       }
 
       .genres {
@@ -452,16 +478,6 @@ export const CatalogContainer = styled.section`
           &::-webkit-scrollbar-track {
             background-color: transparent;
           }
-
-          & > li {
-            width: fit-content;
-            cursor: pointer;
-            transition: color 0.2s ease-in-out;
-
-            &:hover {
-              color: ${colors.color2};
-            }
-          }
         }
       }
 
@@ -479,11 +495,11 @@ export const CatalogContainer = styled.section`
       @media (max-width: 750px) {
         width: 25%;
       }
-      @media (max-width: 550px) {
-        width: 100%;
+      @media (max-width: 570px) {
+        width: 35%;
       }
 
-      .relaceDate {
+      .releaseDate {
         border-radius: 1rem;
         right: 0;
         top: 8px;
@@ -491,7 +507,7 @@ export const CatalogContainer = styled.section`
         cursor: default;
         background-color: ${colors.color7};
         width: 100%;
-        height: ${(props) => (props.relaceDateActived ? '120px' : '0')};
+        height: ${(props) => (props.releaseDateActived ? '120px' : '0')};
         position: absolute;
         transition: height 0.2s ease-in-out;
 
@@ -515,23 +531,13 @@ export const CatalogContainer = styled.section`
           &::-webkit-scrollbar-track {
             background-color: transparent;
           }
-
-          & > li {
-            width: fit-content;
-            cursor: pointer;
-            transition: color 0.2s ease-in-out;
-
-            &:hover {
-              color: ${colors.color2};
-            }
-          }
         }
       }
 
       svg {
         flex-shrink: 0;
         transform: rotateZ(
-          ${(props) => (props.relaceDateActived ? '180deg' : '0')}
+          ${(props) => (props.releaseDateActived ? '180deg' : '0')}
         );
         transition: transform 0.2s ease-in-out;
       }
@@ -543,7 +549,7 @@ export const CatalogContainer = styled.section`
       @media (max-width: 750px) {
         width: ${(props) => (props.cartoons ? '80%' : '40%')};
       }
-      @media (max-width: 550px) {
+      @media (max-width: 570px) {
         width: 100%;
       }
 
@@ -833,6 +839,11 @@ export const PopularContainer = styled.section`
               width: fit-content;
               cursor: pointer;
               transition: color 0.2s ease-in-out;
+              color: ${colors.color1};
+
+              &[data-active] {
+                color: ${colors.color2};
+              }
 
               &:hover {
                 color: ${colors.color2};
@@ -864,7 +875,7 @@ export const PopularContainer = styled.section`
 
         & > div {
           background-color: ${colors.color7};
-          width: 124px;
+          width: 110px;
           flex-shrink: 0;
           position: absolute;
           top: 22px;
@@ -873,18 +884,12 @@ export const PopularContainer = styled.section`
           display: flex;
           flex-direction: column;
           overflow: hidden;
-
-          & > h5 {
-            margin-top: 10px;
-            margin-bottom: 5px;
-            text-align: center;
-            font-size: 12px;
-            color: ${colors.color5};
-          }
+          padding: 12px;
 
           ul {
-            padding: 0 10px 10px;
             width: 100%;
+            display: flex;
+            justify-content: space-between;
 
             & > li {
               font-size: 13px;
@@ -898,7 +903,7 @@ export const PopularContainer = styled.section`
           flex-shrink: 0;
           transition: transform 0.2s ease-in-out;
           transform: rotateZ(
-            ${(props) => (props.menuMobileActived ? '180deg' : '0')}
+            ${(props) => (props.filterPopularByActived ? '180deg' : '0')}
           );
         }
       }

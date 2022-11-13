@@ -34,8 +34,8 @@ class AllCatalog extends Component {
       searchFilterValue: '',
       searchFilterActived: false,
       currentPageGlobal: 0,
-      relaceDateActived: false,
-      releaseDate: null,
+      releaseDateActived: false,
+      releaseDate: 'Ano',
       years: [],
     };
 
@@ -45,12 +45,13 @@ class AllCatalog extends Component {
     this.handlePagenationClick = this.handlePagenationClick.bind(this);
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
     this.getAllFilters = this.getAllFilters.bind(this);
-    this.relaceDate = this.relaceDate.bind(this);
+    this.releaseDate = this.releaseDate.bind(this);
+    this.yearOrGenreActive = this.yearOrGenreActive.bind(this);
   }
 
   componentDidMount() {
     this.getAllCatalog(this.state.currentPageGlobal);
-    this.relaceDate();
+    this.releaseDate();
   }
 
   async getAllCatalog(currentPage) {
@@ -161,7 +162,7 @@ class AllCatalog extends Component {
             ? 1
             : null,
         searchFilterActived: true,
-        releaseDate: null,
+        releaseDate: 'Ano',
       });
     } catch {
       console.error('Erro ao pesquisar titulo.');
@@ -216,7 +217,7 @@ class AllCatalog extends Component {
     }
   }
 
-  relaceDate() {
+  releaseDate() {
     this.currentYear = new Date().getFullYear();
     const years = [];
     for (let i = 1990; i <= this.currentYear; i++) years.unshift(i);
@@ -232,6 +233,36 @@ class AllCatalog extends Component {
     return loadingSpinner.remove();
   }
 
+  yearOrGenreActive(active, event) {
+    const { releaseDate, genreName } = this.state;
+
+    if (event.target.innerText === releaseDate) return;
+
+    event.target.parentElement
+      .querySelectorAll('li')
+      .forEach((li) => li.removeAttribute('data-active'));
+
+    event.target.setAttribute('data-active', '');
+
+    if (active === 'year') {
+      this.setState(
+        {
+          releaseDate: event.target.innerText,
+        },
+        this.getAllFilters
+      );
+      return;
+    }
+    this.setState(
+      {
+        genreName: event.target.innerText,
+        genreId: event.target.getAttribute('data-genre-id'),
+      },
+      this.getAllFilters
+    );
+    return;
+  }
+
   render() {
     const {
       all,
@@ -241,35 +272,27 @@ class AllCatalog extends Component {
       currentPageGlobal,
       releaseDate,
       years,
-      relaceDateActived,
+      releaseDateActived,
     } = this.state;
 
     return (
-      <CatalogContainer relaceDateActived={relaceDateActived} cartoons>
+      <CatalogContainer releaseDateActived={releaseDateActived} cartoons>
         <h1>Catalogo</h1>
         <div className="catalog-filter">
           <div
             className="year"
             onClick={(event) =>
-              event.target.offsetHeight === event.currentTarget.offsetHeight &&
-              this.setState({ relaceDateActived: !relaceDateActived })
+              !event.target.classList.contains('stop-event') &&
+              this.setState({ releaseDateActived: !releaseDateActived })
             }
           >
-            <span>{!releaseDate ? 'Ano' : releaseDate}</span>
-            <div className="relaceDate">
-              <ul>
+            <span>{releaseDate}</span>
+            <div className="releaseDate stop-event">
+              <ul className="stop-event">
                 {years.map((year, index) => (
                   <li
                     key={index}
-                    onClick={(event) =>
-                      this.setState(
-                        {
-                          relaceDateActived: !relaceDateActived,
-                          releaseDate: event.target.innerText,
-                        },
-                        this.getAllFilters
-                      )
-                    }
+                    onClick={(event) => this.yearOrGenreActive('year', event)}
                   >
                     {year}
                   </li>

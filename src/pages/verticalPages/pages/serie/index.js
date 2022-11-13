@@ -266,7 +266,6 @@ export default function SeriesV() {
         )
       : setPercentRange2('Não tem kkk');
   }
-  SwiperCore.use(Autoplay);
 
   function removeLoadingSipnner(event) {
     const loadingSpinner = event.target.parentElement.querySelector(
@@ -274,6 +273,46 @@ export default function SeriesV() {
     );
     return loadingSpinner.remove();
   }
+
+  function filterNamePopularFuction(name, event) {
+    if (event.target.innerText === filterNamePopular) return;
+
+    event.target.parentElement
+      .querySelectorAll('li')
+      .forEach((li) => li.removeAttribute('data-active'));
+
+    event.target.setAttribute('data-active', '');
+
+    if (name === 'dia') {
+      primaryReleaseDateGte.current = setDate(1);
+      primaryReleaseDateLte.current = setDate();
+      setFilterNamePopular(event.target.innerText);
+      setAllByPopularData(false);
+      return;
+    }
+    if (name === 'semana') {
+      primaryReleaseDateGte.current = setDate(7);
+      primaryReleaseDateLte.current = setDate();
+      setFilterNamePopular(event.target.innerText);
+      setAllByPopularData(false);
+      return;
+    }
+    if (name === 'mes') {
+      primaryReleaseDateGte.current = setDate(31);
+      primaryReleaseDateLte.current = setDate();
+      setFilterNamePopular(event.target.innerText);
+      setAllByPopularData(false);
+      return;
+    }
+    if (name === 'ano') {
+      primaryReleaseDateGte.current = setDate(365);
+      primaryReleaseDateLte.current = setDate();
+      setFilterNamePopular(event.target.innerText);
+      setAllByPopularData(false);
+      return;
+    }
+  }
+  SwiperCore.use(Autoplay);
 
   return id ? (
     <>
@@ -452,57 +491,40 @@ export default function SeriesV() {
               <div
                 className="filter-popularBy"
                 onClick={(event) =>
-                  event.target.offsetHeight ===
-                    event.currentTarget.offsetHeight &&
+                  !event.target.classList.contains('stop-event') &&
                   setFilterPopularByActived(!filterPopularByActived)
                 }
               >
                 <span>
                   {!filterNamePopular ? 'Filtrar' : filterNamePopular}
                 </span>
-                <div className="ul-filters-popularBy">
-                  <ul>
+                <div className="ul-filters-popularBy stop-event">
+                  <ul className="stop-event">
                     <li
-                      onClick={(event) => {
-                        primaryReleaseDateGte.current = setDate(1);
-                        primaryReleaseDateLte.current = setDate();
-                        setFilterNamePopular(event.target.innerText);
-                        setFilterPopularByActived(!filterPopularByActived);
-                        setAllByPopularData(false);
-                      }}
+                      onClick={(event) =>
+                        filterNamePopularFuction('dia', event)
+                      }
                     >
                       Dia
                     </li>
                     <li
-                      onClick={(event) => {
-                        primaryReleaseDateGte.current = setDate(7);
-                        primaryReleaseDateLte.current = setDate();
-                        setFilterNamePopular(event.target.innerText);
-                        setFilterPopularByActived(!filterPopularByActived);
-                        setAllByPopularData(false);
-                      }}
+                      onClick={(event) =>
+                        filterNamePopularFuction('semana', event)
+                      }
                     >
                       Semana
                     </li>
                     <li
-                      onClick={(event) => {
-                        primaryReleaseDateGte.current = setDate(31);
-                        primaryReleaseDateLte.current = setDate();
-                        setFilterNamePopular(event.target.innerText);
-                        setFilterPopularByActived(!filterPopularByActived);
-                        setAllByPopularData(false);
-                      }}
+                      onClick={(event) =>
+                        filterNamePopularFuction('mes', event)
+                      }
                     >
                       Mês
                     </li>
                     <li
-                      onClick={(event) => {
-                        primaryReleaseDateGte.current = setDate(365);
-                        primaryReleaseDateLte.current = setDate();
-                        setFilterNamePopular(event.target.innerText);
-                        setFilterPopularByActived(!filterPopularByActived);
-                        setAllByPopularData(false);
-                      }}
+                      onClick={(event) =>
+                        filterNamePopularFuction('ano', event)
+                      }
                     >
                       Ano
                     </li>

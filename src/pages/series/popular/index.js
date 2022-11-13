@@ -25,7 +25,7 @@ export default class Popular extends Component {
       allGenres: null,
       loadingFilters: false,
       filterPopularByActived: false,
-      filterNamePopular: null,
+      filterNamePopular: 'Filtrar',
       primaryReleaseDateGte: null,
       primaryReleaseDateLte: null,
     };
@@ -33,6 +33,7 @@ export default class Popular extends Component {
     this.getAllPopular = this.getAllPopular.bind(this);
     this.getAllPopularFilters = this.getAllPopularFilters.bind(this);
     this.date = this.date.bind(this);
+    this.filterNamePopularFuction = this.filterNamePopularFuction.bind(this);
   }
 
   componentDidMount() {
@@ -100,6 +101,63 @@ export default class Popular extends Component {
     return loadingSpinner.remove();
   }
 
+  filterNamePopularFuction(name, event) {
+    const { filterNamePopular } = this.state;
+
+    if (event.target.innerText === filterNamePopular) return;
+
+    event.target.parentElement
+      .querySelectorAll('li')
+      .forEach((li) => li.removeAttribute('data-active'));
+
+    event.target.setAttribute('data-active', '');
+
+    if (name === 'dia') {
+      this.setState(
+        {
+          primaryReleaseDateGte: this.date(1),
+          primaryReleaseDateLte: this.date(),
+          filterNamePopular: event.target.innerText,
+        },
+        this.getAllPopularFilters
+      );
+      return;
+    }
+    if (name === 'semana') {
+      this.setState(
+        {
+          primaryReleaseDateGte: this.date(7),
+          primaryReleaseDateLte: this.date(),
+          filterNamePopular: event.target.innerText,
+        },
+        this.getAllPopularFilters
+      );
+      return;
+    }
+    if (name === 'mes') {
+      this.setState(
+        {
+          primaryReleaseDateGte: this.date(31),
+          primaryReleaseDateLte: this.date(),
+          filterNamePopular: event.target.innerText,
+        },
+        this.getAllPopularFilters
+      );
+      return;
+    }
+    if (name === 'ano') {
+      this.setState(
+        {
+          primaryReleaseDateGte: this.date(365),
+          primaryReleaseDateLte: this.date(),
+          filterNamePopular: event.target.innerText,
+        },
+        this.getAllPopularFilters
+      );
+      return;
+    }
+  }
+
   render() {
     const {
       allPopular,
@@ -119,72 +177,39 @@ export default class Popular extends Component {
             <div
               className="filter-popularBy"
               onClick={(event) =>
-                event.target.offsetHeight ===
-                  event.currentTarget.offsetHeight &&
+                !event.target.classList.contains('stop-event') &&
                 this.setState({
                   filterPopularByActived: !filterPopularByActived,
                 })
               }
             >
-              <div>{!filterNamePopular ? 'Filtrar' : filterNamePopular}</div>
-              <div className="ul-filters-popularBy">
-                <ul>
+              <div>{filterNamePopular}</div>
+              <div className="ul-filters-popularBy stop-event">
+                <ul className="stop-event">
                   <li
                     onClick={(event) =>
-                      this.setState(
-                        {
-                          primaryReleaseDateGte: this.date(1),
-                          primaryReleaseDateLte: this.date(),
-                          filterNamePopular: event.target.innerText,
-                          filterPopularByActived: !filterPopularByActived,
-                        },
-                        this.getAllPopularFilters
-                      )
+                      this.filterNamePopularFuction('dia', event)
                     }
                   >
                     Dia
                   </li>
                   <li
                     onClick={(event) =>
-                      this.setState(
-                        {
-                          primaryReleaseDateGte: this.date(7),
-                          primaryReleaseDateLte: this.date(),
-                          filterNamePopular: event.target.innerText,
-                          filterPopularByActived: !filterPopularByActived,
-                        },
-                        this.getAllPopularFilters
-                      )
+                      this.filterNamePopularFuction('semana', event)
                     }
                   >
                     Semana
                   </li>
                   <li
                     onClick={(event) =>
-                      this.setState(
-                        {
-                          primaryReleaseDateGte: this.date(31),
-                          primaryReleaseDateLte: this.date(),
-                          filterNamePopular: event.target.innerText,
-                          filterPopularByActived: !filterPopularByActived,
-                        },
-                        this.getAllPopularFilters
-                      )
+                      this.filterNamePopularFuction('mes', event)
                     }
                   >
                     Mês
                   </li>
                   <li
                     onClick={(event) =>
-                      this.setState(
-                        {
-                          primaryReleaseDateGte: this.date(365),
-                          primaryReleaseDateLte: this.date(),
-                          filterNamePopular: event.target.innerText,
-                          filterPopularByActived: !filterPopularByActived,
-                        },
-                        this.getAllPopularFilters
-                      )
+                      this.filterNamePopularFuction('ano', event)
                     }
                   >
                     Ano

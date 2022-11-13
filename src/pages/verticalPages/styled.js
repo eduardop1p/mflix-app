@@ -271,6 +271,11 @@ export const PagesContainer = styled.main`
                   width: fit-content;
                   cursor: pointer;
                   transition: color 0.2s ease-in-out;
+                  color: ${colors.color1};
+
+                  &[data-active] {
+                    color: ${colors.color2};
+                  }
 
                   &:hover {
                     color: ${colors.color2};
