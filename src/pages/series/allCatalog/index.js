@@ -316,9 +316,9 @@ class AllCatalog extends Component {
               <svg
                 onClick={this.handleSearchSubmit}
                 xmlns="http://www.w3.org/2000/svg"
-                height="18px"
+                height="20px"
                 viewBox="0 0 24 24"
-                width="18px"
+                width="20px"
                 fill="#fff"
               >
                 <path d="M0 0h24v24H0V0z" fill="none" />

@@ -380,7 +380,7 @@ export const CatalogContainer = styled.section`
 
   .catalog-filter {
     position: relative;
-    z-index: 10;
+    z-index: 7;
     width: 100%;
     gap: 1rem;
     display: flex;
@@ -398,6 +398,8 @@ export const CatalogContainer = styled.section`
     .mobile-year-genre {
       display: flex;
       gap: 13px;
+      position: relative;
+      z-index: 1;
     }
 
     .genre,
@@ -444,6 +446,10 @@ export const CatalogContainer = styled.section`
       }
       @media (max-width: 570px) {
         width: 65%;
+      }
+      @media (max-width: 360px) {
+        width: 100%;
+        z-index: 1;
       }
 
       .genres {
@@ -497,6 +503,10 @@ export const CatalogContainer = styled.section`
       }
       @media (max-width: 570px) {
         width: 35%;
+      }
+      @media (max-width: 360px) {
+        width: 100%;
+        z-index: 2;
       }
 
       .releaseDate {
@@ -646,10 +656,19 @@ export const CatalogTitles = styled.div`
     @media (max-width: 760px) {
       height: calc(100vw / 2.35);
     }
-    /* @media (max-width: 650px) {
+    @media (max-width: 570px) {
+      width: calc(100% / 2);
+      height: calc(100vw / 1.55);
+    }
+    @media (max-width: 470px) {
       width: calc(100% / 2);
       height: calc(100vw / 1.6);
-    } */
+      padding: 6px;
+    }
+    @media (max-width: 369px) {
+      width: 100%;
+      height: calc(100vw / 0.85);
+    }
 
     &:hover {
       & > .catalog-img {

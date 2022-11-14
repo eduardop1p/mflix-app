@@ -27,6 +27,7 @@ class AllCatalog extends Component {
     super(props);
 
     this.useMedia570 = matchMedia('(max-width: 570px)');
+    this.useMedia360 = matchMedia('(max-width: 360px)');
 
     this.state = {
       all: null,
@@ -43,6 +44,7 @@ class AllCatalog extends Component {
       releaseDate: 'Ano',
       years: [],
       breakPoint570: this.useMedia570.matches,
+      breakPoint360: this.useMedia360.matches,
     };
 
     this.getAllCatalog = this.getAllCatalog.bind(this);
@@ -58,6 +60,11 @@ class AllCatalog extends Component {
     this.useMedia570.addEventListener('change', (event) =>
       this.setState({
         breakPoint570: event.matches,
+      })
+    );
+    this.useMedia360.addEventListener('change', (event) =>
+      this.setState({
+        breakPoint360: event.matches,
       })
     );
 
@@ -239,6 +246,7 @@ class AllCatalog extends Component {
       years,
       releaseDateActived,
       breakPoint570,
+      breakPoint360,
     } = this.state;
 
     return (
@@ -250,155 +258,37 @@ class AllCatalog extends Component {
 
         <div className="catalog-filter">
           {!breakPoint570 ? (
-            <>
-              <div
-                className="year"
-                onClick={(event) =>
-                  !event.target.classList.contains('stop-event') &&
-                  this.setState({ releaseDateActived: !releaseDateActived })
-                }
-              >
-                <span>{releaseDate}</span>
-                <div className="releaseDate stop-event">
-                  <ul className="stop-event">
-                    {years.map((year, index) => (
-                      <li
-                        key={index}
-                        onClick={(event) =>
-                          this.yearOrGenreActive('year', event)
-                        }
-                      >
-                        {year}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20px"
-                    viewBox="0 0 24 24"
-                    width="20px"
-                    fill="#FFFFFF"
-                  >
-                    <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
-                    <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
-                  </svg>
-                </span>
-              </div>
-              <div
-                className="genre"
-                onClick={(event) =>
-                  !event.target.classList.contains('stop-event') &&
-                  this.setState({ genreActived: !genreActived })
-                }
-              >
-                <span>{genreName}</span>
-                <div className="genres stop-event">
-                  <ul className="stop-event">
-                    {allGenres &&
-                      allGenres.genres.map((genre) => (
-                        <li
-                          key={genre.id}
-                          data-genre-id={genre.id}
-                          onClick={(event) =>
-                            this.yearOrGenreActive('genre', event)
-                          }
-                        >
-                          {genre.name}
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-                <span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20px"
-                    viewBox="0 0 24 24"
-                    width="20px"
-                    fill="#FFFFFF"
-                  >
-                    <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
-                    <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
-                  </svg>
-                </span>
-              </div>
-            </>
-          ) : (
+            <CatalogFilterLayouts
+              thisCp={this}
+              releaseDate={releaseDate}
+              releaseDateActived={releaseDateActived}
+              years={years}
+              genreName={genreName}
+              allGenres={allGenres}
+              genreActived={genreActived}
+            />
+          ) : !breakPoint360 ? (
             <div className="mobile-year-genre">
-              <div
-                className="year"
-                onClick={(event) =>
-                  !event.target.classList.contains('stop-event') &&
-                  this.setState({ releaseDateActived: !releaseDateActived })
-                }
-              >
-                <span>{releaseDate}</span>
-                <div className="releaseDate stop-event">
-                  <ul className="stop-event">
-                    {years.map((year, index) => (
-                      <li
-                        key={index}
-                        onClick={(event) =>
-                          this.yearOrGenreActive('year', event)
-                        }
-                      >
-                        {year}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20px"
-                    viewBox="0 0 24 24"
-                    width="20px"
-                    fill="#FFFFFF"
-                  >
-                    <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
-                    <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
-                  </svg>
-                </span>
-              </div>
-              <div
-                className="genre"
-                onClick={(event) =>
-                  !event.target.classList.contains('stop-event') &&
-                  this.setState({ genreActived: !genreActived })
-                }
-              >
-                <span>{genreName}</span>
-                <div className="genres stop-event">
-                  <ul className="stop-event">
-                    {allGenres &&
-                      allGenres.genres.map((genre) => (
-                        <li
-                          key={genre.id}
-                          data-genre-id={genre.id}
-                          onClick={(event) =>
-                            this.yearOrGenreActive('genre', event)
-                          }
-                        >
-                          {genre.name}
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-                <span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20px"
-                    viewBox="0 0 24 24"
-                    width="20px"
-                    fill="#FFFFFF"
-                  >
-                    <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
-                    <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
-                  </svg>
-                </span>
-              </div>
+              <CatalogFilterLayouts
+                thisCp={this}
+                releaseDate={releaseDate}
+                releaseDateActived={releaseDateActived}
+                years={years}
+                genreName={genreName}
+                allGenres={allGenres}
+                genreActived={genreActived}
+              />
             </div>
+          ) : (
+            <CatalogFilterLayouts
+              thisCp={this}
+              releaseDate={releaseDate}
+              releaseDateActived={releaseDateActived}
+              years={years}
+              genreName={genreName}
+              allGenres={allGenres}
+              genreActived={genreActived}
+            />
           )}
 
           <div className="search-filter">
@@ -406,9 +296,9 @@ class AllCatalog extends Component {
               <svg
                 onClick={this.handleSearchSubmit}
                 xmlns="http://www.w3.org/2000/svg"
-                height="18px"
+                height="20px"
                 viewBox="0 0 24 24"
-                width="18px"
+                width="20px"
                 fill="#fff"
               >
                 <path d="M0 0h24v24H0V0z" fill="none" />
@@ -493,6 +383,91 @@ class AllCatalog extends Component {
       </CatalogContainer>
     );
   }
+}
+
+function CatalogFilterLayouts(props) {
+  const {
+    thisCp,
+    releaseDate,
+    releaseDateActived,
+    years,
+    genreName,
+    allGenres,
+    genreActived,
+  } = props;
+
+  return (
+    <>
+      <div
+        className="year"
+        onClick={(event) =>
+          !event.target.classList.contains('stop-event') &&
+          thisCp.setState({ releaseDateActived: !releaseDateActived })
+        }
+      >
+        <span>{releaseDate}</span>
+        <div className="releaseDate stop-event">
+          <ul className="stop-event">
+            {years.map((year, index) => (
+              <li
+                key={index}
+                onClick={(event) => thisCp.yearOrGenreActive('year', event)}
+              >
+                {year}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="20px"
+            viewBox="0 0 24 24"
+            width="20px"
+            fill="#FFFFFF"
+          >
+            <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
+            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
+          </svg>
+        </span>
+      </div>
+      <div
+        className="genre"
+        onClick={(event) =>
+          !event.target.classList.contains('stop-event') &&
+          thisCp.setState({ genreActived: !genreActived })
+        }
+      >
+        <span>{genreName}</span>
+        <div className="genres stop-event">
+          <ul className="stop-event">
+            {allGenres &&
+              allGenres.genres.map((genre) => (
+                <li
+                  key={genre.id}
+                  data-genre-id={genre.id}
+                  onClick={(event) => thisCp.yearOrGenreActive('genre', event)}
+                >
+                  {genre.name}
+                </li>
+              ))}
+          </ul>
+        </div>
+        <span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="20px"
+            viewBox="0 0 24 24"
+            width="20px"
+            fill="#FFFFFF"
+          >
+            <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
+            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
+          </svg>
+        </span>
+      </div>
+    </>
+  );
 }
 
 export default connect(null, actions)(AllCatalog);
