@@ -190,7 +190,11 @@ class AllCatalog extends Component {
   yearOrGenreActive(active, event) {
     const { releaseDate, genreName } = this.state;
 
-    if (event.target.innerText === releaseDate) return;
+    if (
+      event.target.innerText === releaseDate ||
+      event.target.innerText === genreName
+    )
+      return;
 
     event.target.parentElement
       .querySelectorAll('li')
@@ -240,16 +244,10 @@ class AllCatalog extends Component {
         <h1>Catalogo</h1>
 
         <div className="catalog-filter">
-          <div
-            className="year"
-            onClick={(event) =>
-              !event.target.classList.contains('stop-event') &&
-              this.setState({ releaseDateActived: !releaseDateActived })
-            }
-          >
+          <div className="year">
             <span>{releaseDate}</span>
-            <div className="releaseDate stop-event">
-              <ul className="stop-event">
+            <div className="releaseDate ">
+              <ul>
                 {years.map((year, index) => (
                   <li
                     key={index}
@@ -272,17 +270,16 @@ class AllCatalog extends Component {
                 <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
               </svg>
             </span>
+            <button
+              onClick={() =>
+                this.setState({ releaseDateActived: !releaseDateActived })
+              }
+            ></button>
           </div>
-          <div
-            className="genre"
-            onClick={(event) =>
-              !event.target.classList.contains('stop-event') &&
-              this.setState({ genreActived: !genreActived })
-            }
-          >
+          <div className="genre">
             <span>{genreName}</span>
-            <div className="genres stop-event">
-              <ul className="stop-event">
+            <div className="genres">
+              <ul>
                 {allGenres &&
                   allGenres.genres.map((genre) => (
                     <li
@@ -309,6 +306,9 @@ class AllCatalog extends Component {
                 <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
               </svg>
             </span>
+            <button
+              onClick={() => this.setState({ genreActived: !genreActived })}
+            ></button>
           </div>
 
           <div className="search-filter">

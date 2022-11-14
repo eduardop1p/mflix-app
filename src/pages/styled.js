@@ -13,6 +13,9 @@ const Main = styled.main`
   @media (max-width: 570px) {
     margin: auto 2rem;
   }
+  @media (max-width: 445px) {
+    margin: auto 1.5rem;
+  }
 
   & > section {
     margin-bottom: 2rem;
@@ -416,6 +419,15 @@ export const CatalogContainer = styled.section`
       justify-content: space-between;
       position: relative;
 
+      & > button {
+        background-color: transparent;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 5;
+        right: 0;
+      }
+
       & > div > ul > li {
         &[data-active] {
           color: ${colors.color2};
@@ -455,7 +467,7 @@ export const CatalogContainer = styled.section`
       .genres {
         border-radius: 1rem;
         right: 0;
-        top: 8px;
+        top: 3px;
         z-index: -1;
         cursor: default;
         background-color: ${colors.color7};
@@ -463,6 +475,11 @@ export const CatalogContainer = styled.section`
         height: ${(props) => (props.genreActived ? '120px' : '0')};
         position: absolute;
         transition: height 0.2s ease-in-out;
+
+        /* @media (max-width: 360px) {
+          background-color: ${(props) =>
+          props.genreActived ? colors.color6 : colors.color7};
+        } */
 
         & > ul {
           margin: 1.8rem 1.2rem 0;
@@ -512,7 +529,7 @@ export const CatalogContainer = styled.section`
       .releaseDate {
         border-radius: 1rem;
         right: 0;
-        top: 8px;
+        top: 3px;
         z-index: -1;
         cursor: default;
         background-color: ${colors.color7};
@@ -642,32 +659,44 @@ export const CatalogTitles = styled.div`
     height: calc(100vw / 3.65);
     padding: 8px;
 
-    @media (max-width: 1210px) {
-      width: calc(100% / 4);
-      height: calc(100vw / 2.95);
+    @media (max-width: 1260px) {
+      height: calc(100vw / 3.7);
     }
-    @media (max-width: 1060px) {
+    @media (max-width: 1100px) {
+      width: calc(100% / 4);
       height: calc(100vw / 3);
     }
-    @media (max-width: 910px) {
-      width: calc(100% / 3);
-      height: calc(100vw / 2.3);
+    @media (max-width: 950px) {
+      height: calc(100vw / 3.05);
     }
-    @media (max-width: 760px) {
+    @media (max-width: 850px) {
+      height: calc(100vw / 3.1);
+    }
+    @media (max-width: 800px) {
+      width: calc(100% / 3);
       height: calc(100vw / 2.35);
     }
-    @media (max-width: 570px) {
+    @media (max-width: 690px) {
+      height: calc(100vw / 2.4);
+    }
+
+    @media (max-width: 550px) {
       width: calc(100% / 2);
       height: calc(100vw / 1.55);
     }
-    @media (max-width: 470px) {
+    @media (max-width: 525px) {
       width: calc(100% / 2);
       height: calc(100vw / 1.6);
-      padding: 6px;
     }
-    @media (max-width: 369px) {
+    @media (max-width: 445px) {
+      height: calc(100vw / 1.55);
+    }
+    @media (max-width: 410px) {
+      height: calc(100vw / 1.6);
+    }
+    @media (max-width: 360px) {
       width: 100%;
-      height: calc(100vw / 0.85);
+      height: 458px;
     }
 
     &:hover {
@@ -821,9 +850,18 @@ export const PopularContainer = styled.section`
         border-radius: 1.5rem;
         position: relative;
 
-        & > .ul-filters-popularBy {
+        & > button {
+          background-color: transparent;
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          z-index: 5;
+          right: 0;
+        }
+
+        & > div {
           background-color: ${colors.color7};
-          top: 8px;
+          top: 3px;
           z-index: -1;
           cursor: default;
           right: 0;
