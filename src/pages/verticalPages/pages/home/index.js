@@ -404,6 +404,8 @@ export default function Home() {
     const loadingSpinner = event.target.parentElement.querySelector(
       'img + .container-load'
     );
+    if (!loadingSpinner) return;
+
     return loadingSpinner.remove();
   }
 
@@ -642,17 +644,23 @@ export default function Home() {
                       Dia
                     </li>
                     <li
-                      onClick={(event) => filterNamePopularFuction('semana', event)}
+                      onClick={(event) =>
+                        filterNamePopularFuction('semana', event)
+                      }
                     >
                       Semana
                     </li>
                     <li
-                      onClick={(event) => filterNamePopularFuction('mes', event)}
+                      onClick={(event) =>
+                        filterNamePopularFuction('mes', event)
+                      }
                     >
                       Mês
                     </li>
                     <li
-                      onClick={(event) => filterNamePopularFuction('ano', event)}
+                      onClick={(event) =>
+                        filterNamePopularFuction('ano', event)
+                      }
                     >
                       Ano
                     </li>

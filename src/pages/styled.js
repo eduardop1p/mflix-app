@@ -673,47 +673,24 @@ export const CatalogTitles = styled.div`
   a {
     width: calc(100% / 5);
     display: inline-block;
-    height: calc(100vw / 3.65);
+    height: 27.5vw;
     padding: 8px;
 
-    @media (max-width: 1260px) {
-      height: calc(100vw / 3.7);
-    }
-    @media (max-width: 1100px) {
+    @media (max-width: 1050px) {
       width: calc(100% / 4);
-      height: calc(100vw / 3);
+      height: 33vw;
     }
-    @media (max-width: 950px) {
-      height: calc(100vw / 3.05);
-    }
-    @media (max-width: 850px) {
-      height: calc(100vw / 3.1);
-    }
-    @media (max-width: 800px) {
+    @media (max-width: 750px) {
       width: calc(100% / 3);
-      height: calc(100vw / 2.35);
+      height: 43vw;
     }
-    @media (max-width: 690px) {
-      height: calc(100vw / 2.4);
-    }
-
     @media (max-width: 550px) {
       width: calc(100% / 2);
-      height: calc(100vw / 1.55);
-    }
-    @media (max-width: 525px) {
-      width: calc(100% / 2);
-      height: calc(100vw / 1.6);
-    }
-    @media (max-width: 445px) {
-      height: calc(100vw / 1.55);
-    }
-    @media (max-width: 410px) {
-      height: calc(100vw / 1.6);
+      height: 65vw;
     }
     @media (max-width: 360px) {
       width: 100%;
-      height: 458px;
+      height: 128vw;
     }
 
     &:hover {
@@ -734,8 +711,7 @@ export const CatalogTitles = styled.div`
     & > img {
       width: 100%;
       height: 100%;
-      color: ${colors.color1};
-      font-size: 0.75rem;
+      object-fit: cover;
     }
   }
 
@@ -1050,7 +1026,7 @@ export const PopularTitles = styled.div`
     & > .popular-img {
       flex-shrink: 0;
       width: 130px;
-      height: 190px;
+      height: 180px;
       margin-right: 2rem;
       position: relative;
 
@@ -1077,7 +1053,7 @@ export const PopularTitles = styled.div`
 
       @media (max-width: 380px) {
         width: 130px;
-        height: 190px;
+        height: 180px;
         margin-right: 2rem;
       }
 

@@ -67,6 +67,7 @@ const GlobalStyled = createGlobalStyle`
   }
 
   img {
+    font-size: 13px;
     color: ${colors.color1};
   }
 `;
