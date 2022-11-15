@@ -1034,6 +1034,18 @@ export const PopularTitles = styled.div`
     @media (max-width: 650px) {
       height: 415px;
     }
+    @media (max-width: 500px) {
+      height: 456px;
+    }
+    @media (max-width: 410px) {
+      height: 413px;
+    }
+
+    @media (max-width: 380px) {
+      flex-direction: row;
+      justify-content: space-between;
+      height: auto;
+    }
 
     & > .popular-img {
       flex-shrink: 0;
@@ -1055,6 +1067,18 @@ export const PopularTitles = styled.div`
       }
       @media (max-width: 650px) {
         height: calc(100vw / 2.9);
+      }
+      @media (max-width: 500px) {
+        height: calc(100vw / 1.8);
+      }
+      @media (max-width: 410px) {
+        height: calc(100vw / 1.85);
+      }
+
+      @media (max-width: 380px) {
+        width: 130px;
+        height: 190px;
+        margin-right: 2rem;
       }
 
       .movie-or-serie-popular {
@@ -1173,6 +1197,7 @@ export const FutureContainer = styled.section`
     .future-mobile-img-details {
       display: flex;
       flex-direction: column;
+      height: 420px;
 
       @media (max-width: 950px) {
         margin-right: 1rem;
@@ -1261,7 +1286,7 @@ export const FutureContainer = styled.section`
         overflow: hidden scroll;
 
         @media (max-width: 950px) {
-          height: 45px;
+          height: 65px;
         }
 
         &::-webkit-scrollbar {

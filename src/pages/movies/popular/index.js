@@ -25,7 +25,8 @@ export default class Popular extends Component {
     this.useMedia950 = window.matchMedia('(max-width: 950px)');
     this.useMedia800 = window.matchMedia('(max-width: 800px)');
     this.useMedia650 = window.matchMedia('(max-width: 650px)');
-    this.useMedia580 = window.matchMedia('(max-width: 580px)');
+    this.useMedia500 = window.matchMedia('(max-width: 500px)');
+    this.useMedia380 = window.matchMedia('(max-width: 380px)');
 
     this.state = {
       allPopular: null,
@@ -40,7 +41,8 @@ export default class Popular extends Component {
       breakPoint950: this.useMedia950.matches,
       breakPoint800: this.useMedia800.matches,
       breakPoint650: this.useMedia650.matches,
-      breakPoint580: this.useMedia580.matches,
+      breakPoint500: this.useMedia500.matches,
+      breakPoint380: this.useMedia380.matches,
     };
 
     this.getAllPopular = this.getAllPopular.bind(this);
@@ -85,8 +87,11 @@ export default class Popular extends Component {
     this.useMedia650.addEventListener('change', (event) =>
       this.setState({ breakPoint650: event.matches })
     );
-    this.useMedia580.addEventListener('change', (event) =>
-      this.setState({ breakPoint580: event.matches })
+    this.useMedia500.addEventListener('change', (event) =>
+      this.setState({ breakPoint500: event.matches })
+    );
+    this.useMedia380.addEventListener('change', (event) =>
+      this.setState({ breakPoint380: event.matches })
     );
   }
 
@@ -207,7 +212,8 @@ export default class Popular extends Component {
       breakPoint950,
       breakPoint800,
       breakPoint650,
-      breakPoint580,
+      breakPoint500,
+      breakPoint380,
     } = this.state;
     SwiperCore.use([Autoplay]);
 
@@ -461,7 +467,11 @@ export default class Popular extends Component {
                   ? breakPoint1100
                     ? breakPoint950
                       ? breakPoint800
-                        ? 3
+                        ? breakPoint500
+                          ? breakPoint380
+                            ? 1
+                            : 2
+                          : 3
                         : 4
                       : 5
                     : 3
