@@ -79,6 +79,23 @@ export const Slider = styled.section`
         overflow: hidden;
         position: relative;
 
+        @media (max-width: 525px) {
+          width: 280px;
+          height: auto;
+        }
+        @media (max-width: 445px) {
+          width: 270px;
+          height: 409px;
+        }
+        @media (max-width: 410px) {
+          width: 260px;
+          height: 394px;
+        }
+        @media (max-width: 360px) {
+          width: 250px;
+          height: 379px;
+        }
+
         & > .mobile-new-details {
           position: absolute;
           padding: 1rem 1rem 1.2rem;
