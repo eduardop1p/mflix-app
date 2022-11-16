@@ -20,6 +20,9 @@ export default class Popular extends Component {
   constructor(props) {
     super(props);
 
+    this.useMedia2350 = window.matchMedia('(min-width: 2350px)');
+    this.useMedia2000 = window.matchMedia('(min-width: 2000px)');
+    this.useMedia1700 = window.matchMedia('(min-width: 1700px)');
     this.useMedia1350 = window.matchMedia('(max-width: 1350px)');
     this.useMedia1100 = window.matchMedia('(max-width: 1100px)');
     this.useMedia950 = window.matchMedia('(max-width: 950px)');
@@ -36,6 +39,9 @@ export default class Popular extends Component {
       filterNamePopular: 'Filtrar',
       primaryReleaseDateGte: null,
       primaryReleaseDateLte: null,
+      breakPoint2350: this.useMedia2350.matches,
+      breakPoint2000: this.useMedia2000.matches,
+      breakPoint1700: this.useMedia1700.matches,
       breakPoint1350: this.useMedia1350.matches,
       breakPoint1100: this.useMedia1100.matches,
       breakPoint950: this.useMedia950.matches,
@@ -72,6 +78,15 @@ export default class Popular extends Component {
   }
 
   useMediaQuery() {
+    this.useMedia2350.addEventListener('change', (event) =>
+      this.setState({ breakPoint2350: event.matches })
+    );
+    this.useMedia2000.addEventListener('change', (event) =>
+      this.setState({ breakPoint2000: event.matches })
+    );
+    this.useMedia1700.addEventListener('change', (event) =>
+      this.setState({ breakPoint1700: event.matches })
+    );
     this.useMedia1350.addEventListener('change', (event) =>
       this.setState({ breakPoint1350: event.matches })
     );
@@ -208,6 +223,9 @@ export default class Popular extends Component {
       allGenres,
       filterPopularByActived,
       filterNamePopular,
+      breakPoint2350,
+      breakPoint2000,
+      breakPoint1700,
       breakPoint1350,
       breakPoint1100,
       breakPoint950,
@@ -451,11 +469,11 @@ export default class Popular extends Component {
           {loadingFilters && <Loading colorTranparent />}
           {allPopular && (
             <Swiper
-              // autoplay={{
-              //   delay: 3000,
-              //   disableOnInteraction: false,
-              //   pauseOnMouseEnter: true,
-              // }}
+              autoplay={{
+                delay: 3000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
               navigation={{
                 nextEl: '.button-next-element',
                 prevEl: '.button-previous-element',
@@ -476,6 +494,12 @@ export default class Popular extends Component {
                         : 4
                       : 5
                     : 3
+                  : breakPoint1700
+                  ? breakPoint2000
+                    ? breakPoint2350
+                      ? 7
+                      : 6
+                    : 5
                   : 4
               }
               loop

@@ -676,6 +676,16 @@ export const CatalogTitles = styled.div`
     height: 27.5vw;
     padding: 8px;
 
+    @media (min-width: 2201px) {
+      width: calc(100% / 7);
+      height: 20.3vw;
+      max-width: 343px;
+      max-height: 507px;
+    }
+    @media (min-width: 1500px) and (max-width: 2200px) {
+      width: calc(100% / 6);
+      height: 23.1vw;
+    }
     @media (max-width: 1050px) {
       width: calc(100% / 4);
       height: 33vw;
@@ -987,6 +997,7 @@ export const PopularTitles = styled.div`
   .popular-slider {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     background-color: ${colors.color7};
     width: 100%;
     border-radius: 5px;
@@ -995,8 +1006,7 @@ export const PopularTitles = styled.div`
     @media (max-width: 1100px) {
       flex-direction: column;
       justify-content: normal;
-      align-items: center;
-      height: 421px;
+      height: 430px;
     }
     @media (max-width: 1020px) {
       height: 418px;
@@ -1005,16 +1015,13 @@ export const PopularTitles = styled.div`
       height: 443px;
     }
     @media (max-width: 800px) {
-      height: 475px;
+      height: 484px;
     }
     @media (max-width: 650px) {
       height: 415px;
     }
     @media (max-width: 500px) {
-      height: 456px;
-    }
-    @media (max-width: 410px) {
-      height: 413px;
+      height: 465px;
     }
 
     @media (max-width: 380px) {
@@ -1026,34 +1033,28 @@ export const PopularTitles = styled.div`
     & > .popular-img {
       flex-shrink: 0;
       width: 130px;
-      height: 180px;
+      height: 190px;
       margin-right: 2rem;
       position: relative;
 
       @media (max-width: 1100px) {
         margin-right: 0;
         width: 100%;
-        height: calc(100vw / 4.55);
+        height: 22.8vw;
       }
       @media (max-width: 950px) {
-        height: calc(100vw / 3.6);
+        height: 28.4vw;
       }
       @media (max-width: 800px) {
-        height: calc(100vw / 2.7);
-      }
-      @media (max-width: 650px) {
-        height: calc(100vw / 2.9);
+        height: 38.2vw;
       }
       @media (max-width: 500px) {
-        height: calc(100vw / 1.8);
-      }
-      @media (max-width: 410px) {
-        height: calc(100vw / 1.85);
+        height: 57.2vw;
       }
 
       @media (max-width: 380px) {
         width: 130px;
-        height: 180px;
+        height: 190px;
         margin-right: 2rem;
       }
 
@@ -1070,11 +1071,11 @@ export const PopularTitles = styled.div`
         border-radius: 10px;
         width: 100%;
         height: 100%;
+        object-fit: cover;
       }
     }
 
     & > .popular-details {
-      margin: 1rem 0;
       display: flex;
       flex-direction: column;
       gap: 9px;
@@ -1082,6 +1083,9 @@ export const PopularTitles = styled.div`
       @media (max-width: 1100px) {
         margin: 0;
         margin-top: 1rem;
+      }
+      @media (max-width: 380px) {
+        margin-top: 0;
       }
 
       &::-webkit-scrollbar {
@@ -1145,6 +1149,10 @@ export const PopularTitles = styled.div`
           padding: 8px 1.2rem;
           transition: all 0.2s ease-in-out;
 
+          @media (max-width: 800px) {
+            padding: 8px 1rem;
+          }
+
           &:hover {
             background-color: ${colors.color2};
           }
@@ -1170,13 +1178,24 @@ export const FutureContainer = styled.section`
     display: flex;
     justify-content: space-between;
 
+    @media (max-width: 450px) {
+      flex-direction: column;
+    }
+
     .future-mobile-img-details {
       display: flex;
       flex-direction: column;
-      height: 420px;
+      height: auto;
 
       @media (max-width: 950px) {
         margin-right: 1rem;
+      }
+      @media (max-width: 450px) {
+        flex-direction: row;
+        margin-right: 0;
+        justify-content: space-between;
+        height: auto;
+        margin-bottom: 1rem;
       }
     }
 
@@ -1191,8 +1210,12 @@ export const FutureContainer = styled.section`
         height: 300px;
       }
       @media (max-width: 700px) {
-        width: calc(100vw / 3.55);
-        height: calc(100vw / 2.35);
+        width: 100%;
+        height: 42.5vw;
+      }
+      @media (max-width: 450px) {
+        width: 50%;
+        height: 65.2vw;
       }
 
       .movie-or-serie-future {
@@ -1209,6 +1232,7 @@ export const FutureContainer = styled.section`
         width: 100%;
         height: 100%;
         color: ${colors.color1};
+        object-fit: cover;
       }
     }
 
@@ -1231,6 +1255,11 @@ export const FutureContainer = styled.section`
       @media (max-width: 700px) {
         width: calc(100vw / 3.55);
       }
+      @media (max-width: 450px) {
+        margin-left: 2rem;
+        width: auto;
+        flex-shrink: 1;
+      }
 
       & > h3 {
         max-width: 100%;
@@ -1242,6 +1271,10 @@ export const FutureContainer = styled.section`
         font-size: 1rem;
         font-weight: 600;
         color: ${colors.color1};
+
+        @media (max-width: 500px) {
+          -webkit-line-clamp: 3;
+        }
       }
 
       & > .future-release-date {
@@ -1262,7 +1295,14 @@ export const FutureContainer = styled.section`
         overflow: hidden scroll;
 
         @media (max-width: 950px) {
-          height: 65px;
+          flex-shrink: 0;
+          height: 47px;
+        }
+        @media (max-width: 650px) {
+          height: 67px;
+        }
+        @media (max-width: 550px) {
+          height: 96px;
         }
 
         &::-webkit-scrollbar {

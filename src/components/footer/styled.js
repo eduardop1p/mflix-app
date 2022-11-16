@@ -21,10 +21,21 @@ export const ElementFooter = styled.footer`
       align-items: center;
       justify-content: space-between;
 
+      @media (max-width: 680px) {
+        margin: auto 2.5rem;
+      }
+      @media (max-width: 570px) {
+        margin: auto 2rem;
+      }
+      @media (max-width: 445px) {
+        margin: auto 1.5rem;
+      }
+
       & > .credits {
         font-size: 0.75rem;
         font-weight: 500;
         color: ${colors.color5};
+        margin-right: 2rem;
       }
 
       & > .redes-sociais > a {

@@ -377,7 +377,7 @@ class AllCatalog extends Component {
         <PagenationContainer>
           <ReactPaginate
             breakLabel="..."
-            pageRangeDisplayed={3}
+            pageRangeDisplayed={breakPoint360 ? 2 : 3}
             marginPagesDisplayed={1}
             forcePage={currentPageGlobal}
             onPageChange={this.handlePagenationClick}
