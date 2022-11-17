@@ -147,6 +147,7 @@ export const Slider = styled.section`
           & > img {
             width: 100%;
             height: 100%;
+            object-fit: cover;
           }
         }
       }
@@ -214,6 +215,7 @@ export const Slider = styled.section`
           width: 100%;
           height: 100%;
           border-radius: 1rem;
+          object-fit: cover;
         }
       }
     }
