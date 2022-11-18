@@ -24,8 +24,8 @@ export default function Header() {
   const [searchActive, setSearchActive] = useState(false);
   const [headerSearchValue, setHeaderSearchValue] = useState('');
 
-  const breakPoint950 = useMediaQuery({ maxWidth: 950 });
-  const breakPoint350 = useMediaQuery({ maxWidth: 350 });
+  const breakPoint990 = useMediaQuery({ maxWidth: 990 });
+  const breakPoint360 = useMediaQuery({ maxWidth: 360 });
   const breakPoint300 = useMediaQuery({ maxWidth: 300 });
 
   const isLogedIn = useRef(useSelector((state) => state.auth.isLogedIn));
@@ -64,7 +64,7 @@ export default function Header() {
             <Logo />
             {!breakPoint300 && 'MFLIX'}
           </Link>
-          {!breakPoint950 && (
+          {!breakPoint990 && (
             <nav>
               <NavLink
                 title="Filmes"
@@ -102,7 +102,7 @@ export default function Header() {
           )}
         </section>
         <section className="section-2">
-          {!breakPoint350 ? (
+          {!breakPoint360 ? (
             <Search searchActive={searchActive}>
               <form onSubmit={setHeaderSearch} action="/vertical/search">
                 <input
@@ -143,7 +143,7 @@ export default function Header() {
               </svg>
             </Link>
           )}
-          {!breakPoint950 && (
+          {!breakPoint990 && (
             <div>
               {isLogedIn.current ? (
                 <UserPhoto />
@@ -159,7 +159,7 @@ export default function Header() {
               )}
             </div>
           )}
-          {breakPoint950 && (
+          {breakPoint990 && (
             <MenuHambuguer menuActive={menuActive}>
               <div onClick={() => setMenuActive(!menuActive)}>
                 <div className="h-1"></div>
@@ -187,7 +187,7 @@ export default function Header() {
                         className="singn-up"
                         to="/login"
                       >
-                        {breakPoint950 ? 'L' : 'Login'}
+                        {breakPoint990 ? 'L' : 'Login'}
                       </Link>
                     )}
                     <nav>

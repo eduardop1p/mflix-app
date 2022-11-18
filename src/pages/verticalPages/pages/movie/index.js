@@ -604,18 +604,12 @@ export default function MovieV() {
 
             <div className="popularBy">
               <h5>Populares&nbsp;Do(a):</h5>
-              <div
-                className="filter-popularBy"
-                onClick={(event) =>
-                  !event.target.classList.contains('stop-event') &&
-                  setFilterPopularByActived(!filterPopularByActived)
-                }
-              >
+              <div className="filter-popularBy">
                 <span>
                   {!filterNamePopular ? 'Filtrar' : filterNamePopular}
                 </span>
-                <div className="ul-filters-popularBy stop-event">
-                  <ul className="stop-event">
+                <div>
+                  <ul>
                     <li
                       onClick={(event) =>
                         filterNamePopularFuction('dia', event)
@@ -658,6 +652,11 @@ export default function MovieV() {
                     <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
                   </svg>
                 </span>
+                <button
+                  onClick={() =>
+                    setFilterPopularByActived(!filterPopularByActived)
+                  }
+                ></button>
               </div>
             </div>
           </div>

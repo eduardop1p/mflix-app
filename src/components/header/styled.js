@@ -4,6 +4,7 @@ import * as colors from '../../colors';
 
 export const BackgroundImageHeader = styled.div`
   width: 100%;
+  max-width: 2500px;
   height: 560px;
   top: 0;
   position: absolute;
@@ -97,9 +98,12 @@ export const HeaderElement = styled.header`
     display: flex;
     align-items: center;
     margin-left: 1rem;
-    gap: 1.5rem;
+    gap: 1rem;
 
-    @media (max-width: 440px) {
+    @media (max-width: 570px) {
+      gap: 10px;
+    }
+    @media (max-width: 360px) {
       gap: 1rem;
     }
   }
@@ -113,11 +117,13 @@ export const Search = styled.div`
   input {
     background-color: transparent;
     color: ${colors.color1};
-    transition: width 0.2s linear, visibility 0.12s linear;
-    padding: 10px 2.5rem 10px 13px;
-    visibility: ${(props) => (props.searchActive ? 'visible' : 'hidden')};
+    transition: width 0.2s linear,
+      border 0.2s linear
+        ${(props) => !props.searchActive && ',0s 0.2s padding linear'};
+    padding: ${(props) => (props.searchActive ? '10px 2.5rem 10px 13px' : 0)};
     width: ${(props) => (props.searchActive ? '100%' : '0')};
-    border: 1px solid #ddd;
+    border: ${(props) =>
+      props.searchActive ? '1px solid #ddd' : '0px solid #ddd'};
     border-radius: 1.5rem;
     float: right;
   }

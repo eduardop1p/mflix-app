@@ -486,7 +486,7 @@ export const CatalogContainer = styled.section`
       .genres {
         border-radius: 1rem;
         right: 0;
-        top: 3px;
+        top: 5px;
         z-index: -1;
         cursor: default;
         background-color: ${colors.color7};
@@ -548,7 +548,7 @@ export const CatalogContainer = styled.section`
       .releaseDate {
         border-radius: 1rem;
         right: 0;
-        top: 3px;
+        top: 5px;
         z-index: -1;
         cursor: default;
         background-color: ${colors.color7};
@@ -866,7 +866,7 @@ export const PopularContainer = styled.section`
 
         & > div {
           background-color: ${colors.color7};
-          top: 3px;
+          top: 5px;
           z-index: -1;
           cursor: default;
           right: 0;

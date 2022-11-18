@@ -233,9 +233,18 @@ export const PagesContainer = styled.main`
             border-radius: 1.5rem;
             position: relative;
 
-            & > .ul-filters-popularBy {
+            & > button {
+              background-color: transparent;
+              width: 100%;
+              height: 100%;
+              position: absolute;
+              z-index: 5;
+              right: 0;
+            }
+
+            & > div {
               background-color: ${colors.color7};
-              top: 8px;
+              top: 5px;
               cursor: default;
               z-index: -1;
               right: 0;
