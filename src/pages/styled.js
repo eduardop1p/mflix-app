@@ -485,6 +485,8 @@ export const CatalogContainer = styled.section`
       @media (max-width: 360px) {
         width: 100%;
         z-index: 1;
+        background-color: ${(props) =>
+          props.releaseDateActived ? '#22252e' : colors.color7};
       }
 
       .genres {
@@ -498,11 +500,6 @@ export const CatalogContainer = styled.section`
         height: ${(props) => (props.genreActived ? '120px' : '0')};
         position: absolute;
         transition: height 0.2s ease-in-out;
-
-        /* @media (max-width: 360px) {
-          background-color: ${(props) =>
-          props.genreActived ? colors.color6 : colors.color7};
-        } */
 
         & > ul {
           margin: 1.8rem 1.2rem 0;
@@ -547,8 +544,6 @@ export const CatalogContainer = styled.section`
       @media (max-width: 360px) {
         width: 100%;
         z-index: 2;
-        background-color: ${(props) =>
-          props.releaseDateActived ? colors.color6 : colors.color7};
       }
 
       .releaseDate {
@@ -1225,6 +1220,10 @@ export const FutureContainer = styled.section`
       flex-direction: column;
     }
 
+    @media (max-width: 310px) {
+      height: 865px;
+    }
+
     .future-mobile-img-details {
       display: flex;
       flex-direction: column;
@@ -1346,6 +1345,9 @@ export const FutureContainer = styled.section`
         @media (max-width: 330px) {
           flex-direction: column;
         }
+        @media (max-width: 310px) {
+          flex-direction: row;
+        }
 
         & > span {
           margin-left: 8px;
@@ -1354,6 +1356,10 @@ export const FutureContainer = styled.section`
           @media (max-width: 330px) {
             margin-left: 0;
             margin-top: 2px;
+          }
+          @media (max-width: 310px) {
+            margin-left: 8px;
+            margin-top: 0;
           }
         }
       }
@@ -1369,13 +1375,20 @@ export const FutureContainer = styled.section`
           height: 47px;
         }
         @media (max-width: 650px) {
-          height: calc(100% / 7.5);
+          height: 11vw;
         }
-        @media (max-width: 450px) {
-          height: calc(100% / 2.5);
+        @media (max-width: 570px) {
+          height: 15vw;
+        }
+        @media (max-width: 550px) {
+          height: 50%;
+        }
+        @media (max-width: 320px) {
+          height: 35%;
         }
         @media (max-width: 310px) {
           max-height: 65px;
+          height: auto;
         }
 
         &::-webkit-scrollbar {
@@ -1402,6 +1415,10 @@ export const FutureContainer = styled.section`
       position: relative;
       display: flex;
       justify-content: center;
+
+      @media (max-width: 310px) {
+        height: 380px;
+      }
 
       & > .msg-video-trailer-error {
         position: absolute;

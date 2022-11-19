@@ -92,11 +92,11 @@ class Future extends Component {
       <FutureContainer>
         <h1>Filmes futuros</h1>
         <Swiper
-          autoplay={{
-            delay: 5000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          }}
+          // autoplay={{
+          //   delay: 5000,
+          //   disableOnInteraction: false,
+          //   pauseOnMouseEnter: true,
+          // }}
           style={{ height: 'auto' }}
           spaceBetween={20}
           slidesPerView={breakPoint1900 ? 2 : 1}
@@ -109,72 +109,16 @@ class Future extends Component {
                   <SwiperSlide key={result.id}>
                     <div className="future">
                       {!breakPoint950 ? (
-                        <>
-                          <div className="future-img">
-                            <img
-                              src={
-                                result.poster_path
-                                  ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                                  : imageErrorTop3
-                              }
-                              onLoad={this.removeLoadingSipnner}
-                              onError={this.removeLoadingSipnner}
-                              alt={result.title}
-                            />
-                            <Loading />
-                          </div>
-                          <div className="future-details">
-                            <h3>{result.title}</h3>
-                            <div className="future-release-date">
-                              Estreia:
-                              <span>
-                                {new Date(
-                                  `${result.release_date}`
-                                ).toLocaleDateString('pt-BR', {
-                                  dateStyle: breakPoint1150 ? 'medium' : 'long',
-                                })}
-                              </span>
-                            </div>
-                            <div className="future-info">
-                              {!result.overview
-                                ? 'Não à descrição para este titulo por enquanto.'
-                                : result.overview}
-                            </div>
-                          </div>
-                        </>
+                        <FutureMobile
+                          result={result}
+                          breakPoint1150={breakPoint1150}
+                        />
                       ) : (
                         <div className="future-mobile-img-details">
-                          <div className="future-img">
-                            <img
-                              src={
-                                result.poster_path
-                                  ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                                  : imageErrorTop3
-                              }
-                              onLoad={this.removeLoadingSipnner}
-                              onError={this.removeLoadingSipnner}
-                              alt={result.title}
-                            />
-                            <Loading />
-                          </div>
-                          <div className="future-details">
-                            <h3>{result.title}</h3>
-                            <div className="future-release-date">
-                              Estreia:
-                              <span>
-                                {new Date(
-                                  `${result.release_date}`
-                                ).toLocaleDateString('pt-BR', {
-                                  dateStyle: breakPoint1150 ? 'medium' : 'long',
-                                })}
-                              </span>
-                            </div>
-                            <div className="future-info">
-                              {!result.overview
-                                ? 'Não à descrição para este titulo por enquanto.'
-                                : result.overview}
-                            </div>
-                          </div>
+                          <FutureMobile
+                            result={result}
+                            breakPoint1150={breakPoint1150}
+                          />
                         </div>
                       )}
 
@@ -187,6 +131,50 @@ class Future extends Component {
             )}
         </Swiper>
       </FutureContainer>
+    );
+  }
+}
+
+class FutureMobile extends Future {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const { result, breakPoint1150 } = this.props;
+
+    return (
+      <>
+        <div className="future-img">
+          <img
+            src={
+              result.poster_path
+                ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                : imageErrorTop3
+            }
+            onLoad={this.removeLoadingSipnner}
+            onError={this.removeLoadingSipnner}
+            alt={result.title}
+          />
+          <Loading />
+        </div>
+        <div className="future-details">
+          <h3>{result.title}</h3>
+          <div className="future-release-date">
+            Estreia:
+            <span>
+              {new Date(`${result.release_date}`).toLocaleDateString('pt-BR', {
+                dateStyle: breakPoint1150 ? 'medium' : 'long',
+              })}
+            </span>
+          </div>
+          <div className="future-info">
+            {!result.overview
+              ? 'Não à descrição para este titulo por enquanto.'
+              : result.overview}
+          </div>
+        </div>
+      </>
     );
   }
 }
