@@ -61,8 +61,8 @@ export default function Header() {
       <HeaderElement>
         <section className="section-1">
           <Link title="Home" reloadDocument to="/">
-            <Logo />
-            {!breakPoint300 && 'MFLIX'}
+            {!breakPoint300 && <Logo />}
+            MFLIX
           </Link>
           {!breakPoint990 && (
             <nav>

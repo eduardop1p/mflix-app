@@ -92,8 +92,12 @@ export const Slider = styled.section`
           height: 394px;
         }
         @media (max-width: 360px) {
-          width: 250px;
+          width: 100%;
           height: 379px;
+        }
+        @media (max-width: 310px) {
+          height: 122vw;
+          min-height: 280px;
         }
 
         & > .mobile-new-details {
@@ -489,7 +493,7 @@ export const CatalogContainer = styled.section`
         top: 5px;
         z-index: -1;
         cursor: default;
-        background-color: ${colors.color7};
+        background-color: inherit;
         width: 100%;
         height: ${(props) => (props.genreActived ? '120px' : '0')};
         position: absolute;
@@ -543,6 +547,8 @@ export const CatalogContainer = styled.section`
       @media (max-width: 360px) {
         width: 100%;
         z-index: 2;
+        background-color: ${(props) =>
+          props.releaseDateActived ? colors.color6 : colors.color7};
       }
 
       .releaseDate {
@@ -551,7 +557,7 @@ export const CatalogContainer = styled.section`
         top: 5px;
         z-index: -1;
         cursor: default;
-        background-color: ${colors.color7};
+        background-color: inherit;
         width: 100%;
         height: ${(props) => (props.releaseDateActived ? '120px' : '0')};
         position: absolute;
@@ -704,6 +710,13 @@ export const CatalogTitles = styled.div`
       width: 100%;
       height: 128vw;
     }
+    @media (max-width: 320px) {
+      height: 126vw;
+    }
+    @media (max-width: 280px) {
+      height: 124vw;
+      min-height: 285px;
+    }
 
     &:hover {
       & > .catalog-img {
@@ -824,6 +837,12 @@ export const PopularContainer = styled.section`
     position: relative;
     z-index: 3;
 
+    @media (max-width: 330px) {
+      justify-content: normal;
+      align-items: normal;
+      flex-direction: column;
+    }
+
     & > h1 {
       color: ${colors.color1};
       font-size: 1.8rem;
@@ -835,6 +854,11 @@ export const PopularContainer = styled.section`
       align-items: center;
       gap: 1rem;
       margin-left: 1rem;
+
+      @media (max-width: 330px) {
+        align-self: flex-end;
+        margin-top: 10px;
+      }
 
       & > h5 {
         color: ${colors.color5};
@@ -865,7 +889,7 @@ export const PopularContainer = styled.section`
         }
 
         & > div {
-          background-color: ${colors.color7};
+          background-color: inherit;
           top: 5px;
           z-index: -1;
           cursor: default;
@@ -1025,10 +1049,14 @@ export const PopularTitles = styled.div`
     @media (max-width: 500px) {
       height: 465px;
     }
-
     @media (max-width: 380px) {
       flex-direction: row;
       justify-content: space-between;
+      height: auto;
+    }
+    @media (max-width: 340px) {
+      flex-direction: column;
+      justify-content: normal;
       height: auto;
     }
 
@@ -1058,6 +1086,19 @@ export const PopularTitles = styled.div`
         width: 130px;
         height: 190px;
         margin-right: 2rem;
+      }
+      @media (max-width: 340px) {
+        margin-bottom: 1rem;
+        margin-right: 0;
+        width: 100%;
+        height: 120vw;
+      }
+      @media (max-width: 300px) {
+        height: 117vw;
+      }
+      @media (max-width: 270px) {
+        height: 113vw;
+        min-height: 269px;
       }
 
       .movie-or-serie-popular {
@@ -1187,7 +1228,7 @@ export const FutureContainer = styled.section`
     .future-mobile-img-details {
       display: flex;
       flex-direction: column;
-      height: auto;
+      height: 420px;
 
       @media (max-width: 950px) {
         margin-right: 1rem;
@@ -1197,7 +1238,10 @@ export const FutureContainer = styled.section`
         margin-right: 0;
         justify-content: space-between;
         height: auto;
-        margin-bottom: 1rem;
+        margin-bottom: 10px;
+      }
+      @media (max-width: 310px) {
+        flex-direction: column;
       }
     }
 
@@ -1218,6 +1262,11 @@ export const FutureContainer = styled.section`
       @media (max-width: 450px) {
         width: 50%;
         height: 65.2vw;
+      }
+      @media (max-width: 310px) {
+        width: 100%;
+        height: 125vw;
+        min-height: 287px;
       }
 
       .movie-or-serie-future {
@@ -1258,9 +1307,15 @@ export const FutureContainer = styled.section`
         width: calc(100vw / 3.55);
       }
       @media (max-width: 450px) {
-        margin-left: 2rem;
+        margin-left: 1rem;
         width: auto;
+        height: 62.2vw;
         flex-shrink: 1;
+      }
+      @media (max-width: 310px) {
+        margin-top: 10px;
+        margin-left: 0;
+        height: auto;
       }
 
       & > h3 {
@@ -1277,6 +1332,10 @@ export const FutureContainer = styled.section`
         @media (max-width: 500px) {
           -webkit-line-clamp: 3;
         }
+        @media (max-width: 310px) {
+          display: block;
+          overflow: visible;
+        }
       }
 
       & > .future-release-date {
@@ -1284,9 +1343,18 @@ export const FutureContainer = styled.section`
         display: flex;
         color: ${colors.color5};
 
+        @media (max-width: 330px) {
+          flex-direction: column;
+        }
+
         & > span {
           margin-left: 8px;
           color: ${colors.color1};
+
+          @media (max-width: 330px) {
+            margin-left: 0;
+            margin-top: 2px;
+          }
         }
       }
 
@@ -1301,10 +1369,13 @@ export const FutureContainer = styled.section`
           height: 47px;
         }
         @media (max-width: 650px) {
-          height: 67px;
+          height: calc(100% / 7.5);
         }
-        @media (max-width: 550px) {
-          height: 96px;
+        @media (max-width: 450px) {
+          height: calc(100% / 2.5);
+        }
+        @media (max-width: 310px) {
+          max-height: 65px;
         }
 
         &::-webkit-scrollbar {
