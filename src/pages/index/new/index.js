@@ -105,6 +105,7 @@ export default function New() {
             prevEl: '.prev-element',
           }}
           modules={[Navigation]}
+          initialSlide={1}
           style={{ height: 'auto' }}
           spaceBetween={20}
           slidesPerView={breackPoint1700 ? (breackPoint2300 ? 3 : 2) : 1}
@@ -170,9 +171,9 @@ export default function New() {
                         >
                           <div className="mobile-new-details">
                             {result.title ? (
-                              <GetDetailsMovieId id={result.id} mobile />
+                              <GetDetailsMovieId id={result.id} mobile index />
                             ) : (
-                              <GetDetailsSerieId id={result.id} mobile />
+                              <GetDetailsSerieId id={result.id} mobile index />
                             )}
                           </div>
                           <div className="poster-path">

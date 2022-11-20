@@ -22,7 +22,7 @@ import SeriesV from '../pages/verticalPages/pages/serie/index';
 import MyListV from '../pages/verticalPages/pages/myList/index';
 import Search from '../pages/verticalPages/pages/search/index';
 import PageDetailsTitles from '../pages/pageDetailsTitles/index';
-import Error404 from '../components/error404/index';
+import Error404 from '../pages/error404/index';
 import MyRouter from './myRouter';
 import MyRouterMyList from './myRouterMyList';
 

@@ -469,6 +469,7 @@ export default class Popular extends Component {
           {loadingFilters && <Loading colorTranparent />}
           {allPopular && (
             <Swiper
+              initialSlide={1}
               autoplay={{
                 delay: 3000,
                 disableOnInteraction: false,

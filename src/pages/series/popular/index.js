@@ -473,6 +473,7 @@ export default class Popular extends Component {
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true,
               }}
+              initialSlide={1}
               navigation={{
                 nextEl: '.button-next-element',
                 prevEl: '.button-previous-element',

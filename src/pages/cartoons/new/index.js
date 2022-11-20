@@ -104,6 +104,7 @@ export default function New() {
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
           }}
+          initialSlide={1}
           navigation={{
             nextEl: '.next-element',
             prevEl: '.prev-element',
@@ -174,9 +175,17 @@ export default function New() {
                         >
                           <div className="mobile-new-details">
                             {result.title ? (
-                              <GetDetailsMovieId id={result.id} mobile />
+                              <GetDetailsMovieId
+                                id={result.id}
+                                mobile
+                                carttons
+                              />
                             ) : (
-                              <GetDetailsSerieId id={result.id} mobile />
+                              <GetDetailsSerieId
+                                id={result.id}
+                                mobile
+                                carttons
+                              />
                             )}
                           </div>
                           <div className="poster-path">

@@ -56,6 +56,7 @@ function New() {
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
           }}
+          initialSlide={1}
           navigation={{
             nextEl: '.next-element',
             prevEl: '.prev-element',
@@ -188,7 +189,7 @@ function New() {
 }
 
 function GetDetailsMovieId(props) {
-  const { id, mobile } = props;
+  const { id, mobile, carttons, index } = props;
 
   const [newId, serNewId] = useState(null);
 
@@ -248,13 +249,23 @@ function GetDetailsMovieId(props) {
     <>
       <div>
         <div className="new">NEW</div>
-        <div className="date">
-          {newId.release_date ? newId.release_date.slice(0, 4) : 'Not data'}
-        </div>
+        {carttons || index ? (
+          <div className="movie-or-serie-future">Filme</div>
+        ) : (
+          <div className="date">
+            {newId.release_date ? newId.release_date.slice(0, 4) : 'Not data'}
+          </div>
+        )}
       </div>
       <div>
         <h4>{newId.title}</h4>
-        <div>{newId.genres.length ? newId.genres[0].name : 'Not genre'}</div>
+        {carttons ? (
+          <div className="date">
+            {newId.release_date ? newId.release_date.slice(0, 4) : 'Not data'}
+          </div>
+        ) : (
+          <div>{newId.genres.length ? newId.genres[0].name : 'Not genre'}</div>
+        )}
       </div>
     </>
   );

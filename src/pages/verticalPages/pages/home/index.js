@@ -696,6 +696,7 @@ export default function Home() {
                   disableOnInteraction: false,
                   pauseOnMouseEnter: true,
                 }}
+                initialSlide={1}
                 modules={[Navigation]}
                 spaceBetween={30}
                 slidesPerView={3}

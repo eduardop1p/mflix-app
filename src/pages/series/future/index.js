@@ -98,6 +98,7 @@ class Future extends Component {
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
           }}
+          initialSlide={1}
           style={{ height: 'auto' }}
           spaceBetween={20}
           slidesPerView={breakPoint1900 ? 2 : 1}

@@ -522,6 +522,7 @@ export default function searchMovie(props) {
                               disableOnInteraction: false,
                               pauseOnMouseEnter: true,
                             }}
+                            initialSlide={1}
                             modules={[Navigation]}
                             spaceBetween={20}
                             slidesPerView={2}
@@ -819,6 +820,7 @@ export default function searchMovie(props) {
                     disableOnInteraction: false,
                     pauseOnMouseEnter: true,
                   }}
+                  initialSlide={1}
                   modules={[Navigation]}
                   spaceBetween={20}
                   slidesPerView={4}

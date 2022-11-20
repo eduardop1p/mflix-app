@@ -484,6 +484,7 @@ export default function MovieD(props) {
                               disableOnInteraction: false,
                               pauseOnMouseEnter: true,
                             }}
+                            initialSlide={1}
                             modules={[Navigation]}
                             spaceBetween={20}
                             slidesPerView={2}
@@ -748,6 +749,7 @@ export default function MovieD(props) {
                   disableOnInteraction: false,
                   pauseOnMouseEnter: true,
                 }}
+                initialSlide={1}
                 modules={[Navigation]}
                 spaceBetween={20}
                 slidesPerView={4}
