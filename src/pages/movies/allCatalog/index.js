@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import ReactPaginate from 'react-paginate';
 
 /* eslint-disable */
+
 import * as actions from '../../../storeReactRedux/modules/firstBackground/actions';
 import apiConfig from '../../../config/apiConfig';
 import axiosBaseUrlGenres from '../../../services/axiosBaseUrlGenres';
@@ -103,7 +104,7 @@ class AllCatalog extends Component {
     }
   }
 
-  async getImages(all) {
+  getImages(all) {
     this.props.firstBackgroundSuccess({
       background: all.results[0].backdrop_path,
     });
@@ -263,8 +264,8 @@ class AllCatalog extends Component {
 
         <div className="catalog-filter">
           {!breakPoint570 ? (
-            <CatalogFilterLayouts
-              thisCp={this}
+            <AllCatalogMobile
+              thisParentClass={this}
               releaseDate={releaseDate}
               releaseDateActived={releaseDateActived}
               years={years}
@@ -274,8 +275,8 @@ class AllCatalog extends Component {
             />
           ) : !breakPoint360 ? (
             <div className="mobile-year-genre">
-              <CatalogFilterLayouts
-                thisCp={this}
+              <AllCatalogMobile
+                thisParentClass={this}
                 releaseDate={releaseDate}
                 releaseDateActived={releaseDateActived}
                 years={years}
@@ -285,8 +286,8 @@ class AllCatalog extends Component {
               />
             </div>
           ) : (
-            <CatalogFilterLayouts
-              thisCp={this}
+            <AllCatalogMobile
+              thisParentClass={this}
               releaseDate={releaseDate}
               releaseDateActived={releaseDateActived}
               years={years}
@@ -390,85 +391,99 @@ class AllCatalog extends Component {
   }
 }
 
-function CatalogFilterLayouts(props) {
-  const {
-    thisCp,
-    releaseDate,
-    releaseDateActived,
-    years,
-    genreName,
-    allGenres,
-    genreActived,
-  } = props;
+class AllCatalogMobile extends Component {
+  constructor(props) {
+    super(props);
+  }
 
-  return (
-    <>
-      <div className="year">
-        <span>{releaseDate}</span>
-        <div className="releaseDate">
-          <ul>
-            {years.map((year, index) => (
-              <li
-                key={index}
-                onClick={(event) => thisCp.yearOrGenreActive('year', event)}
-              >
-                {year}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="20px"
-            viewBox="0 0 24 24"
-            width="20px"
-            fill="#FFFFFF"
-          >
-            <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
-            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
-          </svg>
-        </span>
-        <button
-          onClick={() =>
-            thisCp.setState({ releaseDateActived: !releaseDateActived })
-          }
-        ></button>
-      </div>
-      <div className="genre">
-        <span>{genreName}</span>
-        <div className="genres">
-          <ul>
-            {allGenres &&
-              allGenres.genres.map((genre) => (
+  render() {
+    const {
+      thisParentClass,
+      releaseDate,
+      releaseDateActived,
+      years,
+      genreName,
+      allGenres,
+      genreActived,
+    } = this.props;
+
+    return (
+      <>
+        <div className="year">
+          <span>{releaseDate}</span>
+          <div className="releaseDate">
+            <ul>
+              {years.map((year, index) => (
                 <li
-                  key={genre.id}
-                  data-genre-id={genre.id}
-                  onClick={(event) => thisCp.yearOrGenreActive('genre', event)}
+                  key={index}
+                  onClick={(event) =>
+                    thisParentClass.yearOrGenreActive('year', event)
+                  }
                 >
-                  {genre.name}
+                  {year}
                 </li>
               ))}
-          </ul>
+            </ul>
+          </div>
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="20px"
+              viewBox="0 0 24 24"
+              width="20px"
+              fill="#FFFFFF"
+            >
+              <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
+              <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
+            </svg>
+          </span>
+          <button
+            onClick={() =>
+              thisParentClass.setState({
+                releaseDateActived: !releaseDateActived,
+              })
+            }
+          ></button>
         </div>
-        <span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="20px"
-            viewBox="0 0 24 24"
-            width="20px"
-            fill="#FFFFFF"
-          >
-            <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
-            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
-          </svg>
-        </span>
-        <button
-          onClick={() => thisCp.setState({ genreActived: !genreActived })}
-        ></button>
-      </div>
-    </>
-  );
+        <div className="genre">
+          <span>{genreName}</span>
+          <div className="genres">
+            <ul>
+              {allGenres &&
+                allGenres.genres.map((genre) => (
+                  <li
+                    key={genre.id}
+                    data-genre-id={genre.id}
+                    onClick={(event) =>
+                      thisParentClass.yearOrGenreActive('genre', event)
+                    }
+                  >
+                    {genre.name}
+                  </li>
+                ))}
+            </ul>
+          </div>
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="20px"
+              viewBox="0 0 24 24"
+              width="20px"
+              fill="#FFFFFF"
+            >
+              <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
+              <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
+            </svg>
+          </span>
+          <button
+            onClick={() =>
+              thisParentClass.setState({ genreActived: !genreActived })
+            }
+          ></button>
+        </div>
+      </>
+    );
+  }
 }
 
 export default connect(null, actions)(AllCatalog);

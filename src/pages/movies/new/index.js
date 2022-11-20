@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SwiperCore, { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useMediaQuery } from 'react-responsive';
 
 import axiosBaseUrlMovies from '../../../services/axiosBaseUrlMovies';
 import apiConfig from '../../../config/apiConfig';
@@ -14,9 +15,8 @@ import imageErrorPoster from '../../../assets/images/czx7z2e6uqg81.jpg';
 import imageErrorTop3 from '../../../assets/images/1150108.png';
 import { color1 } from '../../../colors';
 import { Slider, Grid, ForId } from '../../styled';
-import { useMediaQuery } from 'react-responsive';
 
-export default function New() {
+function New() {
   const [news, setNews] = useState(null);
   const breackPoint2300 = useMediaQuery({ minWidth: 2300 });
   const breackPoint1700 = useMediaQuery({ minWidth: 1700 });
@@ -254,8 +254,12 @@ function GetDetailsMovieId(props) {
       </div>
       <div>
         <h4>{newId.title}</h4>
-        <div>{newId.genres[0].name}</div>
+        <div>{newId.genres.length ? newId.genres[0].name : 'Not genre'}</div>
       </div>
     </>
   );
 }
+
+export { GetDetailsMovieId };
+
+export default New;

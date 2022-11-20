@@ -92,11 +92,11 @@ class Future extends Component {
       <FutureContainer>
         <h1>Filmes futuros</h1>
         <Swiper
-          // autoplay={{
-          //   delay: 5000,
-          //   disableOnInteraction: false,
-          //   pauseOnMouseEnter: true,
-          // }}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
           style={{ height: 'auto' }}
           spaceBetween={20}
           slidesPerView={breakPoint1900 ? 2 : 1}
@@ -110,12 +110,14 @@ class Future extends Component {
                     <div className="future">
                       {!breakPoint950 ? (
                         <FutureMobile
+                          thisParentClass={this}
                           result={result}
                           breakPoint1150={breakPoint1150}
                         />
                       ) : (
                         <div className="future-mobile-img-details">
                           <FutureMobile
+                            thisParentClass={this}
                             result={result}
                             breakPoint1150={breakPoint1150}
                           />
@@ -135,13 +137,13 @@ class Future extends Component {
   }
 }
 
-class FutureMobile extends Future {
+class FutureMobile extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-    const { result, breakPoint1150 } = this.props;
+    const { thisParentClass, result, breakPoint1150 } = this.props;
 
     return (
       <>
@@ -152,8 +154,8 @@ class FutureMobile extends Future {
                 ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
                 : imageErrorTop3
             }
-            onLoad={this.removeLoadingSipnner}
-            onError={this.removeLoadingSipnner}
+            onLoad={thisParentClass.removeLoadingSipnner}
+            onError={thisParentClass.removeLoadingSipnner}
             alt={result.title}
           />
           <Loading />

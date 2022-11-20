@@ -18,16 +18,33 @@ class Future extends Component {
   constructor(props) {
     super(props);
 
+    this.useMedia1900 = matchMedia('(min-width: 1900px)');
+    this.useMedia1150 = matchMedia('(max-width: 1150px)');
+    this.useMedia950 = matchMedia('(max-width: 950px)');
+
     this.state = {
       futureAll: null,
       futureMoviesArr: null,
       futureSeriesArr: null,
+      breakPoint1900: this.useMedia1900.matches,
+      breakPoint1150: this.useMedia1150.matches,
+      breakPoint950: this.useMedia950.matches,
     };
 
     this.randomArrMovieSeries = this.randomArrMovieSeries.bind(this);
   }
 
   componentDidMount() {
+    this.useMedia1900.addEventListener('change', (event) => {
+      this.setState({ breakPoint1900: event.matches });
+    });
+    this.useMedia1150.addEventListener('change', (event) => {
+      this.setState({ breakPoint1150: event.matches });
+    });
+    this.useMedia950.addEventListener('change', (event) => {
+      this.setState({ breakPoint950: event.matches });
+    });
+
     SwiperCore.use(Autoplay);
 
     const date = (past7Day = 0) => {
@@ -110,7 +127,8 @@ class Future extends Component {
   }
 
   render() {
-    const { futureAll } = this.state;
+    const { futureAll, breakPoint1900, breakPoint1150, breakPoint950 } =
+      this.state;
 
     return (
       <FutureContainer>
@@ -123,7 +141,7 @@ class Future extends Component {
           }}
           style={{ height: 'auto' }}
           spaceBetween={20}
-          slidesPerView={1}
+          slidesPerView={breakPoint1900 ? 2 : 1}
           loop
         >
           {futureAll &&
@@ -132,44 +150,22 @@ class Future extends Component {
                 result !== undefined && (
                   <SwiperSlide key={result.id}>
                     <div className="future">
-                      <div className="future-img">
-                        <div className="movie-or-serie-future">
-                          {result.title ? 'Filme' : 'Serie'}
-                        </div>
-                        <img
-                          src={
-                            result.poster_path
-                              ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                              : imageErrorTop3
-                          }
-                          onLoad={this.removeLoadingSipnner}
-                          onError={this.removeLoadingSipnner}
-                          alt={result.title ? result.title : result.name}
+                      {!breakPoint950 ? (
+                        <FutureMobile
+                          thisParentClass={this}
+                          result={result}
+                          breakPoint1150={breakPoint1150}
                         />
-                        <Loading />
-                      </div>
-                      <div className="future-details">
-                        <h3>{result.title ? result.title : result.name}</h3>
-                        <div className="future-release-date">
-                          <span>Lançamento:</span>
-                          <span>
-                            {new Date(
-                              `${
-                                result.release_date
-                                  ? result.release_date
-                                  : result.first_air_date
-                              }`
-                            ).toLocaleDateString('pt-BR', {
-                              dateStyle: 'long',
-                            })}
-                          </span>
+                      ) : (
+                        <div className="future-mobile-img-details">
+                          <FutureMobile
+                            thisParentClass={this}
+                            result={result}
+                            breakPoint1150={breakPoint1150}
+                          />
                         </div>
-                        <div className="future-info">
-                          {!result.overview
-                            ? 'Não à descrição para este titulo por enquanto.'
-                            : result.overview}
-                        </div>
-                      </div>
+                      )}
+
                       <div className="future-trailer-video">
                         {result.title ? (
                           <GetTrailerMovie id={result.id} />
@@ -183,6 +179,59 @@ class Future extends Component {
             )}
         </Swiper>
       </FutureContainer>
+    );
+  }
+}
+
+class FutureMobile extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const { thisParentClass, result, breakPoint1150 } = this.props;
+
+    return (
+      <>
+        <div className="future-img">
+          <div className="movie-or-serie-future">
+            {result.title ? 'Filme' : 'Serie'}
+          </div>
+          <img
+            src={
+              result.poster_path
+                ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                : imageErrorTop3
+            }
+            onLoad={thisParentClass.removeLoadingSipnner}
+            onError={thisParentClass.removeLoadingSipnner}
+            alt={result.title ? result.title : result.name}
+          />
+          <Loading />
+        </div>
+        <div className="future-details">
+          <h3>{result.title ? result.title : result.name}</h3>
+          <div className="future-release-date">
+            <span>Estreia:</span>
+            <span>
+              {new Date(
+                `${
+                  result.release_date
+                    ? result.release_date
+                    : result.first_air_date
+                }`
+              ).toLocaleDateString('pt-BR', {
+                dateStyle: breakPoint1150 ? 'medium' : 'long',
+              })}
+            </span>
+          </div>
+          <div className="future-info">
+            {!result.overview
+              ? 'Não à descrição para este titulo por enquanto.'
+              : result.overview}
+          </div>
+        </div>
+      </>
     );
   }
 }

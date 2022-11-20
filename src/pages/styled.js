@@ -20,6 +20,12 @@ const Main = styled.main`
   & > section {
     margin-bottom: 2rem;
   }
+
+  @media (max-width: 310px) {
+    & > :last-child {
+      margin-bottom: 0;
+    }
+  }
 `;
 
 // New styled
@@ -81,7 +87,7 @@ export const Slider = styled.section`
 
         @media (max-width: 525px) {
           width: 280px;
-          height: auto;
+          height: 424px;
         }
         @media (max-width: 445px) {
           width: 270px;
@@ -90,10 +96,6 @@ export const Slider = styled.section`
         @media (max-width: 410px) {
           width: 260px;
           height: 394px;
-        }
-        @media (max-width: 360px) {
-          width: 100%;
-          height: 379px;
         }
         @media (max-width: 310px) {
           height: 122vw;
@@ -418,6 +420,9 @@ export const CatalogContainer = styled.section`
       gap: 12px;
     }
     @media (max-width: 570px) {
+      flex-direction: ${(props) => (props.cartoons ? 'row' : 'column')};
+    }
+    @media (max-width: 360px) {
       flex-direction: column;
     }
 
@@ -539,7 +544,7 @@ export const CatalogContainer = styled.section`
         width: 25%;
       }
       @media (max-width: 570px) {
-        width: 35%;
+        width: ${(props) => (props.cartoons ? '40%' : '35%')};
       }
       @media (max-width: 360px) {
         width: 100%;
@@ -597,6 +602,9 @@ export const CatalogContainer = styled.section`
         width: ${(props) => (props.cartoons ? '80%' : '40%')};
       }
       @media (max-width: 570px) {
+        width: ${(props) => (props.cartoons ? '60%' : '100%')};
+      }
+      @media (max-width: 360px) {
         width: 100%;
       }
 
@@ -946,7 +954,7 @@ export const PopularContainer = styled.section`
         }
       }
 
-      & > .menu-poular-mobile {
+      & > .menu-popular-mobile {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1220,10 +1228,6 @@ export const FutureContainer = styled.section`
       flex-direction: column;
     }
 
-    @media (max-width: 310px) {
-      height: 865px;
-    }
-
     .future-mobile-img-details {
       display: flex;
       flex-direction: column;
@@ -1378,10 +1382,10 @@ export const FutureContainer = styled.section`
           height: 11vw;
         }
         @media (max-width: 570px) {
-          height: 15vw;
+          height: 80px;
         }
         @media (max-width: 550px) {
-          height: 50%;
+          height: 30vw;
         }
         @media (max-width: 320px) {
           height: 35%;

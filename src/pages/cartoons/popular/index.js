@@ -20,6 +20,17 @@ export default class Popular extends Component {
   constructor(props) {
     super(props);
 
+    this.useMedia2350 = window.matchMedia('(min-width: 2350px)');
+    this.useMedia2000 = window.matchMedia('(min-width: 2000px)');
+    this.useMedia1700 = window.matchMedia('(min-width: 1700px)');
+    this.useMedia1350 = window.matchMedia('(max-width: 1350px)');
+    this.useMedia1100 = window.matchMedia('(max-width: 1100px)');
+    this.useMedia950 = window.matchMedia('(max-width: 950px)');
+    this.useMedia800 = window.matchMedia('(max-width: 800px)');
+    this.useMedia650 = window.matchMedia('(max-width: 650px)');
+    this.useMedia500 = window.matchMedia('(max-width: 500px)');
+    this.useMedia380 = window.matchMedia('(max-width: 380px)');
+
     this.state = {
       allPopular: null,
       loadingFilters: false,
@@ -29,16 +40,62 @@ export default class Popular extends Component {
       filterNamePopular: 'Filtrar',
       primaryReleaseDateGte: null,
       primaryReleaseDateLte: null,
+      breakPoint2350: this.useMedia2350.matches,
+      breakPoint2000: this.useMedia2000.matches,
+      breakPoint1700: this.useMedia1700.matches,
+      breakPoint1350: this.useMedia1350.matches,
+      breakPoint1100: this.useMedia1100.matches,
+      breakPoint950: this.useMedia950.matches,
+      breakPoint800: this.useMedia800.matches,
+      breakPoint650: this.useMedia650.matches,
+      breakPoint500: this.useMedia500.matches,
+      breakPoint380: this.useMedia380.matches,
     };
 
     this.getAllPopular = this.getAllPopular.bind(this);
     this.getAllPopularFilters = this.getAllPopularFilters.bind(this);
     this.date = this.date.bind(this);
+    this.useMediaQuery = this.useMediaQuery.bind(this);
     this.filterNamePopularFuction = this.filterNamePopularFuction.bind(this);
   }
 
   componentDidMount() {
+    this.useMediaQuery();
+
     this.getAllPopular();
+  }
+
+  useMediaQuery() {
+    this.useMedia2350.addEventListener('change', (event) =>
+      this.setState({ breakPoint2350: event.matches })
+    );
+    this.useMedia2000.addEventListener('change', (event) =>
+      this.setState({ breakPoint2000: event.matches })
+    );
+    this.useMedia1700.addEventListener('change', (event) =>
+      this.setState({ breakPoint1700: event.matches })
+    );
+    this.useMedia1350.addEventListener('change', (event) =>
+      this.setState({ breakPoint1350: event.matches })
+    );
+    this.useMedia1100.addEventListener('change', (event) =>
+      this.setState({ breakPoint1100: event.matches })
+    );
+    this.useMedia950.addEventListener('change', (event) =>
+      this.setState({ breakPoint950: event.matches })
+    );
+    this.useMedia800.addEventListener('change', (event) =>
+      this.setState({ breakPoint800: event.matches })
+    );
+    this.useMedia650.addEventListener('change', (event) =>
+      this.setState({ breakPoint650: event.matches })
+    );
+    this.useMedia500.addEventListener('change', (event) =>
+      this.setState({ breakPoint500: event.matches })
+    );
+    this.useMedia380.addEventListener('change', (event) =>
+      this.setState({ breakPoint380: event.matches })
+    );
   }
 
   async getAllPopular() {
@@ -198,6 +255,16 @@ export default class Popular extends Component {
       filterPopularByActived,
       filterNamePopular,
       loadingFilters,
+      breakPoint2350,
+      breakPoint2000,
+      breakPoint1700,
+      breakPoint1350,
+      breakPoint1100,
+      breakPoint950,
+      breakPoint800,
+      breakPoint650,
+      breakPoint500,
+      breakPoint380,
     } = this.state;
     SwiperCore.use([Autoplay]);
 
@@ -205,93 +272,229 @@ export default class Popular extends Component {
       <PopularContainer filterPopularByActived={filterPopularByActived}>
         <div className="popular">
           <h1>Animações populares</h1>
-          <div className="popularBy">
-            <h5>Populares&nbsp;Do(a):</h5>
-            <div className="filter-popularBy">
-              <span>{filterNamePopular}</span>
-              <div>
-                <ul>
-                  <li
-                    onClick={(event) =>
-                      this.filterNamePopularFuction('dia', event)
-                    }
+          {!breakPoint650 ? (
+            <div className="popularBy">
+              <h5>Populares&nbsp;Do(a):</h5>
+              <div className="filter-popularBy">
+                <span>{filterNamePopular}</span>
+                <div>
+                  <ul>
+                    <li
+                      onClick={(event) =>
+                        this.filterNamePopularFuction('dia', event)
+                      }
+                    >
+                      Dia
+                    </li>
+                    <li
+                      onClick={(event) =>
+                        this.filterNamePopularFuction('semana', event)
+                      }
+                    >
+                      Semana
+                    </li>
+                    <li
+                      onClick={(event) =>
+                        this.filterNamePopularFuction('mes', event)
+                      }
+                    >
+                      Mês
+                    </li>
+                    <li
+                      onClick={(event) =>
+                        this.filterNamePopularFuction('ano', event)
+                      }
+                    >
+                      Ano
+                    </li>
+                  </ul>
+                </div>
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="20px"
+                    viewBox="0 0 24 24"
+                    width="20px"
+                    fill="#FFFFFF"
                   >
-                    Dia
-                  </li>
-                  <li
-                    onClick={(event) =>
-                      this.filterNamePopularFuction('semana', event)
-                    }
-                  >
-                    Semana
-                  </li>
-                  <li
-                    onClick={(event) =>
-                      this.filterNamePopularFuction('mes', event)
-                    }
-                  >
-                    Mês
-                  </li>
-                  <li
-                    onClick={(event) =>
-                      this.filterNamePopularFuction('ano', event)
-                    }
-                  >
-                    Ano
-                  </li>
-                </ul>
+                    <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
+                    <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
+                  </svg>
+                </span>
+                <button
+                  onClick={() =>
+                    this.setState({
+                      filterPopularByActived: !filterPopularByActived,
+                    })
+                  }
+                ></button>
               </div>
-              <span>
+              <div className="navigation-popularBy">
+                <button className="button-previous-element">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="18px"
+                    viewBox="0 0 24 24"
+                    width="18px"
+                    fill={color1}
+                  >
+                    <path d="M0 0h24v24H0V0z" fill="none" opacity=".87" />
+                    <path d="M17.51 3.87L15.73 2.1 5.84 12l9.9 9.9 1.77-1.77L9.38 12l8.13-8.13z" />
+                  </svg>
+                </button>
+                <button className="button-next-element">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="18px"
+                    viewBox="0 0 24 24"
+                    width="18px"
+                    fill={color1}
+                  >
+                    <g>
+                      <path d="M0,0h24v24H0V0z" fill="none" />
+                    </g>
+                    <g>
+                      <polygon points="6.23,20.23 8,22 18,12 8,2 6.23,3.77 14.46,12" />
+                    </g>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="popularBy-mobile">
+              <div className="menu-popular-mobile">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  height="20px"
+                  height="100%"
                   viewBox="0 0 24 24"
-                  width="20px"
+                  width="100%"
                   fill="#FFFFFF"
+                  onClick={() =>
+                    this.setState({
+                      filterPopularByActived: !filterPopularByActived,
+                    })
+                  }
                 >
                   <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
                   <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
                 </svg>
-              </span>
-              <button
-                onClick={() =>
-                  this.setState({
-                    filterPopularByActived: !filterPopularByActived,
-                  })
-                }
-              ></button>
+                {filterPopularByActived && (
+                  <div>
+                    <ul>
+                      <li
+                        style={{
+                          color:
+                            filterNamePopular === 'Dia' ? '#B243F7' : '#fff',
+                        }}
+                        onClick={(event) =>
+                          this.setState(
+                            {
+                              primaryReleaseDateGte: this.date(1),
+                              primaryReleaseDateLte: this.date(),
+                              filterNamePopular: event.target.innerText,
+                              filterPopularByActived: !filterPopularByActived,
+                            },
+                            this.getAllPopularFilters
+                          )
+                        }
+                      >
+                        Dia
+                      </li>
+                      <li
+                        style={{
+                          color:
+                            filterNamePopular === 'Semana' ? '#B243F7' : '#fff',
+                        }}
+                        onClick={(event) =>
+                          this.setState(
+                            {
+                              primaryReleaseDateGte: this.date(7),
+                              primaryReleaseDateLte: this.date(),
+                              filterNamePopular: event.target.innerText,
+                              filterPopularByActived: !filterPopularByActived,
+                            },
+                            this.getAllPopularFilters
+                          )
+                        }
+                      >
+                        Semana
+                      </li>
+                    </ul>
+                    <ul>
+                      <li
+                        style={{
+                          color:
+                            filterNamePopular === 'Mês' ? '#B243F7' : '#fff',
+                        }}
+                        onClick={(event) =>
+                          this.setState(
+                            {
+                              primaryReleaseDateGte: this.date(31),
+                              primaryReleaseDateLte: this.date(),
+                              filterNamePopular: event.target.innerText,
+                              filterPopularByActived: !filterPopularByActived,
+                            },
+                            this.getAllPopularFilters
+                          )
+                        }
+                      >
+                        Mês
+                      </li>
+                      <li
+                        style={{
+                          color:
+                            filterNamePopular === 'Ano' ? '#B243F7' : '#fff',
+                        }}
+                        onClick={(event) =>
+                          this.setState(
+                            {
+                              primaryReleaseDateGte: this.date(365),
+                              primaryReleaseDateLte: this.date(),
+                              filterNamePopular: event.target.innerText,
+                              filterPopularByActived: !filterPopularByActived,
+                            },
+                            this.getAllPopularFilters
+                          )
+                        }
+                      >
+                        Ano
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+              <div className="navigation-popularBy">
+                <button className="button-previous-element">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="18px"
+                    viewBox="0 0 24 24"
+                    width="18px"
+                    fill={color1}
+                  >
+                    <path d="M0 0h24v24H0V0z" fill="none" opacity=".87" />
+                    <path d="M17.51 3.87L15.73 2.1 5.84 12l9.9 9.9 1.77-1.77L9.38 12l8.13-8.13z" />
+                  </svg>
+                </button>
+                <button className="button-next-element">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="18px"
+                    viewBox="0 0 24 24"
+                    width="18px"
+                    fill={color1}
+                  >
+                    <g>
+                      <path d="M0,0h24v24H0V0z" fill="none" />
+                    </g>
+                    <g>
+                      <polygon points="6.23,20.23 8,22 18,12 8,2 6.23,3.77 14.46,12" />
+                    </g>
+                  </svg>
+                </button>
+              </div>
             </div>
-            <div className="navigation-popularBy">
-              <button className="button-previous-element">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="18px"
-                  viewBox="0 0 24 24"
-                  width="18px"
-                  fill={color1}
-                >
-                  <path d="M0 0h24v24H0V0z" fill="none" opacity=".87" />
-                  <path d="M17.51 3.87L15.73 2.1 5.84 12l9.9 9.9 1.77-1.77L9.38 12l8.13-8.13z" />
-                </svg>
-              </button>
-              <button className="button-next-element">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="18px"
-                  viewBox="0 0 24 24"
-                  width="18px"
-                  fill={color1}
-                >
-                  <g>
-                    <path d="M0,0h24v24H0V0z" fill="none" />
-                  </g>
-                  <g>
-                    <polygon points="6.23,20.23 8,22 18,12 8,2 6.23,3.77 14.46,12" />
-                  </g>
-                </svg>
-              </button>
-            </div>
-          </div>
+          )}
         </div>
         <PopularTitles>
           {loadingFilters && <Loading colorTranparent />}
@@ -310,7 +513,27 @@ export default class Popular extends Component {
               modules={[Navigation]}
               style={{ height: 'auto' }}
               spaceBetween={20}
-              slidesPerView={3}
+              slidesPerView={
+                breakPoint1350
+                  ? breakPoint1100
+                    ? breakPoint950
+                      ? breakPoint800
+                        ? breakPoint500
+                          ? breakPoint380
+                            ? 1
+                            : 2
+                          : 3
+                        : 4
+                      : 5
+                    : 3
+                  : breakPoint1700
+                  ? breakPoint2000
+                    ? breakPoint2350
+                      ? 7
+                      : 6
+                    : 5
+                  : 4
+              }
               loop
             >
               {allPopular.results.map(

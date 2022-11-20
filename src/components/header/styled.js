@@ -6,11 +6,16 @@ export const BackgroundImageHeader = styled.div`
   width: 100%;
   max-width: 2500px;
   min-width: 230px;
+  min-height: 341px;
   height: 560px;
   top: 0;
   position: absolute;
   z-index: -4;
   overflow: hidden;
+
+  @media (max-width: 310px) {
+    height: 148.5vw;
+  }
 
   & > img {
     position: absolute;

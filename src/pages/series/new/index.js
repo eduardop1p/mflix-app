@@ -3,21 +3,26 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SwiperCore, { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useMediaQuery } from 'react-responsive';
 
 import axiosBaseUrlSeries from '../../../services/axiosBaseUrlSeries';
-import axiosBaseUrlSeriesDiscover from '../../../services/axiosBaseUrlSeriesDiscover';
 import apiConfig from '../../../config/apiConfig';
 import RatingSystem from '../../../components/ratingSystem';
 import SlidePagenateCustom from '../../../components/slidePagenateCustom/index';
-import Loading from '../../../components/loadingReactStates/index';
 import clearLinkTitle from '../../../config/clearLinkTitle';
+import Loading from '../../../components/loadingReactStates/index';
 import imageErrorPoster from '../../../assets/images/czx7z2e6uqg81.jpg';
 import imageErrorTop3 from '../../../assets/images/1150108.png';
+import axiosBaseUrlSeriesDiscover from '../../../services/axiosBaseUrlSeriesDiscover';
 import { color1 } from '../../../colors';
 import { Slider, Grid, ForId } from '../../styled';
 
-export default function New() {
+function New() {
   const [news, setNews] = useState(null);
+  const breackPoint2300 = useMediaQuery({ minWidth: 2300 });
+  const breackPoint1700 = useMediaQuery({ minWidth: 1700 });
+  const breackPoint990 = useMediaQuery({ maxWidth: 990 });
+  const breackPoint570 = useMediaQuery({ maxWidth: 570 });
 
   useEffect(() => {
     const getNews = async () => {
@@ -74,105 +79,135 @@ export default function New() {
           modules={[Navigation]}
           style={{ height: 'auto' }}
           spaceBetween={20}
-          slidesPerView={1}
+          slidesPerView={breackPoint1700 ? (breackPoint2300 ? 3 : 2) : 1}
           loop
         >
           <SlidePagenateCustom />
           {news &&
             news.results.map((result) => (
               <SwiperSlide key={result.id}>
-                <div className="slider">
-                  <div className="info">
-                    <div className="new">NEW</div>
-                    <Link
-                      to={`/vertical/series/${clearLinkTitle(result.name)}/${
-                        result.id
-                      }`}
-                      reloadDocument
-                    >
-                      <h1 title={result.name} className="title">
-                        {result.name}
-                      </h1>
-                    </Link>
-                    <GetDetailsSerieId id={result.id} />
-                  </div>
+                {!breackPoint570 ? (
+                  <div className="slider">
+                    <div className="info">
+                      <div className="new">NEW</div>
+                      <Link
+                        to={`/vertical/series/${clearLinkTitle(result.name)}/${
+                          result.id
+                        }`}
+                        reloadDocument
+                      >
+                        <h1 title={result.name} className="title">
+                          {result.name}
+                        </h1>
+                      </Link>
+                      <GetDetailsSerieId id={result.id} />
+                    </div>
 
-                  <div className="poster-path">
-                    <img
-                      src={
-                        result.poster_path
-                          ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                          : imageErrorPoster
-                      }
-                      onLoad={removeLoadingSipnner}
-                      onError={removeLoadingSipnner}
-                      alt={result.name}
-                    />
-                    <Loading />
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
-        </Swiper>
-        <div className="grid">
-          <h5 className="titleNew">Top&nbsp;3&nbsp;novas&nbsp;series</h5>
-          <Grid>
-            <div className="scrollGridNew">
-              {news &&
-                news.results.slice(0, 3).map((result) => (
-                  <Link
-                    key={result.id}
-                    to={`/vertical/series/${clearLinkTitle(result.name)}/${
-                      result.id
-                    }`}
-                    reloadDocument
-                  >
-                    <div className="gridNew" key={result.id}>
+                    <div className="poster-path">
                       <img
                         src={
-                          result.backdrop_path
-                            ? `https://image.tmdb.org/t/p/w500${result.backdrop_path}`
-                            : imageErrorTop3
+                          result.poster_path
+                            ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                            : imageErrorPoster
                         }
                         onLoad={removeLoadingSipnner}
                         onError={removeLoadingSipnner}
                         alt={result.name}
                       />
                       <Loading />
-                      <div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="slider-mobile">
+                    <Link
+                      to={`/vertical/series/${clearLinkTitle(result.title)}/${
+                        result.id
+                      }`}
+                      reloadDocument
+                    >
+                      <div className="mobile-new-details">
+                        <GetDetailsSerieId id={result.id} mobile />
+                      </div>
+                      <div className="poster-path">
+                        <img
+                          src={
+                            result.poster_path
+                              ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                              : imageErrorPoster
+                          }
+                          onLoad={removeLoadingSipnner}
+                          onError={removeLoadingSipnner}
+                          alt={result.name}
+                        />
+                        <Loading />
+                      </div>
+                    </Link>
+                  </div>
+                )}
+              </SwiperSlide>
+            ))}
+        </Swiper>
+        {!breackPoint990 && (
+          <div className="grid">
+            <h5 className="titleNew">Top&nbsp;3&nbsp;novas&nbsp;series</h5>
+            <Grid>
+              <div className="scrollGridNew">
+                {news &&
+                  news.results.slice(0, 3).map((result) => (
+                    <Link
+                      key={result.id}
+                      to={`/vertical/series/${clearLinkTitle(result.name)}/${
+                        result.id
+                      }`}
+                      reloadDocument
+                    >
+                      <div className="gridNew" key={result.id}>
+                        <img
+                          src={
+                            result.backdrop_path
+                              ? `https://image.tmdb.org/t/p/w500${result.backdrop_path}`
+                              : imageErrorTop3
+                          }
+                          onLoad={removeLoadingSipnner}
+                          onError={removeLoadingSipnner}
+                          alt={result.name}
+                        />
+                        <Loading />
                         <div>
-                          <h5>{result.name}</h5>
                           <div>
-                            {result.first_air_date
-                              ? result.first_air_date.slice(0, 4)
-                              : 'Not data'}
-                          </div>
-                        </div>
-                        <div>
-                          <div className="rating">
-                            Rating
+                            <h5>{result.name}</h5>
                             <div>
-                              <RatingSystem
-                                vote_average={result.vote_average}
-                                color={color1}
-                              />
+                              {result.first_air_date
+                                ? result.first_air_date.slice(0, 4)
+                                : 'Not data'}
+                            </div>
+                          </div>
+                          <div>
+                            <div className="rating">
+                              Rating
+                              <div>
+                                <RatingSystem
+                                  vote_average={result.vote_average}
+                                  color={color1}
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                ))}
-            </div>
-          </Grid>
-        </div>
+                    </Link>
+                  ))}
+              </div>
+            </Grid>
+          </div>
+        )}
       </div>
     </Slider>
   );
 }
 
 function GetDetailsSerieId(props) {
-  const { id } = props;
+  const { id, mobile } = props;
 
   const [newId, setNewId] = useState(null);
 
@@ -184,7 +219,7 @@ function GetDetailsSerieId(props) {
         );
         setNewId(data);
       } catch {
-        console.error('Erro ao obter Id de Serie');
+        console.error('Erro ao  Id de Serie');
       }
     };
     getDetailsId(id);
@@ -192,7 +227,7 @@ function GetDetailsSerieId(props) {
 
   if (!newId) return;
 
-  return (
+  return !mobile ? (
     <ForId>
       <div className="production-companies">
         {newId.production_companies.length > 0
@@ -230,5 +265,22 @@ function GetDetailsSerieId(props) {
         </button>
       </Link>
     </ForId>
+  ) : (
+    <>
+      <div>
+        <div className="new">NEW</div>
+        <div className="date">
+          {newId.first_air_date ? newId.first_air_date.slice(0, 4) : 'Not data'}
+        </div>
+      </div>
+      <div>
+        <h4>{newId.name}</h4>
+        <div>{newId.genres.length ? newId.genres[0].name : 'Not genre'}</div>
+      </div>
+    </>
   );
 }
+
+export { GetDetailsSerieId };
+
+export default New;

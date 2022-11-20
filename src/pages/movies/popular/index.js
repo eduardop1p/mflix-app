@@ -330,7 +330,7 @@ export default class Popular extends Component {
             </div>
           ) : (
             <div className="popularBy-mobile">
-              <div className="menu-poular-mobile">
+              <div className="menu-popular-mobile">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="100%"

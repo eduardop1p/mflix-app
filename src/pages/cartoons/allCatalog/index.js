@@ -25,6 +25,8 @@ class AllCatalog extends Component {
   constructor(props) {
     super(props);
 
+    this.useMedia360 = matchMedia('(max-width: 360px)');
+
     this.state = {
       all: null,
       loadingFilters: false,
@@ -37,6 +39,7 @@ class AllCatalog extends Component {
       releaseDateActived: false,
       releaseDate: 'Ano',
       years: [],
+      breakPoint360: this.useMedia360.matches,
     };
 
     this.getAllCatalog = this.getAllCatalog.bind(this);
@@ -50,6 +53,12 @@ class AllCatalog extends Component {
   }
 
   componentDidMount() {
+    this.useMedia360.addEventListener('change', (event) =>
+      this.setState({
+        breakPoint360: event.matches,
+      })
+    );
+
     this.getAllCatalog(this.state.currentPageGlobal);
     this.releaseDate();
   }
@@ -278,6 +287,7 @@ class AllCatalog extends Component {
       releaseDate,
       years,
       releaseDateActived,
+      breakPoint360,
     } = this.state;
 
     return (
@@ -312,10 +322,13 @@ class AllCatalog extends Component {
             </span>
             <button
               onClick={() =>
-                this.setState({ releaseDateActived: !releaseDateActived })
+                this.setState({
+                  releaseDateActived: !releaseDateActived,
+                })
               }
             ></button>
           </div>
+
           <div className="search-filter">
             <div>
               <svg
@@ -406,7 +419,7 @@ class AllCatalog extends Component {
         <PagenationContainer>
           <ReactPaginate
             breakLabel="..."
-            pageRangeDisplayed={3}
+            pageRangeDisplayed={breakPoint360 ? 2 : 3}
             marginPagesDisplayed={1}
             forcePage={currentPageGlobal}
             onPageChange={this.handlePagenationClick}

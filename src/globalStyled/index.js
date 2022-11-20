@@ -45,14 +45,14 @@ const GlobalStyled = createGlobalStyle`
 
   .singn-up, .watch-online {
     font-weight: 500;
-    padding: 13px 3rem;
+    padding: 13px 2.5rem;
     border-radius: 1.5rem;
     color: ${colors.color1};
     font-size: 0.81rem;
     background: linear-gradient(to right, ${colors.color2} 10%, ${colors.color3});
 
-    @media (max-width: 615px) {
-      padding: 13px 2.5rem;
+    @media (max-width: 990px) {
+      padding: 13px 2rem;
     }
   }
 
