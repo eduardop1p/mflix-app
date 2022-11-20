@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import SwiperCore, { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -42,6 +42,7 @@ axiosRetry(axios, {
 
 export default function MovieD(props) {
   const { title, id } = useParams();
+  const location = useLocation();
   const { midiaType } = props;
 
   const dispatch = useDispatch();

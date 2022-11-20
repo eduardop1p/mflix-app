@@ -89,6 +89,15 @@ export const RemoveItemsListSelected = styled.div`
         width: 175px;
       }
 
+      & > button {
+        background-color: transparent;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 5;
+        right: 0;
+      }
+
       & > :first-child {
         width: 20px;
         height: 20px;
@@ -111,7 +120,6 @@ export const RemoveItemsListSelected = styled.div`
         position: absolute;
         top: 8px;
         display: flex;
-        justify-content: center;
         left: 0;
         z-index: -1;
         background-color: ${colors.color7};
@@ -119,7 +127,7 @@ export const RemoveItemsListSelected = styled.div`
         height: ${(props) => (props.showTitles ? '120px' : 0)};
         width: 100%;
         overflow: hidden;
-        border-radius: 0 0 1rem 1rem;
+        border-radius: 1rem;
 
         & > fieldset {
           display: flex;
@@ -127,6 +135,7 @@ export const RemoveItemsListSelected = styled.div`
           border: none;
           background-color: inherit;
           height: 65%;
+          width: 100%;
           overflow: hidden scroll;
           margin: 1.8rem 1.2rem 0;
 
@@ -239,6 +248,7 @@ export const RemoveItemsListSelected = styled.div`
 
 export const WatchListSection = styled.section`
   width: 100%;
+  margin-bottom: 2rem;
 
   & > h1 {
     color: ${colors.color1};
@@ -319,6 +329,7 @@ export const WatchListSection = styled.section`
           img {
             width: 100%;
             height: 100%;
+            object-fit: cover;
           }
         }
 

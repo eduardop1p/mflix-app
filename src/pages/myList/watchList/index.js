@@ -160,12 +160,7 @@ export default function WatchList(props) {
         </div>
         {!breakPoint440 ? (
           <div className="delete-selected-items-list">
-            <div
-              onClick={(event) =>
-                event.target.offsetHeight ===
-                  event.currentTarget.offsetHeight && setShowTitles(!showTitles)
-              }
-            >
+            <div>
               <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -185,7 +180,7 @@ export default function WatchList(props) {
                     <div
                       className="delete-checkbox-one-item-list"
                       title={myListTitles[index]}
-                      key={index}
+                      key={index + 1}
                     >
                       <label htmlFor={result.id}>{myListTitles[index]}</label>
                       <input
@@ -197,6 +192,7 @@ export default function WatchList(props) {
                   ))}
                 </fieldset>
               </div>
+              <button onClick={() => setShowTitles(!showTitles)}></button>
             </div>
             <button className="delete-items" onClick={onDeleteSelectedItems}>
               Excluir
@@ -230,7 +226,7 @@ export default function WatchList(props) {
                     <div
                       className="delete-checkbox-one-item-list"
                       title={myListTitles[index]}
-                      key={index}
+                      key={result.id}
                     >
                       <label htmlFor={result.id}>{myListTitles[index]}</label>
                       <input
@@ -249,7 +245,7 @@ export default function WatchList(props) {
       <WatchListSection>
         <div className="my-list-container">
           {userList.map((result, index) =>
-            result.midiaType !== 't' ? (
+            result.midiaType === 'm' ? (
               <UserListMovie
                 key={index}
                 id={result.id}
@@ -324,7 +320,7 @@ function UserListMovie(props) {
             <img
               onLoad={removeLoadingSipnner}
               onError={removeLoadingSipnner}
-              src={`https://image.tmdb.org/t/p/w500${dataList.backdrop_path}`}
+              src={`https://image.tmdb.org/t/p/original${dataList.backdrop_path}`}
               alt={dataList.title}
             />
             <Loading
@@ -394,7 +390,7 @@ function UserListSerie(props) {
             <img
               onLoad={removeLoadingSipnner}
               onError={removeLoadingSipnner}
-              src={`https://image.tmdb.org/t/p/w500${dataList.backdrop_path}`}
+              src={`https://image.tmdb.org/t/p/original${dataList.backdrop_path}`}
               alt={dataList.name}
             />
             <Loading
