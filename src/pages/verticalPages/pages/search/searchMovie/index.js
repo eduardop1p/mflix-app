@@ -24,6 +24,7 @@ import RatingSystem2 from '../../../../../components/ratingSystem2/index';
 import clearLinkTitle from '../../../../../config/clearLinkTitle';
 import MessageForm from '../../../../../components/messageForm';
 import TrailerMovie from '../../../../../components/getTrailerMovieForId/index';
+import formatCurrency from '../../../../../config/formatCurrency';
 import {
   Main,
   BgImgPageDetails,
@@ -433,37 +434,41 @@ export default function searchMovie(props) {
                           <div>
                             <h5>Diretor:</h5>
                             <ul>
-                              {arrDirector &&
+                              {arrDirector.length ? (
                                 arrDirector
                                   .slice(0, 3)
                                   .map((value, index) => (
                                     <li key={index}>{value.name}</li>
-                                  ))}
-                              {arrDirector.length < 1 && <li>Indisponível</li>}
+                                  ))
+                              ) : (
+                                <li>Indisponível</li>
+                              )}
                             </ul>
                           </div>
                           <div>
                             <h5>Produção:</h5>
                             <ul>
-                              {arrProducer &&
+                              {arrProducer.length ? (
                                 arrProducer
                                   .slice(0, 3)
                                   .map((value, index) => (
                                     <li key={index}>{value.name}</li>
-                                  ))}
-                              {arrProducer.length < 1 && <li>Indisponível</li>}
+                                  ))
+                              ) : (
+                                <li>Indisponível</li>
+                              )}
                             </ul>
                           </div>
                           <div>
                             <h5>Diretor&nbsp;de&nbsp;fotografia:</h5>
                             <ul>
-                              {arrDirectorFot &&
+                              {arrDirectorFot.length ? (
                                 arrDirectorFot
                                   .slice(0, 3)
                                   .map((value, index) => (
                                     <li key={index}>{value.name}</li>
-                                  ))}
-                              {arrDirectorFot.length < 1 && (
+                                  ))
+                              ) : (
                                 <li>Indisponível</li>
                               )}
                             </ul>
@@ -473,31 +478,35 @@ export default function searchMovie(props) {
                           <div>
                             <h5>Roteirista:</h5>
                             <ul>
-                              {arrWriter &&
+                              {arrWriter.length ? (
                                 arrWriter
                                   .slice(0, 3)
                                   .map((value, index) => (
                                     <li key={index}>{value.name}</li>
-                                  ))}
-                              {arrWriter.length < 1 && <li>Indisponível</li>}
+                                  ))
+                              ) : (
+                                <li>Indisponível</li>
+                              )}
                             </ul>
                           </div>
                           <div>
                             <h5>{'Compositor(a):'}</h5>
                             <ul>
-                              {arrComposer &&
+                              {arrComposer.length ? (
                                 arrComposer
                                   .slice(0, 3)
                                   .map((value, index) => (
                                     <li key={index}>{value.name}</li>
-                                  ))}
-                              {arrComposer.length < 1 && <li>Indisponível</li>}
+                                  ))
+                              ) : (
+                                <li>Indisponível</li>
+                              )}
                             </ul>
                           </div>
                           <div>
                             <h5>Bilheteria:</h5>
                             <ul>
-                              <li>${newsId.revenue}</li>
+                              <li>{formatCurrency(newsId.revenue)}</li>
                             </ul>
                           </div>
                         </div>

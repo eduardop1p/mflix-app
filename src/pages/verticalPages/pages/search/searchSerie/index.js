@@ -245,7 +245,7 @@ export default function searchSerie(props) {
       setFavoriteUser({});
       return;
     }
-    setErrorMessage('')
+    setErrorMessage('');
 
     try {
       const { data } = await axiosBaseUrlUser.get(
@@ -269,13 +269,13 @@ export default function searchSerie(props) {
       }
       setErrorMessage('Erro desconhecido contate o administrador do sistema.');
       setshowFormMsg(true);
-      console.clear();;
+      console.clear();
     }
   }
 
   async function setFavoriteFunction(event) {
     if (!isLogedIn) return (window.location.href = '/login?redirect=back');
-    setErrorMessage('')
+    setErrorMessage('');
 
     if (favorite) {
       setFavorite(false);
@@ -296,7 +296,9 @@ export default function searchSerie(props) {
           console.clear();
           return;
         }
-        setErrorMessage('Erro desconhecido contate o administrador do sistema.');
+        setErrorMessage(
+          'Erro desconhecido contate o administrador do sistema.'
+        );
         setshowFormMsg(true);
         console.clear();
       }
@@ -304,7 +306,6 @@ export default function searchSerie(props) {
     } else {
       setFavorite(true);
       event.target.parentElement.style.animationName = 'likeAnimaton';
-
 
       try {
         await axiosBaseUrlUser.post(
@@ -326,7 +327,9 @@ export default function searchSerie(props) {
           console.clear();
           return;
         }
-        setErrorMessage('Erro desconhecido contate o administrador do sistema.');
+        setErrorMessage(
+          'Erro desconhecido contate o administrador do sistema.'
+        );
         setshowFormMsg(true);
         console.clear();
       }
@@ -435,25 +438,27 @@ export default function searchSerie(props) {
                           <div>
                             <h5>Produção:</h5>
                             <ul>
-                              {arrProducer &&
+                              {arrProducer.length ? (
                                 arrProducer
                                   .slice(0, 3)
                                   .map((value) => (
                                     <li key={value.id}>{value.name}</li>
-                                  ))}
-                              {arrProducer.length < 1 && <li>Indisponível</li>}
+                                  ))
+                              ) : (
+                                <li>Indisponível</li>
+                              )}
                             </ul>
                           </div>
                           <div>
                             <h5>Diretor&nbsp;de&nbsp;fotografia:</h5>
                             <ul>
-                              {arrDirectorFot &&
+                              {arrDirectorFot.length ? (
                                 arrDirectorFot
                                   .slice(0, 3)
                                   .map((value) => (
                                     <li key={value.id}>{value.name}</li>
-                                  ))}
-                              {arrDirectorFot.length < 1 && (
+                                  ))
+                              ) : (
                                 <li>Indisponível</li>
                               )}
                             </ul>
@@ -473,13 +478,15 @@ export default function searchSerie(props) {
                           <div>
                             <h5>{'Compositor(a):'}</h5>
                             <ul>
-                              {arrComposer &&
+                              {arrComposer.length ? (
                                 arrComposer
                                   .slice(0, 3)
                                   .map((value) => (
                                     <li key={value.id}>{value.name}</li>
-                                  ))}
-                              {arrComposer.length < 1 && <li>Indisponível</li>}
+                                  ))
+                              ) : (
+                                <li>Indisponível</li>
+                              )}
                             </ul>
                           </div>
                           <div>

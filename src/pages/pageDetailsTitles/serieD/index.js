@@ -412,25 +412,27 @@ export default function serieD(props) {
                           <div>
                             <h5>Produção:</h5>
                             <ul>
-                              {arrProducer &&
+                              {arrProducer.length ? (
                                 arrProducer
                                   .slice(0, 3)
                                   .map((value) => (
                                     <li key={value.id}>{value.name}</li>
-                                  ))}
-                              {arrProducer.length < 1 && <li>Indisponível</li>}
+                                  ))
+                              ) : (
+                                <li>Indisponível</li>
+                              )}
                             </ul>
                           </div>
                           <div>
                             <h5>Diretor&nbsp;de&nbsp;fotografia:</h5>
                             <ul>
-                              {arrDirectorFot &&
+                              {arrDirectorFot.length ? (
                                 arrDirectorFot
                                   .slice(0, 3)
                                   .map((value) => (
                                     <li key={value.id}>{value.name}</li>
-                                  ))}
-                              {arrDirectorFot.length < 1 && (
+                                  ))
+                              ) : (
                                 <li>Indisponível</li>
                               )}
                             </ul>
@@ -450,20 +452,22 @@ export default function serieD(props) {
                           <div>
                             <h5>{'Compositor(a):'}</h5>
                             <ul>
-                              {arrComposer &&
+                              {arrComposer.length ? (
                                 arrComposer
                                   .slice(0, 3)
                                   .map((value) => (
                                     <li key={value.id}>{value.name}</li>
-                                  ))}
-                              {arrComposer.length < 1 && <li>Indisponível</li>}
+                                  ))
+                              ) : (
+                                <li>Indisponível</li>
+                              )}
                             </ul>
                           </div>
                           <div>
                             <h5>Original:</h5>
                             <ul>
                               <li>
-                                {newId.networks.length > 0
+                                {newId.networks.length
                                   ? newId.networks[0].name
                                   : 'Indisponível'}
                               </li>
