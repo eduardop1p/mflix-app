@@ -41,8 +41,8 @@ axiosRetry(axios, {
 });
 
 export default function MovieD(props) {
-  const { title, id } = useParams();
-  const location = useLocation();
+  const { id } = useParams();
+  const { pathname } = useLocation();
   const { midiaType } = props;
 
   const dispatch = useDispatch();
@@ -82,7 +82,7 @@ export default function MovieD(props) {
         if (data.belongs_to_collection)
           getCollection(data.belongs_to_collection.id);
       } catch {
-        window.location.href = `/vertical/filmes/${title}/${id}/404`;
+        window.location.href = `${pathname}/404`;
         console.error('Erro ao obter Id de Filme');
       }
     };
@@ -253,7 +253,7 @@ export default function MovieD(props) {
 
       try {
         await axiosBaseUrlUser.delete(
-          `/minha-lista/${user.id}?ids=${favoriteUser.id}`,
+          `/minha-lista/${user.id}?ids=${favoriteUser.id + midiaType}`,
           { headers: { Authorization: session.id } }
         );
       } catch (err) {
@@ -279,7 +279,7 @@ export default function MovieD(props) {
         await axiosBaseUrlUser.post(
           `/minha-lista/${user.id}`,
           {
-            id: id,
+            id: id + midiaType,
             midiaType,
           },
           {

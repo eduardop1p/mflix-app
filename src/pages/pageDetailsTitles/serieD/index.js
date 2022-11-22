@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import SwiperCore, { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -41,7 +41,8 @@ axiosRetry(axios, {
 });
 
 export default function serieD(props) {
-  const { title, id } = useParams();
+  const { id } = useParams();
+  const { pathname } = useLocation();
   const { midiaType } = props;
 
   const dispatch = useDispatch();
@@ -79,7 +80,7 @@ export default function serieD(props) {
         if (data.belongs_to_collection)
           getCollection(data.belongs_to_collection.id);
       } catch {
-        window.location.href = `/vertical/series/${title}/${id}/404`;
+        window.location.href = `${pathname}/404`;
         console.error('Erro ao obter Id de Serie');
       }
     };
@@ -258,7 +259,7 @@ export default function serieD(props) {
 
       try {
         await axiosBaseUrlUser.delete(
-          `/minha-lista/${user.id}?ids=${favoriteUser.id}`,
+          `/minha-lista/${user.id}?ids=${favoriteUser.id + midiaType}`,
           { headers: { Authorization: session.id } }
         );
       } catch (err) {
@@ -279,12 +280,13 @@ export default function serieD(props) {
     } else {
       setFavorite(true);
       event.target.parentElement.style.animationName = 'likeAnimaton';
+      console.log(id + midiaType);
 
       try {
         await axiosBaseUrlUser.post(
           `/minha-lista/${user.id}`,
           {
-            id: id,
+            id: id + midiaType,
             midiaType,
           },
           {
@@ -309,6 +311,7 @@ export default function serieD(props) {
       return;
     }
   }
+
   function removeLoadingSipnner(event) {
     const loadingSpinner = event.target.parentElement.querySelector(
       'img + .container-load'

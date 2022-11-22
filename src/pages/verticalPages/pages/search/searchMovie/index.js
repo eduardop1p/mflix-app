@@ -292,7 +292,7 @@ export default function searchMovie(props) {
 
       try {
         await axiosBaseUrlUser.delete(
-          `/minha-lista/${user.id}?ids=${favoriteUser.id}`,
+          `/minha-lista/${user.id}?ids=${favoriteUser.id + midiaType}`,
           { headers: { Authorization: session.id } }
         );
       } catch (err) {
@@ -318,7 +318,7 @@ export default function searchMovie(props) {
         await axiosBaseUrlUser.post(
           `/minha-lista/${user.id}`,
           {
-            id: id,
+            id: id + midiaType,
             midiaType,
           },
           {

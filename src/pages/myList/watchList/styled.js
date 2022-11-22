@@ -384,25 +384,42 @@ export const AddItensList = styled.section`
   border-radius: 10px;
   width: 100%;
   min-height: 100vh;
-  margin: ${(props) => (props.margin ? '1rem 0 1rem 1rem' : '0 auto')};
+  margin: ${(props) =>
+    props.margin ? '1rem 0 1rem 1rem' : '0 auto 2rem auto'};
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  color: ${colors.color1};
 
-  & > img {
-    transform: translate3d(50px);
-    width: 75px;
-    margin-bottom: 8px;
-  }
+  & > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 2.5rem;
+    color: ${colors.color1};
 
-  & > h4 {
-    font-weight: 500;
-    margin-bottom: 5px;
-  }
+    & > img {
+      transform: translate3d(50px);
+      width: 75px;
+      margin-bottom: 8px;
 
-  & > h5 {
-    font-weight: 400;
+      @media (max-width: 500px) {
+        width: 70px;
+      }
+      @media (max-width: 350px) {
+        width: 65px;
+      }
+    }
+
+    & > h4 {
+      font-weight: 500;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+
+    & > h5 {
+      font-weight: 400;
+      text-align: center;
+    }
   }
 `;

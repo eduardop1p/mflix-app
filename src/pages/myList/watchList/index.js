@@ -33,16 +33,17 @@ export default function WatchList(props) {
 
   const [loadingFilters, setLoadingFilters] = useState(false);
   const [showTitles, setShowTitles] = useState(false);
-  const [userList, setUserList] = useState(null);
+  const [userList, setUserList] = useState([]);
   const [myListTitles, setMyListTitles] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [showFormMsg, setshowFormMsg] = useState(false);
 
   useEffect(() => {
-    if ((userList && userList.length >= myListTitles.length) || !isLogedIn)
+    if (userList.length || !isLogedIn)
       setTimeout(() => dispatch(actions.loadingFailure()), 500);
-  }, [dispatch, userList, myListTitles]);
+  }, [dispatch, userList, isLogedIn]);
 
   useEffect(() => {
     getUserList();
@@ -52,7 +53,7 @@ export default function WatchList(props) {
     const myList = Array.from(document.querySelectorAll('.my-list'));
     setMyListTitles(myList.map((item) => item.title));
     const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    if (showFormMsg) {
+    if (hideFormMsg) {
       hideFormMsg.onclick = () => setshowFormMsg(false);
     }
   });
@@ -61,12 +62,16 @@ export default function WatchList(props) {
     if (!isLogedIn) {
       return;
     }
+    setSuccessMessage('');
     setErrorMessage('');
 
     try {
       const { data } = await axiosBaseUrlUser.get(`minha-lista/${user.id}`, {
         headers: { Authorization: session.id },
       });
+      console.log(data);
+      if (!data.length)
+        return setTimeout(() => dispatch(actions.loadingFailure()), 500);
       setUserList(data);
     } catch (err) {
       if (get(err, 'response.data', false)) {
@@ -83,7 +88,8 @@ export default function WatchList(props) {
   }
 
   function manageCheckBoxDeleteSelectedItems(event) {
-    const { checked, id } = event.target;
+    const { checked } = event.target;
+    const id = event.target.getAttribute('data-user-list-id');
     if (checked && selectedItems.indexOf(id) === -1) {
       setSelectedItems((selectedItems) => [...selectedItems, id]);
       return;
@@ -94,6 +100,7 @@ export default function WatchList(props) {
   }
 
   async function onDeleteSelectedItems() {
+    setSuccessMessage('');
     setErrorMessage('');
     if (!selectedItems.length) {
       setErrorMessage('Nenhum titulo selecionado.');
@@ -109,8 +116,10 @@ export default function WatchList(props) {
       );
       getUserList();
       setSelectedItems([]);
+      setSuccessMessage('Titulos excluidos com sucesso.');
+      setshowFormMsg(true);
     } catch (err) {
-      setErrorMessage('Erro ao excluir titulos selecionados.');
+      setErrorMessage('Erro ao excluir titulos.');
       setshowFormMsg(true);
     } finally {
       setTimeout(() => setLoadingFilters(false), 100);
@@ -118,6 +127,7 @@ export default function WatchList(props) {
   }
 
   async function onDeleteAllItems(event) {
+    setSuccessMessage('');
     setErrorMessage('');
     const { checked } = event.target.previousElementSibling;
     if (!checked) {
@@ -133,6 +143,8 @@ export default function WatchList(props) {
       });
       getUserList();
       setSelectedItems([]);
+      setSuccessMessage('Todos os titulos foi excluidos com sucesso.');
+      setshowFormMsg(true);
     } catch (err) {
       setErrorMessage('Erro ao excluir todos os titulos.');
       setshowFormMsg(true);
@@ -141,12 +153,22 @@ export default function WatchList(props) {
     }
   }
 
+  function getNumberFromStringId(value) {
+    value = String(value).replace(/[^0-9]/g, '');
+    return Number(value);
+  }
+
   if (!isLogedIn) return <MyListNotLogedIn />;
 
-  return userList && userList.length ? (
+  return userList.length ? (
     <>
       {loadingFilters && <Loading colorTranparent />}
-      {showFormMsg && <MessageForm errorMessage={errorMessage} />}
+      {showFormMsg && (
+        <MessageForm
+          errorMessage={errorMessage}
+          successMessage={successMessage}
+        />
+      )}
       <RemoveItemsListSelected showTitles={showTitles}>
         <div className="delete-all-items-list">
           <input type="checkbox" />
@@ -180,12 +202,13 @@ export default function WatchList(props) {
                     <div
                       className="delete-checkbox-one-item-list"
                       title={myListTitles[index]}
-                      key={index + 1}
+                      key={getNumberFromStringId(result.id) + index}
                     >
-                      <label htmlFor={result.id}>{myListTitles[index]}</label>
+                      <label htmlFor={index}>{myListTitles[index]}</label>
                       <input
                         type="checkbox"
-                        id={result.id}
+                        data-user-list-id={result.id}
+                        id={index}
                         onChange={manageCheckBoxDeleteSelectedItems}
                       />
                     </div>
@@ -226,12 +249,13 @@ export default function WatchList(props) {
                     <div
                       className="delete-checkbox-one-item-list"
                       title={myListTitles[index]}
-                      key={result.id}
+                      key={getNumberFromStringId(result.id) + index}
                     >
-                      <label htmlFor={result.id}>{myListTitles[index]}</label>
+                      <label htmlFor={index}>{myListTitles[index]}</label>
                       <input
                         type="checkbox"
-                        id={result.id}
+                        data-user-list-id={result.id}
+                        id={index}
                         onChange={manageCheckBoxDeleteSelectedItems}
                       />
                     </div>
@@ -245,16 +269,16 @@ export default function WatchList(props) {
       <WatchListSection>
         <div className="my-list-container">
           {userList.map((result, index) =>
-            result.midiaType === 'm' ? (
+            result.midiaType === 'movie' ? (
               <UserListMovie
-                key={index}
-                id={result.id}
+                key={getNumberFromStringId(result.id) + index}
+                id={getNumberFromStringId(result.id)}
                 colorMyListVertical={colorMyListVertical}
               />
             ) : (
               <UserListSerie
-                key={index}
-                id={result.id}
+                key={getNumberFromStringId(result.id) + index}
+                id={getNumberFromStringId(result.id)}
                 colorMyListVertical={colorMyListVertical}
               />
             )
@@ -264,9 +288,11 @@ export default function WatchList(props) {
     </>
   ) : (
     <AddItensList>
-      <img src={notSearch} alt="Nenhum resultado encontrado" />
-      <h4>Nada por aqui.</h4>
-      <h5>Você ainda não tem nenhum titulo em sua lista.</h5>
+      <div>
+        <img src={notSearch} alt="Nenhum resultado encontrado" />
+        <h4>Nada por aqui.</h4>
+        <h5>Você ainda não tem nenhum titulo em sua lista.</h5>
+      </div>
     </AddItensList>
   );
 }

@@ -6,9 +6,9 @@ import SerieD from './serieD';
 
 export default function PageDetailsTitles() {
   const { id } = useParams();
-  const location = useLocation();
+  const { pathname } = useLocation();
 
-  const movie = location.pathname.includes('filmes');
+  const movie = pathname.includes('filmes');
 
   return movie ? (
     <MovieD id={id} midiaType="movie" />
