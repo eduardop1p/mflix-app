@@ -16,22 +16,17 @@ class Future extends Component {
   constructor(props) {
     super(props);
 
-    this.useMedia1900 = matchMedia('(min-width: 1900px)');
     this.useMedia1150 = matchMedia('(max-width: 1150px)');
     this.useMedia950 = matchMedia('(max-width: 950px)');
 
     this.state = {
       futureAll: null,
-      breakPoint1900: this.useMedia1900.matches,
       breakPoint1150: this.useMedia1150.matches,
       breakPoint950: this.useMedia950.matches,
     };
   }
 
   componentDidMount() {
-    this.useMedia1900.addEventListener('change', (event) => {
-      this.setState({ breakPoint1900: event.matches });
-    });
     this.useMedia1150.addEventListener('change', (event) => {
       this.setState({ breakPoint1150: event.matches });
     });
@@ -86,8 +81,7 @@ class Future extends Component {
   }
 
   render() {
-    const { futureAll, breakPoint1900, breakPoint1150, breakPoint950 } =
-      this.state;
+    const { futureAll, breakPoint1150, breakPoint950 } = this.state;
 
     return (
       <FutureContainer>
@@ -101,7 +95,10 @@ class Future extends Component {
           initialSlide={1}
           style={{ height: 'auto' }}
           spaceBetween={20}
-          slidesPerView={breakPoint1900 ? 2 : 1}
+          breakpoints={{
+            2301: { slidesPerView: 3 },
+            1701: { slidesPerView: 2 },
+          }}
           loop
         >
           {futureAll &&

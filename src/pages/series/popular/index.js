@@ -20,16 +20,7 @@ export default class Popular extends Component {
   constructor(props) {
     super(props);
 
-    this.useMedia2350 = window.matchMedia('(min-width: 2350px)');
-    this.useMedia2000 = window.matchMedia('(min-width: 2000px)');
-    this.useMedia1700 = window.matchMedia('(min-width: 1700px)');
-    this.useMedia1350 = window.matchMedia('(max-width: 1350px)');
-    this.useMedia1100 = window.matchMedia('(max-width: 1100px)');
-    this.useMedia950 = window.matchMedia('(max-width: 950px)');
-    this.useMedia800 = window.matchMedia('(max-width: 800px)');
     this.useMedia650 = window.matchMedia('(max-width: 650px)');
-    this.useMedia500 = window.matchMedia('(max-width: 500px)');
-    this.useMedia380 = window.matchMedia('(max-width: 380px)');
 
     this.state = {
       allPopular: null,
@@ -39,27 +30,19 @@ export default class Popular extends Component {
       filterNamePopular: 'Filtrar',
       primaryReleaseDateGte: null,
       primaryReleaseDateLte: null,
-      breakPoint2350: this.useMedia2350.matches,
-      breakPoint2000: this.useMedia2000.matches,
-      breakPoint1700: this.useMedia1700.matches,
-      breakPoint1350: this.useMedia1350.matches,
-      breakPoint1100: this.useMedia1100.matches,
-      breakPoint950: this.useMedia950.matches,
-      breakPoint800: this.useMedia800.matches,
       breakPoint650: this.useMedia650.matches,
-      breakPoint500: this.useMedia500.matches,
-      breakPoint380: this.useMedia380.matches,
     };
 
     this.getAllPopular = this.getAllPopular.bind(this);
     this.getAllPopularFilters = this.getAllPopularFilters.bind(this);
     this.date = this.date.bind(this);
-    this.useMediaQuery = this.useMediaQuery.bind(this);
     this.filterNamePopularFuction = this.filterNamePopularFuction.bind(this);
   }
 
   componentDidMount() {
-    this.useMediaQuery();
+    this.useMedia650.addEventListener('change', (event) =>
+      this.setState({ breakPoint650: event.matches })
+    );
 
     const getAllGenresFilters = async () => {
       try {
@@ -75,39 +58,6 @@ export default class Popular extends Component {
     };
     this.getAllPopular();
     getAllGenresFilters();
-  }
-
-  useMediaQuery() {
-    this.useMedia2350.addEventListener('change', (event) =>
-      this.setState({ breakPoint2350: event.matches })
-    );
-    this.useMedia2000.addEventListener('change', (event) =>
-      this.setState({ breakPoint2000: event.matches })
-    );
-    this.useMedia1700.addEventListener('change', (event) =>
-      this.setState({ breakPoint1700: event.matches })
-    );
-    this.useMedia1350.addEventListener('change', (event) =>
-      this.setState({ breakPoint1350: event.matches })
-    );
-    this.useMedia1100.addEventListener('change', (event) =>
-      this.setState({ breakPoint1100: event.matches })
-    );
-    this.useMedia950.addEventListener('change', (event) =>
-      this.setState({ breakPoint950: event.matches })
-    );
-    this.useMedia800.addEventListener('change', (event) =>
-      this.setState({ breakPoint800: event.matches })
-    );
-    this.useMedia650.addEventListener('change', (event) =>
-      this.setState({ breakPoint650: event.matches })
-    );
-    this.useMedia500.addEventListener('change', (event) =>
-      this.setState({ breakPoint500: event.matches })
-    );
-    this.useMedia380.addEventListener('change', (event) =>
-      this.setState({ breakPoint380: event.matches })
-    );
   }
 
   async getAllPopular() {
@@ -223,16 +173,7 @@ export default class Popular extends Component {
       allGenres,
       filterPopularByActived,
       filterNamePopular,
-      breakPoint2350,
-      breakPoint2000,
-      breakPoint1700,
-      breakPoint1350,
-      breakPoint1100,
-      breakPoint950,
-      breakPoint800,
       breakPoint650,
-      breakPoint500,
-      breakPoint380,
     } = this.state;
     SwiperCore.use([Autoplay]);
 
@@ -481,27 +422,18 @@ export default class Popular extends Component {
               modules={[Navigation]}
               style={{ height: 'auto' }}
               spaceBetween={20}
-              slidesPerView={
-                breakPoint1350
-                  ? breakPoint1100
-                    ? breakPoint950
-                      ? breakPoint800
-                        ? breakPoint500
-                          ? breakPoint380
-                            ? 1
-                            : 2
-                          : 3
-                        : 4
-                      : 5
-                    : 3
-                  : breakPoint1700
-                  ? breakPoint2000
-                    ? breakPoint2350
-                      ? 7
-                      : 6
-                    : 5
-                  : 4
-              }
+              slidesPerView={1}
+              breakpoints={{
+                2351: { slidesPerView: 7 },
+                2001: { slidesPerView: 6 },
+                1701: { slidesPerView: 5 },
+                1351: { slidesPerView: 4 },
+                1101: { slidesPerView: 3 },
+                951: { slidesPerView: 5 },
+                801: { slidesPerView: 4 },
+                501: { slidesPerView: 3 },
+                381: { slidesPerView: 2 },
+              }}
               loop
             >
               {allPopular.results.map((result) => (

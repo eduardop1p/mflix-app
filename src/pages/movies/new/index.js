@@ -18,8 +18,6 @@ import { Slider, Grid, ForId } from '../../styled';
 
 function New() {
   const [news, setNews] = useState(null);
-  const breackPoint2300 = useMediaQuery({ minWidth: 2300 });
-  const breackPoint1700 = useMediaQuery({ minWidth: 1700 });
   const breackPoint990 = useMediaQuery({ maxWidth: 990 });
   const breackPoint570 = useMediaQuery({ maxWidth: 570 });
 
@@ -64,7 +62,11 @@ function New() {
           modules={[Navigation]}
           style={{ height: 'auto' }}
           spaceBetween={20}
-          slidesPerView={breackPoint1700 ? (breackPoint2300 ? 3 : 2) : 1}
+          slidesPerView={1}
+          breakpoints={{
+            2301: { slidesPerView: 3 },
+            1701: { slidesPerView: 2 },
+          }}
           loop
         >
           <SlidePagenateCustom />
