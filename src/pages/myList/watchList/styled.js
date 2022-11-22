@@ -265,10 +265,10 @@ export const WatchListSection = styled.section`
       padding: 8px;
       transition: transform 0.2s ease-in-out;
 
-      @media (min-width: 2501px) {
+      @media (min-width: 1901px) {
         width: calc(100% / 5);
       }
-      @media (min-width: 1400px) and (max-width: 2500px) {
+      @media (min-width: 1400px) and (max-width: 1900px) {
         width: calc(100% / 4);
       }
       @media (min-width: 951px) and (max-width: 1399px) {
@@ -276,6 +276,9 @@ export const WatchListSection = styled.section`
       }
       @media (max-width: 950px) {
         width: calc(100% / 2);
+      }
+      @media (max-width: 750px) {
+        padding: 5px;
       }
       @media (max-width: 450px) {
         width: 100%;
@@ -307,23 +310,27 @@ export const WatchListSection = styled.section`
           width: 100%;
           font-size: 0;
 
-          @media (min-width: 2501px) {
-            height: 257.61px;
+          @media (min-width: 2500px) {
+            height: 262px;
           }
-          @media (min-width: 1400px) and (max-width: 2500px) {
-            height: calc(100vw / 7.7098);
+          @media (min-width: 1901px) and (max-width: 2500px) {
+            height: 10.5vw;
+          }
+          @media (min-width: 1400px) and (max-width: 1900px) {
+            height: 12.5vw;
           }
           @media (min-width: 951px) and (max-width: 1399px) {
-            height: calc(100vw / 6.107);
+            height: 16.5vw;
           }
           @media (max-width: 950px) {
-            height: calc(100vw / 4.28);
+            height: 24vw;
           }
           @media (max-width: 450px) {
-            height: calc(100vw / 2.142);
+            height: 47vw;
           }
           @media (max-width: 300px) {
-            height: calc(100vw / 2.385);
+            height: 45vw;
+            min-height: 103px;
           }
 
           img {
@@ -338,6 +345,10 @@ export const WatchListSection = styled.section`
           padding: 1.5rem 1rem;
           display: flex;
           flex-direction: column;
+
+          @media (max-width: 600px) and (min-width: 451px), (max-width: 350px) {
+            padding: 1.2rem 1rem;
+          }
 
           & > h4 {
             color: ${colors.color1};

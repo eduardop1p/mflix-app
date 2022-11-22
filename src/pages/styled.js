@@ -704,6 +704,7 @@ export const CatalogTitles = styled.div`
     @media (max-width: 750px) {
       width: calc(100% / 3);
       height: 43vw;
+      padding: 5px;
     }
     @media (max-width: 550px) {
       width: calc(100% / 2);

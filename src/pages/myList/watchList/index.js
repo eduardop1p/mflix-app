@@ -69,7 +69,6 @@ export default function WatchList(props) {
       const { data } = await axiosBaseUrlUser.get(`minha-lista/${user.id}`, {
         headers: { Authorization: session.id },
       });
-      console.log(data);
       if (!data.length)
         return setTimeout(() => dispatch(actions.loadingFailure()), 500);
       setUserList(data);
@@ -88,8 +87,7 @@ export default function WatchList(props) {
   }
 
   function manageCheckBoxDeleteSelectedItems(event) {
-    const { checked } = event.target;
-    const id = event.target.getAttribute('data-user-list-id');
+    const { checked, id } = event.target;
     if (checked && selectedItems.indexOf(id) === -1) {
       setSelectedItems((selectedItems) => [...selectedItems, id]);
       return;
@@ -202,13 +200,12 @@ export default function WatchList(props) {
                     <div
                       className="delete-checkbox-one-item-list"
                       title={myListTitles[index]}
-                      key={getNumberFromStringId(result.id) + index}
+                      key={result.id}
                     >
-                      <label htmlFor={index}>{myListTitles[index]}</label>
+                      <label htmlFor={result.id}>{myListTitles[index]}</label>
                       <input
                         type="checkbox"
-                        data-user-list-id={result.id}
-                        id={index}
+                        id={result.id}
                         onChange={manageCheckBoxDeleteSelectedItems}
                       />
                     </div>
@@ -249,13 +246,12 @@ export default function WatchList(props) {
                     <div
                       className="delete-checkbox-one-item-list"
                       title={myListTitles[index]}
-                      key={getNumberFromStringId(result.id) + index}
+                      key={result.id}
                     >
-                      <label htmlFor={index}>{myListTitles[index]}</label>
+                      <label htmlFor={result.id}>{myListTitles[index]}</label>
                       <input
                         type="checkbox"
-                        data-user-list-id={result.id}
-                        id={index}
+                        id={result.id}
                         onChange={manageCheckBoxDeleteSelectedItems}
                       />
                     </div>
@@ -271,13 +267,13 @@ export default function WatchList(props) {
           {userList.map((result, index) =>
             result.midiaType === 'movie' ? (
               <UserListMovie
-                key={getNumberFromStringId(result.id) + index}
+                key={result.id}
                 id={getNumberFromStringId(result.id)}
                 colorMyListVertical={colorMyListVertical}
               />
             ) : (
               <UserListSerie
-                key={getNumberFromStringId(result.id) + index}
+                key={result.id}
                 id={getNumberFromStringId(result.id)}
                 colorMyListVertical={colorMyListVertical}
               />
