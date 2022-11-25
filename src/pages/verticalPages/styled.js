@@ -146,7 +146,7 @@ export const PagesContainer = styled.main`
     background-color: transparent;
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 2rem;
     width: 100%;
     height: 100%;
 
@@ -166,10 +166,9 @@ export const PagesContainer = styled.main`
         justify-content: space-between;
         position: relative;
         z-index: 3;
-        width: calc(100% - 20rem);
 
         & > .vertical-search-popular {
-          width: 250px;
+          width: 100%;
           color: ${colors.color1};
           background-color: ${colors.color7};
           padding: 8px 1.2rem;
@@ -204,104 +203,6 @@ export const PagesContainer = styled.main`
                 color: ${colors.color5};
                 font-size: 0.81rem;
                 font-weight: 500;
-              }
-            }
-          }
-        }
-
-        & > .popularBy {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-
-          & > h5 {
-            color: ${colors.color5};
-            font-size: 0.81rem;
-            font-weight: 600;
-          }
-
-          & > .filter-popularBy {
-            display: flex;
-            cursor: pointer;
-            align-items: center;
-            justify-content: space-between;
-            color: ${colors.color1};
-            font-size: 0.81rem;
-            background-color: ${colors.color7};
-            padding: 8px 1.2rem;
-            width: 130px;
-            border-radius: 1.5rem;
-            position: relative;
-
-            & > button {
-              background-color: transparent;
-              width: 100%;
-              height: 100%;
-              position: absolute;
-              z-index: 5;
-              right: 0;
-            }
-
-            & > div {
-              background-color: ${colors.color7};
-              top: 5px;
-              cursor: default;
-              z-index: -1;
-              right: 0;
-              position: absolute;
-              border-radius: 1rem;
-              width: 100%;
-              height: ${(props) =>
-                props.filterPopularByActived ? '100px' : '0'};
-              transition: all 0.2s ease-in-out;
-
-              & > ul {
-                margin: 1.8rem 1.2rem 0;
-                overflow: hidden scroll;
-                height: 65%;
-                display: flex;
-                gap: 5px;
-                flex-direction: column;
-
-                &::-webkit-scrollbar {
-                  width: 3px;
-                }
-
-                &::-webkit-scrollbar-thumb {
-                  background-color: ${colors.color2};
-                  border-radius: 1rem;
-                }
-
-                &::-webkit-scrollbar-track {
-                  background-color: transparent;
-                }
-
-                & > li {
-                  width: fit-content;
-                  cursor: pointer;
-                  transition: color 0.2s ease-in-out;
-                  color: ${colors.color1};
-
-                  &[data-active] {
-                    color: ${colors.color2};
-                  }
-
-                  &:hover {
-                    color: ${colors.color2};
-                  }
-                }
-              }
-            }
-
-            & > span {
-              display: flex;
-              align-items: center;
-
-              & > svg {
-                transform: rotateZ(
-                  ${(props) => (props.filterPopularByActived ? '180deg' : '0')}
-                );
-                transition: transform 0.2s ease-in-out;
               }
             }
           }
@@ -637,18 +538,20 @@ export const New = styled.div`
 
   .popular-slider {
     display: flex;
-    gap: 1.5rem;
+    justify-content: space-between;
+    align-items: center;
     background-color: ${colors.color7};
-    height: 220px;
     border-radius: 5px;
     padding: 10px;
 
     & > .popular-img {
-      width: 190px;
-      flex: 1 1 0;
+      width: 140px;
+      height: 200px;
+      flex-shrink: 0;
       position: relative;
 
       & > img {
+        object-fit: cover;
         border-radius: 10px;
         width: 100%;
         height: 100%;
@@ -656,9 +559,8 @@ export const New = styled.div`
     }
 
     & > .popular-details {
-      padding: 0.8rem 10px 1rem 0;
+      margin-left: 1.5rem;
       display: flex;
-      max-width: 140px;
       flex-direction: column;
       gap: 9px;
 
@@ -692,6 +594,7 @@ export const New = styled.div`
 
       & > .vertical-overview {
         font-size: 0.81rem;
+        font-weight: 400;
         flex: none;
         color: ${colors.color5};
         max-width: 10rem;
@@ -789,6 +692,7 @@ export const Popular = styled.div`
       align-items: center;
 
       & > img {
+        object-fit: cover;
         width: 100%;
         height: 100%;
         border-radius: 1rem;
@@ -835,7 +739,7 @@ export const Popular = styled.div`
       margin: 5px 5px 0;
 
       & > a > h5 {
-        max-width: 11rem;
+        max-width: 100%;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -858,7 +762,7 @@ export const Popular = styled.div`
         }
 
         & > :last-child {
-          max-width: 5.5rem;
+          max-width: 100%;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;

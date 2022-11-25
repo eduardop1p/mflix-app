@@ -841,7 +841,7 @@ export const PopularContainer = styled.section`
     position: relative;
     z-index: 3;
 
-    @media (max-width: 330px) {
+    @media (max-width: 300px) {
       justify-content: normal;
       align-items: normal;
       flex-direction: column;
@@ -852,171 +852,32 @@ export const PopularContainer = styled.section`
       font-size: 1.8rem;
     }
 
-    & > .popularBy,
-    & > .popularBy-mobile {
+    & > .navigation-popularBy {
       display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-left: 1rem;
+      gap: 8px;
+      margin-left: 2rem;
 
       @media (max-width: 330px) {
+        margin-left: 1rem;
+      }
+      @media (max-width: 300px) {
         align-self: flex-end;
-        margin-top: 10px;
       }
 
-      & > h5 {
-        color: ${colors.color5};
-        font-size: 0.81rem;
-        font-weight: 600;
-      }
-
-      & > .filter-popularBy {
-        display: flex;
+      & > button {
+        border-radius: 50%;
         cursor: pointer;
-        align-items: center;
-        justify-content: space-between;
-        color: ${colors.color1};
-        font-size: 0.81rem;
         background-color: ${colors.color7};
-        padding: 8px 1.2rem;
-        width: 130px;
-        border-radius: 1.5rem;
-        position: relative;
-
-        & > button {
-          background-color: transparent;
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          z-index: 5;
-          right: 0;
-        }
-
-        & > div {
-          background-color: inherit;
-          top: 5px;
-          z-index: -1;
-          cursor: default;
-          right: 0;
-          position: absolute;
-          border-radius: 1rem;
-          width: 100%;
-          height: ${(props) => (props.filterPopularByActived ? '100px' : '0')};
-          transition: right 0.2s ease-in-out;
-
-          & > ul {
-            margin: 1.8rem 1.2rem 0;
-            overflow: hidden scroll;
-            height: 65%;
-            display: flex;
-            gap: 5px;
-            flex-direction: column;
-
-            &::-webkit-scrollbar {
-              width: 3px;
-            }
-
-            &::-webkit-scrollbar-thumb {
-              background-color: ${colors.color2};
-              border-radius: 1rem;
-            }
-
-            &::-webkit-scrollbar-track {
-              background-color: transparent;
-            }
-
-            & > li {
-              width: fit-content;
-              cursor: pointer;
-              transition: color 0.2s ease-in-out;
-              color: ${colors.color1};
-
-              &[data-active] {
-                color: ${colors.color2};
-              }
-
-              &:hover {
-                color: ${colors.color2};
-              }
-            }
-          }
-        }
-
-        & > span {
-          display: flex;
-          align-items: center;
-
-          & > svg {
-            transition: transform 0.2s ease-in-out;
-            transform: rotateZ(
-              ${(props) => (props.filterPopularByActived ? '180deg' : '0')}
-            );
-          }
-        }
-      }
-
-      & > .menu-popular-mobile {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 25px;
-        height: 25px;
-        position: relative;
+        width: 30px;
+        height: 30px;
+        transition: background 0.2s ease-in-out;
 
-        & > div {
-          background-color: ${colors.color7};
-          width: 110px;
-          flex-shrink: 0;
-          position: absolute;
-          top: 22px;
-          right: -20px;
-          border-radius: 10px;
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-          padding: 12px;
-
-          ul {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-
-            & > li {
-              font-size: 13px;
-              font-weight: 400;
-              width: fit-content;
-            }
-          }
-        }
-
-        & > svg {
-          flex-shrink: 0;
-          transition: transform 0.2s ease-in-out;
-          transform: rotateZ(
-            ${(props) => (props.filterPopularByActived ? '180deg' : '0')}
-          );
-        }
-      }
-
-      & > .navigation-popularBy {
-        display: flex;
-        gap: 8px;
-
-        & > button {
-          border-radius: 50%;
-          cursor: pointer;
-          background-color: ${colors.color7};
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 30px;
-          height: 30px;
-          transition: background 0.2s ease-in-out;
-
-          &:hover,
-          &:focus {
-            background-color: ${colors.color2};
-          }
+        &:hover,
+        &:focus {
+          background-color: ${colors.color2};
         }
       }
     }
@@ -1345,27 +1206,20 @@ export const FutureContainer = styled.section`
       & > .future-release-date {
         font-size: 0.87rem;
         display: flex;
+        gap: 8px;
         color: ${colors.color5};
 
         @media (max-width: 330px) {
+          gap: 0;
           flex-direction: column;
         }
         @media (max-width: 310px) {
+          gap: 8px;
           flex-direction: row;
         }
 
         & > span {
-          margin-left: 8px;
           color: ${colors.color1};
-
-          @media (max-width: 330px) {
-            margin-left: 0;
-            margin-top: 2px;
-          }
-          @media (max-width: 310px) {
-            margin-left: 8px;
-            margin-top: 0;
-          }
         }
       }
 

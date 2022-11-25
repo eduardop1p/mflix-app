@@ -35,8 +35,6 @@ class AllCatalog extends Component {
     this.state = {
       all: null,
       loadingFilters: false,
-      allMoviesArr: null,
-      allSeriesArr: null,
       pageCount: 0,
       searchFilterValue: '',
       searchFilterActived: false,
@@ -139,13 +137,7 @@ class AllCatalog extends Component {
           }&page=${currentPage + 1}`
         );
         const data2 = axiosData2.data;
-        this.setState(
-          {
-            allMoviesArr: data1,
-            allSeriesArr: data2,
-          },
-          this.randomArrMovieSeries
-        );
+        this.randomArrMovieSeries(data1, data2);
       } catch {
         console.error('Erro ao pegar todas as series.');
       }
@@ -154,8 +146,8 @@ class AllCatalog extends Component {
     }
   }
 
-  randomArrMovieSeries() {
-    const { allMoviesArr, allSeriesArr, all } = this.state;
+  randomArrMovieSeries(allMoviesArr, allSeriesArr) {
+    const { all } = this.state;
     const { search } = this.props;
 
     const newArr = [...allMoviesArr.results, ...allSeriesArr.results];
@@ -267,15 +259,11 @@ class AllCatalog extends Component {
           }&with_genres=${genreId}&first_air_date_year=${releaseDate}`
         );
         const data2 = axiosData2.data;
-        this.setState(
-          {
-            allMoviesArr: data1,
-            allSeriesArr: data2,
-            searchFilterActived: false,
-            searchFilterValue: '',
-          },
-          this.randomArrMovieSeries
-        );
+        this.randomArrMovieSeries(data1, data2);
+        this.setState({
+          searchFilterActived: false,
+          searchFilterValue: '',
+        });
       } catch {
         console.error('Erro ao pegar series por filtros.');
       }
@@ -562,7 +550,7 @@ class AllCatalogMobile extends Component {
                     key={genre.id}
                     data-genre-id={genre.id}
                     onClick={(event) =>
-                      thisParentClass.yearOrGenreActive('year', event)
+                      thisParentClass.yearOrGenreActive('genre', event)
                     }
                   >
                     {genre.name}

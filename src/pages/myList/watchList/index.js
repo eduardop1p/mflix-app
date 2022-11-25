@@ -383,7 +383,9 @@ function UserListSerie(props) {
           `/${id}?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
         );
         setDataList(data);
-      } catch {
+      } catch (e) {
+        console.log(e);
+        console.log(id);
         console.error('Erro ao obter Id de Serie');
       }
     };

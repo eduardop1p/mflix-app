@@ -38,9 +38,7 @@ export default function MovieV() {
     originalResult: [],
   });
   const [allGenres, setAllGenres] = useState(null);
-  const [filterNamePopular, setFilterNamePopular] = useState(null);
   const [inputVerticalValue, setInputVerticalValue] = useState('');
-  const [filterPopularByActived, setFilterPopularByActived] = useState(false);
   const [genresArrowActived, setGenresArrowActived] = useState(true);
   const [yearsArrowActived, setYearsArrowActived] = useState(true);
   const [actorArrowActived, setActorArrowActived] = useState(true);
@@ -53,12 +51,9 @@ export default function MovieV() {
     originalResult: [],
   });
   let currentPagePopular = useRef(1);
-  let currentByPopularData = useRef(1);
   let currentYearsActorGenres = useRef(1);
   let currentPageActor = useRef(0);
   const genresIdsCheckBox = useRef([]);
-  const primaryReleaseDateGte = useRef(null);
-  const primaryReleaseDateLte = useRef(null);
   let valueRange1 = useRef(2000);
   let valueRange2 = useRef(new Date().getFullYear());
   let minGap = useRef(1);
@@ -161,33 +156,6 @@ export default function MovieV() {
     )}`;
   }
 
-  async function setAllByPopularData(infiniteScroll) {
-    try {
-      !infiniteScroll && setLoadingFilters(true);
-      const { data } = await axiosDetailsFilters.get(
-        `?sort_by=popularity.desc&release_date.gte=${
-          primaryReleaseDateGte.current
-        }&release_date.lte=${primaryReleaseDateLte.current}&api_key=${
-          apiConfig.apiKey
-        }&language=${apiConfig.language}&page=${
-          infiniteScroll ? (currentByPopularData.current += 1) : 1
-        }`
-      );
-      setAllPopular({
-        midiaType: 'byPopularData',
-        results:
-          allPopular.midiaType !== 'byPopularData' || !infiniteScroll
-            ? data.results
-            : allPopular.results.concat(data.results),
-        originalResult: data.results,
-      });
-    } catch {
-      console.error('Erro ao pegar filmes populares por data.');
-    } finally {
-      !infiniteScroll && setTimeout(() => setLoadingFilters(false), 100);
-    }
-  }
-
   function setCheckCheckBoxVertical(event1, event2) {
     if (event1) {
       const eventValue = Number(event1.target.getAttribute('data-genre-id'));
@@ -257,7 +225,6 @@ export default function MovieV() {
   }
 
   async function setYearsActorGenres(infiniteScroll) {
-    if (filterNamePopular) setFilterNamePopular(false);
     const arrayPrimaryYears = arrayYears.slice(
       arrayYears.indexOf(valueRange1.current),
       arrayYears.indexOf(valueRange2.current) + 1
@@ -299,7 +266,6 @@ export default function MovieV() {
   }
 
   function setRange1(event) {
-    if (filterNamePopular) setFilterNamePopular(!filterNamePopular);
     if (inputVerticalValue) setInputVerticalValue('');
     valueRange1.current = Number(event.target.value);
     if (valueRange2.current - valueRange1.current <= minGap.current) {
@@ -313,7 +279,6 @@ export default function MovieV() {
   }
 
   function setRange2(event) {
-    if (filterNamePopular) setFilterNamePopular(!filterNamePopular);
     if (inputVerticalValue) setInputVerticalValue('');
     valueRange2.current = Number(event.target.value);
     if (valueRange2.current - valueRange1.current <= minGap.current) {
@@ -335,45 +300,6 @@ export default function MovieV() {
     return loadingSpinner.remove();
   }
 
-  function filterNamePopularFuction(name, event) {
-    if (event.target.innerText === filterNamePopular) return;
-
-    event.target.parentElement
-      .querySelectorAll('li')
-      .forEach((li) => li.removeAttribute('data-active'));
-
-    event.target.setAttribute('data-active', '');
-
-    if (name === 'dia') {
-      primaryReleaseDateGte.current = setDate(1);
-      primaryReleaseDateLte.current = setDate();
-      setFilterNamePopular(event.target.innerText);
-      setAllByPopularData(false);
-      return;
-    }
-    if (name === 'semana') {
-      primaryReleaseDateGte.current = setDate(7);
-      primaryReleaseDateLte.current = setDate();
-      setFilterNamePopular(event.target.innerText);
-      setAllByPopularData(false);
-      return;
-    }
-    if (name === 'mes') {
-      primaryReleaseDateGte.current = setDate(31);
-      primaryReleaseDateLte.current = setDate();
-      setFilterNamePopular(event.target.innerText);
-      setAllByPopularData(false);
-      return;
-    }
-    if (name === 'ano') {
-      primaryReleaseDateGte.current = setDate(365);
-      primaryReleaseDateLte.current = setDate();
-      setFilterNamePopular(event.target.innerText);
-      setAllByPopularData(false);
-      return;
-    }
-  }
-
   SwiperCore.use(Autoplay);
 
   return id ? (
@@ -381,7 +307,7 @@ export default function MovieV() {
       <Outlet />
     </>
   ) : (
-    <PagesContainer filterPopularByActived={filterPopularByActived}>
+    <PagesContainer>
       <Helmet>
         <title>{'MFLIX - Filmes'}</title>
       </Helmet>
@@ -508,7 +434,8 @@ export default function MovieV() {
                   min="1990"
                   max={new Date().getFullYear()}
                   onChange={setRange2}
-                  onMouseUp={() => {
+                  onMouseUp={(event) => {
+                    console.log(event);
                     setYearsActorGenres(false);
                   }}
                   id="range-2"
@@ -600,64 +527,6 @@ export default function MovieV() {
                   }
                 />
               </form>
-            </div>
-
-            <div className="popularBy">
-              <h5>Populares&nbsp;Do(a):</h5>
-              <div className="filter-popularBy">
-                <span>
-                  {!filterNamePopular ? 'Filtrar' : filterNamePopular}
-                </span>
-                <div>
-                  <ul>
-                    <li
-                      onClick={(event) =>
-                        filterNamePopularFuction('dia', event)
-                      }
-                    >
-                      Dia
-                    </li>
-                    <li
-                      onClick={(event) =>
-                        filterNamePopularFuction('semana', event)
-                      }
-                    >
-                      Semana
-                    </li>
-                    <li
-                      onClick={(event) =>
-                        filterNamePopularFuction('mes', event)
-                      }
-                    >
-                      Mês
-                    </li>
-                    <li
-                      onClick={(event) =>
-                        filterNamePopularFuction('ano', event)
-                      }
-                    >
-                      Ano
-                    </li>
-                  </ul>
-                </div>
-                <span>
-                  <svg
-                    xmlns="http:www.w3.org/2000/svg"
-                    height="20px"
-                    viewBox="0 0 24 24"
-                    width="20px"
-                    fill="#FFFFFF"
-                  >
-                    <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
-                    <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
-                  </svg>
-                </span>
-                <button
-                  onClick={() =>
-                    setFilterPopularByActived(!filterPopularByActived)
-                  }
-                ></button>
-              </div>
             </div>
           </div>
         </div>
@@ -779,8 +648,6 @@ export default function MovieV() {
                 next={() => {
                   if (allPopular.midiaType === 'popular')
                     return setPopularFunction(true);
-                  if (allPopular.midiaType === 'byPopularData')
-                    return setAllByPopularData(true);
                   if (allPopular.midiaType === 'popularYearsActorGenres')
                     return setYearsActorGenres(true);
                 }}
