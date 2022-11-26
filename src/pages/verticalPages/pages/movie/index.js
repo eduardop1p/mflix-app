@@ -17,7 +17,6 @@ import apiConfig from '../../../../config/apiConfig';
 import clearLinkTitle from '../../../../config/clearLinkTitle';
 import RatingSystem2 from '../../../../components/ratingSystem2/index';
 import imageErrorTop3 from '../../../../assets/images/czx7z2e6uqg81.jpg';
-import notResultsSearch from '../../../../assets/images/search.png';
 import Loading from '../../../../components/loadingReactStates/index';
 import LoadingActor from '../../../../components/loadingActor/index';
 import LoadingScrollInfinit from '../../../../components/loadingActor/index';
@@ -85,10 +84,11 @@ export default function MovieV() {
       allActors &&
       !id &&
       loadingApp
-    )
+    ) {
       setTimeout(() => {
         dispatch(actions.loadingFailure());
       }, 500);
+    }
   }, [allGenres, news, allPopular, allActors, id, loadingApp]);
 
   async function setNewsFunction() {
@@ -104,8 +104,8 @@ export default function MovieV() {
 
   async function setPopularFunction(infiniteScroll) {
     try {
-      const { data } = await axiosDetailsFilters.get(
-        `?sort_by=popularity.desc&api_key=${apiConfig.apiKey}&language=${
+      const { data } = await axiosBaseUrlMovies.get(
+        `/popular?&api_key=${apiConfig.apiKey}&language=${
           apiConfig.language
         }&page=${infiniteScroll ? (currentPagePopular.current += 1) : 1}`
       );
@@ -171,12 +171,12 @@ export default function MovieV() {
           setNewsFunction();
           setYearsActorGenres(false);
         }
-        setCheckBoxGenres();
+        setCheckBoxGenresNew();
         setYearsActorGenres(false);
         return;
       }
       genresIdsCheckBox.current.push(eventValue);
-      setCheckBoxGenres();
+      setCheckBoxGenresNew();
       setYearsActorGenres(false);
       return;
     }
@@ -196,18 +196,18 @@ export default function MovieV() {
           setYearsActorGenres(false);
           return;
         }
-        setCheckBoxGenres();
+        setCheckBoxGenresNew();
         setYearsActorGenres(false);
         return;
       }
       actorIdsCheckBox.current.push(eventValue);
-      setCheckBoxGenres();
+      setCheckBoxGenresNew();
       setYearsActorGenres(false);
       return;
     }
   }
 
-  async function setCheckBoxGenres() {
+  async function setCheckBoxGenresNew() {
     try {
       const { data } = await axiosDetailsFilters.get(
         `?sort_by=popularity.desc&with_genres=${genresIdsCheckBox.current.join(
@@ -530,15 +530,10 @@ export default function MovieV() {
             </div>
           </div>
         </div>
-        <div
-          className="new"
-          style={{
-            height: news && news.results.length ? '265px' : '150px',
-          }}
-        >
+        <div className="new">
           <h1>Novos&nbsp;filmes</h1>
           <New>
-            {news && news.results.length ? (
+            {news && news.results.length && (
               <Swiper
                 autoplay={{
                   delay: 3000,
@@ -547,7 +542,7 @@ export default function MovieV() {
                 }}
                 initialSlide={1}
                 modules={[Navigation]}
-                spaceBetween={30}
+                spaceBetween={20}
                 slidesPerView={3}
                 autoHeight
                 loop={news.results.length < 3 ? false : true}
@@ -625,11 +620,6 @@ export default function MovieV() {
                   </SwiperSlide>
                 ))}
               </Swiper>
-            ) : (
-              <div className="not-results-search-all-catalog">
-                <img src={notResultsSearch} />
-                <h4>Nenhum resultado.</h4>
-              </div>
             )}
           </New>
         </div>
@@ -642,7 +632,7 @@ export default function MovieV() {
             }}
           >
             {loadingFilters && <Loading colorTranparent />}
-            {allPopular.results.length ? (
+            {allPopular.results.length && (
               <InfiniteScroll
                 dataLength={allPopular.results.length}
                 next={() => {
@@ -674,7 +664,7 @@ export default function MovieV() {
               >
                 {allPopular.results.map((result) => (
                   <div key={result.id} className="vertical-popular-img-details">
-                    <div>
+                    <div className="img-details">
                       <img
                         src={
                           result.poster_path
@@ -721,11 +711,6 @@ export default function MovieV() {
                   </div>
                 ))}
               </InfiniteScroll>
-            ) : (
-              <div className="not-results-search-all-catalog">
-                <img src={notResultsSearch} />
-                <h4>Nenhum resultado.</h4>
-              </div>
             )}
           </Popular>
         </div>

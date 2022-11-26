@@ -10,6 +10,7 @@ import { Helmet } from 'react-helmet-async';
 
 import * as actions from '../../../../storeReactRedux/modules/loading/actions';
 import axiosBaseUrlMovies from '../../../../services/axiosBaseUrlMovies';
+import axiosBaseUrlSeries from '../../../../services/axiosBaseUrlSeries';
 import axiosDetailsFilters from '../../../../services/axiosBaseUrlDetailsFilters';
 import axiosBaseUrlGenresMovies from '../../../../services/axiosBaseUrlGenres';
 import axiosBaseUrlGenresSeries from '../../../../services/axiosBaseUrlGenresSeries';
@@ -18,7 +19,6 @@ import apiConfig from '../../../../config/apiConfig';
 import clearLinkTitle from '../../../../config/clearLinkTitle';
 import RatingSystem2 from '../../../../components/ratingSystem2/index';
 import imageErrorTop3 from '../../../../assets/images/czx7z2e6uqg81.jpg';
-import notResultsSearch from '../../../../assets/images/search.png';
 import Loading from '../../../../components/loadingReactStates/index';
 import LoadingScrollInfinit from '../../../../components/loadingActor/index';
 import * as colors from '../../../../colors';
@@ -38,8 +38,6 @@ export default function Home() {
     originalResult: [],
   });
   const [allGenres, setAllGenres] = useState([]);
-  const [filterNamePopular, setFilterNamePopular] = useState(null);
-  const [filterPopularByActived, setFilterPopularByActived] = useState(false);
   const [genresArrowActived, setGenresArrowActived] = useState(true);
   const [yearsArrowActived, setYearsArrowActived] = useState(true);
   const [arrayYears, setArrayYears] = useState(null);
@@ -47,11 +45,8 @@ export default function Home() {
   const [percentRange2, setPercentRange2] = useState(null);
   const [verticalSearchValue, setVerticalSearchValue] = useState('');
   let currentPagePopular = useRef(1);
-  let currentByPopularData = useRef(1);
   let currentYearsActorGenres = useRef(1);
   const genresIdsCheckBox = useRef([]);
-  const primaryReleaseDateGte = useRef(null);
-  const primaryReleaseDateLte = useRef(null);
   let valueRange1 = useRef(2000);
   let valueRange2 = useRef(new Date().getFullYear());
   let minGap = useRef(1);
@@ -189,17 +184,6 @@ export default function Home() {
       });
       return;
     }
-    if (popularIndex === 'p3') {
-      setAllPopular({
-        midiaType: 'p3',
-        results:
-          allPopular.midiaType !== 'p3' || !infiniteScroll
-            ? randomArrMovieSeriesPopular
-            : allPopular.results.concat(randomArrMovieSeriesPopular),
-        originalResult: randomArrMovieSeriesPopular,
-      });
-      return;
-    }
     setAllPopular({
       midiaType: 'p1',
       results:
@@ -213,15 +197,15 @@ export default function Home() {
 
   async function setPopularFunction(infiniteScroll) {
     try {
-      const axiosData1 = await axiosDetailsFilters.get(
-        `?sort_by=popularity.desc&api_key=${apiConfig.apiKey}&language=${
+      const axiosData1 = await axiosBaseUrlMovies.get(
+        `/popular?&api_key=${apiConfig.apiKey}&language=${
           apiConfig.language
         }&page=${infiniteScroll ? (currentPagePopular.current += 1) : 1}`
       );
       const data1 = axiosData1.data;
       try {
-        const axiosData2 = await axiosBaseUrlSeriesDiscover.get(
-          `?sort_by=popularity.desc&api_key=${apiConfig.apiKey}&language=${
+        const axiosData2 = await axiosBaseUrlSeries.get(
+          `/popular?&api_key=${apiConfig.apiKey}&language=${
             apiConfig.language
           }&page=${infiniteScroll ? (currentPagePopular.current += 1) : 1}`
         );
@@ -232,41 +216,6 @@ export default function Home() {
       }
     } catch {
       console.error('Erro ao pegar filmes populares.');
-    }
-  }
-
-  async function setAllByPopularData(infiniteScroll) {
-    try {
-      !infiniteScroll && setLoadingFilters(true);
-      const axiosData1 = await axiosDetailsFilters.get(
-        `?sort_by=popularity.desc&release_date.gte=${
-          primaryReleaseDateGte.current
-        }&release_date.lte=${primaryReleaseDateLte.current}&api_key=${
-          apiConfig.apiKey
-        }&language=${apiConfig.language}&page=${
-          infiniteScroll ? (currentByPopularData.current += 1) : 1
-        }`
-      );
-      const data1 = axiosData1.data;
-      try {
-        const axiosData2 = await axiosBaseUrlSeriesDiscover.get(
-          `?sort_by=popularity.desc&air_date.gte=${
-            primaryReleaseDateGte.current
-          }&air_date.lte=${primaryReleaseDateLte.current}&api_key=${
-            apiConfig.apiKey
-          }&language=${apiConfig.language}&page=${
-            infiniteScroll ? (currentByPopularData.current += 1) : 1
-          }`
-        );
-        const data2 = axiosData2.data;
-        randomArrMovieSeriesPopular(data1, data2, 'p3', infiniteScroll);
-      } catch {
-        console.error('Erro ao pegar series populares.');
-      }
-    } catch {
-      console.error('Erro ao pegar filmes populares.');
-    } finally {
-      !infiniteScroll && setTimeout(() => setLoadingFilters(false), 100);
     }
   }
 
@@ -283,18 +232,18 @@ export default function Home() {
           setYearsActorGenres(false);
           return;
         }
-        setCheckBoxGenres();
+        setCheckBoxGenresNew();
         setYearsActorGenres();
         return;
       }
       genresIdsCheckBox.current.push(eventValue);
-      setCheckBoxGenres();
+      setCheckBoxGenresNew();
       setYearsActorGenres();
       return;
     }
   }
 
-  async function setCheckBoxGenres() {
+  async function setCheckBoxGenresNew() {
     try {
       const axiosData1 = await axiosDetailsFilters.get(
         `?sort_by=popularity.desc&with_genres=${genresIdsCheckBox.current.join(
@@ -327,7 +276,6 @@ export default function Home() {
   }
 
   async function setYearsActorGenres(infiniteScroll) {
-    if (filterNamePopular) setFilterNamePopular(false);
     const arrayPrimaryYears = arrayYears.slice(
       arrayYears.indexOf(valueRange1.current),
       arrayYears.indexOf(valueRange2.current) + 1
@@ -375,7 +323,6 @@ export default function Home() {
   }
 
   function setRange1(event) {
-    if (filterNamePopular) setFilterNamePopular(!filterNamePopular);
     valueRange1.current = Number(event.target.value);
     if (valueRange2.current - valueRange1.current <= minGap.current) {
       valueRange1.current = valueRange2.current - minGap.current;
@@ -388,7 +335,6 @@ export default function Home() {
   }
 
   function setRange2(event) {
-    if (filterNamePopular) setFilterNamePopular(!filterNamePopular);
     valueRange2.current = Number(event.target.value);
     if (valueRange2.current - valueRange1.current <= minGap.current) {
       valueRange2.current = valueRange1.current + minGap.current;
@@ -409,45 +355,6 @@ export default function Home() {
     return loadingSpinner.remove();
   }
 
-  function filterNamePopularFuction(name, event) {
-    if (event.target.innerText === filterNamePopular) return;
-
-    event.target.parentElement
-      .querySelectorAll('li')
-      .forEach((li) => li.removeAttribute('data-active'));
-
-    event.target.setAttribute('data-active', '');
-
-    if (name === 'dia') {
-      primaryReleaseDateGte.current = setDate(1);
-      primaryReleaseDateLte.current = setDate();
-      setFilterNamePopular(event.target.innerText);
-      setAllByPopularData(false);
-      return;
-    }
-    if (name === 'semana') {
-      primaryReleaseDateGte.current = setDate(7);
-      primaryReleaseDateLte.current = setDate();
-      setFilterNamePopular(event.target.innerText);
-      setAllByPopularData(false);
-      return;
-    }
-    if (name === 'mes') {
-      primaryReleaseDateGte.current = setDate(31);
-      primaryReleaseDateLte.current = setDate();
-      setFilterNamePopular(event.target.innerText);
-      setAllByPopularData(false);
-      return;
-    }
-    if (name === 'ano') {
-      primaryReleaseDateGte.current = setDate(365);
-      primaryReleaseDateLte.current = setDate();
-      setFilterNamePopular(event.target.innerText);
-      setAllByPopularData(false);
-      return;
-    }
-  }
-
   SwiperCore.use(Autoplay);
 
   return id ? (
@@ -455,7 +362,7 @@ export default function Home() {
       <Outlet />
     </>
   ) : (
-    <PagesContainer filterPopularByActived={filterPopularByActived}>
+    <PagesContainer>
       <Helmet>
         <title>{'MFLIX - Home'}</title>
       </Helmet>
@@ -621,75 +528,12 @@ export default function Home() {
                 />
               </form>
             </div>
-
-            <div className="popularBy">
-              <h5>Populares&nbsp;Do(a):</h5>
-              <div className="filter-popularBy">
-                <span>
-                  {!filterNamePopular ? 'Filtrar' : filterNamePopular}
-                </span>
-                <div>
-                  <ul>
-                    <li
-                      onClick={(event) =>
-                        filterNamePopularFuction('dia', event)
-                      }
-                    >
-                      Dia
-                    </li>
-                    <li
-                      onClick={(event) =>
-                        filterNamePopularFuction('semana', event)
-                      }
-                    >
-                      Semana
-                    </li>
-                    <li
-                      onClick={(event) =>
-                        filterNamePopularFuction('mes', event)
-                      }
-                    >
-                      Mês
-                    </li>
-                    <li
-                      onClick={(event) =>
-                        filterNamePopularFuction('ano', event)
-                      }
-                    >
-                      Ano
-                    </li>
-                  </ul>
-                </div>
-                <span>
-                  <svg
-                    xmlns="http:www.w3.org/2000/svg"
-                    height="20px"
-                    viewBox="0 0 24 24"
-                    width="20px"
-                    fill="#FFFFFF"
-                  >
-                    <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
-                    <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
-                  </svg>
-                </span>
-                <button
-                  onClick={() =>
-                    setFilterPopularByActived(!filterPopularByActived)
-                  }
-                ></button>
-              </div>
-            </div>
           </div>
         </div>
-        <div
-          className="new"
-          style={{
-            height: news && news.length ? '265px' : '150px',
-          }}
-        >
+        <div className="new">
           <h1>Novos&nbsp;lançamentos</h1>
           <New>
-            {news && news.length ? (
+            {news && news.length && (
               <Swiper
                 autoplay={{
                   delay: 3000,
@@ -698,7 +542,7 @@ export default function Home() {
                 }}
                 initialSlide={1}
                 modules={[Navigation]}
-                spaceBetween={30}
+                spaceBetween={20}
                 slidesPerView={3}
                 autoHeight
                 loop={news.length < 3 ? false : true}
@@ -710,6 +554,9 @@ export default function Home() {
                         {
                           <div className="popular-slider">
                             <div className="popular-img">
+                              <div className="movie-or-serie">
+                                {result.title ? 'Filme' : 'Serie'}
+                              </div>
                               <img
                                 src={
                                   result.poster_path
@@ -740,7 +587,6 @@ export default function Home() {
                                 </h3>
                               </Link>
                               <div className="popular-year-genre">
-                                <div>{result.title ? 'Filme,' : 'Serie,'}</div>
                                 <div className="popular-year-year">
                                   {result.release_date &&
                                     result.release_date.slice(0, 4)}
@@ -796,11 +642,6 @@ export default function Home() {
                     )
                 )}
               </Swiper>
-            ) : (
-              <div className="not-results-search-all-catalog">
-                <img src={notResultsSearch} />
-                <h4>Nenhum resultado.</h4>
-              </div>
             )}
           </New>
         </div>
@@ -813,14 +654,12 @@ export default function Home() {
             }}
           >
             {loadingFilters && <Loading colorTranparent />}
-            {allPopular.results.length ? (
+            {allPopular.results.length && (
               <InfiniteScroll
                 dataLength={allPopular.results.length}
                 next={() => {
                   if (allPopular.midiaType === 'p1')
                     return setPopularFunction(true);
-                  if (allPopular.midiaType === 'p3')
-                    return setAllByPopularData(true);
                   if (allPopular.midiaType === 'p2')
                     return setYearsActorGenres(true);
                 }}
@@ -852,7 +691,10 @@ export default function Home() {
                         key={result.id}
                         className="vertical-popular-img-details"
                       >
-                        <div>
+                        <div className="movie-or-serie">
+                          {result.title ? 'Filme' : 'Serie'}
+                        </div>
+                        <div className="img-details">
                           <img
                             src={
                               result.poster_path
@@ -893,7 +735,6 @@ export default function Home() {
                             </h5>
                           </Link>
                           <div className="popular-details">
-                            <div>{result.title ? 'Filme,' : 'Serie,'}</div>
                             <div>
                               {result.release_date &&
                                 result.release_date.slice(0, 4)}
@@ -916,11 +757,6 @@ export default function Home() {
                     )
                 )}
               </InfiniteScroll>
-            ) : (
-              <div className="not-results-search-all-catalog">
-                <img src={notResultsSearch} />
-                <h4>Nenhum resultado.</h4>
-              </div>
             )}
           </Popular>
         </div>

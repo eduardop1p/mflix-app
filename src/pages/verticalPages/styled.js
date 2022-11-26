@@ -106,42 +106,6 @@ export const PagesContainer = styled.main`
   gap: 1rem;
   width: 100%;
 
-  .not-results-search-all-catalog {
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    @keyframes animationImgFloat {
-      0% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(5px);
-      }
-      100% {
-        transform: translateY(0);
-      }
-    }
-
-    & > img {
-      width: 3rem;
-      position: relative;
-      animation-name: animationImgFloat;
-      animation-duration: 3s;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
-    }
-
-    & > h4 {
-      color: ${colors.color5};
-      font-weight: 400;
-      font-size: 0.75rem;
-      margin-top: 5px;
-    }
-  }
-
   & > .search-new-popular {
     background-color: transparent;
     display: flex;
@@ -212,19 +176,21 @@ export const PagesContainer = styled.main`
 
     & > .new {
       position: relative;
+      height: 265px;
     }
   }
 `;
 
 export const Filters = styled.div`
   padding: 1.5rem;
-  width: 300px;
+  width: 280px;
   height: 500px;
   border-radius: 1rem;
   background-color: ${colors.color7};
   display: flex;
   flex-direction: column;
   gap: 14px;
+  flex-shrink: 0;
 
   & > .genres {
     & > :last-child {
@@ -550,6 +516,15 @@ export const New = styled.div`
       flex-shrink: 0;
       position: relative;
 
+      & > .movie-or-serie {
+        position: absolute;
+        top: 0;
+        z-index: 6;
+        margin: 14px;
+        font-size: 12px;
+        color: ${colors.color1};
+      }
+
       & > img {
         object-fit: cover;
         border-radius: 10px;
@@ -565,11 +540,12 @@ export const New = styled.div`
       gap: 9px;
 
       & > a > h3 {
-        max-width: 8rem;
-        white-space: nowrap;
+        max-width: 100%;
         overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
         text-overflow: ellipsis;
-        flex: none;
+        -webkit-box-orient: vertical;
         font-size: 0.93rem;
         font-weight: 600;
         color: ${colors.color1};
@@ -583,13 +559,6 @@ export const New = styled.div`
         display: flex;
         gap: 5px;
         align-items: center;
-
-        & > :last-child {
-          max-width: 5rem;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
       }
 
       & > .vertical-overview {
@@ -655,8 +624,7 @@ export const New = styled.div`
 `;
 
 export const Popular = styled.div`
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: hidden scroll;
 
   &::-webkit-scrollbar {
     width: 30px;
@@ -682,8 +650,18 @@ export const Popular = styled.div`
     display: inline-block;
     height: 350px;
     padding: 8px;
+    position: relative;
 
-    & > :first-child {
+    .movie-or-serie {
+      position: absolute;
+      top: 0;
+      z-index: 6;
+      margin: 14px;
+      font-size: 12px;
+      color: ${colors.color1};
+    }
+
+    & > .img-details {
       width: 100%;
       height: 100%;
       position: relative;

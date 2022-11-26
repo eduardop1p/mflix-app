@@ -14,7 +14,6 @@ import axiosBaseUrlSearchSerie from '../../../services/axiosBaseUrlSearchSerie';
 import clearLinkTitle from '../../../config/clearLinkTitle';
 import RatingSystem from '../../../components/ratingSystem/index';
 import imageErrorTop3 from '../../../assets/images/czx7z2e6uqg81.jpg';
-import notResultsSearch from '../../../assets/images/search.png';
 import Loading from '../../../components/loadingReactStates/index';
 import { color1 } from '../../../colors';
 import {
@@ -326,7 +325,8 @@ class AllCatalog extends Component {
         </div>
         <CatalogTitles>
           {loadingFilters && <Loading colorTranparent />}
-          {all && all.results.length ? (
+          {all &&
+            all.results.length &&
             all.results.map((result) => (
               <Link
                 key={result.id}
@@ -367,13 +367,7 @@ class AllCatalog extends Component {
                   </div>
                 </div>
               </Link>
-            ))
-          ) : (
-            <div className="not-results-search-all-catalog">
-              <img src={notResultsSearch} />
-              <h4>Nenhum resultado.</h4>
-            </div>
-          )}
+            ))}
         </CatalogTitles>
         <PagenationContainer>
           <ReactPaginate
