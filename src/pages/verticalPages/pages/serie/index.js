@@ -9,6 +9,7 @@ import { isInt } from 'validator/validator';
 import { Helmet } from 'react-helmet-async';
 
 import * as actions from '../../../../storeReactRedux/modules/loading/actions';
+import axiosBaseUrlSeries from '../../../../services/axiosBaseUrlSeries';
 import axiosBaseUrlSeriesDiscover from '../../../../services/axiosBaseUrlSeriesDiscover';
 import axiosBaseUrlGenresSeries from '../../../../services/axiosBaseUrlGenresSeries';
 import apiConfig from '../../../../config/apiConfig';
@@ -17,6 +18,7 @@ import RatingSystem2 from '../../../../components/ratingSystem2/index';
 import Loading from '../../../../components/loadingReactStates/index';
 import LoadingScrollInfinit from '../../../../components/loadingActor/index';
 import imageErrorTop3 from '../../../../assets/images/czx7z2e6uqg81.jpg';
+import NoResultFilters from '../../../../components/noResultFilters/index';
 import * as colors from '../../../../colors';
 import { PagesContainer, Filters, New, Popular } from '../../styled';
 
@@ -26,25 +28,21 @@ export default function SeriesV() {
   const loadingApp = useSelector((state) => state.loading.loadingState);
   const dispatch = useDispatch();
 
-  const [news, setNews] = useState(null);
+  const [news, setNews] = useState([]);
   const [loadingFilters, setLoadingFilters] = useState(false);
-  const [allPopular, setAllPopular] = useState({
-    midiaType: '',
-    results: [],
-    originalResult: [],
-  });
-  const [allGenres, setAllGenres] = useState(null);
-  const [filterNamePopular, setFilterNamePopular] = useState(null);
-  const [inputVerticalValue, setInputVerticalValue] = useState('');
+  const [allPopular, setAllPopular] = useState([]);
+  const [allGenres, setAllGenres] = useState([]);
   const [genresArrowActived, setGenresArrowActived] = useState(true);
   const [yearsArrowActived, setYearsArrowActived] = useState(true);
-  const [arrayYears, setArrayYears] = useState(null);
   const [percentRange1, setPercentRange1] = useState(null);
   const [percentRange2, setPercentRange2] = useState(null);
   const [verticalSearchValue, setVerticalSearchValue] = useState('');
+  const arrayYears = useRef([]);
+  let controllerPopularScroll = useRef(true);
   let currentPagePopular = useRef(1);
   let currentYearsActorGenres = useRef(1);
-  const genresIdsCheckBox = useRef([]);
+  let genresIdsCheckBox = useRef([]);
+  let finallyPagePopular = useRef(false);
   let valueRange1 = useRef(2000);
   let valueRange2 = useRef(new Date().getFullYear());
   let minGap = useRef(1);
@@ -55,7 +53,7 @@ export default function SeriesV() {
         const { data } = await axiosBaseUrlGenresSeries.get(
           `/list?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
         );
-        setAllGenres(data);
+        setAllGenres(data.genres);
       } catch {
         console.error('Erro ao pegar gêneros');
       }
@@ -67,10 +65,17 @@ export default function SeriesV() {
   }, []); // componentDidMount() class metod
 
   useEffect(() => {
-    if (allGenres && news && allPopular.results.length && !id && loadingApp)
+    if (
+      allGenres.length &&
+      news.length &&
+      allPopular.length &&
+      !id &&
+      loadingApp
+    ) {
       setTimeout(() => {
         dispatch(actions.loadingFailure());
       }, 500);
+    }
   }, [allGenres, news, allPopular, id, loadingApp]);
 
   async function setNewsFunction() {
@@ -82,27 +87,27 @@ export default function SeriesV() {
           apiConfig.apiKey
         }&language=${apiConfig.language}&page=1`
       );
-      setNews(data);
+      setNews(data.results);
     } catch {
-      console.log('Erro ao carregar Novas Series.');
+      console.error('Erro ao carregar Novas Series.');
     }
   }
 
   async function setPopularFunction(infiniteScroll) {
+    controllerPopularScroll.current = true;
+
     try {
-      const { data } = await axiosBaseUrlSeriesDiscover.get(
-        `?sort_by=popularity.desc&api_key=${apiConfig.apiKey}&language=${
+      const { data } = await axiosBaseUrlSeries.get(
+        `/popular?api_key=${apiConfig.apiKey}&language=${
           apiConfig.language
         }&page=${infiniteScroll ? (currentPagePopular.current += 1) : 1}`
       );
-      setAllPopular({
-        midiaType: 'popular',
-        results:
-          allPopular.midiaType !== 'popular' || !infiniteScroll
-            ? data.results
-            : allPopular.results.concat(data.results),
-        originalResult: data.results,
-      });
+      if (!data.results.length) finallyPagePopular.current = true;
+      if (infiniteScroll) {
+        setAllPopular(allPopular.concat(data.results));
+        return;
+      }
+      setAllPopular(data.results);
     } catch {
       console.error('Erro ao pegar series populares.');
     }
@@ -126,53 +131,30 @@ export default function SeriesV() {
     )}`;
   }
 
-  function setCheckCheckBoxVertical(event) {
-    if (event) {
-      const eventValue = Number(event.target.getAttribute('data-genre-id'));
+  function setCheckBoxFilters(event) {
+    let id = Number(event.target.id);
+    const { checked } = event.target;
 
-      if (!event.target.checked) {
-        genresIdsCheckBox.current = genresIdsCheckBox.current.filter(
-          (value) => value !== eventValue
-        );
-        if (!genresIdsCheckBox.current.length) {
-          setNewsFunction();
-          setYearsActorGenres(false);
-          return;
-        }
-        setCheckBoxGenresNew();
-        setYearsActorGenres(false);
-        return;
-      }
-      genresIdsCheckBox.current.push(eventValue);
-      setCheckBoxGenresNew();
-      setYearsActorGenres(false);
+    if (checked) {
+      genresIdsCheckBox.current.push(id);
+      setPopularFiltersFunction(false);
       return;
     }
-  }
-
-  async function setCheckBoxGenresNew() {
-    try {
-      const { data } = await axiosBaseUrlSeriesDiscover.get(
-        `?sort_by=popularity.desc&with_genres=${genresIdsCheckBox.current.join(
-          ','
-        )}&first_air_date.gte=${setDate(
-          100
-        )}&first_air_date.lte=${setDate()}&api_key=${
-          apiConfig.apiKey
-        }&language=${apiConfig.language}&page=1`
-      );
-      setNews(data);
-    } catch {
-      console.error('Erro ao pegar novas series por gêneros.');
-    }
-  }
-
-  async function setYearsActorGenres(infiniteScroll) {
-    if (filterNamePopular) setFilterNamePopular(false);
-    const arrayPrimaryYears = arrayYears.slice(
-      arrayYears.indexOf(valueRange1.current),
-      arrayYears.indexOf(valueRange2.current) + 1
+    genresIdsCheckBox.current = genresIdsCheckBox.current.filter(
+      (value) => value != id
     );
+    setPopularFiltersFunction(false);
+
+    return;
+  }
+
+  async function setPopularFiltersFunction(infiniteScroll) {
+    const arrayPrimaryYears = arrayYears.current.slice(
+      arrayYears.current.indexOf(valueRange1.current),
+      arrayYears.current.indexOf(valueRange2.current) + 1
+    );
+
+    controllerPopularScroll.current = false;
 
     try {
       !infiniteScroll && setLoadingFilters(true);
@@ -185,16 +167,14 @@ export default function SeriesV() {
           infiniteScroll ? (currentYearsActorGenres.current += 1) : 1
         }`
       );
-      setAllPopular({
-        midiaType: 'popularYearsActorGenres',
-        results:
-          allPopular.midiaType !== 'popularYearsActorGenres' || !infiniteScroll
-            ? data.results
-            : allPopular.results.concat(data.results),
-        originalResult: data.results,
-      });
+      if (!data.results.length) finallyPagePopular.current = true;
+      if (infiniteScroll) {
+        setAllPopular(allPopular.concat(data.results));
+        return;
+      }
+      setAllPopular(data.results);
     } catch {
-      console.error('Erro ao pegar series populares por gêneros.');
+      console.error('Erro ao pegar series populares por filtros.');
     } finally {
       !infiniteScroll && setTimeout(() => setLoadingFilters(false), 100);
     }
@@ -202,35 +182,31 @@ export default function SeriesV() {
 
   function setRelaceDate() {
     const currentYear = new Date().getFullYear();
-    const years = [];
-    for (let i = 1990; i <= currentYear; i++) years.push(i);
-    setArrayYears(years);
+    for (let i = 1990; i <= currentYear; i++) arrayYears.current.push(i);
   }
 
   function setRange1(event) {
-    if (filterNamePopular) setFilterNamePopular(!filterNamePopular);
-    if (inputVerticalValue) setInputVerticalValue('');
     valueRange1.current = Number(event.target.value);
     if (valueRange2.current - valueRange1.current <= minGap.current) {
       valueRange1.current = valueRange2.current - minGap.current;
     }
-    arrayYears.indexOf(valueRange1.current) !== -1
+    arrayYears.current.indexOf(valueRange1.current) !== -1
       ? setPercentRange1(
-          (100 / arrayYears.length) * arrayYears.indexOf(valueRange1.current)
+          (100 / arrayYears.current.length) *
+            arrayYears.current.indexOf(valueRange1.current)
         )
-      : setPercentRange1('Não tem kkk');
+      : setPercentRange1(null);
   }
 
   function setRange2(event) {
-    if (filterNamePopular) setFilterNamePopular(!filterNamePopular);
-    if (inputVerticalValue) setInputVerticalValue('');
     valueRange2.current = Number(event.target.value);
     if (valueRange2.current - valueRange1.current <= minGap.current) {
       valueRange2.current = valueRange1.current + minGap.current;
     }
-    arrayYears.indexOf(valueRange2.current) !== -1
+    arrayYears.current.indexOf(valueRange2.current) !== -1
       ? setPercentRange2(
-          (100 / arrayYears.length) * arrayYears.indexOf(valueRange2.current)
+          (100 / arrayYears.current.length) *
+            arrayYears.current.indexOf(valueRange2.current)
         )
       : setPercentRange2('Não tem kkk');
   }
@@ -279,18 +255,15 @@ export default function SeriesV() {
           </div>
           <div>
             <fieldset>
-              {allGenres &&
-                allGenres.genres.map((genre) => (
+              {allGenres.length &&
+                allGenres.map((genre) => (
                   <div className="filter-name" key={genre.id}>
                     <input
-                      data-genre-id={genre.id}
+                      id={genre.id}
                       type="checkbox"
-                      id={`v-g-${clearLinkTitle(genre.name)}`}
-                      onClick={(event) => setCheckCheckBoxVertical(event)}
+                      onClick={(event) => setCheckBoxFilters(event)}
                     />
-                    <label htmlFor={`v-g-${clearLinkTitle(genre.name)}`}>
-                      {genre.name}
-                    </label>
+                    <label htmlFor={genre.id}>{genre.name}</label>
                   </div>
                 ))}
             </fieldset>
@@ -337,23 +310,27 @@ export default function SeriesV() {
                 ${colors.color5} ${
                       percentRange1 !== null
                         ? percentRange1
-                        : arrayYears && (100 / arrayYears.length) * 10
+                        : arrayYears.current &&
+                          (100 / arrayYears.current.length) * 10
                     }%,
                 ${colors.color2} ${
                       percentRange1 !== null
                         ? percentRange1
-                        : arrayYears && (100 / arrayYears.length) * 10
+                        : arrayYears.current &&
+                          (100 / arrayYears.current.length) * 10
                     }%,
                 ${colors.color2} ${
                       !percentRange2
-                        ? arrayYears &&
-                          (100 / arrayYears.length) * arrayYears.length
+                        ? arrayYears.current &&
+                          (100 / arrayYears.current.length) *
+                            arrayYears.current.length
                         : percentRange2
                     }%,
                     ${colors.color5} ${
                       !percentRange2
-                        ? arrayYears &&
-                          (100 / arrayYears.length) * arrayYears.length
+                        ? arrayYears.current &&
+                          (100 / arrayYears.current.length) *
+                            arrayYears.current.length
                         : percentRange2
                     }%
               )`,
@@ -366,7 +343,7 @@ export default function SeriesV() {
                   max={new Date().getFullYear()}
                   onChange={setRange1}
                   onMouseUp={() => {
-                    setYearsActorGenres(false);
+                    setPopularFiltersFunction(false);
                   }}
                   id="range-1"
                 />
@@ -377,7 +354,7 @@ export default function SeriesV() {
                   max={new Date().getFullYear()}
                   onChange={setRange2}
                   onMouseUp={() => {
-                    setYearsActorGenres(false);
+                    setPopularFiltersFunction(false);
                   }}
                   id="range-2"
                 />
@@ -418,15 +395,10 @@ export default function SeriesV() {
             </div>
           </div>
         </div>
-        <div
-          className="new"
-          style={{
-            height: news && news.results.length ? '265px' : '150px',
-          }}
-        >
+        <div className="new">
           <h1>Novas&nbsp;series</h1>
           <New>
-            {news && news.results.length && (
+            {news.length && (
               <Swiper
                 autoplay={{
                   delay: 3000,
@@ -438,9 +410,9 @@ export default function SeriesV() {
                 spaceBetween={20}
                 slidesPerView={3}
                 autoHeight
-                loop={news.results.length < 3 ? false : true}
+                loop={true}
               >
-                {news.results.map((result) => (
+                {news.map((result) => (
                   <SwiperSlide key={result.id}>
                     {
                       <div className="popular-slider">
@@ -472,8 +444,8 @@ export default function SeriesV() {
                             </div>
                             &sdot;
                             <div className="popular-genre-genre">
-                              {allGenres &&
-                                allGenres.genres.map((genre) =>
+                              {allGenres.length &&
+                                allGenres.map((genre) =>
                                   genre.id === result.genre_ids[0]
                                     ? genre.name
                                     : ''
@@ -523,41 +495,25 @@ export default function SeriesV() {
           <Popular
             id="scrollableDivPopular"
             style={{
-              height: allPopular.results.length ? '975px' : '150px',
+              height: allPopular.length ? '975px' : '150px',
             }}
           >
             {loadingFilters && <Loading colorTranparent />}
-            {allPopular.results.length && (
+            {allPopular.length ? (
               <InfiniteScroll
-                dataLength={allPopular.results.length}
-                next={() => {
-                  if (allPopular.midiaType === 'popular')
-                    return setPopularFunction(true);
-                  if (allPopular.midiaType === 'popularYearsActorGenres')
-                    return setYearsActorGenres(true);
-                }}
+                dataLength={allPopular.length}
+                next={() =>
+                  controllerPopularScroll.current
+                    ? setPopularFunction(true)
+                    : setPopularFiltersFunction(true)
+                }
                 hasMore={true}
                 scrollThreshold={1}
-                loader={
-                  allPopular.originalResult.length ? (
-                    <LoadingScrollInfinit />
-                  ) : (
-                    <p
-                      style={{
-                        textAlign: 'center',
-                        fontSize: '13px',
-                        fontWeight: '400',
-                        color: '#B243F7',
-                      }}
-                    >
-                      Chegou ao fim!
-                    </p>
-                  )
-                }
+                loader={!finallyPagePopular.current && <LoadingScrollInfinit />}
                 scrollableTarget="scrollableDivPopular"
                 style={{ overflow: 'hidden' }}
               >
-                {allPopular.results.map((result) => (
+                {allPopular.map((result) => (
                   <div key={result.id} className="vertical-popular-img-details">
                     <div className="img-details">
                       <img
@@ -595,8 +551,8 @@ export default function SeriesV() {
                           ,
                         </div>
                         <div>
-                          {allGenres &&
-                            allGenres.genres.map((genre) =>
+                          {allGenres.length &&
+                            allGenres.map((genre) =>
                               genre.id === result.genre_ids[0] ? genre.name : ''
                             )}
                           {result.genre_ids.length < 1 && 'Not genre'}
@@ -606,6 +562,8 @@ export default function SeriesV() {
                   </div>
                 ))}
               </InfiniteScroll>
+            ) : (
+              <NoResultFilters />
             )}
           </Popular>
         </div>

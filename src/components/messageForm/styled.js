@@ -17,7 +17,7 @@ const FormMsgContainer = styled.div`
   & > div {
     width: calc(100% - 4rem);
     max-width: 400px;
-    height: 200px;
+    height: 185px;
     border-radius: 5px;
     overflow: hidden;
     background-color: ${color1};

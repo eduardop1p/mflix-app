@@ -20,6 +20,7 @@ import imageErrorTop3 from '../../../../assets/images/czx7z2e6uqg81.jpg';
 import Loading from '../../../../components/loadingReactStates/index';
 import LoadingActor from '../../../../components/loadingActor/index';
 import LoadingScrollInfinit from '../../../../components/loadingActor/index';
+import NoResultFilters from '../../../../components/noResultFilters/index';
 import * as colors from '../../../../colors';
 import { PagesContainer, Filters, New, Popular } from '../../styled';
 
@@ -29,34 +30,29 @@ export default function MovieV() {
   const loadingApp = useSelector((state) => state.loading.loadingState);
   const dispatch = useDispatch();
 
-  const [news, setNews] = useState(null);
+  const [news, setNews] = useState([]);
   const [loadingFilters, setLoadingFilters] = useState(false);
-  const [allPopular, setAllPopular] = useState({
-    midiaType: '',
-    results: [],
-    originalResult: [],
-  });
-  const [allGenres, setAllGenres] = useState(null);
-  const [inputVerticalValue, setInputVerticalValue] = useState('');
+  const [allPopular, setAllPopular] = useState([]);
+  const [allGenres, setAllGenres] = useState([]);
   const [genresArrowActived, setGenresArrowActived] = useState(true);
   const [yearsArrowActived, setYearsArrowActived] = useState(true);
   const [actorArrowActived, setActorArrowActived] = useState(true);
-  const [arrayYears, setArrayYears] = useState(null);
   const [percentRange1, setPercentRange1] = useState(null);
   const [percentRange2, setPercentRange2] = useState(null);
   const [verticalSearchValue, setVerticalSearchValue] = useState('');
-  const [allActors, setAllActors] = useState({
-    results: [],
-    originalResult: [],
-  });
+  const [allActors, setAllActors] = useState([]);
+  const arrayYears = useRef([]);
+  let controllerPopularScroll = useRef(true);
   let currentPagePopular = useRef(1);
   let currentYearsActorGenres = useRef(1);
-  let currentPageActor = useRef(0);
-  const genresIdsCheckBox = useRef([]);
+  let currentPageActor = useRef(1);
+  let finallyPagePopular = useRef(false);
+  let finallyPageActor = useRef(false);
+  let genresIdsCheckBox = useRef([]);
+  let actorIdsCheckBox = useRef([]);
   let valueRange1 = useRef(2000);
   let valueRange2 = useRef(new Date().getFullYear());
   let minGap = useRef(1);
-  let actorIdsCheckBox = useRef([]);
 
   useEffect(() => {
     const setAllGenresFilters = async () => {
@@ -64,7 +60,7 @@ export default function MovieV() {
         const { data } = await axiosBaseUrlGenres.get(
           `/list?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
         );
-        setAllGenres(data);
+        setAllGenres(data.genres);
       } catch {
         console.error('Erro ao pegar gêneros');
       }
@@ -78,10 +74,10 @@ export default function MovieV() {
 
   useEffect(() => {
     if (
-      allGenres &&
-      news &&
-      allPopular.results.length &&
-      allActors &&
+      allGenres.length &&
+      news.length &&
+      allPopular.length &&
+      allActors.length &&
       !id &&
       loadingApp
     ) {
@@ -96,43 +92,46 @@ export default function MovieV() {
       const { data } = await axiosBaseUrlMovies.get(
         `/now_playing?api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=1`
       );
-      setNews(data);
+      setNews(data.results);
     } catch {
       console.log('Erro ao carregar Novos Filmes.');
     }
   }
 
   async function setPopularFunction(infiniteScroll) {
+    controllerPopularScroll.current = true;
+
     try {
       const { data } = await axiosBaseUrlMovies.get(
-        `/popular?&api_key=${apiConfig.apiKey}&language=${
+        `/popular?api_key=${apiConfig.apiKey}&language=${
           apiConfig.language
         }&page=${infiniteScroll ? (currentPagePopular.current += 1) : 1}`
       );
-      setAllPopular({
-        midiaType: 'popular',
-        results:
-          allPopular.midiaType !== 'popular' || !infiniteScroll
-            ? data.results
-            : allPopular.results.concat(data.results),
-        originalResult: data.results,
-      });
+      if (!data.results.length) finallyPagePopular.current = true;
+      if (infiniteScroll) {
+        setAllPopular(allPopular.concat(data.results));
+        return;
+      }
+      setAllPopular(data.results);
+      return;
     } catch {
       console.error('Erro ao pegar filmes populares.');
     }
   }
 
-  async function setAllActorsFunction() {
-    currentPageActor.current += 1;
-
+  async function setAllActorsFunction(infiniteScroll) {
     try {
       const { data } = await axiosBaseUrlFilterActor.get(
-        `/popular?api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=${currentPageActor.current}`
+        `/popular?api_key=${apiConfig.apiKey}&language=${
+          apiConfig.language
+        }&page=${infiniteScroll ? (currentPageActor.current += 1) : 1}`
       );
-      setAllActors({
-        results: allActors.results.concat(data.results),
-        originalResult: data.results,
-      });
+      if (!data.results.length) finallyPageActor.current = true;
+      if (infiniteScroll) {
+        setAllActors(allActors.concat(data.results));
+        return;
+      }
+      setAllActors(data.results);
     } catch {
       console.error('Erro ao pegar actores.');
     }
@@ -145,90 +144,43 @@ export default function MovieV() {
     return event;
   }
 
-  function setDate(past7Day = 0) {
-    const date = new Date();
-    date.setDate(date.getDate() - past7Day);
+  function setCheckBoxFilters(event, name) {
+    let id = Number(event.target.id);
+    const { checked } = event.target;
 
-    const zeroLeft = (num) => (num < 10 ? `0${num}` : num);
-
-    return `${date.getFullYear()}-${zeroLeft(date.getMonth() + 1)}-${zeroLeft(
-      date.getDate()
-    )}`;
-  }
-
-  function setCheckCheckBoxVertical(event1, event2) {
-    if (event1) {
-      const eventValue = Number(event1.target.getAttribute('data-genre-id'));
-
-      if (!event1.target.checked) {
-        genresIdsCheckBox.current = genresIdsCheckBox.current.filter(
-          (value) => value !== eventValue
-        );
-        if (
-          !genresIdsCheckBox.current.length &&
-          !actorIdsCheckBox.current.length
-        ) {
-          setNewsFunction();
-          setYearsActorGenres(false);
-        }
-        setCheckBoxGenresNew();
-        setYearsActorGenres(false);
+    if (name === 'genre') {
+      if (checked) {
+        genresIdsCheckBox.current.push(id);
+        setPopularFiltersFunction(false);
         return;
       }
-      genresIdsCheckBox.current.push(eventValue);
-      setCheckBoxGenresNew();
-      setYearsActorGenres(false);
-      return;
-    }
-
-    if (event2) {
-      const eventValue = Number(event2.target.getAttribute('data-actor-id'));
-
-      if (!event2.target.checked) {
-        actorIdsCheckBox.current = actorIdsCheckBox.current.filter(
-          (value) => value !== eventValue
-        );
-        if (
-          !actorIdsCheckBox.current.length &&
-          !genresIdsCheckBox.current.length
-        ) {
-          setNewsFunction();
-          setYearsActorGenres(false);
-          return;
-        }
-        setCheckBoxGenresNew();
-        setYearsActorGenres(false);
-        return;
-      }
-      actorIdsCheckBox.current.push(eventValue);
-      setCheckBoxGenresNew();
-      setYearsActorGenres(false);
-      return;
-    }
-  }
-
-  async function setCheckBoxGenresNew() {
-    try {
-      const { data } = await axiosDetailsFilters.get(
-        `?sort_by=popularity.desc&with_genres=${genresIdsCheckBox.current.join(
-          ','
-        )}&primary_release_date.gte=${setDate(
-          100
-        )}&primary_release_date.lte=${setDate()}&with_people=${actorIdsCheckBox.current.join(
-          ','
-        )}&api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=1`
+      genresIdsCheckBox.current = genresIdsCheckBox.current.filter(
+        (value) => value != id
       );
-      setNews(data);
-    } catch {
-      console.error('Erro ao pegar novos filmes por gêneros ou atores.');
+      setPopularFiltersFunction(false);
+
+      return;
     }
+    if (checked) {
+      actorIdsCheckBox.current.push(id);
+      setPopularFiltersFunction(false);
+      return;
+    }
+    actorIdsCheckBox.current = actorIdsCheckBox.current.filter(
+      (value) => value != id
+    );
+    setPopularFiltersFunction(false);
+
+    return;
   }
 
-  async function setYearsActorGenres(infiniteScroll) {
-    const arrayPrimaryYears = arrayYears.slice(
-      arrayYears.indexOf(valueRange1.current),
-      arrayYears.indexOf(valueRange2.current) + 1
+  async function setPopularFiltersFunction(infiniteScroll) {
+    const arrayPrimaryYears = arrayYears.current.slice(
+      arrayYears.current.indexOf(valueRange1.current),
+      arrayYears.current.indexOf(valueRange2.current) + 1
     );
+
+    controllerPopularScroll.current = false;
 
     try {
       !infiniteScroll && setLoadingFilters(true);
@@ -243,16 +195,14 @@ export default function MovieV() {
           infiniteScroll ? (currentYearsActorGenres.current += 1) : 1
         }`
       );
-      setAllPopular({
-        midiaType: 'popularYearsActorGenres',
-        results:
-          allPopular.midiaType !== 'popularYearsActorGenres' || !infiniteScroll
-            ? data.results
-            : allPopular.results.concat(data.results),
-        originalResult: data.results,
-      });
+      if (!data.results.length) finallyPagePopular.current = true;
+      if (infiniteScroll) {
+        setAllPopular(allPopular.concat(data.results));
+        return;
+      }
+      setAllPopular(data.results);
     } catch {
-      console.error('Erro ao pegar filmes populares por gêneros.');
+      console.error('Erro ao pegar filmes populares por filtros.');
     } finally {
       !infiniteScroll && setTimeout(() => setLoadingFilters(false), 100);
     }
@@ -260,35 +210,33 @@ export default function MovieV() {
 
   function setRelaceDate() {
     const currentYear = new Date().getFullYear();
-    const years = [];
-    for (let i = 1990; i <= currentYear; i++) years.push(i);
-    setArrayYears(years);
+    for (let i = 1990; i <= currentYear; i++) arrayYears.current.push(i);
   }
 
   function setRange1(event) {
-    if (inputVerticalValue) setInputVerticalValue('');
     valueRange1.current = Number(event.target.value);
     if (valueRange2.current - valueRange1.current <= minGap.current) {
       valueRange1.current = valueRange2.current - minGap.current;
     }
-    arrayYears.indexOf(valueRange1.current) !== -1
+    arrayYears.current.indexOf(valueRange1.current) !== -1
       ? setPercentRange1(
-          (100 / arrayYears.length) * arrayYears.indexOf(valueRange1.current)
+          (100 / arrayYears.current.length) *
+            arrayYears.current.indexOf(valueRange1.current)
         )
-      : setPercentRange1('Não tem kkk');
+      : setPercentRange1(null);
   }
 
   function setRange2(event) {
-    if (inputVerticalValue) setInputVerticalValue('');
     valueRange2.current = Number(event.target.value);
     if (valueRange2.current - valueRange1.current <= minGap.current) {
       valueRange2.current = valueRange1.current + minGap.current;
     }
-    arrayYears.indexOf(valueRange2.current) !== -1
+    arrayYears.current.indexOf(valueRange2.current) !== -1
       ? setPercentRange2(
-          (100 / arrayYears.length) * arrayYears.indexOf(valueRange2.current)
+          (100 / arrayYears.current.length) *
+            arrayYears.current.indexOf(valueRange2.current)
         )
-      : setPercentRange2('Não tem kkk');
+      : setPercentRange2(null);
   }
 
   function removeLoadingSipnner(event) {
@@ -337,18 +285,15 @@ export default function MovieV() {
           </div>
           <div>
             <fieldset>
-              {allGenres &&
-                allGenres.genres.map((genre) => (
+              {allGenres.length &&
+                allGenres.map((genre) => (
                   <div className="filter-name" key={genre.id}>
                     <input
-                      data-genre-id={genre.id}
+                      id={genre.id}
                       type="checkbox"
-                      id={`v-g-${clearLinkTitle(genre.name)}`}
-                      onClick={(event) => setCheckCheckBoxVertical(event, null)}
+                      onClick={(event) => setCheckBoxFilters(event, 'genre')}
                     />
-                    <label htmlFor={`v-g-${clearLinkTitle(genre.name)}`}>
-                      {genre.name}
-                    </label>
+                    <label htmlFor={genre.id}>{genre.name}</label>
                   </div>
                 ))}
             </fieldset>
@@ -395,23 +340,23 @@ export default function MovieV() {
                 ${colors.color5} ${
                       percentRange1 !== null
                         ? percentRange1
-                        : arrayYears && (100 / arrayYears.length) * 10
+                        : (100 / arrayYears.current.length) * 10
                     }%,
                 ${colors.color2} ${
                       percentRange1 !== null
                         ? percentRange1
-                        : arrayYears && (100 / arrayYears.length) * 10
+                        : (100 / arrayYears.current.length) * 10
                     }%,
                 ${colors.color2} ${
                       !percentRange2
-                        ? arrayYears &&
-                          (100 / arrayYears.length) * arrayYears.length
+                        ? (100 / arrayYears.current.length) *
+                          arrayYears.current.length
                         : percentRange2
                     }%,
                     ${colors.color5} ${
                       !percentRange2
-                        ? arrayYears &&
-                          (100 / arrayYears.length) * arrayYears.length
+                        ? (100 / arrayYears.current.length) *
+                          arrayYears.current.length
                         : percentRange2
                     }%
               )`,
@@ -424,7 +369,7 @@ export default function MovieV() {
                   max={new Date().getFullYear()}
                   onChange={setRange1}
                   onMouseUp={() => {
-                    setYearsActorGenres(false);
+                    setPopularFiltersFunction(false);
                   }}
                   id="range-1"
                 />
@@ -435,8 +380,7 @@ export default function MovieV() {
                   max={new Date().getFullYear()}
                   onChange={setRange2}
                   onMouseUp={(event) => {
-                    console.log(event);
-                    setYearsActorGenres(false);
+                    setPopularFiltersFunction(false);
                   }}
                   id="range-2"
                 />
@@ -469,34 +413,27 @@ export default function MovieV() {
           </div>
           <div id="scrollableDivActor">
             <fieldset>
-              {allActors.results.length ? (
+              {allActors.length && (
                 <InfiniteScroll
-                  dataLength={allActors.results.length}
-                  next={() => setAllActorsFunction()}
+                  dataLength={allActors.length}
+                  next={() => setAllActorsFunction(true)}
                   hasMore={true}
-                  loader={allActors.originalResult && <LoadingActor />}
+                  loader={!finallyPageActor.current && <LoadingActor />}
                   scrollThreshold={1}
                   scrollableTarget="scrollableDivActor"
                   style={{ overflow: 'hidden' }}
                 >
-                  {allActors.results.map((result) => (
+                  {allActors.map((result) => (
                     <div className="filter-name" key={result.id}>
                       <input
-                        data-actor-id={result.id}
+                        id={result.id}
                         type="checkbox"
-                        id={`v-g-${clearLinkTitle(result.name)}`}
-                        onClick={(event) =>
-                          setCheckCheckBoxVertical(null, event)
-                        }
+                        onClick={(event) => setCheckBoxFilters(event, 'actor')}
                       />
-                      <label htmlFor={`v-g-${clearLinkTitle(result.name)}`}>
-                        {result.name}
-                      </label>
+                      <label htmlFor={result.id}>{result.name}</label>
                     </div>
                   ))}
                 </InfiniteScroll>
-              ) : (
-                ''
               )}
             </fieldset>
           </div>
@@ -533,7 +470,7 @@ export default function MovieV() {
         <div className="new">
           <h1>Novos&nbsp;filmes</h1>
           <New>
-            {news && news.results.length && (
+            {news.length && (
               <Swiper
                 autoplay={{
                   delay: 3000,
@@ -545,9 +482,9 @@ export default function MovieV() {
                 spaceBetween={20}
                 slidesPerView={3}
                 autoHeight
-                loop={news.results.length < 3 ? false : true}
+                loop={true}
               >
-                {news.results.map((result) => (
+                {news.map((result) => (
                   <SwiperSlide key={result.id}>
                     {
                       <div className="popular-slider">
@@ -579,8 +516,8 @@ export default function MovieV() {
                             </div>
                             &sdot;
                             <div className="popular-genre-genre">
-                              {allGenres &&
-                                allGenres.genres.map((genre) =>
+                              {allGenres.length &&
+                                allGenres.map((genre) =>
                                   genre.id === result.genre_ids[0]
                                     ? genre.name
                                     : ''
@@ -628,41 +565,25 @@ export default function MovieV() {
           <Popular
             id="scrollableDivPopular"
             style={{
-              height: allPopular.results.length ? '975px' : '150px',
+              height: allPopular.length ? '975px' : '150px',
             }}
           >
             {loadingFilters && <Loading colorTranparent />}
-            {allPopular.results.length && (
+            {allPopular.length ? (
               <InfiniteScroll
-                dataLength={allPopular.results.length}
-                next={() => {
-                  if (allPopular.midiaType === 'popular')
-                    return setPopularFunction(true);
-                  if (allPopular.midiaType === 'popularYearsActorGenres')
-                    return setYearsActorGenres(true);
-                }}
+                dataLength={allPopular.length}
+                next={() =>
+                  controllerPopularScroll.current
+                    ? setPopularFunction(true)
+                    : setPopularFiltersFunction(true)
+                }
                 hasMore={true}
                 scrollThreshold={1}
-                loader={
-                  allPopular.originalResult.length ? (
-                    <LoadingScrollInfinit />
-                  ) : (
-                    <p
-                      style={{
-                        textAlign: 'center',
-                        fontSize: '13px',
-                        fontWeight: '400',
-                        color: '#B243F7',
-                      }}
-                    >
-                      Chegou ao fim!
-                    </p>
-                  )
-                }
+                loader={!finallyPagePopular.current && <LoadingScrollInfinit />}
                 scrollableTarget="scrollableDivPopular"
                 style={{ overflow: 'hidden' }}
               >
-                {allPopular.results.map((result) => (
+                {allPopular.map((result) => (
                   <div key={result.id} className="vertical-popular-img-details">
                     <div className="img-details">
                       <img
@@ -701,8 +622,8 @@ export default function MovieV() {
                           ,
                         </div>
                         <div>
-                          {allGenres &&
-                            allGenres.genres.map((genre) =>
+                          {allGenres.length &&
+                            allGenres.map((genre) =>
                               genre.id === result.genre_ids[0] ? genre.name : ''
                             )}
                         </div>
@@ -711,6 +632,8 @@ export default function MovieV() {
                   </div>
                 ))}
               </InfiniteScroll>
+            ) : (
+              <NoResultFilters />
             )}
           </Popular>
         </div>

@@ -28,13 +28,6 @@ export default function RecoveryPassworEmail() {
     setTimeout(() => dispatch(actions.loadingFailure()), 500);
   }, []);
 
-  useEffect(() => {
-    const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    if (showFormMsg) {
-      hideFormMsg.onclick = () => setshowFormMsg(false);
-    }
-  }, [showFormMsg]);
-
   async function setRecoveryPasswordSubmit(event) {
     event.preventDefault();
     setErrorMessage('');
@@ -80,6 +73,7 @@ export default function RecoveryPassworEmail() {
         <MessageForm
           errorMessage={errorMessage}
           successMessage={successMessage}
+          onClose={setshowFormMsg}
         />
       )}
       <RecoveryPassworSection>

@@ -15,6 +15,7 @@ import clearLinkTitle from '../../../config/clearLinkTitle';
 import RatingSystem from '../../../components/ratingSystem/index';
 import imageErrorTop3 from '../../../assets/images/czx7z2e6uqg81.jpg';
 import Loading from '../../../components/loadingReactStates/index';
+import NoResultFilters from '../../../components/noResultFilters';
 import { color1 } from '../../../colors';
 import {
   CatalogContainer,
@@ -30,7 +31,7 @@ class AllCatalog extends Component {
     this.useMedia360 = matchMedia('(max-width: 360px)');
 
     this.state = {
-      all: null,
+      all: [],
       loadingFilters: false,
       pageCount: 0,
       searchFilterValue: '',
@@ -87,15 +88,17 @@ class AllCatalog extends Component {
   }
 
   async getAllCatalog(currentPage) {
+    const { all } = this.state;
+
     try {
       const { data } = await axiosBaseUrlMovies.get(
         `/popular?api_key=${apiConfig.apiKey}&language=${
           apiConfig.language
         }&page=${currentPage + 1}`
       );
-      if (!this.state.all) this.getImages(data);
+      if (!all.length) this.getImages(data.results);
       this.setState({
-        all: data,
+        all: data.results,
         pageCount: 500,
       });
     } catch {
@@ -105,7 +108,7 @@ class AllCatalog extends Component {
 
   getImages(all) {
     this.props.firstBackgroundSuccess({
-      background: all.results[0].backdrop_path,
+      background: all[0].backdrop_path,
     });
   }
 
@@ -142,7 +145,7 @@ class AllCatalog extends Component {
         }&query=${searchFilterValue}`
       );
       this.setState({
-        all: data,
+        all: data.results,
         pageCount: data.total_pages >= 500 ? 500 : data.total_pages,
         searchFilterActived: true,
         genreName: 'Gênero',
@@ -176,7 +179,7 @@ class AllCatalog extends Component {
       this.setState({
         searchFilterActived: false,
         searchFilterValue: '',
-        all: data,
+        all: data.results,
         pageCount: data.total_pages >= 500 ? 500 : data.total_pages,
       });
     } catch {
@@ -325,9 +328,8 @@ class AllCatalog extends Component {
 
         <CatalogTitles>
           {loadingFilters && <Loading colorTranparent />}
-          {all &&
-            all.results.length &&
-            all.results.map((result) => (
+          {all.length ? (
+            all.map((result) => (
               <Link
                 key={result.id}
                 to={`/vertical/filmes/${clearLinkTitle(result.title)}/${
@@ -367,7 +369,10 @@ class AllCatalog extends Component {
                   </div>
                 </div>
               </Link>
-            ))}
+            ))
+          ) : (
+            <NoResultFilters />
+          )}
         </CatalogTitles>
         <PagenationContainer>
           <ReactPaginate

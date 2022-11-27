@@ -81,7 +81,6 @@ export default class Popular extends Component {
   }
 
   concatGenresAndClear(allGenresMovie, allGenresSerie) {
-    console.log(allGenresMovie, typeof allGenresMovie);
     const newArrGenres = [];
     allGenresMovie.genres.concat(allGenresSerie.genres).forEach((valueObj1) => {
       newArrGenres

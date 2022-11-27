@@ -26,16 +26,6 @@ export default function accountManage() {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  useEffect(() => {
-    const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    if (showFormMsg)
-      hideFormMsg.onclick = () => {
-        setshowFormMsg(false);
-        if (successMessage == 'Conta deletada com sucesso!')
-          window.location.href = '/criar-conta';
-      };
-  }, [showFormMsg]);
-
   async function deleteUser() {
     setErrorMessage('');
     setSuccessMessage('');
@@ -68,6 +58,8 @@ export default function accountManage() {
         <MessageForm
           errorMessage={errorMessage}
           successMessage={successMessage}
+          onClose={setshowFormMsg}
+          deleteAccount
         />
       )}
       {showDeleteAccount && (
@@ -113,17 +105,6 @@ function InforPess() {
   const [showFormMsg, setshowFormMsg] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-
-  useEffect(() => {
-    const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    if (showFormMsg) {
-      hideFormMsg.onclick = () => {
-        setshowFormMsg(false);
-        if (successMessage === 'Dados atualizados com sucesso!')
-          window.location.href = `/${clearLinkTitle(userNotRef.nome)}`;
-      };
-    }
-  }, [showFormMsg, successMessage]);
 
   function alterPhoto(event) {
     const file = event.target.files[0];
@@ -221,6 +202,8 @@ function InforPess() {
         <MessageForm
           errorMessage={errorMessage}
           successMessage={successMessage}
+          onClose={setshowFormMsg}
+          updateUser={`/${clearLinkTitle(userNotRef.nome)}`}
         />
       )}
       <div className="photo-alter">

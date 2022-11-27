@@ -35,19 +35,6 @@ export default function RecoveryPasswordEmail() {
     userExist(userId);
   }, []);
 
-  useEffect(() => {
-    const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    if (showFormMsg) {
-      hideFormMsg.addEventListener('click', () => {
-        setshowFormMsg(false);
-        if (successMessage) {
-          window.location.href = '/login';
-          return;
-        }
-      });
-    }
-  }, [showFormMsg]);
-
   function showPassword() {
     inputPasswordType !== 'text'
       ? setInputPasswordType('text')
@@ -110,6 +97,8 @@ export default function RecoveryPasswordEmail() {
         <MessageForm
           errorMessage={errorMessage}
           successMessage={successMessage}
+          onClose={setshowFormMsg}
+          recoveryPassword
         />
       )}
       <RecoveryPassworSection>

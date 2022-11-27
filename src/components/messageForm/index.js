@@ -3,10 +3,42 @@
 import FormMsgContainer from './styled';
 
 export default function messageForm(props) {
-  const { errorMessage, successMessage } = props;
+  const {
+    errorMessage,
+    successMessage,
+    account,
+    recoveryPassword,
+    deleteAccount,
+    updateUser,
+    onClose,
+  } = props;
+
+  function manageClose() {
+    if (account && successMessage) {
+      onClose(false);
+      setTimeout(() => (window.location.href = '/'), 50);
+      return;
+    }
+    if (recoveryPassword && successMessage) {
+      onClose(false);
+      setTimeout(() => (window.location.href = '/login'), 50);
+      return;
+    }
+    if (deleteAccount && successMessage) {
+      onClose(false);
+      setTimeout(() => (window.location.href = '/criar-conta'), 50);
+      return;
+    }
+    if (updateUser && successMessage) {
+      onClose(false);
+      setTimeout(() => (window.location.href = updateUser), 50);
+      return;
+    }
+    onClose(false);
+  }
 
   return (
-    <FormMsgContainer errorMessage={errorMessage} data-bg-error-success="">
+    <FormMsgContainer errorMessage={errorMessage}>
       <div>
         <div>
           {errorMessage ? (
@@ -21,7 +53,7 @@ export default function messageForm(props) {
           <div>{errorMessage ? 'ERROR!' : 'SUCESSO!'}</div>
           <span>{errorMessage ? errorMessage : successMessage}</span>
         </div>
-        <button type="button" id="hide-msg-form">
+        <button type="button" onClick={manageClose}>
           Fechar
         </button>
       </div>

@@ -195,7 +195,7 @@ export const RemoveItemsListSelected = styled.div`
       background-color: ${colors.color7};
       width: 150px;
       top: 23px;
-      right: -2rem;
+      right: -1rem;
       height: 100px;
       border-radius: 1rem;
 
@@ -354,7 +354,7 @@ export const WatchListSection = styled.section`
             color: ${colors.color1};
             margin-bottom: 1.5rem;
             font-weight: 500;
-            max-width: 100%;
+            max-width: 90%;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;

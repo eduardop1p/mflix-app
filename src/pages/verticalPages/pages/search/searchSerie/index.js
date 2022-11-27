@@ -192,12 +192,6 @@ export default function searchSerie(props) {
         return;
       }
     }
-
-    const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    if (showFormMsg) {
-      hideFormMsg.onclick = () => setshowFormMsg(false);
-      window.onkeyup = (event) => event.keyCode === 13 && setshowFormMsg(false);
-    }
   });
 
   function clearSearchMidiaType(data) {
@@ -358,7 +352,9 @@ export default function searchSerie(props) {
           />
         )}
       </BgImgPageDetails>
-      {showFormMsg && <MessageForm errorMessage={errorMessage} />}
+      {showFormMsg && (
+        <MessageForm errorMessage={errorMessage} onClose={setshowFormMsg} />
+      )}
       {newId && (
         <ContainerDatails>
           <div className="d0">

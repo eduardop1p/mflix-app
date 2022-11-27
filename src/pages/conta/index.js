@@ -28,19 +28,6 @@ export default function Conta() {
     setTimeout(() => dispatch(actions.loadingFailure()), 500);
   }, []);
 
-  useEffect(() => {
-    const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    if (showFormMsg) {
-      hideFormMsg.onclick = () => {
-        setshowFormMsg(false);
-        if (successMessage) {
-          setTimeout(() => (window.location.href = '/'), 50);
-          return;
-        }
-      };
-    }
-  }, [showFormMsg]);
-
   function showPassword() {
     inputPasswordType !== 'text'
       ? setInputPasswordType('text')
@@ -143,6 +130,8 @@ export default function Conta() {
         <MessageForm
           errorMessage={errorMessage}
           successMessage={successMessage}
+          onClose={setshowFormMsg}
+          account
         />
       )}
       <h1>MFILX</h1>

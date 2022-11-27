@@ -12,6 +12,7 @@ import clearLinkTitle from '../../../config/clearLinkTitle';
 import RatingSystem from '../../../components/ratingSystem/index';
 import Loading from '../../../components/loadingReactStates/index';
 import imageErrorTop3 from '../../../assets/images/czx7z2e6uqg81.jpg';
+import NoResultFilters from '../../../components/noResultFilters';
 import { color1 } from '../../../colors';
 import {
   CatalogContainer,
@@ -27,7 +28,7 @@ class AllCatalog extends Component {
     this.useMedia360 = matchMedia('(max-width: 360px)');
 
     this.state = {
-      all: null,
+      all: [],
       loadingFilters: false,
       allMoviesArr: null,
       allSeriesArr: null,
@@ -106,10 +107,10 @@ class AllCatalog extends Component {
       randomArrMovieSeriesPopular.results.push(newArr[valueIndex]);
     });
 
-    if (!all) this.getImages(randomArrMovieSeriesPopular);
+    if (!all.length) this.getImages(randomArrMovieSeriesPopular.results);
 
     this.setState({
-      all: randomArrMovieSeriesPopular,
+      all: randomArrMovieSeriesPopular.results,
       pageCount:
         Number((allMoviesArr.total_pages + allSeriesArr.total_pages) / 2) >= 500
           ? 500
@@ -119,7 +120,7 @@ class AllCatalog extends Component {
 
   getImages(all) {
     this.props.firstBackgroundSuccess({
-      background: all.results[0].backdrop_path,
+      background: all[0].backdrop_path,
     });
   }
 
@@ -162,7 +163,7 @@ class AllCatalog extends Component {
         ),
       };
       this.setState({
-        all: newArrDataWithGenre16,
+        all: newArrDataWithGenre16.results,
         pageCount:
           newArrDataWithGenre16.results.length === 20
             ? data.total_pages
@@ -357,9 +358,8 @@ class AllCatalog extends Component {
 
         <CatalogTitles>
           {loadingFilters && <Loading colorTranparent />}
-          {all &&
-            all.results.length &&
-            all.results.map(
+          {all.length ? (
+            all.map(
               (result) =>
                 result !== undefined && (
                   <Link
@@ -408,7 +408,10 @@ class AllCatalog extends Component {
                     </div>
                   </Link>
                 )
-            )}
+            )
+          ) : (
+            <NoResultFilters />
+          )}
         </CatalogTitles>
         <PagenationContainer>
           <ReactPaginate

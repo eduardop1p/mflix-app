@@ -29,14 +29,6 @@ export default function Login(props) {
     setTimeout(() => dispatch(actions.loadingFailure()), 500);
   }, []);
 
-  useEffect(() => {
-    const hideFormMsg = document.body.querySelector('#hide-msg-form');
-
-    if (showFormMsg) {
-      hideFormMsg.onclick = () => setshowFormMsg(false);
-    }
-  }, [showFormMsg]);
-
   function showPassword() {
     inputPasswordType !== 'text'
       ? setInputPasswordType('text')
@@ -119,7 +111,9 @@ export default function Login(props) {
         <title>{'MFLIX - Login'}</title>
       </Helmet>
       {loadLogin && <LoadingForm />}
-      {showFormMsg && <MessageForm errorMessage={errorMessage} />}
+      {showFormMsg && (
+        <MessageForm errorMessage={errorMessage} onClose={setshowFormMsg} />
+      )}
       <LoginSection inputPasswordType={inputPasswordType} expires={expires}>
         <h1>MFILX</h1>
         <div className="login">

@@ -32,15 +32,6 @@ export default function User() {
     axiosBaseUrlUser.defaults.headers = { Authorization: session.id };
   }, []);
 
-  useEffect(() => {
-    if (loadUserPhoto && loadingApp)
-      setTimeout(() => dispatch(actionsLoading.loadingFailure()), 500);
-    const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    if (showFormMsg) {
-      hideFormMsg.onclick = () => setshowFormMsg(false);
-    }
-  }, [showFormMsg, loadUserPhoto, loadingApp]);
-
   async function uploadUserPhoto(event) {
     setSuccessMessage('');
     setErrorMessage('');
@@ -133,6 +124,7 @@ export default function User() {
         <MessageForm
           errorMessage={errorMessage}
           successMessage={successMessage}
+          onClose={setshowFormMsg}
         />
       )}
       <Main>

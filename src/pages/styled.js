@@ -645,42 +645,6 @@ export const CatalogContainer = styled.section`
 export const CatalogTitles = styled.div`
   margin-bottom: 1.5rem;
 
-  & > .not-results-search-all-catalog {
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    @keyframes animationImgFloat {
-      0% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(5px);
-      }
-      100% {
-        transform: translateY(0);
-      }
-    }
-
-    & > img {
-      width: 3rem;
-      position: relative;
-      animation-name: animationImgFloat;
-      animation-duration: 3s;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
-    }
-
-    & > h4 {
-      color: ${colors.color5};
-      font-weight: 400;
-      font-size: 0.75rem;
-      margin-top: 5px;
-    }
-  }
-
   a {
     width: calc(100% / 5);
     display: inline-block;

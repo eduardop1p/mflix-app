@@ -52,10 +52,6 @@ export default function WatchList(props) {
   useEffect(() => {
     const myList = Array.from(document.querySelectorAll('.my-list'));
     setMyListTitles(myList.map((item) => item.title));
-    const hideFormMsg = document.body.querySelector('#hide-msg-form');
-    if (hideFormMsg) {
-      hideFormMsg.onclick = () => setshowFormMsg(false);
-    }
   });
 
   async function getUserList() {
@@ -163,6 +159,7 @@ export default function WatchList(props) {
       {loadingFilters && <Loading colorTranparent />}
       {showFormMsg && (
         <MessageForm
+          onClose={setshowFormMsg}
           errorMessage={errorMessage}
           successMessage={successMessage}
         />
