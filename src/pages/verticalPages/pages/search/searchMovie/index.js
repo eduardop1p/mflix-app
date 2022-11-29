@@ -251,7 +251,7 @@ export default function searchMovie(props) {
 
     try {
       const { data } = await axiosBaseUrlUser.get(
-        `minha-lista/${user.id}/${id}/${midiaType}`,
+        `minha-lista/${user.id}/${id + midiaType}/${midiaType}`,
         { headers: { Authorization: session.id } }
       );
       if (get(data, 'id', false)) {
@@ -278,18 +278,22 @@ export default function searchMovie(props) {
     if (!isLogedIn) return (window.location.href = '/login?redirect=back');
     setErrorMessage('');
 
+    controllerRef.current.abort();
+    controllerRef.current = new AbortController();
+
     if (favorite) {
       setFavorite(false);
-      event.target.parentElement.style.animationName = '';
-
-      controllerRef.current.abort();
 
       try {
         await axiosBaseUrlUser.delete(
-          `/minha-lista/${user.id}?ids=${favoriteUser.id + midiaType}`,
-          { headers: { Authorization: session.id } }
+          `/minha-lista/${user.id}?ids=${favoriteUser.id}`,
+          {
+            headers: { Authorization: session.id },
+            signal: controllerRef.current.signal,
+          }
         );
       } catch (err) {
+        if (get(err, 'message', false) === 'canceled') return;
         if (get(err, 'response.data', false)) {
           const { data } = err.response;
           data.errors.map((err) => setErrorMessage(err));
@@ -306,7 +310,6 @@ export default function searchMovie(props) {
       return;
     } else {
       setFavorite(true);
-      event.target.parentElement.style.animationName = 'likeAnimaton';
 
       try {
         await axiosBaseUrlUser.post(
@@ -321,6 +324,7 @@ export default function searchMovie(props) {
           }
         );
       } catch (err) {
+        if (get(err, 'message', false) === 'canceled') return;
         if (get(err, 'response.data', false)) {
           const { data } = err.response;
           data.errors.map((err) => setErrorMessage(err));
@@ -358,7 +362,9 @@ export default function searchMovie(props) {
           />
         )}
       </BgImgPageDetails>
-      {showFormMsg && <MessageForm errorMessage={errorMessage} onClose={setshowFormMsg} />}
+      {showFormMsg && (
+        <MessageForm errorMessage={errorMessage} onClose={setshowFormMsg} />
+      )}
       {newsId && (
         <ContainerDatails>
           <div className="d0">
@@ -651,7 +657,10 @@ export default function searchMovie(props) {
             </PosterDetailsSimilarTrailer>
             <div className="midia-files-collection">
               <div className="favorite">
-                <svg xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  data-like-animaton={favorite ? true : false}
+                >
                   <path
                     onClick={setFavoriteFunction}
                     fill={favorite ? '#ff0000' : '#fff'}

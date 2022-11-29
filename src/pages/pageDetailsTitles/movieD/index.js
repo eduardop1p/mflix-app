@@ -68,9 +68,9 @@ export default function MovieD(props) {
   const [posterButtonActived, setPosterButtonActived] = useState(null);
   const [logoButtonActived, setLogoButtonActived] = useState(null);
   const [favorite, setFavorite] = useState(false);
-  const controllerRef = useRef(new AbortController());
   const [errorMessage, setErrorMessage] = useState('');
   const [showFormMsg, setshowFormMsg] = useState(false);
+  let controllerRef = useRef(new AbortController());
 
   useEffect(() => {
     const getDetailsId = async (id) => {
@@ -214,7 +214,7 @@ export default function MovieD(props) {
 
     try {
       const { data } = await axiosBaseUrlUser.get(
-        `minha-lista/${user.id}/${id}/${midiaType}`,
+        `minha-lista/${user.id}/${id + midiaType}/${midiaType}`,
         { headers: { Authorization: session.id } }
       );
       if (get(data, 'id', false)) {
@@ -235,22 +235,26 @@ export default function MovieD(props) {
     }
   }
 
-  async function setFavoriteFunction(event) {
+  async function setFavoriteFunction() {
     if (!isLogedIn) return (window.location.href = '/login?redirect=back');
     setErrorMessage('');
 
+    controllerRef.current.abort();
+    controllerRef.current = new AbortController();
+
     if (favorite) {
       setFavorite(false);
-      event.target.parentElement.style.animationName = '';
-
-      controllerRef.current.abort();
 
       try {
         await axiosBaseUrlUser.delete(
-          `/minha-lista/${user.id}?ids=${favoriteUser.id + midiaType}`,
-          { headers: { Authorization: session.id } }
+          `/minha-lista/${user.id}?ids=${favoriteUser.id}`,
+          {
+            headers: { Authorization: session.id },
+            signal: controllerRef.current.signal,
+          }
         );
       } catch (err) {
+        if (get(err, 'message', false) === 'canceled') return;
         if (get(err, 'response.data', false)) {
           const { data } = err.response;
           data.errors.map((err) => setErrorMessage(err));
@@ -267,7 +271,6 @@ export default function MovieD(props) {
       return;
     } else {
       setFavorite(true);
-      event.target.parentElement.style.animationName = 'likeAnimaton';
 
       try {
         await axiosBaseUrlUser.post(
@@ -282,6 +285,7 @@ export default function MovieD(props) {
           }
         );
       } catch (err) {
+        if (get(err, 'message', false) === 'canceled') return;
         if (get(err, 'response.data', false)) {
           const { data } = err.response;
           data.errors.map((err) => setErrorMessage(err));
@@ -598,7 +602,10 @@ export default function MovieD(props) {
             </PosterDetailsSimilarTrailer>
             <div className="midia-files-collection">
               <div className="favorite">
-                <svg xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  data-like-animaton={favorite ? true : false}
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     onClick={setFavoriteFunction}
                     fill={favorite ? '#ff0000' : '#fff'}

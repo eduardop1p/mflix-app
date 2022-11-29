@@ -180,12 +180,15 @@ export const ContainerDatails = styled.div`
           }
         }
 
+        [data-like-animaton='true'] {
+          animation-name: 'likeAnimaton';
+          animation-duration: 1s;
+          animation-timing-function: linear;
+        }
+
         & > svg {
           width: 100%;
           height: 100%;
-          animation-name: '';
-          animation-duration: 1s;
-          animation-timing-function: linear;
 
           & > path {
             cursor: pointer;
