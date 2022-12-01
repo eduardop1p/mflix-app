@@ -104,7 +104,9 @@ export const RemoveItemsListSelected = styled.div`
         margin-left: 7px;
 
         & > svg {
-          transform: rotateZ(${(props) => (props.showTitles ? '180deg' : 0)});
+          transform: rotateZ(
+            ${({ showTitles }) => (showTitles ? '180deg' : 0)}
+          );
           transition: transform 0.2s ease-in-out;
         }
       }
@@ -124,7 +126,7 @@ export const RemoveItemsListSelected = styled.div`
         z-index: -1;
         background-color: ${colors.color7};
         transition: height 0.2s ease-in-out;
-        height: ${(props) => (props.showTitles ? '120px' : 0)};
+        height: ${({ showTitles }) => (showTitles ? '120px' : 0)};
         width: 100%;
         overflow: hidden;
         border-radius: 1rem;
@@ -186,7 +188,7 @@ export const RemoveItemsListSelected = styled.div`
     & > .mobile-d-s-i-l-down {
       & > svg {
         transition: transform 0.2s linear;
-        transform: rotateZ(${(props) => (props.showTitles ? '180deg' : 0)});
+        transform: rotateZ(${({ showTitles }) => (showTitles ? '180deg' : 0)});
       }
     }
 
@@ -205,8 +207,8 @@ export const RemoveItemsListSelected = styled.div`
         border: none;
         width: fit-content;
         height: 70px;
-        overflow-x: hidden;
-        overflow-y: ${(props) => (props.showTitles ? 'visible' : 'hidden')};
+        overflow: hidden
+          ${({ showTitles }) => (showTitles ? 'visible' : 'hidden')};
         margin: 1rem 1.2rem 0;
 
         &::-webkit-scrollbar {
@@ -395,8 +397,7 @@ export const AddItensList = styled.section`
   border-radius: 10px;
   width: 100%;
   min-height: 100vh;
-  margin: ${(props) =>
-    props.margin ? '1rem 0 1rem 1rem' : '0 auto 2rem auto'};
+  margin: ${({ margin }) => (margin ? '1rem 0 1rem 1rem' : '0 auto 2rem auto')};
   display: flex;
   align-items: center;
   justify-content: center;

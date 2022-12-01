@@ -40,7 +40,7 @@ const FormMsgContainer = styled.div`
 
       & > svg {
         & > path {
-          fill: ${(props) => (props.errorMessage ? 'red' : 'green')};
+          fill: ${({ errorMessage }) => (errorMessage ? 'red' : 'green')};
         }
       }
 
@@ -66,8 +66,8 @@ const FormMsgContainer = styled.div`
       cursor: pointer;
       font-size: 0.93rem;
       font-weight: 400;
-      background-color: ${(props) =>
-        props.errorMessage ? '#ff4d4d' : '#4DFF4D'};
+      background-color: ${({ errorMessage }) =>
+        errorMessage ? '#ff4d4d' : '#4DFF4D'};
       color: ${color1};
     }
   }

@@ -120,55 +120,91 @@ export const PagesContainer = styled.main`
       margin-bottom: 1rem;
     }
 
-    & > .search {
+    & > .search-help {
+      width: 100%;
       display: flex;
-      flex-direction: column;
-      gap: 2.5rem;
+      align-items: center;
+      justify-content: space-between;
 
-      & > .container-search {
+      form {
         display: flex;
-        justify-content: space-between;
-        position: relative;
-        z-index: 3;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 8px 1.2rem;
+        background-color: ${colors.color7};
+        border-radius: 1rem;
+        overflow: hidden;
 
-        & > .vertical-search-popular {
-          width: 100%;
-          color: ${colors.color1};
-          background-color: ${colors.color7};
-          padding: 8px 1.2rem;
-          border-radius: 1.5rem;
+        & > button > svg {
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          cursor: pointer;
+          fill: ${colors.color5};
+          flex: none;
+        }
 
-          form {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
+        & > input {
+          width: 100%;
+          border: none;
+          color: ${colors.color5};
+          background-color: inherit;
+          font-size: 0.81rem;
+          font-weight: 500;
 
-            & > button > svg {
-              display: flex;
-              align-items: center;
-              cursor: pointer;
-              fill: ${colors.color5};
-              flex: none;
-            }
+          &::placeholder {
+            color: ${colors.color5};
+            font-size: 0.81rem;
+            font-weight: 500;
+          }
+        }
+      }
 
-            & > input {
-              width: 100%;
-              border: none;
-              background-color: transparent;
-              color: ${colors.color5};
-              font-size: 0.81rem;
-              font-weight: 500;
+      & > div {
+        margin-left: 1rem;
+        position: relative;
+        width: 20px;
+        height: 20px;
 
-              &::placeholder {
-                color: ${colors.color5};
-                font-size: 0.81rem;
-                font-weight: 500;
-              }
-            }
+        svg {
+          cursor: pointer;
+
+          path {
+            fill: ${colors.color6};
+          }
+        }
+
+        &:focus {
+          & > span {
+            visibility: visible;
+            transform: scale(1);
+          }
+        }
+
+        & > span {
+          padding: 8px;
+          width: 180px;
+          border-radius: 5px;
+          top: 2rem;
+          right: 0;
+          position: absolute;
+          font-size: 12px;
+          color: ${colors.color5};
+          background-color: ${colors.color7};
+          transition: transform 0.15s linear, visibility 0.15s linear;
+          visibility: hidden;
+          transform: scale(0.8);
+
+          &::before {
+            content: '';
+            position: absolute;
+            background-color: ${colors.color7};
+            z-index: -1;
+            right: 0;
+            top: -10px;
+            width: 20px;
+            height: 20px;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
           }
         }
       }
@@ -194,7 +230,8 @@ export const Filters = styled.div`
 
   & > .genres {
     & > :last-child {
-      height: ${(props) => (props.genresArrowActived ? '140px' : '0')};
+      height: ${({ genresArrowActived }) =>
+        genresArrowActived ? '140px' : '0'};
       overflow-y: scroll;
       overflow-x: hidden;
       transition: height 0.2s ease-in-out;
@@ -217,7 +254,8 @@ export const Filters = styled.div`
   & > .years {
     & > :first-child {
       display: flex;
-      gap: 3px;
+      justify-content: space-between;
+      align-items: center;
       width: 100%;
 
       & > h5 {
@@ -226,85 +264,27 @@ export const Filters = styled.div`
         font-weight: 600;
       }
 
-      & > div {
+      & > .years {
+        cursor: pointer;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
-        width: 100%;
+        background-color: ${({ yearsArrowActived }) =>
+          yearsArrowActived ? colors.color2 : colors.color6};
 
-        & > :first-child {
-          position: relative;
-          max-width: 0;
-          cursor: pointer;
-
-          & > svg {
-            fill: ${colors.color1};
-            transform: scale(0.65);
-          }
-
-          & > .duvidas-years {
-            visibility: hidden;
-            position: absolute;
-            background-color: ${colors.color6};
-            color: ${colors.color5};
-            font-size: 0.62rem;
-            width: 180px;
-            padding: 5px;
-            border-radius: 5px;
-            top: -2.6rem;
-            left: -5rem;
-
-            &::after {
-              content: '';
-              border-top: 11px solid ${colors.color6};
-              border-left: 8px solid transparent;
-              border-right: 8px solid transparent;
-              position: absolute;
-              bottom: -6px;
-              left: 50%;
-              right: 50%;
-              transform: translateX(-50%);
-            }
-          }
-
-          &:hover,
-          &:focus {
-            & > .duvidas-years {
-              visibility: visible;
-            }
-          }
-        }
-
-        & > :last-child {
-          transition: background 0.2s ease-in-out;
-
-          & > svg {
-            transition: all 0.2s ease-in-out;
-          }
-        }
-
-        & > .years {
-          cursor: pointer;
-          width: 22px;
-          height: 22px;
-          border-radius: 50%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background-color: ${(props) =>
-            props.yearsArrowActived ? colors.color2 : colors.color6};
-
-          & > svg {
-            transform: rotateZ(
-              ${(props) => (props.yearsArrowActived ? '180deg' : '0')}
-            );
-          }
+        & > svg {
+          transform: rotateZ(
+            ${({ yearsArrowActived }) => (yearsArrowActived ? '180deg' : '0')}
+          );
         }
       }
     }
 
     & > :last-child {
-      height: ${(props) => (props.yearsArrowActived ? '33px' : '0')};
+      height: ${({ yearsArrowActived }) => (yearsArrowActived ? '33px' : '0')};
       overflow: hidden;
       transition: all 0.2s ease-in-out;
 
@@ -372,7 +352,7 @@ export const Filters = styled.div`
 
   & > .actor {
     & > :last-child {
-      height: ${(props) => (props.actorArrowActived ? '140px' : '0')};
+      height: ${({ actorArrowActived }) => (actorArrowActived ? '140px' : '0')};
       overflow-y: scroll;
       overflow-x: hidden;
       transition: height 0.2s ease-in-out;
@@ -420,23 +400,23 @@ export const Filters = styled.div`
     }
 
     & > .genre {
-      background-color: ${(props) =>
-        props.genresArrowActived ? colors.color2 : colors.color6};
+      background-color: ${({ genresArrowActived }) =>
+        genresArrowActived ? colors.color2 : colors.color6};
 
       & > svg {
         transform: rotateZ(
-          ${(props) => (props.genresArrowActived ? '180deg' : '0')}
+          ${({ genresArrowActived }) => (genresArrowActived ? '180deg' : '0')}
         );
       }
     }
 
     & > .actor {
-      background-color: ${(props) =>
-        props.actorArrowActived ? colors.color2 : colors.color6};
+      background-color: ${({ actorArrowActived }) =>
+        actorArrowActived ? colors.color2 : colors.color6};
 
       & > svg {
         transform: rotateZ(
-          ${(props) => (props.actorArrowActived ? '180deg' : '0')}
+          ${({ actorArrowActived }) => (actorArrowActived ? '180deg' : '0')}
         );
       }
     }

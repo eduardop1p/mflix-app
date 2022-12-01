@@ -297,7 +297,7 @@ export const Grid = styled.div`
         & > h5 {
           font-size: 0.75rem;
           font-weight: 600;
-          max-width: 8rem;
+          max-width: 100%;
           overflow: hidden;
           text-overflow: ellipsis;
           display: -webkit-box;
@@ -350,7 +350,7 @@ export const ForId = styled.div`
     display: flex;
 
     .rating-system {
-      margin-left: 14px;
+      margin-left: 10px;
     }
   }
 
@@ -420,7 +420,7 @@ export const CatalogContainer = styled.section`
       gap: 12px;
     }
     @media (max-width: 570px) {
-      flex-direction: ${(props) => (props.cartoons ? 'row' : 'column')};
+      flex-direction: ${({ cartoons }) => (cartoons ? 'row' : 'column')};
     }
     @media (max-width: 360px) {
       flex-direction: column;
@@ -490,8 +490,8 @@ export const CatalogContainer = styled.section`
       @media (max-width: 360px) {
         width: 100%;
         z-index: 1;
-        background-color: ${(props) =>
-          props.releaseDateActived ? '#22252e' : colors.color7};
+        background-color: ${({ releaseDateActived }) =>
+          releaseDateActived ? '#22252e' : colors.color7};
       }
 
       .genres {
@@ -502,64 +502,7 @@ export const CatalogContainer = styled.section`
         cursor: default;
         background-color: inherit;
         width: 100%;
-        height: ${(props) => (props.genreActived ? '120px' : '0')};
-        position: absolute;
-        transition: height 0.2s ease-in-out;
-
-        & > ul {
-          margin: 1.8rem 1.2rem 0;
-          overflow: hidden scroll;
-          height: 65%;
-          display: flex;
-          gap: 5px;
-          flex-direction: column;
-
-          &::-webkit-scrollbar {
-            width: 3px;
-          }
-
-          &::-webkit-scrollbar-thumb {
-            background-color: ${colors.color2};
-            border-radius: 1rem;
-          }
-
-          &::-webkit-scrollbar-track {
-            background-color: transparent;
-          }
-        }
-      }
-
-      svg {
-        flex-shrink: 0;
-        transform: rotateZ(${(props) => (props.genreActived ? '180deg' : '0')});
-        transition: transform 0.2s ease-in-out;
-      }
-    }
-
-    .year {
-      cursor: pointer;
-      width: 20%;
-
-      @media (max-width: 750px) {
-        width: 25%;
-      }
-      @media (max-width: 570px) {
-        width: ${(props) => (props.cartoons ? '40%' : '35%')};
-      }
-      @media (max-width: 360px) {
-        width: 100%;
-        z-index: 2;
-      }
-
-      .releaseDate {
-        border-radius: 1rem;
-        right: 0;
-        top: 5px;
-        z-index: -1;
-        cursor: default;
-        background-color: inherit;
-        width: 100%;
-        height: ${(props) => (props.releaseDateActived ? '120px' : '0')};
+        height: ${({ genreActived }) => (genreActived ? '120px' : '0')};
         position: absolute;
         transition: height 0.2s ease-in-out;
 
@@ -589,20 +532,80 @@ export const CatalogContainer = styled.section`
       svg {
         flex-shrink: 0;
         transform: rotateZ(
-          ${(props) => (props.releaseDateActived ? '180deg' : '0')}
+          ${({ genreActived }) => (genreActived ? '180deg' : '0')}
+        );
+        transition: transform 0.2s ease-in-out;
+      }
+    }
+
+    .year {
+      cursor: pointer;
+      width: 20%;
+
+      @media (max-width: 750px) {
+        width: 25%;
+      }
+      @media (max-width: 570px) {
+        width: ${({ cartoons }) => (cartoons ? '40%' : '35%')};
+      }
+      @media (max-width: 360px) {
+        width: 100%;
+        z-index: 2;
+      }
+
+      .releaseDate {
+        border-radius: 1rem;
+        right: 0;
+        top: 5px;
+        z-index: -1;
+        cursor: default;
+        background-color: inherit;
+        width: 100%;
+        height: ${({ releaseDateActived }) =>
+          releaseDateActived ? '120px' : '0'};
+        position: absolute;
+        transition: height 0.2s ease-in-out;
+
+        & > ul {
+          margin: 1.8rem 1.2rem 0;
+          overflow: hidden scroll;
+          height: 65%;
+          display: flex;
+          gap: 5px;
+          flex-direction: column;
+
+          &::-webkit-scrollbar {
+            width: 3px;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background-color: ${colors.color2};
+            border-radius: 1rem;
+          }
+
+          &::-webkit-scrollbar-track {
+            background-color: transparent;
+          }
+        }
+      }
+
+      svg {
+        flex-shrink: 0;
+        transform: rotateZ(
+          ${({ releaseDateActived }) => (releaseDateActived ? '180deg' : '0')}
         );
         transition: transform 0.2s ease-in-out;
       }
     }
 
     .search-filter {
-      width: ${(props) => (props.cartoons ? '80%' : '50%')};
+      width: ${({ cartoons }) => (cartoons ? '80%' : '50%')};
 
       @media (max-width: 750px) {
-        width: ${(props) => (props.cartoons ? '80%' : '40%')};
+        width: ${({ cartoons }) => (cartoons ? '80%' : '40%')};
       }
       @media (max-width: 570px) {
-        width: ${(props) => (props.cartoons ? '60%' : '100%')};
+        width: ${({ cartoons }) => (cartoons ? '60%' : '100%')};
       }
       @media (max-width: 360px) {
         width: 100%;
@@ -739,7 +742,12 @@ export const CatalogTitles = styled.div`
     & > h5 {
       font-size: 0.75rem;
       font-weight: 600;
-      max-width: 8rem;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
       margin-bottom: 10px;
     }
 

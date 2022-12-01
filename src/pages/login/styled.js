@@ -91,8 +91,8 @@ export const LoginSection = styled.section`
         gap: 10px;
 
         @media (max-width: 460px) {
-          flex-direction: ${(props) => (props.expires ? 'column' : 'row')};
-          gap: ${(props) => (props.expires ? '5px' : '10px')};
+          flex-direction: ${({ expires }) => (expires ? 'column' : 'row')};
+          gap: ${({ expires }) => (expires ? '5px' : '10px')};
         }
 
         & > a {

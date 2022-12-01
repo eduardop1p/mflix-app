@@ -125,11 +125,12 @@ export const Search = styled.div`
     color: ${colors.color1};
     transition: width 0.2s linear,
       border 0.2s linear
-        ${(props) => !props.searchActive && ',0s 0.2s padding linear'};
-    padding: ${(props) => (props.searchActive ? '10px 2.5rem 10px 13px' : 0)};
-    width: ${(props) => (props.searchActive ? '100%' : '0')};
-    border: ${(props) =>
-      props.searchActive ? '1px solid #ddd' : '0px solid #ddd'};
+        ${({ searchActive }) => searchActive && ',0s 0.2s padding linear'};
+    padding: ${({ searchActive }) =>
+      searchActive ? '10px 2.5rem 10px 13px' : 0};
+    width: ${({ searchActive }) => (searchActive ? '100%' : '0')};
+    border: ${({ searchActive }) =>
+      searchActive ? '1px solid #ddd' : '0px solid #ddd'};
     border-radius: 1.5rem;
     float: right;
   }
@@ -155,14 +156,14 @@ export const MenuHambuguer = styled.button`
 
     & > .h-1 {
       background-color: ${colors.color1};
-      width: ${(props) => (props.menuActive ? '1.5rem' : '2rem')};
+      width: ${({ menuActive }) => (menuActive ? '1.5rem' : '2rem')};
       height: 2px;
       transition: width 0.3s ease-in-out;
     }
 
     & > .h-2 {
       background-color: ${colors.color1};
-      width: ${(props) => (props.menuActive ? '2rem' : '1.5rem')};
+      width: ${({ menuActive }) => (menuActive ? '2rem' : '1.5rem')};
       height: 2px;
       transition: width 0.3s ease-in-out;
     }
@@ -174,7 +175,7 @@ export const MenuActive = styled.div`
   height: 100%;
   background-color: #171a23ab;
   transition: visibility 0.2s linear;
-  visibility: ${(props) => (props.menuActive ? 'visible' : 'hidden')};
+  visibility: ${({ menuActive }) => (menuActive ? 'visible' : 'hidden')};
   position: fixed;
   z-index: 10;
   top: 0;
@@ -190,7 +191,7 @@ export const MenuActive = styled.div`
     margin: 10px;
     border-radius: 1rem;
     transition: transform 0.2s linear;
-    transform: translateX(${(props) => (props.menuActive ? '0' : '18rem')});
+    transform: translateX(${({ menuActive }) => (menuActive ? '0' : '18rem')});
     padding: 1.5rem 2rem;
 
     @media (max-width: 480px) {

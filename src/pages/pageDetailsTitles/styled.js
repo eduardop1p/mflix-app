@@ -88,7 +88,7 @@ export const ContainerDatails = styled.div`
           }
         }
 
-        [data-like-animaton=true]{
+        [data-like-animaton='true'] {
           animation-name: 'likeAnimaton';
           animation-duration: 1s;
           animation-timing-function: linear;
@@ -97,7 +97,6 @@ export const ContainerDatails = styled.div`
         & > svg {
           width: 100%;
           height: 100%;
-
 
           & > path {
             cursor: pointer;
@@ -515,18 +514,18 @@ export const ImagesPosters = styled.div`
     }
 
     & > .images {
-      background-color: ${(props) =>
-        props.imageButtonActived ? colors.color2 : colors.color7};
+      background-color: ${({ imageButtonActived }) =>
+        imageButtonActived ? colors.color2 : colors.color7};
     }
 
     & > .posters {
-      background-color: ${(props) =>
-        props.posterButtonActived ? colors.color2 : colors.color7};
+      background-color: ${({ posterButtonActived }) =>
+        posterButtonActived ? colors.color2 : colors.color7};
     }
 
     & > .logos {
-      background-color: ${(props) =>
-        props.logoButtonActived ? colors.color2 : colors.color7};
+      background-color: ${({ logoButtonActived }) =>
+        logoButtonActived ? colors.color2 : colors.color7};
     }
   }
 

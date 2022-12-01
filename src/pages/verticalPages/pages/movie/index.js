@@ -302,32 +302,21 @@ export default function MovieV() {
         <div className="vertical years">
           <div>
             <h5>Ano</h5>
-            <div>
-              <span>
-                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20">
-                  <path d="M9.958 15.021Q10.417 15.021 10.729 14.708Q11.042 14.396 11.042 13.938Q11.042 13.479 10.729 13.167Q10.417 12.854 9.958 12.854Q9.5 12.854 9.188 13.167Q8.875 13.479 8.875 13.938Q8.875 14.396 9.188 14.708Q9.5 15.021 9.958 15.021ZM9.167 11.771H10.792Q10.792 11.062 10.948 10.677Q11.104 10.292 11.833 9.583Q12.354 9.062 12.667 8.573Q12.979 8.083 12.979 7.396Q12.979 6.229 12.135 5.604Q11.292 4.979 10.104 4.979Q8.896 4.979 8.135 5.604Q7.375 6.229 7.083 7.125L8.542 7.708Q8.646 7.354 8.979 6.906Q9.312 6.458 10.062 6.458Q10.708 6.458 11.042 6.802Q11.375 7.146 11.375 7.562Q11.375 7.958 11.115 8.333Q10.854 8.708 10.5 9Q9.562 9.812 9.365 10.229Q9.167 10.646 9.167 11.771ZM10 18.333Q8.292 18.333 6.771 17.677Q5.25 17.021 4.115 15.896Q2.979 14.771 2.323 13.25Q1.667 11.729 1.667 10Q1.667 8.271 2.323 6.75Q2.979 5.229 4.115 4.104Q5.25 2.979 6.771 2.323Q8.292 1.667 10 1.667Q11.75 1.667 13.271 2.323Q14.792 2.979 15.917 4.104Q17.042 5.229 17.688 6.75Q18.333 8.271 18.333 10Q18.333 11.729 17.688 13.25Q17.042 14.771 15.917 15.896Q14.792 17.021 13.271 17.677Q11.75 18.333 10 18.333ZM10 10Q10 10 10 10Q10 10 10 10Q10 10 10 10Q10 10 10 10Q10 10 10 10Q10 10 10 10Q10 10 10 10Q10 10 10 10ZM10 16.583Q12.771 16.583 14.677 14.656Q16.583 12.729 16.583 10Q16.583 7.271 14.677 5.344Q12.771 3.417 10 3.417Q7.292 3.417 5.354 5.344Q3.417 7.271 3.417 10Q3.417 12.729 5.354 14.656Q7.292 16.583 10 16.583Z" />
-                </svg>
-
-                <div className="duvidas-years">
-                  O filtro "Ano" não tem efeito no catalogo "Novos filmes".
-                </div>
-              </span>
-              <span
-                className="years"
-                onClick={() => setYearsArrowActived(!yearsArrowActived)}
+            <span
+              className="years"
+              onClick={() => setYearsArrowActived(!yearsArrowActived)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="20px"
+                viewBox="0 0 24 24"
+                width="20px"
+                fill="#FFFFFF"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="20px"
-                  viewBox="0 0 24 24"
-                  width="20px"
-                  fill="#FFFFFF"
-                >
-                  <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
-                  <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
-                </svg>
-              </span>
-            </div>
+                <path d="M24 24H0V0h24v24z" fill="none" opacity=".87" />
+                <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z" />
+              </svg>
+            </span>
           </div>
           <div>
             <div className="wrapper-input-range">
@@ -440,31 +429,34 @@ export default function MovieV() {
         </div>
       </Filters>
       <div className="search-new-popular">
-        <div className="search">
-          <div className="container-search">
-            <div className="vertical-search-popular">
-              <form onSubmit={setVerticalSearch} action="/vertical/search">
-                <button type="submit">
-                  <svg
-                    xmlns="http:www.w3.org/2000/svg"
-                    height="18px"
-                    width="18px"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
-                  </svg>
-                </button>
-                <input
-                  type="text"
-                  placeholder="Pesquisar filme..."
-                  name="search_query"
-                  value={verticalSearchValue}
-                  onChange={(event) =>
-                    setVerticalSearchValue(event.target.value)
-                  }
-                />
-              </form>
-            </div>
+        <div className="search-help">
+          <form onSubmit={setVerticalSearch} action="/vertical/search">
+            <button type="submit">
+              <svg
+                xmlns="http:www.w3.org/2000/svg"
+                height="18px"
+                width="18px"
+                viewBox="0 0 24 24"
+              >
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+              </svg>
+            </button>
+            <input
+              type="text"
+              placeholder="Pesquisar filme..."
+              name="search_query"
+              value={verticalSearchValue}
+              onChange={(event) => setVerticalSearchValue(event.target.value)}
+            />
+          </form>
+          <div title="Dúvidas?" tabIndex={0}>
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" width="20px">
+              <path d="M9.958 15.021Q10.417 15.021 10.729 14.708Q11.042 14.396 11.042 13.938Q11.042 13.479 10.729 13.167Q10.417 12.854 9.958 12.854Q9.5 12.854 9.188 13.167Q8.875 13.479 8.875 13.938Q8.875 14.396 9.188 14.708Q9.5 15.021 9.958 15.021ZM9.167 11.771H10.792Q10.792 11.062 10.948 10.677Q11.104 10.292 11.833 9.583Q12.354 9.062 12.667 8.573Q12.979 8.083 12.979 7.396Q12.979 6.229 12.135 5.604Q11.292 4.979 10.104 4.979Q8.896 4.979 8.135 5.604Q7.375 6.229 7.083 7.125L8.542 7.708Q8.646 7.354 8.979 6.906Q9.312 6.458 10.062 6.458Q10.708 6.458 11.042 6.802Q11.375 7.146 11.375 7.562Q11.375 7.958 11.115 8.333Q10.854 8.708 10.5 9Q9.562 9.812 9.365 10.229Q9.167 10.646 9.167 11.771ZM10 18.333Q8.292 18.333 6.771 17.677Q5.25 17.021 4.115 15.896Q2.979 14.771 2.323 13.25Q1.667 11.729 1.667 10Q1.667 8.271 2.323 6.75Q2.979 5.229 4.115 4.104Q5.25 2.979 6.771 2.323Q8.292 1.667 10 1.667Q11.75 1.667 13.271 2.323Q14.792 2.979 15.917 4.104Q17.042 5.229 17.688 6.75Q18.333 8.271 18.333 10Q18.333 11.729 17.688 13.25Q17.042 14.771 15.917 15.896Q14.792 17.021 13.271 17.677Q11.75 18.333 10 18.333ZM10 10Q10 10 10 10Q10 10 10 10Q10 10 10 10Q10 10 10 10Q10 10 10 10Q10 10 10 10Q10 10 10 10Q10 10 10 10ZM10 16.583Q12.771 16.583 14.677 14.656Q16.583 12.729 16.583 10Q16.583 7.271 14.677 5.344Q12.771 3.417 10 3.417Q7.292 3.417 5.354 5.344Q3.417 7.271 3.417 10Q3.417 12.729 5.354 14.656Q7.292 16.583 10 16.583Z" />
+            </svg>
+
+            <span className="duvidas-years">
+              Os filtros não tem efeito no catalogo "Novos filmes".
+            </span>
           </div>
         </div>
         <div className="new">
