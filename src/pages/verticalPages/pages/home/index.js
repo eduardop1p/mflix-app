@@ -5,7 +5,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import SwiperCore, { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { isInt } from 'validator/validator';
 import { Helmet } from 'react-helmet-async';
 
 import * as actions from '../../../../storeReactRedux/modules/loading/actions';
@@ -17,7 +16,7 @@ import axiosBaseUrlGenresSeries from '../../../../services/axiosBaseUrlGenresSer
 import axiosBaseUrlSeriesDiscover from '../../../../services/axiosBaseUrlSeriesDiscover';
 import apiConfig from '../../../../config/apiConfig';
 import clearLinkTitle from '../../../../config/clearLinkTitle';
-import RatingSystem2 from '../../../../components/ratingSystem2/index';
+import RatingSystem from '../../../../components/ratingSystem/index';
 import imageErrorTop3 from '../../../../assets/images/czx7z2e6uqg81.jpg';
 import Loading from '../../../../components/loadingReactStates/index';
 import LoadingScrollInfinit from '../../../../components/loadingActor/index';
@@ -544,14 +543,13 @@ export default function Home() {
                               <div className="popular-imdb-rating-voteAverage">
                                 IMDB
                                 <div className="popular-rating-voteAverage">
-                                  <RatingSystem2
+                                  <RatingSystem
                                     vote_average={result.vote_average}
-                                    color={colors.color1}
+                                    ratingSystem2
                                   />
                                   <div className="popular-voteAverage">
-                                    {isInt(String(result.vote_average))
-                                      ? `${result.vote_average}.0`
-                                      : result.vote_average}
+                                    {result.vote_average &&
+                                      result.vote_average.toFixed(1)}
                                   </div>
                                 </div>
                               </div>

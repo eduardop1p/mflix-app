@@ -297,11 +297,11 @@ export const Grid = styled.div`
         & > h5 {
           font-size: 0.75rem;
           font-weight: 600;
-          max-width: 100%;
+          max-width: 80%;
           overflow: hidden;
           text-overflow: ellipsis;
           display: -webkit-box;
-          -webkit-line-clamp: 4;
+          -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
           color: ${colors.color1};
         }
@@ -746,7 +746,7 @@ export const CatalogTitles = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: 4;
+      -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       margin-bottom: 10px;
     }

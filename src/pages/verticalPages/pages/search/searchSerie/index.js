@@ -7,7 +7,6 @@ import axiosRetry from 'axios-retry';
 import { get } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { isInt } from 'validator/validator';
 
 import * as actions from '../../../../../storeReactRedux/modules/loading/actions';
 import axiosBaseUrlSeries from '../../../../../services/axiosBaseUrlSeries';
@@ -20,7 +19,6 @@ import imageError1 from '../../../../../assets/images/czx7z2e6uqg81.jpg';
 import imageError2 from '../../../../../assets/images/1150108.png';
 import Loading from '../../../../../components/loadingReactStates/index';
 import RatingSystem from '../../../../../components/ratingSystem/index';
-import RatingSystem2 from '../../../../../components/ratingSystem2/index';
 import clearLinkTitle from '../../../../../config/clearLinkTitle';
 import MessageForm from '../../../../../components/messageForm';
 import SerieTrailer from '../../../../../components/getTrailerSerieForId/index';
@@ -413,9 +411,7 @@ export default function searchSerie(props) {
                           color="#fff"
                         />
                         <div>
-                          {isInt(String(newId.vote_average))
-                            ? `${newId.vote_average}.0`
-                            : newId.vote_average}
+                          {newId.vote_average && newId.vote_average.toFixed(1)}
                         </div>
                       </div>
                     </div>
@@ -589,19 +585,13 @@ export default function searchSerie(props) {
                                       <div className="popular-imdb-rating-voteAverage">
                                         IMDB
                                         <div className="popular-rating-voteAverage">
-                                          <RatingSystem2
+                                          <RatingSystem
                                             vote_average={result.vote_average}
-                                            color="#fff"
+                                            ratingSystem2
                                           />
                                           <div className="popular-voteAverage">
-                                            {isInt(String(result.vote_average))
-                                              ? `${result.vote_average}.0`.slice(
-                                                  0,
-                                                  3
-                                                )
-                                              : String(
-                                                  result.vote_average
-                                                ).slice(0, 3)}
+                                            {result.vote_average &&
+                                              result.vote_average.toFixed(1)}
                                           </div>
                                         </div>
                                       </div>
@@ -883,14 +873,13 @@ export default function searchSerie(props) {
                             <div className="popular-imdb-rating-voteAverage">
                               IMDB
                               <div className="popular-rating-voteAverage">
-                                <RatingSystem2
+                                <RatingSystem
                                   vote_average={result.vote_average}
-                                  color="#fff"
+                                  ratingSystem2
                                 />
                                 <div className="popular-voteAverage">
-                                  {isInt(String(result.vote_average))
-                                    ? `${result.vote_average}.0`.slice(0, 3)
-                                    : String(result.vote_average).slice(0, 3)}
+                                  {result.vote_average &&
+                                    result.vote_average.toFixed(1)}
                                 </div>
                               </div>
                             </div>

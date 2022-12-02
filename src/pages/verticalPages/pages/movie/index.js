@@ -5,7 +5,6 @@ import { Link, Outlet, useParams } from 'react-router-dom';
 import SwiperCore, { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { isInt } from 'validator/validator';
 import { Helmet } from 'react-helmet-async';
 
 import * as actions from '../../../../storeReactRedux/modules/loading/actions';
@@ -15,7 +14,7 @@ import axiosBaseUrlGenres from '../../../../services/axiosBaseUrlGenres';
 import axiosBaseUrlFilterActor from '../../../../services/axiosBaseUrlFilterActor';
 import apiConfig from '../../../../config/apiConfig';
 import clearLinkTitle from '../../../../config/clearLinkTitle';
-import RatingSystem2 from '../../../../components/ratingSystem2/index';
+import RatingSystem from '../../../../components/ratingSystem/index';
 import imageErrorTop3 from '../../../../assets/images/czx7z2e6uqg81.jpg';
 import Loading from '../../../../components/loadingReactStates/index';
 import LoadingActor from '../../../../components/loadingActor/index';
@@ -78,14 +77,13 @@ export default function MovieV() {
       news.length &&
       allPopular.length &&
       allActors.length &&
-      !id &&
       loadingApp
     ) {
       setTimeout(() => {
         dispatch(actions.loadingFailure());
       }, 500);
     }
-  }, [allGenres, news, allPopular, allActors, id, loadingApp]);
+  }, [allGenres, news, allPopular, allActors, loadingApp]);
 
   async function setNewsFunction() {
     try {
@@ -524,14 +522,13 @@ export default function MovieV() {
                           <div className="popular-imdb-rating-voteAverage">
                             IMDB
                             <div className="popular-rating-voteAverage">
-                              <RatingSystem2
+                              <RatingSystem
                                 vote_average={result.vote_average}
-                                color={colors.color1}
+                                ratingSystem2
                               />
                               <div className="popular-voteAverage">
-                                {isInt(String(result.vote_average))
-                                  ? `${result.vote_average}.0`
-                                  : result.vote_average}
+                                {result.vote_average &&
+                                  result.vote_average.toFixed(1)}
                               </div>
                             </div>
                           </div>
