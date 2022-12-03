@@ -235,6 +235,7 @@ export const Filters = styled.div`
       overflow-y: scroll;
       overflow-x: hidden;
       transition: height 0.2s ease-in-out;
+      margin-top: 8px;
 
       &::-webkit-scrollbar {
         width: 3px;
@@ -284,67 +285,33 @@ export const Filters = styled.div`
     }
 
     & > :last-child {
-      height: ${({ yearsArrowActived }) => (yearsArrowActived ? '33px' : '0')};
+      height: ${({ yearsArrowActived }) => (yearsArrowActived ? '45px' : '0')};
       overflow: hidden;
+      width: 105%;
       transition: all 0.2s ease-in-out;
 
-      & > .wrapper-input-range {
-        width: 100%;
-        padding: 10px 0 0;
+      .MuiSlider-root {
+        padding: 0;
 
-        & > .container-input-range {
-          position: relative;
-          width: 100%;
-
-          & > .range-slider-track {
-            width: 100%;
-            height: 2px;
-            position: absolute;
-            margin: auto;
-            top: 0;
-            bottom: 0;
-            border-radius: 5px;
-          }
-
-          & > input[type='range'] {
-            appearance: none;
-            width: 100%;
-            outline: none;
-            position: absolute;
-            margin: auto;
-            top: 0;
-            bottom: -8px;
-            background-color: transparent;
-            pointer-events: none;
-
-            &::-webkit-slider-runnable-track {
-              appearance: none;
-              height: 2px;
-            }
-
-            &::-webkit-slider-thumb {
-              appearance: none;
-              height: 12px;
-              width: 12px;
-              background-color: ${colors.color2};
-              cursor: pointer;
-              border-radius: 50%;
-              pointer-events: auto;
-              margin-top: -9px;
-            }
-          }
+        .MuiSlider-rail {
+          background-color: ${colors.color5};
         }
 
-        & > .value-range-visibles {
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
+        .Mui-focusVisible {
+          box-shadow: 0px 0px 0px 8px #6462802b;
+        }
+      }
 
-          & > span {
-            color: ${colors.color5};
-            font-size: 0.84rem;
-            margin-top: 10px;
-          }
+      & > .value-range-visibles {
+        display: flex;
+        width: 95%;
+        justify-content: space-between;
+        height: fit-content;
+
+        & > span {
+          color: ${colors.color5};
+          font-size: 0.84rem;
+          margin-top: 10px;
         }
       }
     }
@@ -353,9 +320,9 @@ export const Filters = styled.div`
   & > .actor {
     & > :last-child {
       height: ${({ actorArrowActived }) => (actorArrowActived ? '140px' : '0')};
-      overflow-y: scroll;
-      overflow-x: hidden;
+      overflow: hidden scroll;
       transition: height 0.2s ease-in-out;
+      margin-top: 8px;
 
       &::-webkit-scrollbar {
         width: 3px;
@@ -423,9 +390,6 @@ export const Filters = styled.div`
   }
 
   & > .vertical > :last-child {
-    margin-top: 8px;
-    width: calc(100% - 2px);
-
     & > fieldset {
       border: none;
 

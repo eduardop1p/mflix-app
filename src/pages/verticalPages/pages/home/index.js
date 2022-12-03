@@ -6,6 +6,7 @@ import SwiperCore, { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
+import { Slider } from '@mui/material';
 
 import * as actions from '../../../../storeReactRedux/modules/loading/actions';
 import axiosBaseUrlMovies from '../../../../services/axiosBaseUrlMovies';
@@ -21,7 +22,6 @@ import imageErrorTop3 from '../../../../assets/images/czx7z2e6uqg81.jpg';
 import Loading from '../../../../components/loadingReactStates/index';
 import LoadingScrollInfinit from '../../../../components/loadingActor/index';
 import NoResultFilters from '../../../../components/noResultFilters/index';
-import * as colors from '../../../../colors';
 import { PagesContainer, Filters, New, Popular } from '../../styled';
 
 export default function Home() {
@@ -36,18 +36,18 @@ export default function Home() {
   const [allGenres, setAllGenres] = useState([]);
   const [genresArrowActived, setGenresArrowActived] = useState(true);
   const [yearsArrowActived, setYearsArrowActived] = useState(true);
-  const [percentRange1, setPercentRange1] = useState(null);
-  const [percentRange2, setPercentRange2] = useState(null);
   const [verticalSearchValue, setVerticalSearchValue] = useState('');
-  const arrayYears = useRef([]);
+  const [currentYears, setCurrentYears] = useState([
+    2004,
+    new Date().getFullYear(),
+  ]);
   let controllerPopularScroll = useRef(true);
   let finallyPagePopular = useRef(false);
   let currentPagePopular = useRef(1);
   let currentYearsActorGenres = useRef(1);
   let genresIdsCheckBox = useRef([]);
-  let valueRange1 = useRef(2000);
-  let valueRange2 = useRef(new Date().getFullYear());
-  let minGap = useRef(1);
+
+  const minDistance = 1;
 
   useEffect(() => {
     const setAllGenresFilters = async () => {
@@ -71,7 +71,6 @@ export default function Home() {
     };
     setNewsFunction();
     setPopularFunction(false);
-    setRelaceDate();
     setAllGenresFilters();
   }, []); // componentDidMount() class metod
 
@@ -216,11 +215,6 @@ export default function Home() {
   }
 
   async function setPopularFiltersFunction(infiniteScroll) {
-    const arrayPrimaryYears = arrayYears.current.slice(
-      arrayYears.current.indexOf(valueRange1.current),
-      arrayYears.current.indexOf(valueRange2.current) + 1
-    );
-
     controllerPopularScroll.current = false;
 
     try {
@@ -228,7 +222,9 @@ export default function Home() {
       const axiosData1 = await axiosDetailsFilters.get(
         `?with_genres=${genresIdsCheckBox.current.join(
           ','
-        )}&primary_release_year=${arrayPrimaryYears.join(',')}&api_key=${
+        )}&primary_release_date.gte=${
+          currentYears[0]
+        }-01-01&primary_release_date.lte=${currentYears[1]}-12-31&api_key=${
           apiConfig.apiKey
         }&language=${apiConfig.language}&page=${
           infiniteScroll ? (currentYearsActorGenres.current += 1) : 1
@@ -239,11 +235,11 @@ export default function Home() {
         const axiosData2 = await axiosBaseUrlSeriesDiscover.get(
           `?with_genres=${genresIdsCheckBox.current.join(
             ','
-          )}&first_air_date.gte=${arrayPrimaryYears.shift()}-01-01&first_air_date.lte=${arrayPrimaryYears.pop()}-12-31&api_key=${
-            apiConfig.apiKey
-          }&language=${apiConfig.language}&page=${
-            infiniteScroll ? (currentYearsActorGenres.current += 1) : 1
-          }`
+          )}&first_air_date.gte=${currentYears[0]}-01-01&first_air_date.lte=${
+            currentYears[1]
+          }-12-31&api_key=${apiConfig.apiKey}&language=${
+            apiConfig.language
+          }&page=${infiniteScroll ? (currentYearsActorGenres.current += 1) : 1}`
         );
         const data2 = axiosData2.data;
         randomArrMovieSerie(data1, data2, infiniteScroll);
@@ -257,35 +253,16 @@ export default function Home() {
     }
   }
 
-  function setRelaceDate() {
-    const currentYear = new Date().getFullYear();
-    for (let i = 1990; i <= currentYear; i++) arrayYears.current.push(i);
-  }
-
-  function setRange1(event) {
-    valueRange1.current = Number(event.target.value);
-    if (valueRange2.current - valueRange1.current <= minGap.current) {
-      valueRange1.current = valueRange2.current - minGap.current;
+  function handleChange(event, value, activeThumb) {
+    if (!Array.isArray(value)) {
+      return;
     }
-    arrayYears.current.indexOf(valueRange1.current) !== -1
-      ? setPercentRange1(
-          (100 / arrayYears.current.length) *
-            arrayYears.current.indexOf(valueRange1.current)
-        )
-      : setPercentRange1(null);
-  }
 
-  function setRange2(event) {
-    valueRange2.current = Number(event.target.value);
-    if (valueRange2.current - valueRange1.current <= minGap.current) {
-      valueRange2.current = valueRange1.current + minGap.current;
+    if (activeThumb === 0) {
+      setCurrentYears([Math.min(value[0], value[1] - minDistance), value[1]]);
+    } else {
+      setCurrentYears([value[0], Math.max(value[1], value[0] + minDistance)]);
     }
-    arrayYears.current.indexOf(valueRange2.current) !== -1
-      ? setPercentRange2(
-          (100 / arrayYears.current.length) *
-            arrayYears.current.indexOf(valueRange2.current)
-        )
-      : setPercentRange2('Não tem kkk');
   }
 
   function removeLoadingSipnner(event) {
@@ -367,65 +344,23 @@ export default function Home() {
             </span>
           </div>
           <div>
-            <div className="wrapper-input-range">
-              <div className="container-input-range">
-                <div
-                  className="range-slider-track"
-                  style={{
-                    background: `linear-gradient(
-                to right,
-                ${colors.color5} ${
-                      percentRange1 !== null
-                        ? percentRange1
-                        : arrayYears.current &&
-                          (100 / arrayYears.current.length) * 10
-                    }%,
-                ${colors.color2} ${
-                      percentRange1 !== null
-                        ? percentRange1
-                        : arrayYears.current &&
-                          (100 / arrayYears.current.length) * 10
-                    }%,
-                ${colors.color2} ${
-                      !percentRange2
-                        ? arrayYears.current &&
-                          (100 / arrayYears.current.length) *
-                            arrayYears.current.length
-                        : percentRange2
-                    }%,
-                    ${colors.color5} ${
-                      !percentRange2
-                        ? arrayYears.current &&
-                          (100 / arrayYears.current.length) *
-                            arrayYears.current.length
-                        : percentRange2
-                    }%
-              )`,
-                  }}
-                ></div>
-                <input
-                  type="range"
-                  value={valueRange1.current}
-                  min="1990"
-                  max={new Date().getFullYear()}
-                  onChange={setRange1}
-                  onMouseUp={() => setPopularFiltersFunction(false)}
-                  id="range-1"
-                />
-                <input
-                  type="range"
-                  value={valueRange2.current}
-                  min="1990"
-                  max={new Date().getFullYear()}
-                  onChange={setRange2}
-                  onMouseUp={() => setPopularFiltersFunction(false)}
-                  id="range-2"
-                />
-              </div>
-              <div className="value-range-visibles">
-                <span>{valueRange1.current}</span>
-                <span>{valueRange2.current}</span>
-              </div>
+            <Slider
+              sx={{
+                color: '#B243F7',
+                width: '93%',
+              }}
+              value={currentYears}
+              max={new Date().getFullYear()}
+              min={1990}
+              onChange={handleChange}
+              onChangeCommitted={() => setPopularFiltersFunction(false)}
+              valueLabelDisplay="off"
+              disableSwap
+              size="small"
+            />
+            <div className="value-range-visibles">
+              <span>{currentYears[0]}</span>
+              <span>{currentYears[1]}</span>
             </div>
           </div>
         </div>
