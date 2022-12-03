@@ -26,7 +26,7 @@ import Error404 from '../pages/error404/index';
 import MyRouter from './myRouter';
 import MyRouterMyList from './myRouterMyList';
 
-import clearLinkTitle from '../config/clearLinkTitle';
+import clearLinkTitle from '../config/clearLinkTitleConfig';
 
 export default function Routers() {
   const user = useRef(useSelector((state) => state.auth.user));

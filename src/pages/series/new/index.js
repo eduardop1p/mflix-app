@@ -9,7 +9,7 @@ import axiosBaseUrlSeries from '../../../services/axiosBaseUrlSeries';
 import apiConfig from '../../../config/apiConfig';
 import RatingSystem from '../../../components/ratingSystem';
 import SlidePagenateCustom from '../../../components/slidePagenateCustom/index';
-import clearLinkTitle from '../../../config/clearLinkTitle';
+import clearLinkTitle from '../../../config/clearLinkTitleConfig';
 import Loading from '../../../components/loadingReactStates/index';
 import imageErrorPoster from '../../../assets/images/czx7z2e6uqg81.jpg';
 import imageErrorTop3 from '../../../assets/images/1150108.png';

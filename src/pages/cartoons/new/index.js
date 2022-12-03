@@ -12,10 +12,11 @@ import axiosBaseUrlSeriesDiscover from '../../../services/axiosBaseUrlSeriesDisc
 import apiConfig from '../../../config/apiConfig';
 import RatingSystem from '../../../components/ratingSystem';
 import SlidePagenateCustom from '../../../components/slidePagenateCustom/index';
-import clearLinkTitle from '../../../config/clearLinkTitle';
+import clearLinkTitle from '../../../config/clearLinkTitleConfig';
 import Loading from '../../../components/loadingReactStates/index';
 import imageError1 from '../../../assets/images/1150108.png';
 import imageError2 from '../../../assets/images/czx7z2e6uqg81.jpg';
+import newArrIndex from '../../../config/newArrIndexConfig';
 import { color1 } from '../../../colors';
 import { Slider, Grid } from '../../styled';
 
@@ -70,11 +71,6 @@ export default function New() {
   function randomArrMovieSeries(newsMoviesArr, newsSeriesArr) {
     const newArr = [...newsMoviesArr.results, ...newsSeriesArr.results];
     const randomArrMovieSeriesPopular = [];
-
-    const newArrIndex = [
-      0, 21, 1, 22, 2, 23, 3, 24, 4, 25, 5, 26, 6, 27, 7, 28, 8, 29, 9, 30, 10,
-      31, 11, 32, 12, 33, 13, 34, 14, 35, 15, 36, 16, 37, 17, 38, 18, 39, 19,
-    ];
 
     newArrIndex.forEach((valueIndex) => {
       randomArrMovieSeriesPopular.push(newArr[valueIndex]);

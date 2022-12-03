@@ -7,7 +7,7 @@ import { isEmail, isAlphanumeric } from 'validator/validator';
 import * as actionsAuth from '../../../storeReactRedux/modules/auth/actions';
 import axiosBaseUrlUser from '../../../services/axiosUserBaseUrl';
 import LoadingForm from '../../../components/loadingForm/index';
-import clearLinkTitle from '../../../config/clearLinkTitle';
+import clearLinkTitle from '../../../config/clearLinkTitleConfig';
 import MessageForm from '../../../components/messageForm';
 import userNotPhoto from '../../../assets/images/profile-not-photo.jpg';
 import {

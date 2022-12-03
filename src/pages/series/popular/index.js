@@ -7,7 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import axiosBaseUrlSeries from '../../../services/axiosBaseUrlSeries';
 import axiosBaseUrlGenresSeries from '../../../services/axiosBaseUrlGenresSeries';
 import apiConfig from '../../../config/apiConfig';
-import clearLinkTitle from '../../../config/clearLinkTitle';
+import clearLinkTitle from '../../../config/clearLinkTitleConfig';
 import RatingSystem from '../../../components/ratingSystem/index';
 import Loading from '../../../components/loadingReactStates/index';
 import imageErrorTop3 from '../../../assets/images/czx7z2e6uqg81.jpg';

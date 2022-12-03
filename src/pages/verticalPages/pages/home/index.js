@@ -16,12 +16,13 @@ import axiosBaseUrlGenresMovies from '../../../../services/axiosBaseUrlGenres';
 import axiosBaseUrlGenresSeries from '../../../../services/axiosBaseUrlGenresSeries';
 import axiosBaseUrlSeriesDiscover from '../../../../services/axiosBaseUrlSeriesDiscover';
 import apiConfig from '../../../../config/apiConfig';
-import clearLinkTitle from '../../../../config/clearLinkTitle';
+import clearLinkTitle from '../../../../config/clearLinkTitleConfig';
 import RatingSystem from '../../../../components/ratingSystem/index';
 import imageErrorTop3 from '../../../../assets/images/czx7z2e6uqg81.jpg';
 import Loading from '../../../../components/loadingReactStates/index';
 import LoadingScrollInfinit from '../../../../components/loadingActor/index';
 import NoResultFilters from '../../../../components/noResultFilters/index';
+import newArrIndex from '../../../../config/newArrIndexConfig';
 import { PagesContainer, Filters, New, Popular } from '../../styled';
 
 export default function Home() {
@@ -102,10 +103,11 @@ export default function Home() {
   }
 
   function setVerticalSearch(event) {
+    event.preventDefault();
     if (!verticalSearchValue) {
-      return event.preventDefault();
+      return;
     }
-    return event;
+    return event.target.submit();
   }
 
   function setDate(past7Day = 0) {
@@ -152,10 +154,6 @@ export default function Home() {
   ) {
     const newArr = [...newsMoviesArr.results, ...newsSeriesArr.results];
     const randomArrMovieSerie = [];
-    const newArrIndex = [
-      0, 21, 1, 22, 2, 23, 3, 24, 4, 25, 5, 26, 6, 27, 7, 28, 8, 29, 9, 30, 10,
-      31, 11, 32, 12, 33, 13, 34, 14, 35, 15, 36, 16, 37, 17, 38, 18, 39, 19,
-    ];
 
     newArrIndex.forEach((valueIndex) => {
       randomArrMovieSerie.push(newArr[valueIndex]);

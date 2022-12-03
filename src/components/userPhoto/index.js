@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 /* eslint-disable */
 
-import clearLinkTitle from '../../config/clearLinkTitle';
+import clearLinkTitle from '../../config/clearLinkTitleConfig';
 import userNotPhoto from '../../assets/images/profile-not-photo.jpg';
 import ProfilePhoto from './styled';
 

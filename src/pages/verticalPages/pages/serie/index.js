@@ -13,7 +13,7 @@ import axiosBaseUrlSeries from '../../../../services/axiosBaseUrlSeries';
 import axiosBaseUrlSeriesDiscover from '../../../../services/axiosBaseUrlSeriesDiscover';
 import axiosBaseUrlGenresSeries from '../../../../services/axiosBaseUrlGenresSeries';
 import apiConfig from '../../../../config/apiConfig';
-import clearLinkTitle from '../../../../config/clearLinkTitle';
+import clearLinkTitle from '../../../../config/clearLinkTitleConfig';
 import RatingSystem from '../../../../components/ratingSystem/index';
 import Loading from '../../../../components/loadingReactStates/index';
 import LoadingScrollInfinit from '../../../../components/loadingActor/index';
@@ -112,10 +112,12 @@ export default function SeriesV() {
   }
 
   function setVerticalSearch(event) {
+    event.preventDefault();
     if (!verticalSearchValue) {
-      return event.preventDefault();
+      console.log(setDate(2));
+      return;
     }
-    return event;
+    return event.target.submit();
   }
 
   function setDate(past7Day = 0) {

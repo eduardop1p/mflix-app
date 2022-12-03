@@ -14,7 +14,7 @@ import axiosDetailsFilters from '../../../../services/axiosBaseUrlDetailsFilters
 import axiosBaseUrlGenres from '../../../../services/axiosBaseUrlGenres';
 import axiosBaseUrlFilterActor from '../../../../services/axiosBaseUrlFilterActor';
 import apiConfig from '../../../../config/apiConfig';
-import clearLinkTitle from '../../../../config/clearLinkTitle';
+import clearLinkTitle from '../../../../config/clearLinkTitleConfig';
 import RatingSystem from '../../../../components/ratingSystem/index';
 import imageErrorTop3 from '../../../../assets/images/czx7z2e6uqg81.jpg';
 import Loading from '../../../../components/loadingReactStates/index';
@@ -135,10 +135,11 @@ export default function MovieV() {
   }
 
   function setVerticalSearch(event) {
+    event.preventDefault();
     if (!verticalSearchValue) {
-      return event.preventDefault();
+      return;
     }
-    return event;
+    return event.target.submit();
   }
 
   function setCheckBoxFilters(event, name) {

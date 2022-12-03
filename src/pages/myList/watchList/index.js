@@ -10,7 +10,7 @@ import * as actions from '../../../storeReactRedux/modules/loading/actions';
 import axiosBaseUrlUser from '../../../services/axiosUserBaseUrl';
 import axiosBaseUrlMovies from '../../../services/axiosBaseUrlMovies';
 import axiosBaseUrlSeries from '../../../services/axiosBaseUrlSeries';
-import clearLinkTitle from '../../../config/clearLinkTitle';
+import clearLinkTitle from '../../../config/clearLinkTitleConfig';
 import Loading from '../../../components/loadingReactStates/index';
 import MessageForm from '../../../components/messageForm';
 import apiConfig from '../../../config/apiConfig';

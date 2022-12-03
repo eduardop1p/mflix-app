@@ -8,11 +8,12 @@ import apiConfig from '../../../config/apiConfig';
 import axiosBaseUrlMoviesDiscover from '../../../services/axiosBaseUrlDetailsFilters';
 import axiosBaseUrlSeriesDiscover from '../../../services/axiosBaseUrlSeriesDiscover';
 import axiosBaseUrlMultSearch from '../../../services/axiosBaseUrlMultSearch';
-import clearLinkTitle from '../../../config/clearLinkTitle';
+import clearLinkTitle from '../../../config/clearLinkTitleConfig';
 import RatingSystem from '../../../components/ratingSystem/index';
 import Loading from '../../../components/loadingReactStates/index';
 import imageErrorTop3 from '../../../assets/images/czx7z2e6uqg81.jpg';
 import NoResultFilters from '../../../components/noResultFilters';
+import newArrIndex from '../../../config/newArrIndexConfig';
 import { color1 } from '../../../colors';
 import {
   CatalogContainer,
@@ -98,10 +99,6 @@ class AllCatalog extends Component {
 
     const newArr = [...allMoviesArr.results, ...allSeriesArr.results];
     const randomArrMovieSeriesPopular = { results: [] };
-    const newArrIndex = [
-      0, 21, 1, 22, 2, 23, 3, 24, 4, 25, 5, 26, 6, 27, 7, 28, 8, 29, 9, 30, 10,
-      31, 11, 32, 12, 33, 13, 34, 14, 35, 15, 36, 16, 37, 17, 38, 18, 39, 19,
-    ];
 
     newArrIndex.forEach((valueIndex) => {
       randomArrMovieSeriesPopular.results.push(newArr[valueIndex]);

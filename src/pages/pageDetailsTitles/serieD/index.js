@@ -19,7 +19,7 @@ import imageError1 from '../../../assets/images/czx7z2e6uqg81.jpg';
 import imageError2 from '../../../assets/images/1150108.png';
 import Loading from '../../../components/loadingReactStates/index';
 import RatingSystem from '../../../components/ratingSystem/index';
-import clearLinkTitle from '../../../config/clearLinkTitle';
+import clearLinkTitle from '../../../config/clearLinkTitleConfig';
 import MessageForm from '../../../components/messageForm';
 import SerieTrailer from '../../../components/getTrailerSerieForId/index';
 import {

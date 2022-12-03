@@ -11,7 +11,7 @@ import axiosBaseUrlGenresSeries from '../../../services/axiosBaseUrlGenresSeries
 import axiosBaseUrlSeriesDiscover from '../../../services/axiosBaseUrlSeriesDiscover';
 import axiosBaseUrlSeries from '../../../services/axiosBaseUrlSeries';
 import axiosBaseUrlSearchSerie from '../../../services/axiosBaseUrlSearchSerie';
-import clearLinkTitle from '../../../config/clearLinkTitle';
+import clearLinkTitle from '../../../config/clearLinkTitleConfig';
 import RatingSystem from '../../../components/ratingSystem/index';
 import imageErrorTop3 from '../../../assets/images/czx7z2e6uqg81.jpg';
 import Loading from '../../../components/loadingReactStates/index';
