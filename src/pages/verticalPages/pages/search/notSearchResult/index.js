@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch } from 'react-redux';
 
 /* eslint-disable */
 import * as actions from '../../../../../storeReactRedux/modules/loading/actions';
 import notSearch from '../../../../../assets/images/search.png';
+import setVerticalSearch from '../../../../../config/searchConfig';
 import { MainIndexSearch } from '../styled';
 
 export default function NotSearchResult(porps) {
@@ -12,20 +13,11 @@ export default function NotSearchResult(porps) {
 
   const dispatch = useDispatch();
 
-  const [verticalSearchValue, setVerticalSearchValue] = useState('');
-
   useEffect(() => {
     setTimeout(() => {
       dispatch(actions.loadingFailure());
     }, 500);
   }, []);
-
-  function setVerticalSearch(event) {
-    if (!verticalSearchValue) {
-      return event.preventDefault();
-    }
-    return event;
-  }
 
   return (
     <MainIndexSearch>
@@ -49,8 +41,6 @@ export default function NotSearchResult(porps) {
               type="text"
               placeholder="Nova pesquisa..."
               name="search_query"
-              value={verticalSearchValue}
-              onChange={(event) => setVerticalSearchValue(event.target.value)}
             />
           </form>
         </div>

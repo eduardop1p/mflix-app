@@ -11,6 +11,7 @@ import clearLinkTitle from '../../../config/clearLinkTitleConfig';
 import RatingSystem from '../../../components/ratingSystem/index';
 import Loading from '../../../components/loadingReactStates/index';
 import imageErrorTop3 from '../../../assets/images/czx7z2e6uqg81.jpg';
+import removeLoadingSipnner from '../../../config/loadingSpinnerConfig';
 import { color1 } from '../../../colors/index';
 import { PopularContainer, PopularTitles } from '../../styled';
 
@@ -28,7 +29,6 @@ export default class Popular extends Component {
     };
 
     this.getAllPopular = this.getAllPopular.bind(this);
-    this.removeLoadingSipnner = this.removeLoadingSipnner.bind(this);
   }
 
   componentDidMount() {
@@ -59,14 +59,6 @@ export default class Popular extends Component {
     } catch {
       console.error('Erro ao pegar series populares.');
     }
-  }
-
-  removeLoadingSipnner(event) {
-    const loadingSpinner = event.target.parentElement.querySelector(
-      'img + .container-load'
-    );
-    if (!loadingSpinner) return;
-    return loadingSpinner.remove();
   }
 
   render() {
@@ -149,8 +141,8 @@ export default class Popular extends Component {
                             ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
                             : imageErrorTop3
                         }
-                        onLoad={this.removeLoadingSipnner}
-                        onError={this.removeLoadingSipnner}
+                        onLoad={removeLoadingSipnner}
+                        onError={removeLoadingSipnner}
                         alt={result.name}
                       />
                       <Loading popular />

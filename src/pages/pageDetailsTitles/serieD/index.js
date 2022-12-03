@@ -22,6 +22,7 @@ import RatingSystem from '../../../components/ratingSystem/index';
 import clearLinkTitle from '../../../config/clearLinkTitleConfig';
 import MessageForm from '../../../components/messageForm';
 import SerieTrailer from '../../../components/getTrailerSerieForId/index';
+import removeLoadingSipnner from '../../../config/loadingSpinnerConfig';
 import {
   Main,
   BgImgPageDetails,
@@ -305,14 +306,6 @@ export default function serieD(props) {
       }
       return;
     }
-  }
-
-  function removeLoadingSipnner(event) {
-    const loadingSpinner = event.target.parentElement.querySelector(
-      'img + .container-load'
-    );
-    if (!loadingSpinner) return;
-    return loadingSpinner.remove();
   }
 
   SwiperCore.use(Autoplay);

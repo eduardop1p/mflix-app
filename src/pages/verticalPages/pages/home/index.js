@@ -23,6 +23,9 @@ import Loading from '../../../../components/loadingReactStates/index';
 import LoadingScrollInfinit from '../../../../components/loadingActor/index';
 import NoResultFilters from '../../../../components/noResultFilters/index';
 import newArrIndex from '../../../../config/newArrIndexConfig';
+import setDate from '../../../../config/setDateConfig';
+import setVerticalSearch from '../../../../config/searchConfig';
+import removeLoadingSipnner from '../../../../config/loadingSpinnerConfig';
 import { PagesContainer, Filters, New, Popular } from '../../styled';
 
 export default function Home() {
@@ -37,7 +40,6 @@ export default function Home() {
   const [allGenres, setAllGenres] = useState([]);
   const [genresArrowActived, setGenresArrowActived] = useState(true);
   const [yearsArrowActived, setYearsArrowActived] = useState(true);
-  const [verticalSearchValue, setVerticalSearchValue] = useState('');
   const [currentYears, setCurrentYears] = useState([
     2004,
     new Date().getFullYear(),
@@ -100,25 +102,6 @@ export default function Home() {
       });
 
     setAllGenres(newArrGenres);
-  }
-
-  function setVerticalSearch(event) {
-    event.preventDefault();
-    if (!verticalSearchValue) {
-      return;
-    }
-    return event.target.submit();
-  }
-
-  function setDate(past7Day = 0) {
-    const date = new Date();
-    date.setDate(date.getDate() - past7Day);
-
-    const zeroLeft = (num) => (num < 10 ? `0${num}` : num);
-
-    return `${date.getFullYear()}-${zeroLeft(date.getMonth() + 1)}-${zeroLeft(
-      date.getDate()
-    )}`;
   }
 
   async function setNewsFunction() {
@@ -263,15 +246,6 @@ export default function Home() {
     }
   }
 
-  function removeLoadingSipnner(event) {
-    const loadingSpinner = event.target.parentElement.querySelector(
-      'img + .container-load'
-    );
-    if (!loadingSpinner) return;
-
-    return loadingSpinner.remove();
-  }
-
   SwiperCore.use(Autoplay);
 
   return id ? (
@@ -380,8 +354,6 @@ export default function Home() {
               type="text"
               name="search_query"
               placeholder="Pesquisar titulo..."
-              value={verticalSearchValue}
-              onChange={(event) => setVerticalSearchValue(event.target.value)}
             />
           </form>
           <div title="Dúvidas?" tabIndex={0}>

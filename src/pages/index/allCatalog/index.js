@@ -19,6 +19,7 @@ import Loading from '../../../components/loadingReactStates/index';
 import imageErrorTop3 from '../../../assets/images/czx7z2e6uqg81.jpg';
 import NoResultFilters from '../../../components/noResultFilters';
 import newArrIndex from '../../../config/newArrIndexConfig';
+import removeLoadingSipnner from '../../../config/loadingSpinnerConfig';
 import { color1 } from '../../../colors';
 import {
   CatalogContainer,
@@ -306,14 +307,6 @@ class AllCatalog extends Component {
     return;
   }
 
-  removeLoadingSipnner(event) {
-    const loadingSpinner = event.target.parentElement.querySelector(
-      'img + .container-load'
-    );
-    if (!loadingSpinner) return;
-    return loadingSpinner.remove();
-  }
-
   render() {
     const {
       all,
@@ -422,8 +415,8 @@ class AllCatalog extends Component {
                             ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
                             : imageErrorTop3
                         }
-                        onLoad={this.removeLoadingSipnner}
-                        onError={this.removeLoadingSipnner}
+                        onLoad={removeLoadingSipnner}
+                        onError={removeLoadingSipnner}
                         alt={result.title ? result.title : result.name}
                       />
                       <Loading colorVertical={this.props.colorVertical} />

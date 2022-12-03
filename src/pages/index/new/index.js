@@ -17,6 +17,8 @@ import Loading from '../../../components/loadingReactStates/index';
 import imageErrorPoster from '../../../assets/images/czx7z2e6uqg81.jpg';
 import imageErrorTop3 from '../../../assets/images/1150108.png';
 import newArrIndex from '../../../config/newArrIndexConfig';
+import setDate from '../../../config/setDateConfig';
+import removeLoadingSipnner from '../../../config/loadingSpinnerConfig';
 import { color1 } from '../../../colors';
 import { Slider, Grid } from '../../styled';
 
@@ -54,17 +56,6 @@ export default function New() {
     getNews();
   }, []);
 
-  function setDate(past7Day = 0) {
-    const date = new Date();
-    date.setDate(date.getDate() - past7Day);
-
-    const zeroLeft = (num) => (num < 10 ? `0${num}` : num);
-
-    return `${date.getFullYear()}-${zeroLeft(date.getMonth() + 1)}-${zeroLeft(
-      date.getDate()
-    )}`;
-  }
-
   function randomArrMovieSeries(newsMoviesArr, newsSeriesArr) {
     const newArr = [...newsMoviesArr.results, ...newsSeriesArr.results];
     const randomArrMovieSeriesPopular = [];
@@ -74,14 +65,6 @@ export default function New() {
     });
 
     setNews(randomArrMovieSeriesPopular);
-  }
-
-  function removeLoadingSipnner(event) {
-    const loadingSpinner = event.target.parentElement.querySelector(
-      'img + .container-load'
-    );
-    if (!loadingSpinner) return;
-    return loadingSpinner.remove();
   }
 
   SwiperCore.use([Autoplay]);

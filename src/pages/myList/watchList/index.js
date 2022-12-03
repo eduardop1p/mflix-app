@@ -15,6 +15,7 @@ import Loading from '../../../components/loadingReactStates/index';
 import MessageForm from '../../../components/messageForm';
 import apiConfig from '../../../config/apiConfig';
 import notSearch from '../../../assets/images/search.png';
+import removeLoadingSipnner from '../../../config/loadingSpinnerConfig';
 import {
   RemoveItemsListSelected,
   WatchListSection,
@@ -317,14 +318,6 @@ function UserListMovie(props) {
     getDetailsId(id);
   }, []);
 
-  function removeLoadingSipnner(event) {
-    const loadingSpinner = event.target.parentElement.querySelector(
-      'img + .container-load'
-    );
-    if (!loadingSpinner) return;
-    return loadingSpinner.remove();
-  }
-
   return (
     dataList && (
       <Link
@@ -388,14 +381,6 @@ function UserListSerie(props) {
     };
     getDetailsId(id);
   }, []);
-
-  function removeLoadingSipnner(event) {
-    const loadingSpinner = event.target.parentElement.querySelector(
-      'img + .container-load'
-    );
-    if (!loadingSpinner) return;
-    return loadingSpinner.remove();
-  }
 
   return (
     dataList && (

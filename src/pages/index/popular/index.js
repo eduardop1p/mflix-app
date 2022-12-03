@@ -14,6 +14,7 @@ import Loading from '../../../components/loadingReactStates/index';
 import RatingSystem from '../../../components/ratingSystem/index';
 import imageErrorTop3 from '../../../assets/images/czx7z2e6uqg81.jpg';
 import newArrIndex from '../../../config/newArrIndexConfig';
+import removeLoadingSipnner from '../../../config/loadingSpinnerConfig';
 import { color1 } from '../../../colors/index';
 import { PopularContainer, PopularTitles } from '../../styled';
 
@@ -31,7 +32,6 @@ export default class Popular extends Component {
     this.getAllPopular = this.getAllPopular.bind(this);
     this.concatGenresAndClear = this.concatGenresAndClear.bind(this);
     this.randomArrMovieSeries = this.randomArrMovieSeries.bind(this);
-    this.removeLoadingSipnner = this.removeLoadingSipnner.bind(this);
   }
 
   componentDidMount() {
@@ -102,14 +102,6 @@ export default class Popular extends Component {
     this.setState({
       allPopular: randomArrMovieSeriesPopular,
     });
-  }
-
-  removeLoadingSipnner(event) {
-    const loadingSpinner = event.target.parentElement.querySelector(
-      'img + .container-load'
-    );
-    if (!loadingSpinner) return;
-    return loadingSpinner.remove();
   }
 
   render() {
@@ -197,8 +189,8 @@ export default class Popular extends Component {
                                 ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
                                 : imageErrorTop3
                             }
-                            onLoad={this.removeLoadingSipnner}
-                            onError={this.removeLoadingSipnner}
+                            onLoad={removeLoadingSipnner}
+                            onError={removeLoadingSipnner}
                             alt={result.title ? result.title : result.name}
                           />
                           <Loading popular />

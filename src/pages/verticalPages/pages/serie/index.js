@@ -19,6 +19,9 @@ import Loading from '../../../../components/loadingReactStates/index';
 import LoadingScrollInfinit from '../../../../components/loadingActor/index';
 import imageErrorTop3 from '../../../../assets/images/czx7z2e6uqg81.jpg';
 import NoResultFilters from '../../../../components/noResultFilters/index';
+import setDate from '../../../../config/setDateConfig';
+import setVerticalSearch from '../../../../config/searchConfig';
+import removeLoadingSipnner from '../../../../config/loadingSpinnerConfig';
 import { PagesContainer, Filters, New, Popular } from '../../styled';
 
 export default function SeriesV() {
@@ -33,7 +36,6 @@ export default function SeriesV() {
   const [allGenres, setAllGenres] = useState([]);
   const [genresArrowActived, setGenresArrowActived] = useState(true);
   const [yearsArrowActived, setYearsArrowActived] = useState(true);
-  const [verticalSearchValue, setVerticalSearchValue] = useState('');
   const [currentYears, setCurrentYears] = useState([
     2004,
     new Date().getFullYear(),
@@ -111,26 +113,6 @@ export default function SeriesV() {
     }
   }
 
-  function setVerticalSearch(event) {
-    event.preventDefault();
-    if (!verticalSearchValue) {
-      console.log(setDate(2));
-      return;
-    }
-    return event.target.submit();
-  }
-
-  function setDate(past7Day = 0) {
-    const date = new Date();
-    date.setDate(date.getDate() - past7Day);
-
-    const zeroLeft = (num) => (num < 10 ? `0${num}` : num);
-
-    return `${date.getFullYear()}-${zeroLeft(date.getMonth() + 1)}-${zeroLeft(
-      date.getDate()
-    )}`;
-  }
-
   function setCheckBoxFilters(event) {
     let id = Number(event.target.id);
     const { checked } = event.target;
@@ -185,14 +167,6 @@ export default function SeriesV() {
     } else {
       setCurrentYears([value[0], Math.max(value[1], value[0] + minDistance)]);
     }
-  }
-
-  function removeLoadingSipnner(event) {
-    const loadingSpinner = event.target.parentElement.querySelector(
-      'img + .container-load'
-    );
-    if (!loadingSpinner) return;
-    return loadingSpinner.remove();
   }
 
   SwiperCore.use(Autoplay);
@@ -303,8 +277,6 @@ export default function SeriesV() {
               type="text"
               placeholder="Pesquisar serie..."
               name="search_query"
-              value={verticalSearchValue}
-              onChange={(event) => setVerticalSearchValue(event.target.value)}
             />
           </form>
           <div title="Dúvidas?" tabIndex={0}>

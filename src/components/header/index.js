@@ -9,6 +9,7 @@ import { capitalize } from 'lodash';
 import * as actions from '../../storeReactRedux/modules/loadBgHeader/actions';
 import Logo from '../logo';
 import UserPhoto from '../userPhoto';
+import setHeaderSearch from '../../config/searchConfig';
 
 import {
   BackgroundImageHeader,
@@ -22,7 +23,6 @@ import {
 export default function Header() {
   const [menuActive, setMenuActive] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
-  const [headerSearchValue, setHeaderSearchValue] = useState('');
 
   const breakPoint990 = useMediaQuery({ maxWidth: 990 });
   const breakPoint360 = useMediaQuery({ maxWidth: 360 });
@@ -32,13 +32,6 @@ export default function Header() {
   const userName = useRef(useSelector((state) => state.auth.user.nome));
   const background = useSelector((state) => state.firstBackground.background);
   const dispatch = useDispatch();
-
-  function setHeaderSearch(event) {
-    if (!headerSearchValue) {
-      return event.preventDefault();
-    }
-    return event;
-  }
 
   return (
     <>
@@ -109,8 +102,6 @@ export default function Header() {
                   type="text"
                   name="search_query"
                   placeholder="Pesquisar"
-                  value={headerSearchValue}
-                  onChange={(event) => setHeaderSearchValue(event.target.value)}
                 />
               </form>
               <svg

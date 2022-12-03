@@ -21,6 +21,8 @@ import Loading from '../../../../components/loadingReactStates/index';
 import LoadingActor from '../../../../components/loadingActor/index';
 import LoadingScrollInfinit from '../../../../components/loadingActor/index';
 import NoResultFilters from '../../../../components/noResultFilters/index';
+import setVerticalSearch from '../../../../config/searchConfig';
+import removeLoadingSipnner from '../../../../config/loadingSpinnerConfig';
 import { PagesContainer, Filters, New, Popular } from '../../styled';
 
 export default function MovieV() {
@@ -36,7 +38,6 @@ export default function MovieV() {
   const [genresArrowActived, setGenresArrowActived] = useState(true);
   const [yearsArrowActived, setYearsArrowActived] = useState(true);
   const [actorArrowActived, setActorArrowActived] = useState(true);
-  const [verticalSearchValue, setVerticalSearchValue] = useState('');
   const [allActors, setAllActors] = useState([]);
   const [currentYears, setCurrentYears] = useState([
     2004,
@@ -134,14 +135,6 @@ export default function MovieV() {
     }
   }
 
-  function setVerticalSearch(event) {
-    event.preventDefault();
-    if (!verticalSearchValue) {
-      return;
-    }
-    return event.target.submit();
-  }
-
   function setCheckBoxFilters(event, name) {
     let id = Number(event.target.id);
     const { checked } = event.target;
@@ -213,15 +206,6 @@ export default function MovieV() {
     } else {
       setCurrentYears([value[0], Math.max(value[1], value[0] + minDistance)]);
     }
-  }
-
-  function removeLoadingSipnner(event) {
-    const loadingSpinner = event.target.parentElement.querySelector(
-      'img + .container-load'
-    );
-    if (!loadingSpinner) return;
-
-    return loadingSpinner.remove();
   }
 
   SwiperCore.use(Autoplay);
@@ -379,8 +363,6 @@ export default function MovieV() {
               type="text"
               placeholder="Pesquisar filme..."
               name="search_query"
-              value={verticalSearchValue}
-              onChange={(event) => setVerticalSearchValue(event.target.value)}
             />
           </form>
           <div title="Dúvidas?" tabIndex={0}>

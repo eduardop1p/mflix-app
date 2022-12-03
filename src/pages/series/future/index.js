@@ -10,6 +10,8 @@ import apiConfig from '../../../config/apiConfig';
 import GetTrailerSerie from '../../../components/getTrailerSerieForId/index';
 import Loading from '../../../components/loadingReactStates/index';
 import imageErrorTop3 from '../../../assets/images/czx7z2e6uqg81.jpg';
+import setDate from '../../../config/setDateConfig';
+import removeLoadingSipnner from '../../../config/loadingSpinnerConfig';
 import { FutureContainer } from '../../styled';
 
 class Future extends Component {
@@ -34,20 +36,10 @@ class Future extends Component {
       this.setState({ breakPoint950: event.matches });
     });
 
-    const date = (past7Day = 0) => {
-      const date = new Date();
-      date.setDate(date.getDate() + past7Day);
-
-      const zeroLeft = (num) => (num < 10 ? `0${num}` : num);
-
-      return `${date.getFullYear()}-${zeroLeft(date.getMonth() + 1)}-${zeroLeft(
-        date.getDate()
-      )}`;
-    };
     const getAllFuture = async () => {
       try {
         const { data } = await axiosBaseUrlSeriesDiscover.get(
-          `?sort_by=popularity.desc&first_air_date.gte=${date()}&first_air_date.lte=${date(
+          `?sort_by=popularity.desc&first_air_date.gte=${setDate()}&first_air_date.lte=${setDate(
             200
           )}&api_key=${apiConfig.apiKey}&language=${apiConfig.language}page=1`
         );
@@ -69,15 +61,6 @@ class Future extends Component {
     if (loadBgHeader && futureAll) {
       setTimeout(() => this.props.loadingFailure(), 500);
     }
-  }
-
-  removeLoadingSipnner(event) {
-    const loadingSpinner = event.target.parentElement.querySelector(
-      'img + .container-load'
-    );
-    if (!loadingSpinner) return;
-
-    return loadingSpinner.remove();
   }
 
   render() {
@@ -109,14 +92,12 @@ class Future extends Component {
                     <div className="future">
                       {!breakPoint950 ? (
                         <FutureMobile
-                          thisParentClass={this}
                           result={result}
                           breakPoint1150={breakPoint1150}
                         />
                       ) : (
                         <div className="future-mobile-img-details">
                           <FutureMobile
-                            thisParentClass={this}
                             result={result}
                             breakPoint1150={breakPoint1150}
                           />
@@ -142,7 +123,7 @@ class FutureMobile extends Component {
   }
 
   render() {
-    const { thisParentClass, result, breakPoint1150 } = this.props;
+    const { result, breakPoint1150 } = this.props;
 
     return (
       <>
@@ -153,8 +134,8 @@ class FutureMobile extends Component {
                 ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
                 : imageErrorTop3
             }
-            onLoad={thisParentClass.removeLoadingSipnner}
-            onError={thisParentClass.removeLoadingSipnner}
+            onLoad={removeLoadingSipnner}
+            onError={removeLoadingSipnner}
             alt={result.name}
           />
           <Loading />
