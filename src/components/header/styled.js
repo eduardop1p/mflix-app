@@ -123,14 +123,11 @@ export const Search = styled.div`
   input {
     background-color: transparent;
     color: ${colors.color1};
-    transition: width 0.2s linear,
-      border 0.2s linear
-        ${({ searchActive }) => searchActive && ',0s 0.2s padding linear'};
-    padding: ${({ searchActive }) =>
-      searchActive ? '10px 2.5rem 10px 13px' : 0};
+    transition: width 0.2s linear, visibility 0s linear 0.12s;
+    padding: 10px 2.5rem 10px 13px;
     width: ${({ searchActive }) => (searchActive ? '100%' : '0')};
-    border: ${({ searchActive }) =>
-      searchActive ? '1px solid #ddd' : '0px solid #ddd'};
+    visibility: ${({ searchActive }) => (searchActive ? 'visible' : 'hidden')};
+    border: 1px solid #ddd;
     border-radius: 1.5rem;
     float: right;
   }
