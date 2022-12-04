@@ -22,6 +22,7 @@ import RatingSystem from '../../../components/ratingSystem/index';
 import clearLinkTitle from '../../../config/clearLinkTitleConfig';
 import MessageForm from '../../../components/messageForm';
 import SerieTrailer from '../../../components/getTrailerSerieForId/index';
+import setDate from '../../../config/setDateConfig';
 import removeLoadingSipnner from '../../../config/loadingSpinnerConfig';
 import {
   Main,
@@ -179,17 +180,6 @@ export default function serieD(props) {
     } catch {
       console.log('Erro ao carregar Novas Series.');
     }
-  }
-
-  function setDate(past7Day = 0) {
-    const date = new Date();
-    date.setDate(date.getDate() - past7Day);
-
-    const zeroLeft = (num) => (num < 10 ? `0${num}` : num);
-
-    return `${date.getFullYear()}-${zeroLeft(date.getMonth() + 1)}-${zeroLeft(
-      date.getDate()
-    )}`;
   }
 
   function getCreditsFilters(data) {

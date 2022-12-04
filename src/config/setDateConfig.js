@@ -1,6 +1,12 @@
-export default function setDate(past7Day = 0) {
+/* eslint-disable */
+
+export default function setDate(past7Day = 0, future) {
   const date = new Date();
-  date.setDate(date.getDate() - past7Day);
+  if (future) {
+    date.setDate(date.getDate() + past7Day);
+  } else {
+    date.setDate(date.getDate() - past7Day);
+  }
 
   const zeroLeft = (num) => (num < 10 ? `0${num}` : num);
 

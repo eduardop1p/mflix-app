@@ -40,7 +40,8 @@ class Future extends Component {
       try {
         const { data } = await axiosBaseUrlSeriesDiscover.get(
           `?sort_by=popularity.desc&first_air_date.gte=${setDate()}&first_air_date.lte=${setDate(
-            200
+            200,
+            true
           )}&api_key=${apiConfig.apiKey}&language=${apiConfig.language}page=1`
         );
         this.setState({

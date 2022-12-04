@@ -49,7 +49,8 @@ class Future extends Component {
       try {
         const axiosData1 = await axiosBaseUrlMoviesDiscover.get(
           `?sort_by=popularity.desc&with_genres=16&primary_release_date.gte=${setDate()}&primary_release_date.lte=${setDate(
-            200
+            200,
+            true
           )}&api_key=${apiConfig.apiKey}&language=${apiConfig.language}page=1`
         );
         const data1 = axiosData1.data;
@@ -57,7 +58,8 @@ class Future extends Component {
         try {
           const axiosData2 = await axiosBaseUrlSeriesDiscover.get(
             `?sort_by=popularity.desc&with_genres=16&first_air_date.gte=${setDate()}&first_air_date.lte=${setDate(
-              200
+              200,
+              true
             )}&api_key=${apiConfig.apiKey}&language=${apiConfig.language}page=1`
           );
           const data2 = axiosData2.data;
