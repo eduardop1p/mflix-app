@@ -72,6 +72,9 @@ export default function MovieD(props) {
   let controllerRef = useRef(new AbortController());
 
   useEffect(() => {
+    if (isLogedIn)
+      axiosBaseUrlUser.defaults.headers = { Authorization: session.id };
+
     const getDetailsId = async (id) => {
       try {
         const { data } = await axiosBaseUrlMovies.get(
@@ -155,10 +158,6 @@ export default function MovieD(props) {
   }, []);
 
   useEffect(() => {
-    axiosBaseUrlUser.defaults.headers = { Authorization: session.id };
-  }, []);
-
-  useEffect(() => {
     if (favoriteUser && newId && allGenres && files && news && id && loadingApp)
       setTimeout(() => {
         dispatch(actions.loadingFailure());
@@ -213,8 +212,7 @@ export default function MovieD(props) {
 
     try {
       const { data } = await axiosBaseUrlUser.get(
-        `minha-lista/${user.id}/${id + midiaType}/${midiaType}`,
-        { headers: { Authorization: session.id } }
+        `minha-lista/${user.id}/${id + midiaType}/${midiaType}`
       );
       if (get(data, 'id', false)) {
         setFavorite(true);
@@ -229,7 +227,7 @@ export default function MovieD(props) {
         setshowFormMsg(true);
         return;
       }
-      setErrorMessage('Erro desconhecido contate o administrador do sistema.');
+      setErrorMessage('Erro no servidor.');
       setshowFormMsg(true);
     }
   }
@@ -248,7 +246,6 @@ export default function MovieD(props) {
         await axiosBaseUrlUser.delete(
           `/minha-lista/${user.id}?ids=${favoriteUser.id}`,
           {
-            headers: { Authorization: session.id },
             signal: controllerRef.current.signal,
           }
         );
@@ -258,14 +255,10 @@ export default function MovieD(props) {
           const { data } = err.response;
           data.errors.map((err) => setErrorMessage(err));
           setshowFormMsg(true);
-          console.clear();
           return;
         }
-        setErrorMessage(
-          'Erro desconhecido contate o administrador do sistema.'
-        );
+        setErrorMessage('Erro no servidor.');
         setshowFormMsg(true);
-        console.clear();
       }
       return;
     } else {
@@ -279,7 +272,6 @@ export default function MovieD(props) {
             midiaType,
           },
           {
-            headers: { Authorization: session.id },
             signal: controllerRef.current.signal,
           }
         );
@@ -291,12 +283,8 @@ export default function MovieD(props) {
           setshowFormMsg(true);
           return;
         }
-        setErrorMessage(
-          'Erro desconhecido contate o administrador do sistema.'
-        );
+        setErrorMessage('Erro no servidor.');
         setshowFormMsg(true);
-
-        console.clear();
       }
       return;
     }

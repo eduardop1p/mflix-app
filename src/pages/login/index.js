@@ -72,12 +72,10 @@ export default function Login(props) {
         const { data } = err.response;
         data.errors.map((err) => setErrorMessage(err));
         setshowFormMsg(true);
-        console.clear();
         return;
       }
-      setErrorMessage('Erro desconhecido contate o administrador do sistema.');
+      setErrorMessage('Erro no servidor.');
       setshowFormMsg(true);
-      console.clear();
     } finally {
       setLoadLogin(false);
     }

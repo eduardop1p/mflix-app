@@ -77,6 +77,7 @@ export default function MovieV() {
       news.length &&
       allPopular.length &&
       allActors.length &&
+      !id &&
       loadingApp
     ) {
       setTimeout(() => {

@@ -69,6 +69,9 @@ export default function searchSerie(props) {
   const [showFormMsg, setshowFormMsg] = useState(false);
 
   useEffect(() => {
+    if (isLogedIn)
+      axiosBaseUrlUser.defaults.headers = { Authorization: session.id };
+
     const getDetailsId = async (id) => {
       try {
         const { data } = await axiosBaseUrlSeries.get(
@@ -242,8 +245,7 @@ export default function searchSerie(props) {
 
     try {
       const { data } = await axiosBaseUrlUser.get(
-        `minha-lista/${user.id}/${id + midiaType}/${midiaType}`,
-        { headers: { Authorization: session.id } }
+        `minha-lista/${user.id}/${id + midiaType}/${midiaType}`
       );
       if (get(data, 'id', false)) {
         setFavorite(true);
@@ -257,12 +259,10 @@ export default function searchSerie(props) {
         const { data } = err.response;
         data.errors.map((err) => setErrorMessage(err));
         setshowFormMsg(true);
-        console.clear();
         return;
       }
-      setErrorMessage('Erro desconhecido contate o administrador do sistema.');
+      setErrorMessage('Erro no servidor.');
       setshowFormMsg(true);
-      console.clear();
     }
   }
 
@@ -280,7 +280,6 @@ export default function searchSerie(props) {
         await axiosBaseUrlUser.delete(
           `/minha-lista/${user.id}?ids=${favoriteUser.id}`,
           {
-            headers: { Authorization: session.id },
             signal: controllerRef.current.signal,
           }
         );
@@ -290,14 +289,10 @@ export default function searchSerie(props) {
           const { data } = err.response;
           data.errors.map((err) => setErrorMessage(err));
           setshowFormMsg(true);
-          console.clear();
           return;
         }
-        setErrorMessage(
-          'Erro desconhecido contate o administrador do sistema.'
-        );
+        setErrorMessage('Erro no servidor.');
         setshowFormMsg(true);
-        console.clear();
       }
       return;
     } else {
@@ -311,7 +306,6 @@ export default function searchSerie(props) {
             midiaType,
           },
           {
-            headers: { Authorization: session.id },
             signal: controllerRef.current.signal,
           }
         );
@@ -321,14 +315,10 @@ export default function searchSerie(props) {
           const { data } = err.response;
           data.errors.map((err) => setErrorMessage(err));
           setshowFormMsg(true);
-          console.clear();
           return;
         }
-        setErrorMessage(
-          'Erro desconhecido contate o administrador do sistema.'
-        );
+        setErrorMessage('Erro no servidor.');
         setshowFormMsg(true);
-        console.clear();
       }
       return;
     }

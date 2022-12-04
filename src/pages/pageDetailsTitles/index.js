@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { useParams, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import MovieD from './movieD';
 import SerieD from './serieD';

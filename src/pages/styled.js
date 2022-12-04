@@ -1255,6 +1255,7 @@ export const FutureContainer = styled.section`
         position: absolute;
         bottom: 2rem;
         color: ${colors.color1};
+        opacity: 0.9;
         font-size: 0.62rem;
       }
 

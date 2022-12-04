@@ -99,7 +99,7 @@ export default function Conta() {
         setshowFormMsg(true);
         return;
       }
-      setErrorMessage('Erro desconhecido contate o administrador do sistema.');
+      setErrorMessage('Erro no servidor.');
       setshowFormMsg(true);
     } finally {
       setLoadConta(false);

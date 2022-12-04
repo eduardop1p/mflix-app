@@ -1,8 +1,9 @@
 /* eslint-disable */
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { isEmail, isAlphanumeric } from 'validator/validator';
+import { get } from 'lodash';
 
 import * as actionsAuth from '../../../storeReactRedux/modules/auth/actions';
 import axiosBaseUrlUser from '../../../services/axiosUserBaseUrl';
@@ -38,10 +39,14 @@ export default function accountManage() {
       setSuccessMessage('Conta deletada com sucesso!');
       setshowFormMsg(true);
     } catch (err) {
-      const { data } = err.response;
-      data.errors.map((err) => setErrorMessage(err));
+      if (get(err, 'response.data', false)) {
+        const { data } = err.response;
+        data.errors.map((err) => setErrorMessage(err));
+        setshowFormMsg(true);
+        return;
+      }
+      setErrorMessage('Erro no servidor.');
       setshowFormMsg(true);
-      console.clear();
     } finally {
       setLoadUser(false);
     }
@@ -186,10 +191,14 @@ function InforPess() {
       setSuccessMessage('Dados atualizados com sucesso!');
       setshowFormMsg(true);
     } catch (err) {
-      const { data } = err.response;
-      data.errors.map((err) => setErrorMessage(err));
+      if (get(err, 'response.data', false)) {
+        const { data } = err.response;
+        data.errors.map((err) => setErrorMessage(err));
+        setshowFormMsg(true);
+        return;
+      }
+      setErrorMessage('Erro no servidor.');
       setshowFormMsg(true);
-      console.clear();
     } finally {
       setLoadUser(false);
     }

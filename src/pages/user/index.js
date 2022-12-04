@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-import { capitalize } from 'lodash';
+import { capitalize, get } from 'lodash';
 
 import * as actionsLoading from '../../storeReactRedux/modules/loading/actions';
 import * as actionsAuth from '../../storeReactRedux/modules/auth/actions';
@@ -29,8 +29,9 @@ export default function User() {
   const [loadUserPhoto, setLoadUserPhoto] = useState(false);
 
   useEffect(() => {
+    if (loadUserPhoto && loadingApp) dispatch(actionsLoading.loadingFailure());
     axiosBaseUrlUser.defaults.headers = { Authorization: session.id };
-  }, []);
+  }, [loadUserPhoto, loadingApp]);
 
   async function uploadUserPhoto(event) {
     setSuccessMessage('');
@@ -61,10 +62,14 @@ export default function User() {
       setSuccessMessage('Foto de perfil alterada.');
       setshowFormMsg(true);
     } catch (err) {
-      const { data } = err.response;
-      data.errors.map((err) => setErrorMessage(err));
+      if (get(err, 'response.data', false)) {
+        const { data } = err.response;
+        data.errors.map((err) => setErrorMessage(err));
+        setshowFormMsg(true);
+        return;
+      }
+      setErrorMessage('Erro no servidor.');
       setshowFormMsg(true);
-      console.clear();
     } finally {
       setLoadUser(false);
     }
@@ -88,10 +93,14 @@ export default function User() {
       dispatch(actionsAuth.userLoginPhotoFailure());
       setshowFormMsg(true);
     } catch (err) {
-      const { data } = err.response;
-      data.errors.map((err) => setErrorMessage(err));
+      if (get(err, 'response.data', false)) {
+        const { data } = err.response;
+        data.errors.map((err) => setErrorMessage(err));
+        setshowFormMsg(true);
+        return;
+      }
+      setErrorMessage('Erro no servidor.');
       setshowFormMsg(true);
-      console.clear();
     } finally {
       setLoadUser(false);
     }
