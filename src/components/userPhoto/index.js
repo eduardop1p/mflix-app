@@ -1,6 +1,5 @@
-import { useState, useRef } from 'react';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 /* eslint-disable */
 
@@ -11,24 +10,14 @@ import ProfilePhoto from './styled';
 export default function UserPhoto(props) {
   const { width60 } = props;
 
-  const [loadUserPhoto, setLoadUserPhoto] = useState(false);
-  const user = useRef(useSelector((state) => state.auth.user));
-  const isLogedIn = useRef(useSelector((state) => state.auth.isLogedIn));
-  const profileUrl = useSelector((state) => state.auth.profileUrl);
+  const { user } = useSelector((state) => state.auth);
+  const { foto, nome } = user;
 
   return (
     <ProfilePhoto title="Editar perfil" width60={width60}>
-      <Link
-        to={clearLinkTitle(`/${isLogedIn ? user.current.nome : ''}`)}
-        reloadDocument
-      >
+      <Link to={`/${clearLinkTitle(nome)}`} reloadDocument>
         <div className="profile-photo">
-          <img
-            onLoad={() => setLoadUserPhoto(true)}
-            onError={() => setLoadUserPhoto(true)}
-            src={profileUrl ? profileUrl : userNotPhoto}
-            alt={user.current.nome}
-          />
+          <img src={foto.length ? foto[0].url : userNotPhoto} alt={nome} />
         </div>
       </Link>
     </ProfilePhoto>

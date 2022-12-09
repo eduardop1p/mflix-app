@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import { useMediaQuery } from 'react-responsive';
 
 import * as actions from '../../../storeReactRedux/modules/loading/actions';
-import axiosBaseUrlUser from '../../../services/axiosUserBaseUrl';
+import axiosUserBaseUrl from '../../../services/axiosUserBaseUrl';
 import axiosBaseUrlMovies from '../../../services/axiosBaseUrlMovies';
 import axiosBaseUrlSeries from '../../../services/axiosBaseUrlSeries';
 import clearLinkTitle from '../../../config/clearLinkTitleConfig';
@@ -28,9 +28,7 @@ export default function WatchList(props) {
   const breakPoint440 = useMediaQuery({ maxWidth: 440 });
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
-  const { session } = useSelector((state) => state.auth.user);
-  const isLogedIn = useSelector((state) => state.auth.isLogedIn);
+  const { user, isLogedIn } = useSelector((state) => state.auth);
 
   const [loadingFilters, setLoadingFilters] = useState(false);
   const [showTitles, setShowTitles] = useState(false);
@@ -63,9 +61,7 @@ export default function WatchList(props) {
     setErrorMessage('');
 
     try {
-      const { data } = await axiosBaseUrlUser.get(`minha-lista/${user.id}`, {
-        headers: { Authorization: session.id },
-      });
+      const { data } = await axiosUserBaseUrl.get(`minha-lista/${user.id}`);
       if (!data.length)
         return setTimeout(() => dispatch(actions.loadingFailure()), 500);
       setUserList(data);
@@ -105,9 +101,8 @@ export default function WatchList(props) {
 
     try {
       setLoadingFilters(true);
-      await axiosBaseUrlUser.delete(
-        `/minha-lista/${user.id}?ids=${selectedItems.join(',')}`,
-        { headers: { Authorization: session.id } }
+      await axiosUserBaseUrl.delete(
+        `/minha-lista/${user.id}?ids=${selectedItems.join(',')}`
       );
       getUserList();
       setSelectedItems([]);
@@ -133,9 +128,7 @@ export default function WatchList(props) {
 
     try {
       setLoadingFilters(true);
-      await axiosBaseUrlUser.delete(`/minha-lista/${user.id}`, {
-        headers: { Authorization: session.id },
-      });
+      await axiosUserBaseUrl.delete(`/minha-lista/${user.id}`);
       getUserList();
       setSelectedItems([]);
       setSuccessMessage('Todos os titulos foi excluidos com sucesso.');
@@ -332,7 +325,7 @@ function UserListMovie(props) {
             <img
               onLoad={removeLoadingSipnner}
               onError={removeLoadingSipnner}
-              src={`https://image.tmdb.org/t/p/original${dataList.backdrop_path}`}
+              src={`https://image.tmdb.org/t/p/w500${dataList.backdrop_path}`}
               alt={dataList.title}
             />
             <Loading
@@ -396,7 +389,7 @@ function UserListSerie(props) {
             <img
               onLoad={removeLoadingSipnner}
               onError={removeLoadingSipnner}
-              src={`https://image.tmdb.org/t/p/original${dataList.backdrop_path}`}
+              src={`https://image.tmdb.org/t/p/w500${dataList.backdrop_path}`}
               alt={dataList.name}
             />
             <Loading

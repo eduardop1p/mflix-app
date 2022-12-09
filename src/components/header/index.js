@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
@@ -28,9 +28,8 @@ export default function Header() {
   const breakPoint360 = useMediaQuery({ maxWidth: 360 });
   const breakPoint300 = useMediaQuery({ maxWidth: 300 });
 
-  const isLogedIn = useRef(useSelector((state) => state.auth.isLogedIn));
-  const userName = useRef(useSelector((state) => state.auth.user.nome));
-  const background = useSelector((state) => state.firstBackground.background);
+  const { isLogedIn, user } = useSelector((state) => state.auth);
+  const { background } = useSelector((state) => state.firstBackground);
   const dispatch = useDispatch();
 
   return (
@@ -136,7 +135,7 @@ export default function Header() {
           )}
           {!breakPoint990 && (
             <div>
-              {isLogedIn.current ? (
+              {isLogedIn ? (
                 <UserPhoto />
               ) : (
                 <Link
@@ -166,10 +165,10 @@ export default function Header() {
                   menuActive={menuActive}
                 >
                   <div>
-                    {isLogedIn.current ? (
+                    {isLogedIn ? (
                       <>
                         <UserPhoto width60 />
-                        <h5>{capitalize(userName.current)}</h5>
+                        <h5>{capitalize(user.nome)}</h5>
                       </>
                     ) : (
                       <Link

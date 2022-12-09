@@ -3,23 +3,30 @@
 import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
+import { isEmail, isAlphanumeric } from 'validator/validator';
 import { capitalize, get } from 'lodash';
 
 import * as actionsLoading from '../../storeReactRedux/modules/loading/actions';
 import * as actionsAuth from '../../storeReactRedux/modules/auth/actions';
-import axiosBaseUrlUser from '../../services/axiosUserBaseUrl';
+import axiosUserBaseUrl from '../../services/axiosUserBaseUrl';
 import LoadingForm from '../../components/loadingForm/index';
-import AccountManage from './accountManage/index';
 import MessageForm from '../../components/messageForm';
 import userNotPhoto from '../../assets/images/profile-not-photo.jpg';
-import { Main, ProfilePhoto, NewUpdateDeletePhotoDiv } from './styled';
+import clearLinkTitle from '../../config/clearLinkTitleConfig';
+import {
+  Main,
+  ProfilePhoto,
+  NewUpdateDeletePhotoDiv,
+  AccountManageContainer,
+  InforPessContainer,
+  DeleteAccountContainer,
+} from './styled';
 
 export default function User() {
   const dispatch = useDispatch();
-  const user = useRef(useSelector((state) => state.auth.user));
-  const { session } = useSelector((state) => state.auth.user);
-  const profileUrl = useRef(useSelector((state) => state.auth.profileUrl));
   const loadingApp = useSelector((state) => state.loading.loadingState);
+  const { user } = useSelector((state) => state.auth);
+  const { foto, nome, email } = user;
 
   const [showNewUpdateDeletePhoto, setShowNewUpdateDelete] = useState(false);
   const [loadUser, setLoadUser] = useState(false);
@@ -30,7 +37,6 @@ export default function User() {
 
   useEffect(() => {
     if (loadUserPhoto && loadingApp) dispatch(actionsLoading.loadingFailure());
-    axiosBaseUrlUser.defaults.headers = { Authorization: session.id };
   }, [loadUserPhoto, loadingApp]);
 
   async function uploadUserPhoto(event) {
@@ -41,12 +47,14 @@ export default function User() {
     const file = event.target.files[0];
     const formDataFile = new FormData();
     formDataFile.append('user-foto', file);
+
     const userFoto = document.body.querySelector('#user-foto');
     const userFoto2 = document.body.querySelector('#user-foto-2');
+
     try {
       setLoadUser(true);
-      const { data } = await axiosBaseUrlUser.post(
-        `/fotos/${user.current.id}`,
+      const { data } = await axiosUserBaseUrl.post(
+        `/fotos/${user.id}`,
         formDataFile,
         {
           headers: {
@@ -56,9 +64,6 @@ export default function User() {
       );
       userFoto.src = data.foto.url;
       userFoto2.src = data.foto.url;
-      dispatch(
-        actionsAuth.userLoginPhotoSuccess({ profileUrl: data.foto.url })
-      );
       setSuccessMessage('Foto de perfil alterada.');
       setshowFormMsg(true);
     } catch (err) {
@@ -85,12 +90,10 @@ export default function User() {
 
     try {
       setLoadUser(true);
-      await axiosBaseUrlUser.delete(`/fotos/${user.current.id}`);
-
+      await axiosUserBaseUrl.delete(`/fotos/${user.id}`);
       userFoto.src = userNotPhoto;
       userFoto2.src = userNotPhoto;
       setSuccessMessage('Foto de perfil deletada.');
-      dispatch(actionsAuth.userLoginPhotoFailure());
       setshowFormMsg(true);
     } catch (err) {
       if (get(err, 'response.data', false)) {
@@ -111,9 +114,9 @@ export default function User() {
 
     try {
       setLoadUser(true);
-      await axiosBaseUrlUser.delete('logout');
+      await axiosUserBaseUrl.delete('logout');
       dispatch(actionsAuth.userLoginFailure());
-      window.location.href = '/';
+      window.location.href = '/login';
     } catch (err) {
       setshowFormMsg(true);
       setErrorMessage('Erro ao fazer logout.');
@@ -126,7 +129,7 @@ export default function User() {
   return (
     <>
       <Helmet>
-        <title>MFLIX - {capitalize(user.current.nome)}</title>
+        <title>MFLIX - {capitalize(nome)}</title>
       </Helmet>
       {loadUser && <LoadingForm />}
       {showFormMsg && (
@@ -178,12 +181,12 @@ export default function User() {
             id="user-foto"
             onLoad={() => setLoadUserPhoto(true)}
             onError={() => setLoadUserPhoto(true)}
-            src={profileUrl.current ? profileUrl.current : userNotPhoto}
-            alt={user.current.nome}
+            src={foto.length ? foto[0].url : userNotPhoto}
+            alt={nome}
           />
         </ProfilePhoto>
         <div className="profile-details">
-          <h1>{capitalize(user.current.nome)}</h1>
+          <h1>{capitalize(nome)}</h1>
           <div>
             <button type="button" onClick={() => setShowNewUpdateDelete(true)}>
               Editar&nbsp;perfil
@@ -194,8 +197,261 @@ export default function User() {
           </div>
         </div>
 
-        <AccountManage />
+        <AccountManage nome={nome} foto={foto} userId={user.id} email={email} />
       </Main>
     </>
+  );
+}
+
+function AccountManage(props) {
+  const dispatch = useDispatch();
+  const { foto, nome, userId, email } = props;
+
+  const [showDeleteAccount, setShowDeleteAccount] = useState(false);
+  const [loadUser, setLoadUser] = useState(false);
+  const [showFormMsg, setshowFormMsg] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
+  async function deleteUser() {
+    setErrorMessage('');
+    setSuccessMessage('');
+    setShowDeleteAccount(false);
+
+    try {
+      setLoadUser(true);
+      await axiosUserBaseUrl.delete(`users/${userId}`);
+      dispatch(actionsAuth.userLoginFailure());
+      setSuccessMessage('Conta deletada com sucesso!');
+      setshowFormMsg(true);
+    } catch (err) {
+      if (get(err, 'response.data', false)) {
+        const { data } = err.response;
+        data.errors.map((err) => setErrorMessage(err));
+        setshowFormMsg(true);
+        return;
+      }
+      setErrorMessage('Erro no servidor.');
+      setshowFormMsg(true);
+    } finally {
+      setLoadUser(false);
+    }
+  }
+
+  function creatNewAccount() {
+    window.location.href = '/criar-conta';
+  }
+
+  return (
+    <AccountManageContainer>
+      {loadUser && <LoadingForm />}
+      {showFormMsg && (
+        <MessageForm
+          errorMessage={errorMessage}
+          successMessage={successMessage}
+          onClose={setshowFormMsg}
+          deleteAccount
+        />
+      )}
+      {showDeleteAccount && (
+        <DeleteAccountContainer>
+          <div>
+            <h1>Tem&nbsp;certeza?</h1>
+            <div>
+              <button type="button" onClick={deleteUser}>
+                Deletar
+              </button>
+              <button type="button" onClick={() => setShowDeleteAccount(false)}>
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </DeleteAccountContainer>
+      )}
+
+      <div className="account-manage">
+        <div>
+          <button>Atualizar&nbsp;dados</button>
+          <button onClick={creatNewAccount}>Criar&nbsp;nova&nbsp;conta</button>
+          <button type="button" onClick={() => setShowDeleteAccount(true)}>
+            Deletar&nbsp;conta
+          </button>
+        </div>
+        <div>
+          <InforPess nome={nome} foto={foto} userId={userId} email={email} />
+        </div>
+      </div>
+    </AccountManageContainer>
+  );
+}
+
+function InforPess(props) {
+  const { foto, nome, userId, email } = props;
+
+  const [loadUser, setLoadUser] = useState(false);
+  const [showFormMsg, setshowFormMsg] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
+  function alterPhoto(event) {
+    const file = event.target.files[0];
+    const userPhoto = document.querySelector('#user-foto-2');
+    userPhoto.src = URL.createObjectURL(file);
+  }
+
+  async function haldleValidaNewDataUser(event) {
+    event.preventDefault();
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    const inputNome = event.target.querySelector('input#nome');
+    const inputEmail = event.target.querySelector('input#email');
+    const inputPassword = event.target.querySelector('input#password');
+    const inputPasswordRepetir = event.target.querySelector(
+      'input#repeat-password'
+    );
+
+    if (inputNome.value.length < 3 || inputNome.value.length > 8) {
+      inputNome.blur();
+      setErrorMessage('Usuário deve ter entre 3 e 8 caracteres.');
+      setshowFormMsg(true);
+      return;
+    }
+    if (!isAlphanumeric(inputNome.value)) {
+      inputNome.blur();
+      setErrorMessage('Usuário deve conter apenas letras e números.');
+      setshowFormMsg(true);
+      return;
+    }
+    if (!isEmail(inputEmail.value)) {
+      inputEmail.blur();
+      setErrorMessage('E-mail inválido.');
+      setshowFormMsg(true);
+      return;
+    }
+    if (inputPassword.value.length < 3 || inputPassword.value.length > 9) {
+      inputPassword.blur();
+      setErrorMessage('Senha deve ter entre 3 e 9 caracteres.');
+      setshowFormMsg(true);
+      return;
+    }
+    if (inputPasswordRepetir.value !== inputPassword.value) {
+      inputPasswordRepetir.blur();
+      setErrorMessage('As senhas não coincidem.');
+      setshowFormMsg(true);
+      return;
+    }
+
+    try {
+      setLoadUser(true);
+
+      const file = document.querySelector('#new-user-foto-2').files[0];
+      const formDataFile = new FormData();
+      formDataFile.append('user-foto', file);
+
+      await axiosUserBaseUrl.post(`/fotos/${userId}`, formDataFile, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      await axiosUserBaseUrl.put(`/users/${userId}`, {
+        nome: inputNome.value,
+        email: inputEmail.value,
+        password: inputPassword.value,
+        RepetPassword: inputPasswordRepetir.value,
+      });
+      setSuccessMessage('Dados atualizados com sucesso!');
+      setshowFormMsg(true);
+    } catch (err) {
+      if (get(err, 'response.data', false)) {
+        const { data } = err.response;
+        data.errors.map((err) => setErrorMessage(err));
+        setshowFormMsg(true);
+        return;
+      }
+
+      setErrorMessage('Erro no servidor.');
+      setshowFormMsg(true);
+    } finally {
+      setLoadUser(false);
+    }
+  }
+
+  return (
+    <InforPessContainer>
+      {loadUser && <LoadingForm />}
+      {showFormMsg && (
+        <MessageForm
+          errorMessage={errorMessage}
+          successMessage={successMessage}
+          onClose={setshowFormMsg}
+          updateUser={`/${clearLinkTitle(nome)}`}
+        />
+      )}
+      <div className="photo-alter">
+        <span>Foto</span>
+        <div>
+          <img
+            id="user-foto-2"
+            src={foto.length ? foto[0].url : userNotPhoto}
+            alt={nome}
+          />
+          <div>
+            <label htmlFor="new-user-foto-2">Alterar</label>
+            <input
+              type="file"
+              name="user-foto"
+              id="new-user-foto-2"
+              onChange={alterPhoto}
+              size={2048576}
+              accept="image/png, image/jpeg"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="edit-name-email-password">
+        <form onSubmit={haldleValidaNewDataUser}>
+          <div>
+            <div>
+              <label htmlFor="name">Nome</label>
+              <input
+                type="text"
+                id="nome"
+                maxLength="8"
+                name="nome"
+                defaultValue={nome}
+              />
+            </div>
+            <div>
+              <label htmlFor="email">Email</label>
+              <input type="text" id="email" name="email" defaultValue={email} />
+            </div>
+          </div>
+          <div>
+            <div>
+              <label htmlFor="new-password">Nova&nbsp;senha</label>
+              <input
+                type="text"
+                id="password"
+                name="password"
+                maxLength="9"
+                placeholder="Nova senha"
+              />
+            </div>
+            <div>
+              <label htmlFor="repeat-password">Repetir&nbsp;senha</label>
+              <input
+                type="text"
+                id="repeat-password"
+                name="repeat password"
+                maxLength="9"
+                placeholder="Repetir senha"
+              />
+            </div>
+          </div>
+          <button type="submit">Salvar</button>
+        </form>
+      </div>
+    </InforPessContainer>
   );
 }

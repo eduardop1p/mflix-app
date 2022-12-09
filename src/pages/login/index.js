@@ -11,6 +11,9 @@ import * as actionsLogin from '../../storeReactRedux/modules/auth/actions';
 import axiosUserBaseUrl from '../../services/axiosUserBaseUrl';
 import LoadingForm from '../../components/loadingForm/index';
 import MessageForm from '../../components/messageForm';
+import clearDataUser, {
+  clearDataUserSession,
+} from '../../config/clearDataUserConfig';
 import { LoginMain, LoginSection } from './styled';
 
 export default function Login(props) {
@@ -63,7 +66,7 @@ export default function Login(props) {
       dispatch(
         actionsLogin.userLoginSuccess({
           user: clearDataUser(data),
-          profileUrl: data.profileUrl,
+          session: clearDataUserSession(data),
           isLogedIn: true,
         })
       );
@@ -81,20 +84,6 @@ export default function Login(props) {
     }
 
     return;
-  }
-
-  function clearDataUser(data) {
-    const session = {
-      id: data.session.id,
-      expires: new Date(data.session.expires).getTime(),
-    };
-
-    return {
-      id: data._id,
-      nome: data.nome,
-      email: data.email,
-      session,
-    };
   }
 
   function getSessionExpires() {

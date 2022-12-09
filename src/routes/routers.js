@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -27,10 +27,18 @@ import MyRouter from './myRouter';
 import MyRouterMyList from './myRouterMyList';
 
 import clearLinkTitle from '../config/clearLinkTitleConfig';
+import axiosUserBaseUrl from '../services/axiosUserBaseUrl';
 
 export default function Routers() {
   const user = useRef(useSelector((state) => state.auth.user));
+  const session = useRef(useSelector((state) => state.auth.session));
   const isLogedIn = useRef(useSelector((state) => state.auth.isLogedIn));
+
+  useEffect(() => {
+    if (isLogedIn.current)
+      axiosUserBaseUrl.defaults.headers.common['Authorization'] =
+        session.current.id;
+  }, []);
 
   return (
     <Routes>

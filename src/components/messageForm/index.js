@@ -1,5 +1,7 @@
 /* eslint-disable */
 
+import { useEffect } from 'react';
+
 import FormMsgContainer from './styled';
 
 export default function messageForm(props) {
@@ -12,6 +14,11 @@ export default function messageForm(props) {
     updateUser,
     onClose,
   } = props;
+
+  useEffect(() => {
+    const body = document.body;
+    body.onkeyup = (event) => console.log(event);
+  }, []);
 
   function manageClose() {
     if (account && successMessage) {
@@ -53,7 +60,7 @@ export default function messageForm(props) {
           <div>{errorMessage ? 'ERRO!' : 'SUCESSO!'}</div>
           <span>{errorMessage ? errorMessage : successMessage}</span>
         </div>
-        <button type="button" onClick={manageClose}>
+        <button type="button" id="btn-close" onClick={manageClose}>
           Fechar
         </button>
       </div>

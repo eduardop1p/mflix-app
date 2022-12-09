@@ -1,28 +1,57 @@
 /* eslint-disable */
 
-import { put, all, delay } from 'redux-saga/effects';
+import { put, all, call } from 'redux-saga/effects';
 
-import { userLoginFailure } from '../modules/auth/actions';
+import { userLoginFailure, userLoginSuccess } from '../modules/auth/actions';
+import axiosUserBaseUrl from '../../services/axiosUserBaseUrl';
+import clearDataUser, {
+  clearDataUserSession,
+} from '../../config/clearDataUserConfig';
 
-function* mySagaLogout() {
+function* mySagaUserIsLogedIn() {
   const auth = JSON.parse(localStorage.getItem('persist:auth'));
   if (!auth) return;
 
-  const { user, isLogedIn } = JSON.parse(auth.auth);
+  const { user, isLogedIn, session } = JSON.parse(auth.auth);
 
   if (!isLogedIn) return;
-  const expires = user.session.expires;
 
-  if (Date.now() > expires) {
-    yield delay(100);
-    yield put(userLoginFailure());
+  axiosUserBaseUrl.defaults.headers.common['Authorization'] = session.id;
+  try {
+    const { data } = yield call(() =>
+      axiosUserBaseUrl.get(`/users/${user.id}`)
+    );
+    const expires = new Date(session.expires).getTime();
+    const dateNow = Date.now();
+    if (dateNow > expires) {
+      yield put(userLoginFailure());
 
-    window.location.href = '/login?session_expires=true';
+      window.location.href = '/login?session_expires=true';
+      return;
+    }
+
+    yield put(
+      userLoginSuccess({
+        user: clearDataUser(data),
+        session: {
+          id: session.id,
+          expires: session.expires,
+        },
+        isLogedIn: true,
+      })
+    );
     return;
+  } catch (e) {
+    console.log(e);
+    setTimeout(
+      () => alert('Erro no servidor!! atualize a página ou volte mais tarde.'),
+      100
+    );
   }
+
   return;
 }
 
 export default function* rootSaga() {
-  yield all([mySagaLogout()]);
+  yield all([mySagaUserIsLogedIn()]);
 }

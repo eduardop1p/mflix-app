@@ -3,11 +3,11 @@ import * as types from '../types';
 const initialState = {
   user: {
     id: '',
-    nome: 'visitor',
+    nome: '',
     email: '',
-    session: { id: '', expires: '' },
+    foto: [],
   },
-  profileUrl: '',
+  session: { id: '', expires: 0 },
   isLogedIn: false,
 };
 
@@ -18,7 +18,7 @@ export default function auth(state = initialState, action) {
     case types.USER_LOGIN_SUCCESS: {
       const newState = { ...state };
       newState.user = action.payload.user;
-      newState.profileUrl = action.payload.profileUrl;
+      newState.session = action.payload.session;
       newState.isLogedIn = action.payload.isLogedIn;
 
       return newState;
@@ -27,21 +27,7 @@ export default function auth(state = initialState, action) {
     case types.USER_NEW_DATA_SUCCESS: {
       const newState = { ...state };
       newState.user = action.payload.user;
-      newState.profileUrl = action.payload.profileUrl;
-
-      return newState;
-    }
-
-    case types.USER_LOGIN_PHOTO_SUCCESS: {
-      const newState = { ...state };
-      newState.profileUrl = action.payload.profileUrl;
-
-      return newState;
-    }
-
-    case types.USER_LOGIN_PHOTO_FAILURE: {
-      const newState = { ...state };
-      newState.profileUrl = '';
+      newState.session = action.payload.session;
 
       return newState;
     }

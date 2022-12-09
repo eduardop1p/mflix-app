@@ -10,7 +10,7 @@ import axios from 'axios';
 
 import * as actions from '../../../../../storeReactRedux/modules/loading/actions';
 import axiosBaseUrlSeries from '../../../../../services/axiosBaseUrlSeries';
-import axiosBaseUrlUser from '../../../../../services/axiosUserBaseUrl';
+import axiosUserBaseUrl from '../../../../../services/axiosUserBaseUrl';
 import axiosBaseUrlGenresSeries from '../../../../../services/axiosBaseUrlGenresSeries';
 import axiosBaseUrlMultSearch from '../../../../../services/axiosBaseUrlMultSearch';
 import axiosBaseUrlGenresMovies from '../../../../../services/axiosBaseUrlGenres';
@@ -45,9 +45,7 @@ export default function searchSerie(props) {
 
   const dispatch = useDispatch();
   const loadingApp = useSelector((state) => state.loading.loadingState);
-  const user = useSelector((state) => state.auth.user);
-  const { session } = useSelector((state) => state.auth.user);
-  const isLogedIn = useSelector((state) => state.auth.isLogedIn);
+  const { user, isLogedIn } = useSelector((state) => state.auth);
 
   const [favoriteUser, setFavoriteUser] = useState(null);
   const [newId, setNewId] = useState(null);
@@ -69,9 +67,6 @@ export default function searchSerie(props) {
   const [showFormMsg, setshowFormMsg] = useState(false);
 
   useEffect(() => {
-    if (isLogedIn)
-      axiosBaseUrlUser.defaults.headers = { Authorization: session.id };
-
     const getDetailsId = async (id) => {
       try {
         const { data } = await axiosBaseUrlSeries.get(
@@ -244,7 +239,7 @@ export default function searchSerie(props) {
     setErrorMessage('');
 
     try {
-      const { data } = await axiosBaseUrlUser.get(
+      const { data } = await axiosUserBaseUrl.get(
         `minha-lista/${user.id}/${id + midiaType}/${midiaType}`
       );
       if (get(data, 'id', false)) {
@@ -277,7 +272,7 @@ export default function searchSerie(props) {
       setFavorite(false);
 
       try {
-        await axiosBaseUrlUser.delete(
+        await axiosUserBaseUrl.delete(
           `/minha-lista/${user.id}?ids=${favoriteUser.id}`,
           {
             signal: controllerRef.current.signal,
@@ -299,7 +294,7 @@ export default function searchSerie(props) {
       setFavorite(true);
 
       try {
-        await axiosBaseUrlUser.post(
+        await axiosUserBaseUrl.post(
           `/minha-lista/${user.id}`,
           {
             id: id + midiaType,
