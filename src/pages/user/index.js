@@ -1,6 +1,7 @@
 /* eslint-disable */
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { isEmail, isAlphanumeric } from 'validator/validator';
@@ -12,7 +13,6 @@ import axiosUserBaseUrl from '../../services/axiosUserBaseUrl';
 import LoadingForm from '../../components/loadingForm/index';
 import MessageForm from '../../components/messageForm';
 import userNotPhoto from '../../assets/images/profile-not-photo.jpg';
-import clearLinkTitle from '../../config/clearLinkTitleConfig';
 import {
   Main,
   ProfilePhoto,
@@ -26,7 +26,7 @@ export default function User() {
   const dispatch = useDispatch();
   const loadingApp = useSelector((state) => state.loading.loadingState);
   const { user } = useSelector((state) => state.auth);
-  const { foto, nome, email } = user;
+  const { nome, foto } = user;
 
   const [showNewUpdateDeletePhoto, setShowNewUpdateDelete] = useState(false);
   const [loadUser, setLoadUser] = useState(false);
@@ -40,8 +40,6 @@ export default function User() {
   }, [loadUserPhoto, loadingApp]);
 
   async function uploadUserPhoto(event) {
-    setSuccessMessage('');
-    setErrorMessage('');
     setShowNewUpdateDelete(false);
 
     const file = event.target.files[0];
@@ -81,8 +79,6 @@ export default function User() {
   }
 
   async function deleteUserPhoto() {
-    setSuccessMessage('');
-    setErrorMessage('');
     setShowNewUpdateDelete(false);
 
     const userFoto = document.body.querySelector('#user-foto');
@@ -110,8 +106,6 @@ export default function User() {
   }
 
   async function logoutUser() {
-    setErrorMessage('');
-
     try {
       setLoadUser(true);
       await axiosUserBaseUrl.delete('logout');
@@ -197,7 +191,7 @@ export default function User() {
           </div>
         </div>
 
-        <AccountManage nome={nome} foto={foto} userId={user.id} email={email} />
+        <AccountManage user={user} />
       </Main>
     </>
   );
@@ -205,7 +199,7 @@ export default function User() {
 
 function AccountManage(props) {
   const dispatch = useDispatch();
-  const { foto, nome, userId, email } = props;
+  const { user } = props;
 
   const [showDeleteAccount, setShowDeleteAccount] = useState(false);
   const [loadUser, setLoadUser] = useState(false);
@@ -214,13 +208,11 @@ function AccountManage(props) {
   const [successMessage, setSuccessMessage] = useState('');
 
   async function deleteUser() {
-    setErrorMessage('');
-    setSuccessMessage('');
     setShowDeleteAccount(false);
 
     try {
       setLoadUser(true);
-      await axiosUserBaseUrl.delete(`users/${userId}`);
+      await axiosUserBaseUrl.delete(`users/${user.id}`);
       dispatch(actionsAuth.userLoginFailure());
       setSuccessMessage('Conta deletada com sucesso!');
       setshowFormMsg(true);
@@ -278,7 +270,7 @@ function AccountManage(props) {
           </button>
         </div>
         <div>
-          <InforPess nome={nome} foto={foto} userId={userId} email={email} />
+          <InforPess user={user} />
         </div>
       </div>
     </AccountManageContainer>
@@ -286,7 +278,11 @@ function AccountManage(props) {
 }
 
 function InforPess(props) {
-  const { foto, nome, userId, email } = props;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { user } = props;
+  const { foto, nome, id, email } = user;
 
   const [loadUser, setLoadUser] = useState(false);
   const [showFormMsg, setshowFormMsg] = useState(false);
@@ -301,8 +297,6 @@ function InforPess(props) {
 
   async function haldleValidaNewDataUser(event) {
     event.preventDefault();
-    setErrorMessage('');
-    setSuccessMessage('');
 
     const inputNome = event.target.querySelector('input#nome');
     const inputEmail = event.target.querySelector('input#email');
@@ -345,21 +339,46 @@ function InforPess(props) {
     try {
       setLoadUser(true);
 
+      let photo;
       const file = document.querySelector('#new-user-foto-2').files[0];
-      const formDataFile = new FormData();
-      formDataFile.append('user-foto', file);
+      if (file) {
+        const formDataFile = new FormData();
+        formDataFile.append('user-foto', file);
 
-      await axiosUserBaseUrl.post(`/fotos/${userId}`, formDataFile, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+        const { data } = await axiosUserBaseUrl.post(
+          `/fotos/${id}`,
+          formDataFile,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+        photo = data;
+      }
+
+      const newName = inputNome.value;
+      const newEmail = inputEmail.value;
+      const newPassword = inputPassword.value;
+      const newRepetPassword = inputPasswordRepetir.value;
+
+      await axiosUserBaseUrl.put(`/users/${id}`, {
+        nome: newName,
+        email: newEmail,
+        password: newPassword,
+        RepetPassword: newRepetPassword,
       });
-      await axiosUserBaseUrl.put(`/users/${userId}`, {
-        nome: inputNome.value,
-        email: inputEmail.value,
-        password: inputPassword.value,
-        RepetPassword: inputPasswordRepetir.value,
-      });
+      dispatch(
+        actionsAuth.userNewDataSuccess({
+          user: {
+            id,
+            nome: newName,
+            email: newEmail,
+            foto: file && photo ? [{ url: photo.foto.url }] : foto,
+          },
+        })
+      );
+      navigate(`/${newName}`);
       setSuccessMessage('Dados atualizados com sucesso!');
       setshowFormMsg(true);
     } catch (err) {
@@ -385,7 +404,6 @@ function InforPess(props) {
           errorMessage={errorMessage}
           successMessage={successMessage}
           onClose={setshowFormMsg}
-          updateUser={`/${clearLinkTitle(nome)}`}
         />
       )}
       <div className="photo-alter">

@@ -11,7 +11,7 @@ export default function messageForm(props) {
     account,
     recoveryPassword,
     deleteAccount,
-    updateUser,
+    userName,
     onClose,
   } = props;
 
@@ -34,11 +34,6 @@ export default function messageForm(props) {
     if (deleteAccount && successMessage) {
       onClose(false);
       setTimeout(() => (window.location.href = '/criar-conta'), 50);
-      return;
-    }
-    if (updateUser && successMessage) {
-      onClose(false);
-      setTimeout(() => (window.location.href = updateUser), 50);
       return;
     }
     onClose(false);

@@ -14,7 +14,7 @@ function* mySagaUserIsLogedIn() {
 
   const { user, isLogedIn, session } = JSON.parse(auth.auth);
 
-  if (!isLogedIn) return;
+  if (!isLogedIn || !user) return;
 
   axiosUserBaseUrl.defaults.headers.common['Authorization'] = session.id;
   try {

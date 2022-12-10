@@ -27,7 +27,6 @@ export default function auth(state = initialState, action) {
     case types.USER_NEW_DATA_SUCCESS: {
       const newState = { ...state };
       newState.user = action.payload.user;
-      newState.session = action.payload.session;
 
       return newState;
     }
