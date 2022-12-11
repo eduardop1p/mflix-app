@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -30,14 +30,11 @@ import clearLinkTitle from '../config/clearLinkTitleConfig';
 import axiosUserBaseUrl from '../services/axiosUserBaseUrl';
 
 export default function Routers() {
-  const user = useRef(useSelector((state) => state.auth.user));
-  const session = useRef(useSelector((state) => state.auth.session));
-  const isLogedIn = useRef(useSelector((state) => state.auth.isLogedIn));
+  const { user, session, isLogedIn } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (isLogedIn.current)
-      axiosUserBaseUrl.defaults.headers.common['Authorization'] =
-        session.current.id;
+    if (isLogedIn)
+      axiosUserBaseUrl.defaults.headers.common['Authorization'] = session.id;
   }, []);
 
   return (
@@ -78,42 +75,37 @@ export default function Routers() {
         />
       </Route>
 
-      {!isLogedIn.current && (
-        <Route
-          path="/login"
-          element={
-            <MyRouter>
-              <Login />
-            </MyRouter>
-          }
-        />
-      )}
-      {isLogedIn.current && (
-        <Route path={clearLinkTitle(user.current.nome)} element={<User />} />
-      )}
+      <Route
+        path="/login"
+        element={
+          <MyRouter>
+            <Login />
+          </MyRouter>
+        }
+      />
+
+      <Route path={`/${clearLinkTitle(user.nome)}`} element={<User />} />
+
       <Route path="/criar-conta" element={<Account />} />
-      {!isLogedIn.current && (
-        <Route
-          key="RecoveryPasswordEmail"
-          path="/recuperar-senha"
-          element={
-            <MyRouter>
-              <RecoveryPasswordEmail />
-            </MyRouter>
-          }
-        />
-      )}
-      {!isLogedIn.current && (
-        <Route
-          key="RecoveryPassword"
-          path="/recuperar-senha/:userId"
-          element={
-            <MyRouter>
-              <RecoveryPassword />
-            </MyRouter>
-          }
-        />
-      )}
+      <Route
+        key="RecoveryPasswordEmail"
+        path="/recuperar-senha"
+        element={
+          <MyRouter>
+            <RecoveryPasswordEmail />
+          </MyRouter>
+        }
+      />
+
+      <Route
+        key="RecoveryPassword"
+        path="/recuperar-senha/:userId"
+        element={
+          <MyRouter>
+            <RecoveryPassword />
+          </MyRouter>
+        }
+      />
 
       <Route path="*" element={<Error404 />} />
     </Routes>

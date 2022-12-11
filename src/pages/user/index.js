@@ -109,12 +109,10 @@ export default function User() {
     try {
       setLoadUser(true);
       await axiosUserBaseUrl.delete('logout');
-      dispatch(actionsAuth.userLoginFailure());
-      window.location.href = '/login';
+      window.location.href = '/login?logout=true';
     } catch (err) {
       setshowFormMsg(true);
       setErrorMessage('Erro ao fazer logout.');
-      console.clear();
     } finally {
       setLoadUser(false);
     }
@@ -379,6 +377,7 @@ function InforPess(props) {
         })
       );
       navigate(`/${newName}`);
+
       setSuccessMessage('Dados atualizados com sucesso!');
       setshowFormMsg(true);
     } catch (err) {

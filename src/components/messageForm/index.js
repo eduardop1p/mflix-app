@@ -11,13 +11,12 @@ export default function messageForm(props) {
     account,
     recoveryPassword,
     deleteAccount,
-    userName,
     onClose,
   } = props;
 
   useEffect(() => {
     const body = document.body;
-    body.onkeyup = (event) => console.log(event);
+    // body.onkeyup = (event) => console.log(event);
   }, []);
 
   function manageClose() {
@@ -36,6 +35,7 @@ export default function messageForm(props) {
       setTimeout(() => (window.location.href = '/criar-conta'), 50);
       return;
     }
+
     onClose(false);
   }
 
