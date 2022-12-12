@@ -38,27 +38,33 @@ export default function WatchList(props) {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [showFormMsg, setshowFormMsg] = useState(false);
+  const [isInitialRender, setIsInitialRender] = useState(true);
 
   useEffect(() => {
-    if (userList.length || !isLogedIn)
+    if (isInitialRender && (userList.length || !isLogedIn)) {
+      setIsInitialRender(false);
       setTimeout(() => dispatch(actions.loadingFailure()), 500);
-  }, [dispatch, userList, isLogedIn]);
+    }
+  }, [isInitialRender, userList]);
 
   useEffect(() => {
     getUserList();
   }, []);
 
   useEffect(() => {
-    const myList = Array.from(document.querySelectorAll('.my-list'));
-    setMyListTitles(myList.map((item) => item.title));
+    if (isLogedIn) {
+      const myList = Array.from(document.querySelectorAll('.my-list'));
+
+      if (myList.length !== myListTitles.length) {
+        setMyListTitles(myList.map((item) => item.title));
+      }
+    }
   });
 
   async function getUserList() {
     if (!isLogedIn) {
       return;
     }
-    setSuccessMessage('');
-    setErrorMessage('');
 
     try {
       const { data } = await axiosUserBaseUrl.get(`minha-lista/${user.id}`);
@@ -91,8 +97,6 @@ export default function WatchList(props) {
   }
 
   async function onDeleteSelectedItems() {
-    setSuccessMessage('');
-    setErrorMessage('');
     if (!selectedItems.length) {
       setErrorMessage('Nenhum titulo selecionado.');
       setshowFormMsg(true);
@@ -117,8 +121,6 @@ export default function WatchList(props) {
   }
 
   async function onDeleteAllItems(event) {
-    setSuccessMessage('');
-    setErrorMessage('');
     const { checked } = event.target.previousElementSibling;
     if (!checked) {
       setErrorMessage('Nada foi selecionado.');
@@ -366,9 +368,7 @@ function UserListSerie(props) {
           `/${id}?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
         );
         setDataList(data);
-      } catch (e) {
-        console.log(e);
-        console.log(id);
+      } catch {
         console.error('Erro ao obter Id de Serie');
       }
     };

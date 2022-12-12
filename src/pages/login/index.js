@@ -40,7 +40,8 @@ export default function Login(props) {
 
   async function haldleValidaInput(event) {
     event.preventDefault();
-    setErrorMessage('');
+    if (showFormMsg) return;
+
     const inputEmail = event.target.querySelector('input#email');
     const inputPassword = event.target.querySelector('input#password');
 

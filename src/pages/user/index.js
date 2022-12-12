@@ -295,6 +295,7 @@ function InforPess(props) {
 
   async function haldleValidaNewDataUser(event) {
     event.preventDefault();
+    if (showFormMsg) return;
 
     const inputNome = event.target.querySelector('input#nome');
     const inputEmail = event.target.querySelector('input#email');

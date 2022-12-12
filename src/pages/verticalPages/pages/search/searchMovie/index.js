@@ -244,7 +244,6 @@ export default function searchMovie(props) {
       setFavoriteUser({});
       return;
     }
-    setErrorMessage('');
 
     try {
       const { data } = await axiosUserBaseUrl.get(
@@ -270,7 +269,6 @@ export default function searchMovie(props) {
 
   async function setFavoriteFunction(event) {
     if (!isLogedIn) return (window.location.href = '/login?redirect=back');
-    setErrorMessage('');
 
     controllerRef.current.abort();
     controllerRef.current = new AbortController();

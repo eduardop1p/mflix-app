@@ -39,8 +39,8 @@ export default function Conta() {
 
   async function haldleValidaInput(event) {
     event.preventDefault();
-    setErrorMessage('');
-    setSuccessMessage('');
+    if (showFormMsg) return;
+
     const inputNome = event.target.querySelector('input#nome');
     const inputEmail = event.target.querySelector('input#email');
     const inputPassword = event.target.querySelector('input#password');

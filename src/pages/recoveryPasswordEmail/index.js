@@ -30,8 +30,8 @@ export default function RecoveryPassworEmail() {
 
   async function setRecoveryPasswordSubmit(event) {
     event.preventDefault();
-    setErrorMessage('');
-    setSuccessMessage('');
+    if (showFormMsg) return;
+
     const inputEmail = event.target.querySelector('#email');
 
     if (!isEmail(inputEmail.value)) {
