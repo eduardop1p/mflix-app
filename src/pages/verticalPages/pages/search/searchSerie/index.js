@@ -189,7 +189,7 @@ export default function searchSerie(props) {
         return;
       }
     }
-  });
+  }, [files, imageButtonActived, posterButtonActived, logoButtonActived]);
 
   function clearSearchMidiaType(data) {
     const newMidiaType = {

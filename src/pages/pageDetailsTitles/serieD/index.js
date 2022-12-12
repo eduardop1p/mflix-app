@@ -163,7 +163,7 @@ export default function serieD(props) {
         return;
       }
     }
-  });
+  }, [files, imageButtonActived, posterButtonActived, logoButtonActived]);
 
   async function getNews() {
     try {

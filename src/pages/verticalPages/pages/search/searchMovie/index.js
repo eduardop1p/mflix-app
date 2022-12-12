@@ -191,7 +191,7 @@ export default function searchMovie(props) {
         return;
       }
     }
-  });
+  }, [files, imageButtonActived, posterButtonActived, logoButtonActived]);
 
   function clearSearchMidiaType(data) {
     const newMidiaType = {

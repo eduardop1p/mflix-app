@@ -174,7 +174,7 @@ export default function MovieD(props) {
         return;
       }
     }
-  });
+  }, [files, imageButtonActived, posterButtonActived, logoButtonActived]);
 
   function getCreditsFilters(data) {
     setArrProducer(
