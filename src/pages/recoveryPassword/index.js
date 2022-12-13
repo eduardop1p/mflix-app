@@ -45,16 +45,18 @@ export default function RecoveryPasswordEmail() {
     event.preventDefault();
     if (showFormMsg) return;
 
-    const inputPassword = event.target.querySelector('#password');
-    const inputRepeatPassword = event.target.querySelector('#repeatPassword');
+    const inputPassword = event.target.querySelector('#password').value.trim();
+    const inputRepeatPassword = event.target
+      .querySelector('#repeatPassword')
+      .value.trim();
 
-    if (inputPassword.value.length < 3 || inputPassword.value.length > 9) {
+    if (inputPassword.length < 3 || inputPassword.length > 9) {
       setErrorMessage('Senha deve ter entre 3 e 9 caracteres.');
       setshowFormMsg(true);
       return;
     }
 
-    if (inputRepeatPassword.value !== inputPassword.value) {
+    if (inputRepeatPassword !== inputPassword) {
       setErrorMessage('As senhas não coincidem.');
       setshowFormMsg(true);
       return;
@@ -65,8 +67,8 @@ export default function RecoveryPasswordEmail() {
       const { data } = await axiosBaseUrlUser.put(
         `/recuperar-senha/${userId}`,
         {
-          password: inputPassword.value,
-          RepetPassword: inputRepeatPassword.value,
+          password: inputPassword,
+          RepetPassword: inputRepeatPassword,
         }
       );
       setSuccessMessage(data.recuperarSenha);

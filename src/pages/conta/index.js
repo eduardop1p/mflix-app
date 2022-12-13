@@ -41,34 +41,36 @@ export default function Conta() {
     event.preventDefault();
     if (showFormMsg) return;
 
-    const inputNome = event.target.querySelector('input#nome');
-    const inputEmail = event.target.querySelector('input#email');
-    const inputPassword = event.target.querySelector('input#password');
-    const inputPasswordRepetir = event.target.querySelector(
-      'input#password-repetir'
-    );
+    const inputNome = event.target.querySelector('input#nome').value.trim();
+    const inputEmail = event.target.querySelector('input#email').value.trim();
+    const inputPassword = event.target
+      .querySelector('input#password')
+      .value.trim();
+    const inputPasswordRepetir = event.target
+      .querySelector('input#password-repetir')
+      .value.trim();
 
-    if (inputNome.value.length < 3 || inputNome.value.length > 8) {
+    if (inputNome.length < 3 || inputNome.length > 8) {
       setErrorMessage('Usuário deve ter entre 3 e 8 caracteres.');
       setshowFormMsg(true);
       return;
     }
-    if (!isAlphanumeric(inputNome.value)) {
+    if (!isAlphanumeric(inputNome)) {
       setErrorMessage('Usuário deve conter apenas letras e números.');
       setshowFormMsg(true);
       return;
     }
-    if (!isEmail(inputEmail.value)) {
+    if (!isEmail(inputEmail)) {
       setErrorMessage('E-mail inválido.');
       setshowFormMsg(true);
       return;
     }
-    if (inputPassword.value.length < 3 || inputPassword.value.length > 9) {
+    if (inputPassword.length < 3 || inputPassword.length > 9) {
       setErrorMessage('Senha deve ter entre 3 e 9 caracteres.');
       setshowFormMsg(true);
       return;
     }
-    if (inputPasswordRepetir.value !== inputPassword.value) {
+    if (inputPasswordRepetir !== inputPassword) {
       setErrorMessage('As senhas não coincidem.');
       setshowFormMsg(true);
       return;
@@ -77,14 +79,14 @@ export default function Conta() {
     try {
       setLoadConta(true);
       await axiosUserBaseUrl.post('/users', {
-        nome: inputNome.value,
-        email: inputEmail.value,
-        password: inputPassword.value,
-        RepetPassword: inputPasswordRepetir.value,
+        nome: inputNome,
+        email: inputEmail,
+        password: inputPassword,
+        RepetPassword: inputPasswordRepetir,
       });
       const { data } = await axiosUserBaseUrl.post('/login', {
-        email: inputEmail.value,
-        password: inputPassword.value,
+        email: inputEmail,
+        password: inputPassword,
       });
       dispatch(
         actionsLogin.userLoginSuccess({

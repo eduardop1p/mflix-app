@@ -32,9 +32,9 @@ export default function RecoveryPassworEmail() {
     event.preventDefault();
     if (showFormMsg) return;
 
-    const inputEmail = event.target.querySelector('#email');
+    const inputEmail = event.target.querySelector('#email').value.trim();
 
-    if (!isEmail(inputEmail.value)) {
+    if (!isEmail(inputEmail)) {
       setErrorMessage('E-mail inválido.');
       setshowFormMsg(true);
       return;
@@ -43,7 +43,7 @@ export default function RecoveryPassworEmail() {
     try {
       setLoadRecoveryPasswordEmail(true);
       const { data } = await axiosBaseUrlUser.post('/recuperar-senha', {
-        email: inputEmail.value,
+        email: inputEmail,
       });
       setSuccessMessage(data.recuperarSenha);
       setshowFormMsg(true);

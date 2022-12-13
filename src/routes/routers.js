@@ -1,8 +1,8 @@
+/* eslint-disable */
+
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
-/* eslint-disable */
 
 import Header from '../components/header/index';
 import Account from '../pages/conta/index';

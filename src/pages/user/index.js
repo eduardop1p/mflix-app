@@ -24,6 +24,8 @@ import {
 
 export default function User() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const loadingApp = useSelector((state) => state.loading.loadingState);
   const { user } = useSelector((state) => state.auth);
   const { nome, foto } = user;
@@ -109,7 +111,8 @@ export default function User() {
     try {
       setLoadUser(true);
       await axiosUserBaseUrl.delete('logout');
-      window.location.href = '/login?logout=true';
+      dispatch(actionsAuth.userLoginFailure());
+      navigate('/login');
     } catch (err) {
       setshowFormMsg(true);
       setErrorMessage('Erro ao fazer logout.');

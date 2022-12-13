@@ -42,17 +42,19 @@ export default function Login(props) {
     event.preventDefault();
     if (showFormMsg) return;
 
-    const inputEmail = event.target.querySelector('input#email');
-    const inputPassword = event.target.querySelector('input#password');
+    const inputEmail = event.target.querySelector('input#email').value.trim();
+    const inputPassword = event.target
+      .querySelector('input#password')
+      .value.trim();
 
-    // login as respostas vem do back end
+    // login as respostas vem do back-end
 
-    if (!isEmail(inputEmail.value)) {
+    if (!isEmail(inputEmail)) {
       setErrorMessage('E-mail inválido.');
       setshowFormMsg(true);
       return;
     }
-    if (inputPassword.value.length < 3 || inputPassword.value.length > 9) {
+    if (inputPassword.length < 3 || inputPassword.length > 9) {
       setErrorMessage('Senha deve ter entre 3 e 9 caracteres.');
       setshowFormMsg(true);
       return;
@@ -61,8 +63,8 @@ export default function Login(props) {
     try {
       setLoadLogin(true);
       const { data } = await axiosUserBaseUrl.post('/login', {
-        email: inputEmail.value,
-        password: inputPassword.value,
+        email: inputEmail,
+        password: inputPassword,
       });
       dispatch(
         actionsLogin.userLoginSuccess({
