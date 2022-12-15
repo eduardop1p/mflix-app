@@ -38,7 +38,7 @@ export default function Error404() {
           <h1>4</h1>
         </div>
         <div className="back-to-home">
-          <Link to="/" reloadDocument>
+          <Link reloadDocument to="/">
             Voltar para home
           </Link>
         </div>

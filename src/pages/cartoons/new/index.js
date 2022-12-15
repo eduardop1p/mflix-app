@@ -28,6 +28,8 @@ export default function New() {
   const breackPoint570 = useMediaQuery({ maxWidth: 570 });
 
   useEffect(() => {
+    SwiperCore.use([Autoplay]);
+
     const getNews = async () => {
       try {
         const axiosData1 = await axiosBaseUrlMoviesDiscover.get(
@@ -69,8 +71,6 @@ export default function New() {
 
     setNews(randomArrMovieSeriesPopular);
   }
-
-  SwiperCore.use([Autoplay]);
 
   return (
     <Slider>

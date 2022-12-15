@@ -55,6 +55,8 @@ export default function MovieV() {
   const minDistance = 1;
 
   useEffect(() => {
+    SwiperCore.use(Autoplay);
+
     const setAllGenresFilters = async () => {
       try {
         const { data } = await axiosBaseUrlGenres.get(
@@ -208,8 +210,6 @@ export default function MovieV() {
       setCurrentYears([value[0], Math.max(value[1], value[0] + minDistance)]);
     }
   }
-
-  SwiperCore.use(Autoplay);
 
   return id ? (
     <>
@@ -412,8 +412,8 @@ export default function MovieV() {
                         </div>
                         <div className="popular-details">
                           <Link
-                            to={`${clearLinkTitle(result.title)}/${result.id}`}
                             reloadDocument
+                            to={`${clearLinkTitle(result.title)}/${result.id}`}
                           >
                             <h3 title={result.title}>{result.title}</h3>
                           </Link>
@@ -452,8 +452,8 @@ export default function MovieV() {
                             </div>
                           </div>
                           <Link
-                            to={`${clearLinkTitle(result.title)}/${result.id}`}
                             reloadDocument
+                            to={`${clearLinkTitle(result.title)}/${result.id}`}
                           >
                             <button className="popular-watch-now">
                               Assistir&nbsp;agora
@@ -508,8 +508,8 @@ export default function MovieV() {
 
                       <div>
                         <Link
-                          to={`${clearLinkTitle(result.title)}/${result.id}`}
                           reloadDocument
+                          to={`${clearLinkTitle(result.title)}/${result.id}`}
                         >
                           <button>Assistir</button>
                         </Link>
@@ -517,8 +517,8 @@ export default function MovieV() {
                     </div>
                     <div className="popular-conatiner-details">
                       <Link
-                        to={`${clearLinkTitle(result.title)}/${result.id}`}
                         reloadDocument
+                        to={`${clearLinkTitle(result.title)}/${result.id}`}
                       >
                         <h5 title={result.title}>{result.title}</h5>
                       </Link>

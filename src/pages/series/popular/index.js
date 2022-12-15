@@ -32,6 +32,8 @@ export default class Popular extends Component {
   }
 
   componentDidMount() {
+    SwiperCore.use([Autoplay]);
+
     const getAllGenresFilters = async () => {
       try {
         const { data } = await axiosBaseUrlGenresSeries.get(
@@ -63,7 +65,6 @@ export default class Popular extends Component {
 
   render() {
     const { allPopular, loadingFilters, allGenres } = this.state;
-    SwiperCore.use([Autoplay]);
 
     return (
       <PopularContainer>
@@ -149,10 +150,10 @@ export default class Popular extends Component {
                     </div>
                     <div className="popular-details">
                       <Link
+                        reloadDocument
                         to={`/vertical/series/${clearLinkTitle(result.name)}/${
                           result.id
                         }`}
-                        reloadDocument
                       >
                         <h3 title={result.name}>{result.name}</h3>
                       </Link>
@@ -185,10 +186,10 @@ export default class Popular extends Component {
                         </div>
                       </div>
                       <Link
+                        reloadDocument
                         to={`/vertical/series/${clearLinkTitle(result.name)}/${
                           result.id
                         }`}
-                        reloadDocument
                       >
                         <button className="popular-watch-now">
                           Assistir&nbsp;agora

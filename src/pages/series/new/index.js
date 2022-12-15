@@ -25,6 +25,8 @@ function New() {
   const breackPoint570 = useMediaQuery({ maxWidth: 570 });
 
   useEffect(() => {
+    SwiperCore.use([Autoplay]);
+
     const getNews = async () => {
       try {
         const { data } = await axiosBaseUrlSeriesDiscover.get(
@@ -41,8 +43,6 @@ function New() {
     };
     getNews();
   }, []);
-
-  SwiperCore.use([Autoplay]);
 
   return (
     <Slider>
@@ -77,10 +77,10 @@ function New() {
                     <div className="info">
                       <div className="new">NEW</div>
                       <Link
+                        reloadDocument
                         to={`/vertical/series/${clearLinkTitle(result.name)}/${
                           result.id
                         }`}
-                        reloadDocument
                       >
                         <h1 title={result.name} className="title">
                           {result.name}
@@ -106,10 +106,10 @@ function New() {
                 ) : (
                   <div className="slider-mobile">
                     <Link
+                      reloadDocument
                       to={`/vertical/series/${clearLinkTitle(result.title)}/${
                         result.id
                       }`}
-                      reloadDocument
                     >
                       <div className="mobile-new-details">
                         <GetDetailsSerieId id={result.id} mobile />
@@ -141,11 +141,11 @@ function New() {
                 {news &&
                   news.results.slice(0, 3).map((result) => (
                     <Link
+                      reloadDocument
                       key={result.id}
                       to={`/vertical/series/${clearLinkTitle(result.name)}/${
                         result.id
                       }`}
-                      reloadDocument
                     >
                       <div className="gridNew" key={result.id}>
                         <img
@@ -243,8 +243,8 @@ function GetDetailsSerieId(props) {
         {newId.first_air_date ? newId.first_air_date.slice(0, 4) : 'Not data'}
       </div>
       <Link
-        to={`/vertical/series/${clearLinkTitle(newId.name)}/${newId.id}`}
         reloadDocument
+        to={`/vertical/series/${clearLinkTitle(newId.name)}/${newId.id}`}
       >
         <button type="button" className="watch-online">
           Assitir&nbsp;online

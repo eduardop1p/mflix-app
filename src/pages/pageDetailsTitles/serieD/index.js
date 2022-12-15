@@ -69,6 +69,8 @@ export default function serieD(props) {
   const controllerRef = useRef(new AbortController());
 
   useEffect(() => {
+    SwiperCore.use(Autoplay);
+
     const getDetailsId = async (id) => {
       try {
         const { data } = await axiosBaseUrlSeries.get(
@@ -281,8 +283,6 @@ export default function serieD(props) {
     }
   }
 
-  SwiperCore.use(Autoplay);
-
   return (
     <Main>
       <Helmet>
@@ -476,10 +476,10 @@ export default function serieD(props) {
                                     </div>
                                     <div className="popular-details">
                                       <Link
+                                        reloadDocument
                                         to={`/vertical/series/${clearLinkTitle(
                                           result.name
                                         )}/${result.id}`}
-                                        reloadDocument
                                       >
                                         <h3 title={result.name}>
                                           {result.name}
@@ -521,10 +521,10 @@ export default function serieD(props) {
                                         </div>
                                       </div>
                                       <Link
+                                        reloadDocument
                                         to={`/vertical/series/${clearLinkTitle(
                                           result.name
                                         )}/${result.id}`}
-                                        reloadDocument
                                       >
                                         <button className="popular-watch-now">
                                           Assistir&nbsp;agora
@@ -662,10 +662,10 @@ export default function serieD(props) {
                             <Loading colorVertical />
                             <div>
                               <Link
+                                reloadDocument
                                 to={`/vertical/series/${clearLinkTitle(
                                   result.name
                                 )}/${result.id}`}
-                                reloadDocument
                               >
                                 <button>Assistir</button>
                               </Link>
@@ -673,10 +673,10 @@ export default function serieD(props) {
                           </div>
                           <div className="popular-conatiner-details">
                             <Link
+                              reloadDocument
                               to={`/vertical/series/${clearLinkTitle(
                                 result.name
                               )}/${result.id}`}
-                              reloadDocument
                             >
                               <h5 title={result.name}>{result.name}</h5>
                             </Link>
@@ -740,10 +740,10 @@ export default function serieD(props) {
                           </div>
                           <div className="popular-details">
                             <Link
+                              reloadDocument
                               to={`/vertical/series/${clearLinkTitle(
                                 result.name
                               )}/${result.id}`}
-                              reloadDocument
                             >
                               <h3 title={result.name}>{result.name}</h3>
                             </Link>
@@ -782,10 +782,10 @@ export default function serieD(props) {
                               </div>
                             </div>
                             <Link
+                              reloadDocument
                               to={`/vertical/series/${clearLinkTitle(
                                 result.name
                               )}/${result.id}`}
-                              reloadDocument
                             >
                               <button className="popular-watch-now">
                                 Assistir&nbsp;agora

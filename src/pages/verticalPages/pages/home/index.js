@@ -53,6 +53,8 @@ export default function Home() {
   const minDistance = 1;
 
   useEffect(() => {
+    SwiperCore.use(Autoplay);
+
     const setAllGenresFilters = async () => {
       try {
         const axiosData1 = await axiosBaseUrlGenresMovies.get(
@@ -246,8 +248,6 @@ export default function Home() {
     }
   }
 
-  SwiperCore.use(Autoplay);
-
   return id ? (
     <>
       <Outlet />
@@ -407,12 +407,12 @@ export default function Home() {
                             </div>
                             <div className="popular-details">
                               <Link
+                                reloadDocument
                                 to={`/vertical/${
                                   result.title ? 'filmes' : 'series'
                                 }/${clearLinkTitle(
                                   result.title ? result.title : result.name
                                 )}/${result.id}`}
-                                reloadDocument
                               >
                                 <h3
                                   title={
@@ -459,12 +459,12 @@ export default function Home() {
                                 </div>
                               </div>
                               <Link
+                                reloadDocument
                                 to={`/vertical/${
                                   result.title ? 'filmes' : 'series'
                                 }/${clearLinkTitle(
                                   result.title ? result.title : result.name
                                 )}/${result.id}`}
-                                reloadDocument
                               >
                                 <button className="popular-watch-now">
                                   Assistir&nbsp;agora
@@ -527,12 +527,12 @@ export default function Home() {
                           <Loading colorVertical={true} />
                           <div>
                             <Link
+                              reloadDocument
                               to={`/vertical/${
                                 result.title ? 'filmes' : 'series'
                               }/${clearLinkTitle(
                                 result.title ? result.title : result.name
                               )}/${result.id}`}
-                              reloadDocument
                             >
                               <button>Assistir</button>
                             </Link>
@@ -540,12 +540,12 @@ export default function Home() {
                         </div>
                         <div className="popular-conatiner-details">
                           <Link
+                            reloadDocument
                             to={`/vertical/${
                               result.title ? 'filmes' : 'series'
                             }/${clearLinkTitle(
                               result.title ? result.title : result.name
                             )}/${result.id}`}
-                            reloadDocument
                           >
                             <h5
                               title={result.title ? result.title : result.name}

@@ -400,13 +400,13 @@ class AllCatalog extends Component {
               (result) =>
                 result !== undefined && (
                   <Link
+                    reloadDocument
                     key={result.id}
                     to={`/vertical/${
                       result.title ? 'filmes' : 'series'
                     }/${clearLinkTitle(
                       result.title ? result.title : result.name
                     )}/${result.id}`}
-                    reloadDocument
                   >
                     <div className="catalog-img">
                       <img

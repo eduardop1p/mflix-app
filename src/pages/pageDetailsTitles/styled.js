@@ -347,7 +347,7 @@ export const PosterDetailsSimilarTrailer = styled.div`
   }
 
   & > .trailer-details-page {
-    height: 100%;
+    height: 500px;
     border-radius: 1rem;
     overflow: hidden;
     background-color: #111;

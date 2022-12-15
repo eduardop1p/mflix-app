@@ -324,11 +324,11 @@ class AllCatalog extends Component {
           {all.length ? (
             all.map((result) => (
               <Link
+                reloadDocument
                 key={result.id}
                 to={`/vertical/filmes/${clearLinkTitle(result.title)}/${
                   result.id
                 }`}
-                reloadDocument
               >
                 <div className="catalog-img">
                   <img

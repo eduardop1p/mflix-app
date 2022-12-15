@@ -28,6 +28,8 @@ export default function New() {
   const breackPoint570 = useMediaQuery({ maxWidth: 570 });
 
   useEffect(() => {
+    SwiperCore.use([Autoplay]);
+
     const getNews = async () => {
       try {
         const axiosData1 = await axiosBaseUrlMovies.get(
@@ -67,8 +69,6 @@ export default function New() {
     setNews(randomArrMovieSeriesPopular);
   }
 
-  SwiperCore.use([Autoplay]);
-
   return (
     <Slider>
       <div className="result">
@@ -106,12 +106,12 @@ export default function New() {
                             NEW {result.title ? 'FILME' : 'SERIE'}
                           </div>
                           <Link
+                            reloadDocument
                             to={`/vertical/${
                               result.title ? 'filmes' : 'series'
                             }/${clearLinkTitle(
                               result.title ? result.title : result.name
                             )}/${result.id}`}
-                            reloadDocument
                           >
                             <h1
                               title={result.title ? result.title : result.name}
@@ -144,12 +144,12 @@ export default function New() {
                     ) : (
                       <div className="slider-mobile">
                         <Link
+                          reloadDocument
                           to={`/vertical/${
                             result.title ? 'filmes' : 'series'
                           }/${clearLinkTitle(
                             result.title ? result.title : result.name
                           )}/${result.id}`}
-                          reloadDocument
                         >
                           <div className="mobile-new-details">
                             {result.title ? (
@@ -188,13 +188,13 @@ export default function New() {
                     (result) =>
                       result !== undefined && (
                         <Link
+                          reloadDocument
                           key={result.id}
                           to={`/vertical/${
                             result.title ? 'filmes' : 'series'
                           }/${clearLinkTitle(
                             result.title ? result.title : result.name
                           )}/${result.id}`}
-                          reloadDocument
                         >
                           <div className="gridNew" key={result.id}>
                             <img

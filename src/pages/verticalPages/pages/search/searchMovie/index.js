@@ -70,6 +70,8 @@ export default function searchMovie(props) {
   const [showFormMsg, setshowFormMsg] = useState(false);
 
   useEffect(() => {
+    SwiperCore.use(Autoplay);
+
     const getDetailsId = async (id) => {
       try {
         const { data } = await axiosBaseUrlMovies.get(
@@ -324,8 +326,6 @@ export default function searchMovie(props) {
     }
   }
 
-  SwiperCore.use(Autoplay);
-
   return (
     <Main>
       <BgImgPageDetails>
@@ -525,6 +525,7 @@ export default function searchMovie(props) {
                                     </div>
                                     <div className="popular-details">
                                       <Link
+                                        reloadDocument
                                         to={`/vertical/${
                                           result.title ? 'filmes' : 'series'
                                         }/${clearLinkTitle(
@@ -532,7 +533,6 @@ export default function searchMovie(props) {
                                             ? result.title
                                             : result.name
                                         )}/${result.id}`}
-                                        reloadDocument
                                       >
                                         <h3
                                           title={
@@ -583,6 +583,7 @@ export default function searchMovie(props) {
                                         </div>
                                       </div>
                                       <Link
+                                        reloadDocument
                                         to={`/vertical/${
                                           result.title ? 'filmes' : 'series'
                                         }/${clearLinkTitle(
@@ -590,7 +591,6 @@ export default function searchMovie(props) {
                                             ? result.title
                                             : result.name
                                         )}/${result.id}`}
-                                        reloadDocument
                                       >
                                         <button className="popular-watch-now">
                                           Assistir&nbsp;agora
@@ -724,12 +724,12 @@ export default function searchMovie(props) {
                             <Loading colorVertical />
                             <div>
                               <Link
+                                reloadDocument
                                 to={`/vertical/${
                                   result.title ? 'filmes' : 'series'
                                 }/${clearLinkTitle(
                                   result.title ? result.title : result.name
                                 )}/${result.id}`}
-                                reloadDocument
                               >
                                 <button>Assistir</button>
                               </Link>
@@ -737,12 +737,12 @@ export default function searchMovie(props) {
                           </div>
                           <div className="popular-conatiner-details">
                             <Link
+                              reloadDocument
                               to={`/vertical/${
                                 result.title ? 'filmes' : 'series'
                               }/${clearLinkTitle(
                                 result.title ? result.title : result.name
                               )}/${result.id}`}
-                              reloadDocument
                             >
                               <h5
                                 title={
@@ -816,12 +816,12 @@ export default function searchMovie(props) {
                           </div>
                           <div className="popular-details">
                             <Link
+                              reloadDocument
                               to={`/vertical/${
                                 result.title ? 'filmes' : 'series'
                               }/${clearLinkTitle(
                                 result.title ? result.title : result.name
                               )}/${result.id}`}
-                              reloadDocument
                             >
                               <h3
                                 title={
@@ -870,12 +870,12 @@ export default function searchMovie(props) {
                               </div>
                             </div>
                             <Link
+                              reloadDocument
                               to={`/vertical/${
                                 result.title ? 'filmes' : 'series'
                               }/${clearLinkTitle(
                                 result.title ? result.title : result.name
                               )}/${result.id}`}
-                              reloadDocument
                             >
                               <button className="popular-watch-now">
                                 Assistir&nbsp;agora

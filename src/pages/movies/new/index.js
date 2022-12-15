@@ -23,6 +23,8 @@ function New() {
   const breackPoint570 = useMediaQuery({ maxWidth: 570 });
 
   useEffect(() => {
+    SwiperCore.use([Autoplay]);
+
     const getNews = async () => {
       try {
         const { data } = await axiosBaseUrlMovies.get(
@@ -35,8 +37,6 @@ function New() {
     };
     getNews();
   }, []);
-
-  SwiperCore.use([Autoplay]);
 
   return (
     <Slider>
@@ -71,10 +71,10 @@ function New() {
                     <div className="info">
                       <div className="new">NEW</div>
                       <Link
+                        reloadDocument
                         to={`/vertical/filmes/${clearLinkTitle(result.title)}/${
                           result.id
                         }`}
-                        reloadDocument
                       >
                         <h1 title={result.title} className="title">
                           {result.title}
@@ -100,10 +100,10 @@ function New() {
                 ) : (
                   <div className="slider-mobile">
                     <Link
+                      reloadDocument
                       to={`/vertical/filmes/${clearLinkTitle(result.title)}/${
                         result.id
                       }`}
-                      reloadDocument
                     >
                       <div className="mobile-new-details">
                         <GetDetailsMovieId id={result.id} mobile />
@@ -136,11 +136,11 @@ function New() {
                 {news &&
                   news.results.slice(0, 3).map((result) => (
                     <Link
+                      reloadDocument
                       key={result.id}
                       to={`/vertical/filmes/${clearLinkTitle(result.title)}/${
                         result.id
                       }`}
-                      reloadDocument
                     >
                       <div className="gridNew" key={result.id}>
                         <img
@@ -232,8 +232,8 @@ function GetDetailsMovieId(props) {
       </div>
       <div className="release-date">{newId.release_date.slice(0, 4)}</div>
       <Link
-        to={`/vertical/filmes/${clearLinkTitle(newId.title)}/${newId.id}`}
         reloadDocument
+        to={`/vertical/filmes/${clearLinkTitle(newId.title)}/${newId.id}`}
       >
         <button type="button" className="watch-online">
           Assitir&nbsp;online

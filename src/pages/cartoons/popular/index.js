@@ -31,6 +31,8 @@ export default class Popular extends Component {
   }
 
   componentDidMount() {
+    SwiperCore.use([Autoplay]);
+
     this.getAllPopular();
   }
 
@@ -69,7 +71,6 @@ export default class Popular extends Component {
 
   render() {
     const { allPopular, loadingFilters } = this.state;
-    SwiperCore.use([Autoplay]);
 
     return (
       <PopularContainer>
@@ -161,12 +162,12 @@ export default class Popular extends Component {
                         </div>
                         <div className="popular-details">
                           <Link
+                            reloadDocument
                             to={`/vertical/${
                               result.title ? 'filmes' : 'series'
                             }/${clearLinkTitle(
                               result.title ? result.title : result.name
                             )}/${result.id}`}
-                            reloadDocument
                           >
                             <h3
                               title={result.title ? result.title : result.name}
@@ -197,12 +198,12 @@ export default class Popular extends Component {
                             </div>
                           </div>
                           <Link
+                            reloadDocument
                             to={`/vertical/${
                               result.title ? 'filmes' : 'series'
                             }/${clearLinkTitle(
                               result.title ? result.title : result.name
                             )}/${result.id}`}
-                            reloadDocument
                           >
                             <button className="popular-watch-now">
                               Assistir&nbsp;agora

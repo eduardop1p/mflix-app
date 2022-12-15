@@ -70,6 +70,8 @@ export default function MovieD(props) {
   let controllerRef = useRef(new AbortController());
 
   useEffect(() => {
+    SwiperCore.use(Autoplay);
+
     const getDetailsId = async (id) => {
       try {
         const { data } = await axiosBaseUrlMovies.get(
@@ -283,8 +285,6 @@ export default function MovieD(props) {
     }
   }
 
-  SwiperCore.use(Autoplay);
-
   return (
     <Main>
       <Helmet>
@@ -481,10 +481,10 @@ export default function MovieD(props) {
                                     </div>
                                     <div className="popular-details">
                                       <Link
+                                        reloadDocument
                                         to={`/vertical/filmes/${clearLinkTitle(
                                           result.title
                                         )}/${result.id}`}
-                                        reloadDocument
                                       >
                                         <h3 title={result.title}>
                                           {result.title}
@@ -526,10 +526,10 @@ export default function MovieD(props) {
                                         </div>
                                       </div>
                                       <Link
+                                        reloadDocument
                                         to={`/vertical/filmes/${clearLinkTitle(
                                           result.title
                                         )}/${result.id}`}
-                                        reloadDocument
                                       >
                                         <button className="popular-watch-now">
                                           Assistir&nbsp;agora
@@ -666,10 +666,10 @@ export default function MovieD(props) {
                             <Loading colorVertical />
                             <div>
                               <Link
+                                reloadDocument
                                 to={`/vertical/filmes/${clearLinkTitle(
                                   result.title
                                 )}/${result.id}`}
-                                reloadDocument
                               >
                                 <button>Assistir</button>
                               </Link>
@@ -677,10 +677,10 @@ export default function MovieD(props) {
                           </div>
                           <div className="popular-conatiner-details">
                             <Link
+                              reloadDocument
                               to={`/vertical/filmes/${clearLinkTitle(
                                 result.title
                               )}/${result.id}`}
-                              reloadDocument
                             >
                               <h5 title={result.title}>{result.title}</h5>
                             </Link>
@@ -744,10 +744,10 @@ export default function MovieD(props) {
                           </div>
                           <div className="popular-details">
                             <Link
+                              reloadDocument
                               to={`/vertical/filmes/${clearLinkTitle(
                                 result.title
                               )}/${result.id}`}
-                              reloadDocument
                             >
                               <h3 title={result.title}>{result.title}</h3>
                             </Link>
@@ -786,10 +786,10 @@ export default function MovieD(props) {
                               </div>
                             </div>
                             <Link
+                              reloadDocument
                               to={`/vertical/filmes/${clearLinkTitle(
                                 result.title
                               )}/${result.id}`}
-                              reloadDocument
                             >
                               <button className="popular-watch-now">
                                 Assistir&nbsp;agora

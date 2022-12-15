@@ -22,17 +22,17 @@ export default function messageForm(props) {
   function manageClose() {
     if (account && successMessage) {
       onClose(false);
-      setTimeout(() => (window.location.href = '/'), 50);
+      window.location.href = '/';
       return;
     }
     if (recoveryPassword && successMessage) {
       onClose(false);
-      setTimeout(() => (window.location.href = '/login'), 50);
+      window.location.href = '/login';
       return;
     }
     if (deleteAccount && successMessage) {
       onClose(false);
-      setTimeout(() => (window.location.href = '/criar-conta'), 50);
+      window.location.href = '/criar-conta';
       return;
     }
 
