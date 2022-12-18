@@ -9,10 +9,14 @@ export const Container = styled.div`
   min-height: 100vh;
   background-color: ${colors.color9};
   display: flex;
+
+  @media (max-width: 800px) {
+    padding: 8px;
+  }
 `;
 
 export const ContainerHeaderVertical = styled.header`
-  width: 60px;
+  width: 55px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,6 +25,10 @@ export const ContainerHeaderVertical = styled.header`
   padding: 10px;
   border-radius: 1rem 0 0 1rem;
   min-height: 450px;
+
+  @media (max-width: 600px) {
+    width: 50px;
+  }
 
   & > :first-child {
     display: flex;
@@ -50,7 +58,7 @@ export const ContainerHeaderVertical = styled.header`
       gap: 1.5rem;
       flex-direction: column;
       align-items: center;
-      overflow-y: scroll;
+      overflow: hidden scroll;
 
       &::-webkit-scrollbar {
         width: 3px;
@@ -85,7 +93,7 @@ export const ContainerHeaderVertical = styled.header`
         }
       }
 
-      & > .vertical-seach svg {
+      & > .vertical-search svg {
         height: 23px;
         width: 23px;
         fill: ${colors.color5};
@@ -104,7 +112,19 @@ export const PagesContainer = styled.main`
   margin: 1rem 0 1rem 1rem;
   display: flex;
   gap: 1rem;
-  width: 100%;
+  width: calc(100% - 367px);
+
+  @media (max-width: 1290px) {
+    flex-direction: column;
+    width: calc(100% - 71px);
+  }
+  @media (max-width: 800px) {
+    margin: 10px 0 10px 10px;
+    width: calc(100% - 65px);
+  }
+  @media (max-width: 600px) {
+    width: calc(100% - 60px);
+  }
 
   & > .search-new-popular {
     background-color: transparent;
@@ -119,100 +139,104 @@ export const PagesContainer = styled.main`
       font-size: 1.5rem;
       margin-bottom: 1rem;
     }
+  }
+`;
 
-    & > .search-help {
-      width: 100%;
+export const SearchHelpContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 8px 1.2rem;
+    background-color: ${colors.color7};
+    border-radius: 1rem;
+    overflow: hidden;
+
+    @media (max-width: 800px) {
+      gap: 5px;
+    }
+
+    & > button > svg {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      cursor: pointer;
+      fill: ${colors.color5};
+      flex: none;
+    }
 
-      form {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        width: 100%;
-        padding: 8px 1.2rem;
-        background-color: ${colors.color7};
-        border-radius: 1rem;
-        overflow: hidden;
+    & > input {
+      width: 100%;
+      border: none;
+      color: ${colors.color5};
+      background-color: inherit;
+      font-size: 0.81rem;
+      font-weight: 500;
 
-        & > button > svg {
-          display: flex;
-          align-items: center;
-          cursor: pointer;
-          fill: ${colors.color5};
-          flex: none;
-        }
-
-        & > input {
-          width: 100%;
-          border: none;
-          color: ${colors.color5};
-          background-color: inherit;
-          font-size: 0.81rem;
-          font-weight: 500;
-
-          &::placeholder {
-            color: ${colors.color5};
-            font-size: 0.81rem;
-            font-weight: 500;
-          }
-        }
+      &::placeholder {
+        color: ${colors.color5};
+        font-size: 0.81rem;
+        font-weight: 500;
       }
+    }
+  }
 
-      & > div {
-        margin-left: 1rem;
-        position: relative;
-        width: 20px;
-        height: 20px;
+  & > div {
+    margin-left: 10px;
+    position: relative;
+    width: 20px;
+    height: 20px;
 
-        svg {
-          cursor: pointer;
+    svg {
+      cursor: pointer;
 
-          path {
-            fill: ${colors.color6};
-          }
-        }
-
-        &:focus {
-          & > span {
-            visibility: visible;
-            transform: scale(1);
-          }
-        }
-
-        & > span {
-          padding: 8px;
-          width: 180px;
-          border-radius: 5px;
-          top: 2rem;
-          right: 0;
-          position: absolute;
-          font-size: 12px;
-          color: ${colors.color5};
-          background-color: ${colors.color7};
-          transition: transform 0.15s linear, visibility 0.15s linear;
-          visibility: hidden;
-          transform: scale(0.8);
-
-          &::before {
-            content: '';
-            position: absolute;
-            background-color: ${colors.color7};
-            z-index: -1;
-            right: 0;
-            top: -10px;
-            width: 20px;
-            height: 20px;
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-          }
-        }
+      path {
+        fill: ${colors.color6};
       }
     }
 
-    & > .new {
-      position: relative;
-      height: 265px;
+    &:focus {
+      & > span {
+        visibility: visible;
+        transform: scale(1);
+      }
+    }
+
+    & > span {
+      padding: 8px;
+      width: 180px;
+      border-radius: 5px;
+      top: 2rem;
+      right: 0;
+      position: absolute;
+      font-size: 12px;
+      color: ${colors.color5};
+      background-color: ${colors.color7};
+      transition: transform 0.15s linear, visibility 0.15s linear;
+      visibility: hidden;
+      transform: scale(0.8);
+      z-index: 8;
+
+      @media (max-width: 1290px) {
+        background-color: ${colors.color8};
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        background-color: inherit;
+        z-index: -1;
+        right: 0;
+        top: -10px;
+        width: 20px;
+        height: 20px;
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      }
     }
   }
 `;
@@ -228,14 +252,37 @@ export const Filters = styled.div`
   gap: 14px;
   flex-shrink: 0;
 
+  @media (max-width: 1290px) {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+  }
+  @media (max-width: 630px) {
+    padding: 1rem;
+  }
+  @media (max-width: 500px) {
+    flex-direction: column;
+  }
+
+  & > .vertical {
+    @media (max-width: 1290px) {
+      width: 100%;
+    }
+  }
+
   & > .genres {
     & > :last-child {
       height: ${({ genresArrowActived }) =>
         genresArrowActived ? '140px' : '0'};
-      overflow-y: scroll;
-      overflow-x: hidden;
+      overflow: hidden scroll;
       transition: height 0.2s ease-in-out;
       margin-top: 8px;
+
+      @media (max-width: 500px) {
+        height: ${({ genresArrowActived }) =>
+          genresArrowActived ? '90px' : '0'};
+      }
 
       &::-webkit-scrollbar {
         width: 3px;
@@ -253,6 +300,10 @@ export const Filters = styled.div`
   }
 
   & > .years {
+    @media (max-width: 1290px) {
+      order: 3;
+    }
+
     & > :first-child {
       display: flex;
       justify-content: space-between;
@@ -323,6 +374,11 @@ export const Filters = styled.div`
       overflow: hidden scroll;
       transition: height 0.2s ease-in-out;
       margin-top: 8px;
+
+      @media (max-width: 500px) {
+        height: ${({ actorArrowActived }) =>
+          actorArrowActived ? '90px' : '0'};
+      }
 
       &::-webkit-scrollbar {
         width: 3px;
@@ -409,6 +465,7 @@ export const Filters = styled.div`
           height: 15px;
           display: grid;
           cursor: pointer;
+          flex-shrink: 0;
           place-content: center; // é o mesmo que align-content: center; e justify-content: center;, mas com um comando só
 
           &::before {
@@ -444,7 +501,6 @@ export const Filters = styled.div`
 
 export const New = styled.div`
   width: 100%;
-  position: absolute;
 
   .popular-slider {
     display: flex;
@@ -452,13 +508,50 @@ export const New = styled.div`
     align-items: center;
     background-color: ${colors.color7};
     border-radius: 5px;
+    height: 100%;
     padding: 10px;
+
+    @media (max-width: 629px) {
+      flex-direction: column;
+    }
+    @media (max-width: 500px) {
+      flex-direction: row;
+    }
 
     & > .popular-img {
       width: 140px;
       height: 200px;
       flex-shrink: 0;
       position: relative;
+
+      @media (max-width: 1325px) {
+        width: 130px;
+        height: 190px;
+      }
+      @media (max-width: 1290px) {
+        width: 140px;
+      }
+      @media (max-width: 1020px) {
+        width: 130px;
+        height: 190px;
+      }
+      @media (max-width: 720px) {
+        width: 120px;
+        height: 180px;
+      }
+      @media (max-width: 629px) {
+        height: 35.8vw;
+      }
+      @media (max-width: 580px) {
+        height: 34.8vw;
+      }
+      @media (max-width: 540px) {
+        height: 33vw;
+      }
+      @media (max-width: 500px) {
+        width: 130px;
+        height: 190px;
+      }
 
       & > .movie-or-serie {
         position: absolute;
@@ -481,7 +574,21 @@ export const New = styled.div`
       margin-left: 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 9px;
+      gap: 8px;
+
+      @media (max-width: 720px) {
+        margin-left: 1rem;
+        gap: 5px;
+      }
+      @media (max-width: 629px) {
+        margin-top: 1rem;
+        margin-left: 0;
+      }
+      @media (max-width: 500px) {
+        margin-top: 0;
+        margin-left: 1rem;
+        gap: 5px;
+      }
 
       & > a > h3 {
         max-width: 100%;
@@ -502,7 +609,25 @@ export const New = styled.div`
         color: ${colors.color5};
         display: flex;
         gap: 5px;
-        align-items: center;
+
+        @media (max-width: 660px) {
+          flex-direction: column;
+          gap: 1px;
+        }
+
+        @media (max-width: 629px) {
+          flex-direction: row;
+          gap: 5px;
+        }
+
+        & > .popular-genre-genre {
+          max-width: 100%;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          -webkit-line-clamp: 1;
+        }
       }
 
       & > .vertical-overview {
@@ -512,12 +637,12 @@ export const New = styled.div`
         color: ${colors.color5};
         max-width: 10rem;
         height: 48px;
-        overflow-y: hidden;
-        overflow-x: hidden;
+        overflow: hidden hidden;
+        word-break: break-word;
 
         &:hover,
         &:focus {
-          overflow-y: scroll;
+          overflow: hidden hidden;
 
           &::-webkit-scrollbar {
             width: 3px;
@@ -543,8 +668,24 @@ export const New = styled.div`
           display: flex;
           align-items: center;
 
+          @media (max-width: 650px) {
+            flex-direction: column;
+            align-items: normal;
+          }
+          @media (max-width: 629px) {
+            flex-direction: row;
+            align-items: center;
+          }
+
           & > .popular-voteAverage {
             margin-left: 10px;
+
+            @media (max-width: 650px) {
+              margin-left: 3px;
+            }
+            @media (max-width: 629px) {
+              margin-left: 5px;
+            }
           }
         }
       }
@@ -556,8 +697,25 @@ export const New = styled.div`
         border-radius: 1.5rem;
         font-size: 0.75rem;
         width: fit-content;
-        padding: 8px 1.2rem;
+        padding: 8px 0;
+        width: 90%;
         transition: all 0.2s ease-in-out;
+
+        @media (max-width: 1330px) {
+          width: 100%;
+        }
+        @media (max-width: 1290px) {
+          padding: 8px 1.2rem;
+          width: fit-content;
+        }
+        @media (max-width: 670px) {
+          padding: 8px 0;
+          width: 100%;
+        }
+        @media (max-width: 500px) {
+          padding: 8px 1.2rem;
+          width: fit-content;
+        }
 
         &:hover {
           background-color: ${colors.color2};
@@ -571,17 +729,17 @@ export const Popular = styled.div`
   overflow: hidden scroll;
 
   &::-webkit-scrollbar {
-    width: 30px;
+    width: 13px;
   }
 
   ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 14px 14px transparent;
-    border: solid 13px transparent;
+    box-shadow: inset 0 0 10px 10px transparent;
+    border: solid 5px transparent;
   }
 
   ::-webkit-scrollbar-thumb {
-    box-shadow: inset 0 0 14px 14px ${colors.color6};
-    border: solid 13px transparent;
+    box-shadow: inset 0 0 10px 10px ${colors.color6};
+    border: solid 5px transparent;
     border-radius: 1rem;
   }
 
@@ -592,9 +750,66 @@ export const Popular = styled.div`
   .vertical-popular-img-details {
     width: calc(100% / 4);
     display: inline-block;
-    height: 350px;
+    height: 25.7vw;
     padding: 8px;
     position: relative;
+
+    @media (max-width: 1361px) {
+      height: 25.7vw;
+    }
+    @media (max-width: 1290px) {
+      width: calc(100% / 5);
+      height: 28vw;
+    }
+    @media (max-width: 1250px) {
+      height: 27vw;
+    }
+    @media (max-width: 1200px) {
+      width: calc(100% / 4);
+      height: 34.5vw;
+    }
+    @media (max-width: 1100px) {
+      height: 33.5vw;
+    }
+    @media (max-width: 950px) {
+      height: 32.5vw;
+    }
+    @media (max-width: 850px) {
+      width: calc(100% / 3);
+      height: 45vw;
+    }
+    @media (max-width: 800px) {
+      height: 44vw;
+    }
+    @media (max-width: 750px) {
+      height: 43vw;
+      padding: 5px;
+    }
+    @media (max-width: 700px) {
+      height: 42vw;
+    }
+    @media (max-width: 650px) {
+      height: 41vw;
+    }
+    @media (max-width: 600px) {
+      height: 40vw;
+    }
+    @media (max-width: 550px) {
+      height: 39vw;
+    }
+    @media (max-width: 500px) {
+      width: calc(100% / 2);
+      height: 64vw;
+    }
+    @media (max-width: 450px) {
+      height: 60vw;
+    }
+    @media (max-width: 400px) {
+      height: 56vw;
+    }
+    @media (max-width: 350px) {
+      height: 52vw;
+    }
 
     .movie-or-serie {
       position: absolute;

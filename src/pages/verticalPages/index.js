@@ -15,7 +15,7 @@ export default function VerticalPages() {
       <ContainerHeaderVertical>
         <div>
           {isLogedIn.current ? (
-            <UserPhoto />
+            <UserPhoto width40 />
           ) : (
             <Link
               reloadDocument
@@ -60,7 +60,7 @@ export default function VerticalPages() {
                 </svg>
               </NavLink>
             </div>
-            <div className="vertical-seach">
+            <div className="vertical-search">
               <NavLink
                 reloadDocument
                 to="search"
