@@ -729,22 +729,16 @@ export const Popular = styled.div`
   overflow: hidden scroll;
 
   &::-webkit-scrollbar {
-    width: 13px;
+    width: 4px;
   }
 
-  ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 10px 10px transparent;
-    border: solid 5px transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    box-shadow: inset 0 0 10px 10px ${colors.color6};
-    border: solid 5px transparent;
+  &::-webkit-scrollbar-thumb {
     border-radius: 1rem;
+    background-color: ${colors.color6};
   }
 
-  ::-webkit-scrollbar-button {
-    display: none;
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
   }
 
   .vertical-popular-img-details {
