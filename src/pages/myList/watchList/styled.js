@@ -197,7 +197,7 @@ export const RemoveItemsListSelected = styled.div`
       background-color: ${colors.color7};
       width: 150px;
       top: 23px;
-      right: -1rem;
+      right: -10px;
       height: 100px;
       border-radius: 1rem;
 

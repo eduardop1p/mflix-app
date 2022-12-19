@@ -517,6 +517,9 @@ export const New = styled.div`
     @media (max-width: 500px) {
       flex-direction: row;
     }
+    @media (max-width: 345px) {
+      flex-direction: column;
+    }
 
     & > .popular-img {
       width: 140px;
@@ -551,6 +554,31 @@ export const New = styled.div`
       @media (max-width: 500px) {
         width: 130px;
         height: 190px;
+      }
+      @media (max-width: 360px) {
+        width: 120px;
+        height: 180px;
+      }
+      @media (max-width: 345px) {
+        width: 100%;
+        height: 108vw;
+      }
+      @media (max-width: 325px) {
+        width: 100%;
+        height: 106vw;
+      }
+      @media (max-width: 305px) {
+        width: 100%;
+        height: 104vw;
+      }
+      @media (max-width: 285px) {
+        width: 100%;
+        height: 102vw;
+      }
+      @media (max-width: 265px) {
+        width: 100%;
+        height: 99vw;
+        min-height: 237px;
       }
 
       & > .movie-or-serie {
@@ -587,7 +615,10 @@ export const New = styled.div`
       @media (max-width: 500px) {
         margin-top: 0;
         margin-left: 1rem;
-        gap: 5px;
+      }
+      @media (max-width: 345px) {
+        margin-top: 1rem;
+        margin-left: 0;
       }
 
       & > a > h3 {
@@ -716,6 +747,9 @@ export const New = styled.div`
           padding: 8px 1.2rem;
           width: fit-content;
         }
+        @media (max-width: 360px) {
+          width: 100%;
+        }
 
         &:hover {
           background-color: ${colors.color2};
@@ -803,6 +837,27 @@ export const Popular = styled.div`
     }
     @media (max-width: 350px) {
       height: 52vw;
+    }
+    @media (max-width: 345px) {
+      width: 100%;
+      height: 124vw;
+    }
+    @media (max-width: 325px) {
+      width: 100%;
+      height: 121vw;
+    }
+    @media (max-width: 305px) {
+      width: 100%;
+      height: 118vw;
+    }
+    @media (max-width: 285px) {
+      width: 100%;
+      height: 115vw;
+    }
+    @media (max-width: 265px) {
+      width: 100%;
+      height: 110vw;
+      min-height: 264px;
     }
 
     .movie-or-serie {
