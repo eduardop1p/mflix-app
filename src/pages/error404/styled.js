@@ -16,16 +16,16 @@ export const Error = styled.div`
   flex-direction: column;
 
   @media (max-width: 755px) {
-    transform: scale(0.8);
+    transform: scale(0.85);
   }
   @media (max-width: 600px) {
-    transform: scale(0.6);
+    transform: scale(0.7);
   }
   @media (max-width: 430px) {
-    transform: scale(0.4);
+    transform: scale(0.55);
   }
   @media (max-width: 280px) {
-    transform: scale(0.35);
+    transform: scale(0.4);
   }
 
   & > .error-moon {
