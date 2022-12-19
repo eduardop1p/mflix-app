@@ -6,6 +6,10 @@ export const MainIndexSearch = styled.main`
   margin: 1rem 0 1rem 1rem;
   width: 100%;
 
+  @media (max-width: 800px) {
+    margin: 10px 0 10px 10px;
+  }
+
   & > .search {
     width: 100%;
 

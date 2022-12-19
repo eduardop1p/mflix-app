@@ -66,7 +66,7 @@ export default function MovieV() {
   const breackPoint629 = useMediaQuery({ maxWidth: 629 });
 
   useEffect(() => {
-    // SwiperCore.use(Autoplay);
+    SwiperCore.use(Autoplay);
 
     const setAllGenresFilters = async () => {
       try {
@@ -378,6 +378,8 @@ export default function MovieV() {
                 spaceBetween={20}
                 slidesPerView={2}
                 breakpoints={{
+                  2400: { slidesPerView: 5 },
+                  1900: { slidesPerView: 4 },
                   1021: { slidesPerView: 3 },
                   630: { slidesPerView: 2 },
                   501: { slidesPerView: 3 },

@@ -538,11 +538,8 @@ export const New = styled.div`
         width: 130px;
         height: 190px;
       }
-      @media (max-width: 720px) {
-        width: 120px;
-        height: 180px;
-      }
       @media (max-width: 629px) {
+        width: 100%;
         height: 35.8vw;
       }
       @media (max-width: 580px) {
@@ -732,6 +729,10 @@ export const New = styled.div`
         width: 90%;
         transition: all 0.2s ease-in-out;
 
+        @media (min-width: 1361px) {
+          padding: 8px 1.2rem;
+          width: fit-content;
+        }
         @media (max-width: 1330px) {
           width: 100%;
         }
@@ -761,6 +762,7 @@ export const New = styled.div`
 
 export const Popular = styled.div`
   overflow: hidden scroll;
+  height: 100vh;
 
   &::-webkit-scrollbar {
     width: 4px;
@@ -782,9 +784,6 @@ export const Popular = styled.div`
     padding: 8px;
     position: relative;
 
-    @media (max-width: 1361px) {
-      height: 25.7vw;
-    }
     @media (max-width: 1290px) {
       width: calc(100% / 5);
       height: 28vw;
