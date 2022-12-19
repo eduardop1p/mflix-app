@@ -8,6 +8,10 @@ export const Main = styled.main`
   align-items: center;
   flex-direction: column;
 
+  @media (max-width: 800px) {
+    margin-top: 1.5rem;
+  }
+
   & > .profile-details {
     & > h1 {
       text-align: center;
@@ -88,6 +92,10 @@ export const NewUpdateDeletePhotoDiv = styled.div`
     animation-duration: 0.2s;
     animation-timing-function: linear;
 
+    @media (max-width: 600px) {
+      width: calc(100% - 5rem);
+    }
+
     input[type='file'] {
       display: none;
     }
@@ -106,6 +114,7 @@ export const NewUpdateDeletePhotoDiv = styled.div`
     & > div > h1 {
       font-size: 1.2rem;
       text-align: center;
+      padding: 10px;
     }
 
     & > div > label {
@@ -373,6 +382,10 @@ export const DeleteAccountContainer = styled.div`
     align-items: center;
     flex-direction: column;
 
+    @media (max-width: 470px) {
+      width: calc(100% - 4rem);
+    }
+
     & > h1 {
       font-size: 1.2rem;
       text-align: center;
@@ -382,6 +395,10 @@ export const DeleteAccountContainer = styled.div`
     & > div {
       display: flex;
       justify-content: space-between;
+
+      @media (max-width: 310px) {
+        flex-direction: column;
+      }
 
       & > button {
         font-size: 0.93rem;
@@ -394,6 +411,11 @@ export const DeleteAccountContainer = styled.div`
         background-color: red;
         color: ${colors.color1};
         margin-right: 1rem;
+
+        @media (max-width: 310px) {
+          margin-right: 0;
+          margin-bottom: 10px;
+        }
       }
 
       & > :last-child {
