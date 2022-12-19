@@ -143,20 +143,44 @@ export const NewUpdateDeletePhotoDiv = styled.div`
 
 export const AccountManageContainer = styled.div`
   background-color: ${colors.color1};
-  width: calc(100% - 30rem);
+  width: 880px;
   margin-top: 1rem;
   margin-bottom: 8px;
   height: auto;
   border-radius: 8px;
+
+  @media (max-width: 1000px) {
+    width: calc(100% - 7rem);
+  }
+  @media (max-width: 500px) {
+    width: calc(100% - 4rem);
+  }
 
   & > .account-manage {
     padding: 2rem;
     display: flex;
     justify-content: space-between;
 
+    @media (max-width: 500px) {
+      padding: 1rem;
+    }
+    @media (max-width: 360px) {
+      padding: 10px;
+    }
+    @media (max-width: 330px) {
+      flex-direction: column;
+      align-items: center;
+    }
+
     & > :first-child {
       display: flex;
       flex-direction: column;
+      flex-shrink: 0;
+
+      @media (max-width: 410px) {
+        flex-shrink: 1;
+        align-items: flex-start;
+      }
 
       & > button {
         padding: 8px;
@@ -192,6 +216,12 @@ export const AccountManageContainer = styled.div`
 `;
 
 export const InforPessContainer = styled.div`
+  @media (max-width: 820px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   & > .photo-alter {
     width: fit-content;
     & > span {
@@ -211,6 +241,10 @@ export const InforPessContainer = styled.div`
         object-fit: cover;
         border-radius: 100%;
         margin-right: 1.5rem;
+
+        @media (max-width: 500px) {
+          margin-right: 10px;
+        }
       }
 
       & > :last-child {
@@ -252,17 +286,33 @@ export const InforPessContainer = styled.div`
         font-size: 0.93rem;
         color: ${colors.color8};
         font-weight: 500;
+
+        @media (max-width: 820px) {
+          width: 100%;
+        }
       }
 
       & > :first-child {
         margin-bottom: 1rem;
+
+        @media (max-width: 600px) {
+          margin-bottom: 0;
+        }
       }
 
       & > div {
         display: flex;
 
+        @media (max-width: 600px) {
+          flex-direction: column;
+        }
+
         & > :first-child {
           margin-right: 1.5rem;
+
+          @media (max-width: 600px) {
+            margin-right: 0;
+          }
         }
 
         & > div {

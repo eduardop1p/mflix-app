@@ -144,12 +144,10 @@ export default function User() {
           >
             <form encType="multipart/form-data">
               <div>
-                <h1>Alterar&nbsp;foto&nbsp;de&nbsp;perfil</h1>
+                <h1>Alterar foto de perfil</h1>
               </div>
               <div>
-                <label htmlFor="new-user-foto">
-                  Adcionar&nbsp;nova&nbsp;foto
-                </label>
+                <label htmlFor="new-user-foto">Adcionar nova foto</label>
                 <input
                   type="file"
                   name="user-foto"
@@ -160,7 +158,7 @@ export default function User() {
                 />
               </div>
               <div onClick={deleteUserPhoto}>
-                <span id="delete-user-foto">Deletar&nbsp;foto</span>
+                <span id="delete-user-foto">Deletar foto</span>
               </div>
               <div onClick={() => setShowNewUpdateDelete(false)}>
                 <span id="cancel-user-foto">Fechar</span>
@@ -184,7 +182,7 @@ export default function User() {
           <h1>{capitalize(nome)}</h1>
           <div>
             <button type="button" onClick={() => setShowNewUpdateDelete(true)}>
-              Editar&nbsp;perfil
+              Editar perfil
             </button>
             <button className="logout" type="button" onClick={logoutUser}>
               Sair
@@ -249,7 +247,7 @@ function AccountManage(props) {
       {showDeleteAccount && (
         <DeleteAccountContainer>
           <div>
-            <h1>Tem&nbsp;certeza?</h1>
+            <h1>Tem certeza?</h1>
             <div>
               <button type="button" onClick={deleteUser}>
                 Deletar
@@ -264,10 +262,10 @@ function AccountManage(props) {
 
       <div className="account-manage">
         <div>
-          <button>Atualizar&nbsp;dados</button>
-          <button onClick={creatNewAccount}>Criar&nbsp;nova&nbsp;conta</button>
+          <button>Atualizar dados</button>
+          <button onClick={creatNewAccount}>Criar nova conta</button>
           <button type="button" onClick={() => setShowDeleteAccount(true)}>
-            Deletar&nbsp;conta
+            Deletar conta
           </button>
         </div>
         <div>
@@ -450,7 +448,7 @@ function InforPess(props) {
           </div>
           <div>
             <div>
-              <label htmlFor="new-password">Nova&nbsp;senha</label>
+              <label htmlFor="new-password">Nova senha</label>
               <input
                 type="text"
                 id="password"
@@ -460,7 +458,7 @@ function InforPess(props) {
               />
             </div>
             <div>
-              <label htmlFor="repeat-password">Repetir&nbsp;senha</label>
+              <label htmlFor="repeat-password">Repetir senha</label>
               <input
                 type="text"
                 id="repeat-password"
