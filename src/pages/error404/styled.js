@@ -15,6 +15,19 @@ export const Error = styled.div`
   align-items: center;
   flex-direction: column;
 
+  @media (max-width: 755px) {
+    transform: scale(0.8);
+  }
+  @media (max-width: 600px) {
+    transform: scale(0.6);
+  }
+  @media (max-width: 430px) {
+    transform: scale(0.4);
+  }
+  @media (max-width: 280px) {
+    transform: scale(0.35);
+  }
+
   & > .error-moon {
     display: flex;
     align-items: center;
