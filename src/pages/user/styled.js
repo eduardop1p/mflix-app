@@ -153,8 +153,7 @@ export const NewUpdateDeletePhotoDiv = styled.div`
 export const AccountManageContainer = styled.div`
   background-color: ${colors.color1};
   width: 880px;
-  margin-top: 1rem;
-  margin-bottom: 8px;
+  margin: 1rem 0;
   height: auto;
   border-radius: 8px;
 

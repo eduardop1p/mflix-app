@@ -70,7 +70,7 @@ export default function MovieD(props) {
   let controllerRef = useRef(new AbortController());
 
   useEffect(() => {
-    SwiperCore.use(Autoplay);
+    // SwiperCore.use(Autoplay);
 
     const getDetailsId = async (id) => {
       try {
@@ -450,16 +450,19 @@ export default function MovieD(props) {
                         <h4>Filmes&nbsp;recomendados</h4>
                         <NewSimilar>
                           <Swiper
-                            autoplay={{
-                              delay: 3000,
-                              disableOnInteraction: false,
-                              pauseOnMouseEnter: true,
-                            }}
+                            // autoplay={{
+                            //   delay: 3000,
+                            //   disableOnInteraction: false,
+                            //   pauseOnMouseEnter: true,
+                            // }}
                             initialSlide={1}
                             modules={[Navigation]}
                             spaceBetween={20}
                             slidesPerView={2}
-                            autoHeight
+                            breakpoints={{
+                              1340: { slidesPerView: 2 },
+                              1000: { slidesPerView: 1 },
+                            }}
                             loop
                           >
                             {newSimilarId.results.map((result, index) => (
@@ -712,16 +715,18 @@ export default function MovieD(props) {
             <h4>Novos&nbsp;filmes</h4>
             <News>
               <Swiper
-                autoplay={{
-                  delay: 3000,
-                  disableOnInteraction: false,
-                  pauseOnMouseEnter: true,
-                }}
+                // autoplay={{
+                //   delay: 3000,
+                //   disableOnInteraction: false,
+                //   pauseOnMouseEnter: true,
+                // }}
                 initialSlide={1}
                 modules={[Navigation]}
                 spaceBetween={20}
-                slidesPerView={4}
-                autoHeight
+                slidesPerView={3}
+                breakpoints={{
+                  1320: { slidesPerView: 4 },
+                }}
                 loop
               >
                 {news &&

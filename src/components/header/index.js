@@ -151,7 +151,7 @@ export default function Header() {
           )}
           {breakPoint990 && (
             <MenuHambuguer menuActive={menuActive}>
-              <div onClick={() => setMenuActive(!menuActive)}>
+              <div onClick={() => setMenuActive(true)}>
                 <div className="h-1"></div>
                 <div className="h-2"></div>
                 <div className="h-1"></div>
@@ -159,8 +159,7 @@ export default function Header() {
               {
                 <MenuActive
                   onClick={(event) =>
-                    event.target === event.currentTarget &&
-                    setMenuActive(!menuActive)
+                    event.target === event.currentTarget && setMenuActive(false)
                   }
                   menuActive={menuActive}
                 >

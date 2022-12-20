@@ -382,6 +382,7 @@ export const NewSimilar = styled.div`
     height: 220px;
     border-radius: 5px;
     padding: 10px;
+    justify-content: space-between;
 
     & > .popular-img {
       width: 125px;
@@ -390,6 +391,7 @@ export const NewSimilar = styled.div`
 
       & > img {
         border-radius: 10px;
+        object-fit: cover;
         width: 100%;
         height: 100%;
       }
@@ -398,7 +400,7 @@ export const NewSimilar = styled.div`
     & > .popular-details {
       padding: 10px 10px 1rem 0;
       display: flex;
-      max-width: 140px;
+      max-width: 50%;
       flex-direction: column;
       gap: 9px;
 
@@ -553,11 +555,10 @@ export const ImagesPosters = styled.div`
       margin-bottom: 8px;
       position: relative;
       display: inline-block;
-      width: calc(100% / 1);
-      min-height: 160px;
-      max-height: 420px;
+      width: 100%;
 
       & > img {
+        object-fit: cover;
         width: 100%;
         height: 100%;
         border-radius: 10px;
@@ -610,6 +611,7 @@ export const Collections = styled.div`
       align-items: center;
 
       & > img {
+        object-fit: cover;
         width: 100%;
         height: 100%;
         border-radius: 1rem;
@@ -700,6 +702,7 @@ export const News = styled.div`
     height: 220px;
     border-radius: 5px;
     padding: 10px;
+    justify-content: space-between;
 
     & > .popular-img {
       width: 125px;
@@ -707,6 +710,7 @@ export const News = styled.div`
       position: relative;
 
       & > img {
+        object-fit: cover;
         border-radius: 10px;
         width: 100%;
         height: 100%;
@@ -716,7 +720,7 @@ export const News = styled.div`
     & > .popular-details {
       padding: 10px 10px 1rem 0;
       display: flex;
-      max-width: 140px;
+      max-width: 50%;
       flex-direction: column;
       gap: 9px;
 
