@@ -67,8 +67,6 @@ export default function MovieV() {
   const breackPoint629 = useMediaQuery({ maxWidth: 629 });
 
   useEffect(() => {
-    SwiperCore.use(Autoplay);
-
     const setAllGenresFilters = async () => {
       try {
         const { data } = await axiosBaseUrlGenres.get(
@@ -246,6 +244,8 @@ export default function MovieV() {
       setCurrentYears([value[0], Math.max(value[1], value[0] + minDistance)]);
     }
   }
+
+  SwiperCore.use(Autoplay);
 
   return id ? (
     <>

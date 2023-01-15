@@ -80,8 +80,6 @@ export default function serieD(props) {
   const breakpoint400 = useMediaQuery({ maxWidth: 400 });
 
   useEffect(() => {
-    SwiperCore.use(Autoplay);
-
     const getDetailsId = async (id) => {
       try {
         const { data } = await axiosBaseUrlSeries.get(
@@ -296,6 +294,8 @@ export default function serieD(props) {
       }
     }
   }
+
+  SwiperCore.use(Autoplay);
 
   if (!newSimilarId && !files)
     return (

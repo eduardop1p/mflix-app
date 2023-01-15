@@ -30,8 +30,6 @@ export default class Popular extends Component {
   }
 
   componentDidMount() {
-    SwiperCore.use([Autoplay]);
-
     const getAllGenresFilters = async () => {
       try {
         const { data } = await axiosBaseUrlGenres.get(
@@ -62,6 +60,8 @@ export default class Popular extends Component {
   }
 
   render() {
+    SwiperCore.use([Autoplay]);
+
     const { allPopular, loadingFilters, allGenres } = this.state;
 
     return (

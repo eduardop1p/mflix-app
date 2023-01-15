@@ -31,8 +31,6 @@ export default class Popular extends Component {
   }
 
   componentDidMount() {
-    SwiperCore.use([Autoplay]);
-
     this.getAllPopular();
   }
 
@@ -70,6 +68,8 @@ export default class Popular extends Component {
   }
 
   render() {
+    SwiperCore.use([Autoplay]);
+
     const { allPopular, loadingFilters } = this.state;
 
     return (

@@ -83,8 +83,6 @@ export default function MovieD(props) {
   const breakpoint400 = useMediaQuery({ maxWidth: 400 });
 
   useEffect(() => {
-    SwiperCore.use(Autoplay);
-
     const getDetailsId = async (id) => {
       try {
         const { data } = await axiosBaseUrlMovies.get(
@@ -334,6 +332,8 @@ export default function MovieD(props) {
       }
     }
   }
+
+  SwiperCore.use(Autoplay);
 
   if (newSimilarId && files && !newCollectionId)
     return (

@@ -43,8 +43,6 @@ class Future extends Component {
       this.setState({ breakPoint950: event.matches });
     });
 
-    SwiperCore.use(Autoplay);
-
     const getAllFuture = async () => {
       try {
         const axiosData1 = await axiosBaseUrlMoviesDiscover.get(
@@ -88,6 +86,7 @@ class Future extends Component {
       setTimeout(() => this.props.loadingFailure(), 500);
     }
   }
+
   randomArrMovieSeries() {
     const { futureMoviesArr, futureSeriesArr } = this.state;
 
@@ -104,6 +103,8 @@ class Future extends Component {
   }
 
   render() {
+    SwiperCore.use(Autoplay);
+
     const { futureAll, breakPoint1150, breakPoint950 } = this.state;
 
     return (

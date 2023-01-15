@@ -23,8 +23,6 @@ function New() {
   const breackPoint570 = useMediaQuery({ maxWidth: 570 });
 
   useEffect(() => {
-    SwiperCore.use([Autoplay]);
-
     const getNews = async () => {
       try {
         const { data } = await axiosBaseUrlMovies.get(
@@ -37,6 +35,8 @@ function New() {
     };
     getNews();
   }, []);
+
+  SwiperCore.use([Autoplay]);
 
   return (
     <Slider>

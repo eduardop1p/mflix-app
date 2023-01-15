@@ -65,8 +65,6 @@ export default function Home() {
   const breackPoint629 = useMediaQuery({ maxWidth: 629 });
 
   useEffect(() => {
-    SwiperCore.use(Autoplay);
-
     const setAllGenresFilters = async () => {
       try {
         const axiosData1 = await axiosBaseUrlGenresMovies.get(
@@ -283,6 +281,8 @@ export default function Home() {
       setCurrentYears([value[0], Math.max(value[1], value[0] + minDistance)]);
     }
   }
+
+  SwiperCore.use(Autoplay);
 
   return id ? (
     <>

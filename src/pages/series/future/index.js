@@ -51,7 +51,6 @@ class Future extends Component {
         console.error('Erro ao pegar series futuras.');
       }
     };
-    SwiperCore.use(Autoplay);
     getAllFuture();
   }
 
@@ -65,6 +64,8 @@ class Future extends Component {
   }
 
   render() {
+    SwiperCore.use(Autoplay);
+
     const { futureAll, breakPoint1150, breakPoint950 } = this.state;
 
     return (
