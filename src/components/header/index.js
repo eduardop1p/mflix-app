@@ -166,7 +166,7 @@ export default function Header() {
                   <div>
                     {isLogedIn ? (
                       <>
-                        <UserPhoto width60 />
+                        <UserPhoto width55 />
                         <h5>{capitalize(user.nome)}</h5>
                       </>
                     ) : (

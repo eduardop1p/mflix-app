@@ -4,16 +4,16 @@ import * as colors from '../../colors/index';
 
 const ProfilePhoto = styled.div`
   & > a > .profile-photo {
-    width: ${({ width60 }) => (width60 ? '60px' : '45px')};
-    height: ${({ width60 }) => (width60 ? '60px' : '45px')};
+    width: ${({ width55 }) => (width55 ? '55px' : '43px')};
+    height: ${({ width55 }) => (width55 ? '55px' : '43px')};
     cursor: pointer;
     border: 2px solid ${colors.color2};
     border-radius: 50%;
     background-color: #111;
 
     @media (max-width: 600px) {
-      width: ${({ width45 }) => (width45 ? '45px' : '60px')};
-      height: ${({ width45 }) => (width45 ? '45px' : '60px')};
+      width: ${({ width55 }) => (width55 ? '55px' : '43px')};
+      height: ${({ width55 }) => (width55 ? '55px' : '43px')};
     }
 
     & > img {

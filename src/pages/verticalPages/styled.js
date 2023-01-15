@@ -4,14 +4,14 @@ import * as colors from '../../colors/index';
 import svgCheckDone from '../../assets/images/done_FILL0_wght700_GRAD0_opsz20.svg';
 
 export const Container = styled.div`
-  padding: 10px;
+  padding: 8px;
   width: 100%;
   min-height: 100vh;
   background-color: ${colors.color9};
   display: flex;
 
-  @media (max-width: 800px) {
-    padding: 8px;
+  @media (max-width: 500px) {
+    padding: 7px;
   }
 `;
 
@@ -37,8 +37,8 @@ export const ContainerHeaderVertical = styled.header`
     gap: 1.5rem;
 
     & > .singn-up-vertical {
-      width: 47px;
-      height: 47px;
+      width: 43px;
+      height: 43px;
       border-radius: 50%;
       color: ${colors.color1};
       display: flex;
@@ -114,13 +114,11 @@ export const PagesContainer = styled.main`
   width: calc(100% - 367px);
 
   @media (max-width: 1290px) {
-    flex-direction: column;
-    width: calc(100% - 71px);
-  }
-  @media (max-width: 800px) {
     margin: 10px 0 10px 10px;
+    flex-direction: column;
     width: calc(100% - 65px);
   }
+
   @media (max-width: 600px) {
     width: calc(100% - 60px);
   }

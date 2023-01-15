@@ -104,11 +104,8 @@ export const HeaderElement = styled.header`
     display: flex;
     align-items: center;
     margin-left: 1rem;
-    gap: 1rem;
+    gap: 8px;
 
-    @media (max-width: 570px) {
-      gap: 10px;
-    }
     @media (max-width: 360px) {
       gap: 1rem;
     }
@@ -189,7 +186,7 @@ export const MenuActive = styled.div`
     border-radius: 1rem;
     transition: transform 0.2s linear;
     transform: translateX(${({ menuActive }) => (menuActive ? '0' : '18rem')});
-    padding: 1.5rem 2rem;
+    padding: 1.5rem;
 
     @media (max-width: 480px) {
       width: calc(100% - 50%);
@@ -212,8 +209,8 @@ export const MenuActive = styled.div`
     & > a {
       border-radius: 100%;
       padding: 0;
-      width: 60px;
-      height: 60px;
+      width: 55px;
+      height: 55px;
       margin: 0 auto;
     }
 

@@ -15,7 +15,7 @@ export default function VerticalPages() {
       <ContainerHeaderVertical>
         <div>
           {isLogedIn.current ? (
-            <UserPhoto width45 />
+            <UserPhoto />
           ) : (
             <Link
               reloadDocument

@@ -107,7 +107,7 @@ function New() {
                   <div className="slider-mobile">
                     <Link
                       reloadDocument
-                      to={`/vertical/series/${clearLinkTitle(result.title)}/${
+                      to={`/vertical/series/${clearLinkTitle(result.name)}/${
                         result.id
                       }`}
                     >

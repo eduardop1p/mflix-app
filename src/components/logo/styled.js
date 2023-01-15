@@ -11,6 +11,11 @@ export const LogoMflix = styled.div`
   align-items: center;
   justify-content: center;
 
+  @media (max-width: 600px) {
+    height: 43px;
+    width: 43px;
+  }
+
   .oco {
     background-color: ${colors.color7};
     height: 25px;
