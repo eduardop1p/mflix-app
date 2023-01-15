@@ -80,8 +80,12 @@ export const HeaderElement = styled.header`
 
     nav {
       display: flex;
-      gap: 2rem;
+      /* gap: 2rem; */
       margin-left: 4rem;
+
+      a:not(:last-child) {
+        margin-right: 2rem;
+      }
 
       a {
         font-size: 0.81rem;
