@@ -17,7 +17,7 @@ export const Main = styled.main`
       text-align: center;
       color: ${colors.color1};
       font-weight: 500;
-      font-size: 1.8rem;
+      font-size: 1.5rem;
     }
 
     & > :last-child {
@@ -26,7 +26,7 @@ export const Main = styled.main`
       justify-content: space-between;
 
       & > button {
-        font-size: 0.87rem;
+        font-size: 0.8rem;
         font-weight: 600;
         background-color: ${colors.color1};
         padding: 5px 1rem;
@@ -48,8 +48,8 @@ export const Main = styled.main`
 `;
 
 export const ProfilePhoto = styled.div`
-  width: 150px;
-  height: 150px;
+  width: 125px;
+  height: 125px;
   border-radius: 100%;
   overflow: hidden;
   margin-bottom: 1rem;

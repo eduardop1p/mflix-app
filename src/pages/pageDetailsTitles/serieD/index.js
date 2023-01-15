@@ -32,7 +32,6 @@ import {
   PosterDetailsSimilarTrailer,
   NewSimilar,
   ImagesContainer,
-  Collections,
   News,
   TrailerContainer,
   MidiaFilesCollectionContainer,
@@ -61,7 +60,6 @@ export default function serieD(props) {
   const [newSimilarId, setNewSimilarId] = useState(null);
   const [news, setNews] = useState(null);
   const [files, setFiles] = useState(null);
-  const [newCollectionId, setNewCollectionId] = useState(null);
   const [imagesPostersLogos, setImagesPostersLogos] = useState(null);
   const [arrProducer, setArrProducer] = useState([]);
   const [arrDirectorFot, setArrDirectorFot] = useState([]);
@@ -90,8 +88,6 @@ export default function serieD(props) {
           `/${id}?api_key=${apiConfig.apiKey}&language=${apiConfig.language}`
         );
         setNewId(data);
-        if (data.belongs_to_collection)
-          getCollection(data.belongs_to_collection.id);
       } catch {
         window.location.href = `${pathname}/404`;
         console.error('Erro ao obter Id de Serie');
@@ -125,16 +121,6 @@ export default function serieD(props) {
         if (data.backdrops.length) setFiles(data);
       } catch {
         console.error('Erro ao pegar images de filme');
-      }
-    };
-    const getCollection = async (collectionId) => {
-      try {
-        const { data } =
-          await axios.get(`https://api.themoviedb.org/3/collection/${collectionId}?api_key=${apiConfig.apiKey}&language=${apiConfig.language}
-        `);
-        setNewCollectionId(data);
-      } catch {
-        console.error('Erro ao pegar coleção');
       }
     };
     const getAllGenres = async () => {
@@ -311,39 +297,9 @@ export default function serieD(props) {
     }
   }
 
-  if (newSimilarId && files && !newCollectionId)
+  if (!newSimilarId && !files)
     return (
-      <LayoutNoCollection
-        showFormMsg={showFormMsg}
-        newId={newId}
-        newSimilarId={newSimilarId}
-        setFavoriteFunction={setFavoriteFunction}
-        favorite={favorite}
-        errorMessage={errorMessage}
-        setshowFormMsg={setshowFormMsg}
-        arrProducer={arrProducer}
-        arrDirectorFot={arrDirectorFot}
-        arrComposer={arrComposer}
-        allGenres={allGenres}
-        id={id}
-        news={news}
-        imagesPostersLogos={imagesPostersLogos}
-        imageButtonActived={imageButtonActived}
-        posterButtonActived={posterButtonActived}
-        logoButtonActived={logoButtonActived}
-        manageImagesPostersLogos={manageImagesPostersLogos}
-        breakpoint1000={breakpoint1000}
-        breakpoint630={breakpoint630}
-        breakpoint600={breakpoint600}
-        breakpoint500={breakpoint500}
-        breakpoint400={breakpoint400}
-        loadingFavorite={loadingFavorite}
-      />
-    );
-
-  if (!newSimilarId && !files && !newCollectionId)
-    return (
-      <LayoutNoSimilarNofilesNoCollection
+      <LayoutNoSimilarNofiles
         showFormMsg={showFormMsg}
         newId={newId}
         newSimilarId={newSimilarId}
@@ -363,174 +319,6 @@ export default function serieD(props) {
         loadingFavorite={loadingFavorite}
       />
     );
-
-  return (
-    <Main>
-      <HeaderComponent
-        newId={newId}
-        showFormMsg={showFormMsg}
-        errorMessage={errorMessage}
-        setshowFormMsg={setshowFormMsg}
-      />
-
-      {newId && (
-        <ContainerDatails newCollectionId newSimilarId>
-          {!breakpoint400 && (
-            <FavoriteComponent
-              setFavoriteFunction={setFavoriteFunction}
-              favorite={favorite}
-            />
-          )}
-          <div className="d0">
-            <PosterDetailsSimilarTrailer newCollectionId newSimilarId>
-              <div className="poster-details-similar">
-                <PosterAndDescriptionComponent
-                  newId={newId}
-                  isActiveDescription
-                  breakpoint600={breakpoint600}
-                />
-                {!breakpoint600 && (
-                  <DetailsAndSimilarContainer>
-                    <div className="d1">
-                      <DetailsComponent newId={newId} />
-                    </div>
-                    <div className="d2">
-                      <AboutDetailsComponent
-                        newId={newId}
-                        arrProducer={arrProducer}
-                        arrDirectorFot={arrDirectorFot}
-                        arrComposer={arrComposer}
-                      />
-
-                      {!breakpoint630 && (
-                        <NewSimilarComponent
-                          newSimilarId={newSimilarId}
-                          allGenres={allGenres}
-                        />
-                      )}
-                    </div>
-                  </DetailsAndSimilarContainer>
-                )}
-                {breakpoint600 && !breakpoint500 && (
-                  <DescriptionComponent newId={newId} />
-                )}
-              </div>
-              {!breakpoint1000 && (
-                <TrailerContainer>
-                  <SerieTrailer id={id} loadingDetails="eager" />
-                </TrailerContainer>
-              )}
-            </PosterDetailsSimilarTrailer>
-
-            {!breakpoint1000 && (
-              <MidiaFilesCollectionComponent>
-                <ImagesComponent
-                  imageButtonActived={imageButtonActived}
-                  posterButtonActived={posterButtonActived}
-                  logoButtonActived={logoButtonActived}
-                  newCollectionId={newCollectionId}
-                  imagesPostersLogos={imagesPostersLogos}
-                  manageImagesPostersLogos={manageImagesPostersLogos}
-                />
-                <CollectionComponent
-                  allGenres={allGenres}
-                  newCollectionId={newCollectionId}
-                />
-              </MidiaFilesCollectionComponent>
-            )}
-          </div>
-
-          {breakpoint600 && (
-            <DetailsAndSimilarContainer>
-              <div className="d1">
-                <DetailsComponent
-                  newId={newId}
-                  breakpoint400={breakpoint400}
-                  setFavoriteFunction={setFavoriteFunction}
-                  favorite={favorite}
-                />
-              </div>
-              <div className="d2">
-                <AboutDetailsComponent
-                  newId={newId}
-                  arrProducer={arrProducer}
-                  arrDirectorFot={arrDirectorFot}
-                  arrComposer={arrComposer}
-                />
-              </div>
-            </DetailsAndSimilarContainer>
-          )}
-          {breakpoint500 && <DescriptionComponent newId={newId} />}
-
-          {breakpoint630 && (
-            <NewSimilarComponent
-              newSimilarId={newSimilarId}
-              allGenres={allGenres}
-            />
-          )}
-          {breakpoint1000 && (
-            <MidiaFilesCollectionComponent
-              no15Rem
-              setHeight
-              height100
-              width50
-              width50NextDivChildren
-            >
-              <ImagesComponent
-                imageButtonActived={imageButtonActived}
-                posterButtonActived={posterButtonActived}
-                logoButtonActived={logoButtonActived}
-                newCollectionId={newCollectionId}
-                imagesPostersLogos={imagesPostersLogos}
-                manageImagesPostersLogos={manageImagesPostersLogos}
-              />
-              <CollectionComponent
-                allGenres={allGenres}
-                newCollectionId={newCollectionId}
-              />
-            </MidiaFilesCollectionComponent>
-          )}
-          {breakpoint1000 && (
-            <TrailerContainer setHeight>
-              <SerieTrailer id={id} loadingDetails="eager" />
-            </TrailerContainer>
-          )}
-          <NewComponent news={news} allGenres={allGenres} />
-        </ContainerDatails>
-      )}
-    </Main>
-  );
-}
-
-/* layouts */
-
-function LayoutNoCollection(props) {
-  const {
-    newId,
-    newSimilarId,
-    showFormMsg,
-    setshowFormMsg,
-    errorMessage,
-    setFavoriteFunction,
-    favorite,
-    arrProducer,
-    arrDirectorFot,
-    arrComposer,
-    allGenres,
-    id,
-    news,
-    imagesPostersLogos,
-    imageButtonActived,
-    posterButtonActived,
-    logoButtonActived,
-    manageImagesPostersLogos,
-    breakpoint1000,
-    breakpoint630,
-    breakpoint600,
-    breakpoint500,
-    breakpoint400,
-    loadingFavorite,
-  } = props;
 
   return (
     <Main>
@@ -658,7 +446,9 @@ function LayoutNoCollection(props) {
   );
 }
 
-function LayoutNoSimilarNofilesNoCollection(props) {
+/* layouts */
+
+function LayoutNoSimilarNofiles(props) {
   const {
     newId,
     showFormMsg,
@@ -1252,83 +1042,6 @@ function ImagesComponent(props) {
         )}
       </div>
     </ImagesContainer>
-  );
-}
-
-function CollectionComponent({ allGenres, newCollectionId }) {
-  if (!newCollectionId) return;
-
-  const [titleCollectionHeight, setTitleCollectionHeight] = useState(20);
-
-  const titleCollection = document.querySelector('#title-collection');
-
-  useEffect(() => {
-    if (!titleCollection) return;
-    if (titleCollectionHeight !== titleCollection.clientHeight) {
-      setTitleCollectionHeight(titleCollection.clientHeight);
-      window.onresize = () =>
-        setTitleCollectionHeight(titleCollection.clientHeight);
-    }
-  }, [titleCollectionHeight, titleCollection]);
-
-  return (
-    <Collections>
-      <h4 id="title-collection">{newCollectionId.name}</h4>
-      <div
-        className="collection"
-        style={{ height: `calc(100% - ${titleCollectionHeight + 4}px)` }}
-      >
-        {newCollectionId &&
-          newCollectionId.parts.map((result) => (
-            <div key={result.id} className="vertical-popular-img-details">
-              <div>
-                <img
-                  src={
-                    result.poster_path
-                      ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                      : imageError2
-                  }
-                  alt={result.name}
-                />
-                <div>
-                  <Link
-                    reloadDocument
-                    to={`/vertical/series/${clearLinkTitle(result.name)}/${
-                      result.id
-                    }`}
-                  >
-                    <button>Assistir</button>
-                  </Link>
-                </div>
-              </div>
-              <div className="popular-conatiner-details">
-                <Link
-                  reloadDocument
-                  to={`/vertical/series/${clearLinkTitle(result.name)}/${
-                    result.id
-                  }`}
-                >
-                  <h5 title={result.name}>{result.name}</h5>
-                </Link>
-                <div className="popular-details">
-                  <div>
-                    {result.first_air_date
-                      ? result.first_air_date.slice(0, 4)
-                      : 'Not Data'}
-                    ,
-                  </div>
-                  <div>
-                    {allGenres &&
-                      allGenres.genres.map((genre) =>
-                        genre.id === result.genre_ids[0] ? genre.name : ''
-                      )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-      </div>
-    </Collections>
   );
 }
 
