@@ -222,7 +222,7 @@ export const MenuActive = styled.div`
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 2rem;
+      gap: 1.5rem;
 
       a {
         font-size: 0.81rem;

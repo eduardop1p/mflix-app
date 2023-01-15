@@ -2,6 +2,8 @@ import { Component } from 'react';
 
 import { LogoMflix } from './styled';
 
+/* eslint-disable */
+
 export default class Logo extends Component {
   constructor(props) {
     super(props);

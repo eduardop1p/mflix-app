@@ -58,26 +58,25 @@ export const ContainerHeaderVertical = styled.header`
       gap: 1.5rem;
       flex-direction: column;
       align-items: center;
-      overflow: hidden scroll;
 
-      &::-webkit-scrollbar {
-        width: 3px;
+      & > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 23px;
+        height: 23px;
+
+        & > .link-actived > svg {
+          fill: ${colors.color2};
+        }
+
+        & > a {
+          width: 100%;
+          height: 100%;
+        }
       }
 
-      &::-webkit-scrollbar-thumb {
-        border-radius: 1rem;
-        background-color: ${colors.color2};
-      }
-
-      &::-webkit-scrollbar-track {
-        background-color: transparent;
-      }
-
-      .link-actived > svg > path {
-        fill: ${colors.color2};
-      }
-
-      & > .not-search svg {
+      & > .scale-icon svg {
         height: 23px;
         width: 23px;
         fill: ${colors.color5};
@@ -522,21 +521,14 @@ export const New = styled.div`
     }
 
     & > .popular-img {
-      width: 140px;
-      height: 200px;
+      width: 125px;
+      height: 180px;
       flex-shrink: 0;
       position: relative;
 
-      @media (max-width: 1325px) {
-        width: 130px;
-        height: 190px;
-      }
       @media (max-width: 1290px) {
-        width: 140px;
-      }
-      @media (max-width: 1020px) {
-        width: 130px;
-        height: 190px;
+        width: 115px;
+        height: 160px;
       }
       @media (max-width: 629px) {
         width: 100%;
@@ -549,33 +541,12 @@ export const New = styled.div`
         height: 33vw;
       }
       @media (max-width: 500px) {
-        width: 130px;
-        height: 190px;
-      }
-      @media (max-width: 360px) {
-        width: 120px;
-        height: 180px;
+        width: 110px;
+        height: 150px;
       }
       @media (max-width: 345px) {
-        width: 100%;
-        height: 108vw;
-      }
-      @media (max-width: 325px) {
-        width: 100%;
-        height: 106vw;
-      }
-      @media (max-width: 305px) {
-        width: 100%;
-        height: 104vw;
-      }
-      @media (max-width: 285px) {
-        width: 100%;
-        height: 102vw;
-      }
-      @media (max-width: 265px) {
-        width: 100%;
-        height: 99vw;
-        min-height: 237px;
+        width: 120px;
+        height: 180px;
       }
 
       & > .movie-or-serie {
@@ -664,7 +635,7 @@ export const New = styled.div`
         flex: none;
         color: ${colors.color5};
         max-width: 10rem;
-        height: 48px;
+        height: 34px;
         overflow: hidden hidden;
         word-break: break-word;
 
@@ -718,7 +689,7 @@ export const New = styled.div`
         }
       }
 
-      & > a > .popular-watch-now {
+      & > .popular-watch-now {
         background-color: ${colors.color6};
         font-weight: 400;
         color: ${colors.color1};
@@ -750,6 +721,11 @@ export const New = styled.div`
         }
         @media (max-width: 360px) {
           width: 100%;
+        }
+        @media (max-width: 345px) {
+          padding: 8px 1.2rem;
+          width: fit-content;
+          margin: 0 auto;
         }
 
         &:hover {
@@ -784,75 +760,87 @@ export const Popular = styled.div`
     padding: 8px;
     position: relative;
 
-    @media (max-width: 1290px) {
+    @media (max-width: 2500px) and (min-width: 2000px) {
+      width: calc(100% / 8);
+      height: 16vw;
+    }
+    @media (max-width: 2250px) {
+      height: 15vw;
+    }
+    @media (min-width: 1700px) and (max-width: 1999px) {
+      width: calc(100% / 7);
+      height: 18vw;
+    }
+    @media (max-width: 1850px) {
+      height: 17vw;
+    }
+    @media (min-width: 1300px) and (max-width: 1699px) {
+      width: calc(100% / 6);
+      height: 19vw;
+    }
+    @media (max-width: 1450px) {
+      height: 18vw;
+    }
+    @media (min-width: 1291px) and (max-width: 1299px) {
+      width: calc(100% / 5);
+      height: 22vw;
+    }
+    @media (min-width: 1000px) and (max-width: 1290px) {
+      width: calc(100% / 6);
+      height: 24vw;
+    }
+    @media (max-width: 1150px) {
+      height: 23vw;
+    }
+    @media (min-width: 800px) and (max-width: 999px) {
       width: calc(100% / 5);
       height: 28vw;
     }
-    @media (max-width: 1250px) {
+    @media (max-width: 900px) {
       height: 27vw;
+      padding: 6px;
     }
-    @media (max-width: 1200px) {
+    @media (min-width: 600px) and (max-width: 799px) {
       width: calc(100% / 4);
-      height: 34.5vw;
-    }
-    @media (max-width: 1100px) {
-      height: 33.5vw;
-    }
-    @media (max-width: 950px) {
-      height: 32.5vw;
-    }
-    @media (max-width: 850px) {
-      width: calc(100% / 3);
-      height: 45vw;
-    }
-    @media (max-width: 800px) {
-      height: 44vw;
-    }
-    @media (max-width: 750px) {
-      height: 43vw;
-      padding: 5px;
+      height: 35vw;
     }
     @media (max-width: 700px) {
-      height: 42vw;
+      height: 34vw;
     }
-    @media (max-width: 650px) {
-      height: 41vw;
-    }
-    @media (max-width: 600px) {
-      height: 40vw;
-    }
-    @media (max-width: 550px) {
-      height: 39vw;
+    @media (min-width: 400px) and (max-width: 599px) {
+      width: calc(100% / 3);
+      height: 44vw;
     }
     @media (max-width: 500px) {
-      width: calc(100% / 2);
-      height: 64vw;
+      height: 43vw;
+    }
+    @media (max-width: 480px) {
+      height: 41vw;
     }
     @media (max-width: 450px) {
-      height: 60vw;
+      height: 39vw;
+    }
+    @media (max-width: 430px) {
+      height: 37vw;
     }
     @media (max-width: 400px) {
-      height: 56vw;
+      width: calc(100% / 2);
+      height: 61vw;
+    }
+    @media (max-width: 380px) {
+      height: 59vw;
     }
     @media (max-width: 350px) {
-      height: 52vw;
+      height: 57vw;
     }
-    @media (max-width: 345px) {
-      width: 100%;
-      height: 124vw;
+    @media (max-width: 330px) {
+      height: 55vw;
     }
-    @media (max-width: 325px) {
-      width: 100%;
-      height: 121vw;
+    @media (max-width: 300px) {
+      height: 53vw;
+      min-height: 159px;
     }
-    @media (max-width: 305px) {
-      width: 100%;
-      height: 118vw;
-    }
-    @media (max-width: 285px) {
-      width: 100%;
-      height: 115vw;
-    }
+
     @media (max-width: 265px) {
       width: 100%;
       height: 110vw;

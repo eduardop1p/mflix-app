@@ -42,11 +42,7 @@ function* mySagaUserIsLogedIn() {
     );
     return;
   } catch (e) {
-    console.log(e);
-    setTimeout(
-      () => alert('Erro no servidor!! atualize a página ou volte mais tarde.'),
-      100
-    );
+    console.error('Erro no servidor!! atualize a página ou volte mais tarde.');
   }
 
   return;

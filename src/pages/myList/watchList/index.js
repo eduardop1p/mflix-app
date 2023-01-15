@@ -16,6 +16,7 @@ import MessageForm from '../../../components/messageForm';
 import apiConfig from '../../../config/apiConfig';
 import notSearch from '../../../assets/images/search.png';
 import removeLoadingSipnner from '../../../config/loadingSpinnerConfig';
+import imageError2 from '../../../assets/images/1150108.png';
 import {
   RemoveItemsListSelected,
   WatchListSection,
@@ -54,10 +55,8 @@ export default function WatchList(props) {
   useEffect(() => {
     if (isLogedIn) {
       const myList = Array.from(document.querySelectorAll('.my-list'));
-
-      if (myList.length !== myListTitles.length) {
+      if (myList.length !== myListTitles.length)
         setMyListTitles(myList.map((item) => item.title));
-      }
     }
   });
 
@@ -327,7 +326,11 @@ function UserListMovie(props) {
             <img
               onLoad={removeLoadingSipnner}
               onError={removeLoadingSipnner}
-              src={`https://image.tmdb.org/t/p/w500${dataList.backdrop_path}`}
+              src={
+                dataList.backdrop_path
+                  ? `https://image.tmdb.org/t/p/w500${dataList.backdrop_path}`
+                  : imageError2
+              }
               alt={dataList.title}
             />
             <Loading
@@ -389,7 +392,11 @@ function UserListSerie(props) {
             <img
               onLoad={removeLoadingSipnner}
               onError={removeLoadingSipnner}
-              src={`https://image.tmdb.org/t/p/w500${dataList.backdrop_path}`}
+              src={
+                dataList.backdrop_path
+                  ? `https://image.tmdb.org/t/p/w500${dataList.backdrop_path}`
+                  : imageError2
+              }
               alt={dataList.name}
             />
             <Loading

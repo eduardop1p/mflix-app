@@ -12,8 +12,8 @@ const ProfilePhoto = styled.div`
     background-color: #111;
 
     @media (max-width: 600px) {
-      width: ${({ width40 }) => (width40 ? '40px' : '60px')};
-      height: ${({ width40 }) => (width40 ? '40px' : '60px')};
+      width: ${({ width45 }) => (width45 ? '45px' : '60px')};
+      height: ${({ width45 }) => (width45 ? '45px' : '60px')};
     }
 
     & > img {

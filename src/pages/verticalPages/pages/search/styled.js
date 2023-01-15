@@ -56,7 +56,7 @@ export const MainIndexSearch = styled.main`
     }
 
     & > .not-search-result {
-      margin: 2rem 0 0;
+      margin-bottom: 2rem;
       border-radius: 10px;
       width: 100%;
       height: 350px;

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { Link, useParams, useLocation } from 'react-router-dom';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import SwiperCore, { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import axiosRetry from 'axios-retry';
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { get } from 'lodash';
 import { Helmet } from 'react-helmet-async';
+import { useMediaQuery } from 'react-responsive';
 
 import * as actions from '../../../storeReactRedux/modules/loading/actions';
 import axiosBaseUrlSeries from '../../../services/axiosBaseUrlSeries';
@@ -30,9 +31,14 @@ import {
   ContainerDatails,
   PosterDetailsSimilarTrailer,
   NewSimilar,
-  ImagesPosters,
+  ImagesContainer,
   Collections,
   News,
+  TrailerContainer,
+  MidiaFilesCollectionContainer,
+  Description,
+  FavoriteContainer,
+  DetailsAndSimilarContainer,
 } from '../styled';
 
 axiosRetry(axios, {
@@ -56,17 +62,24 @@ export default function serieD(props) {
   const [news, setNews] = useState(null);
   const [files, setFiles] = useState(null);
   const [newCollectionId, setNewCollectionId] = useState(null);
-  const [imagesPosters, setImagesPosters] = useState(null);
+  const [imagesPostersLogos, setImagesPostersLogos] = useState(null);
   const [arrProducer, setArrProducer] = useState([]);
   const [arrDirectorFot, setArrDirectorFot] = useState([]);
   const [arrComposer, setArrComposer] = useState([]);
   const [imageButtonActived, setImageButtonActived] = useState(true);
-  const [posterButtonActived, setPosterButtonActived] = useState(null);
-  const [logoButtonActived, setLogoButtonActived] = useState(null);
+  const [posterButtonActived, setPosterButtonActived] = useState(false);
+  const [logoButtonActived, setLogoButtonActived] = useState(false);
   const [favorite, setFavorite] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [showFormMsg, setshowFormMsg] = useState(false);
-  const controllerRef = useRef(new AbortController());
+  const [primaryRender, setPrimaryRender] = useState(true);
+  const [loadingFavorite, setLoadingFavorite] = useState(false);
+
+  const breakpoint1000 = useMediaQuery({ maxWidth: 1000 });
+  const breakpoint630 = useMediaQuery({ maxWidth: 630 });
+  const breakpoint600 = useMediaQuery({ maxWidth: 600 });
+  const breakpoint500 = useMediaQuery({ maxWidth: 500 });
+  const breakpoint400 = useMediaQuery({ maxWidth: 400 });
 
   useEffect(() => {
     SwiperCore.use(Autoplay);
@@ -109,7 +122,7 @@ export default function serieD(props) {
         const { data } = await axios.get(
           `https://api.themoviedb.org/3/tv/${id}/images?api_key=${apiConfig.apiKey}`
         );
-        setFiles(data);
+        if (data.backdrops.length) setFiles(data);
       } catch {
         console.error('Erro ao pegar images de filme');
       }
@@ -144,28 +157,49 @@ export default function serieD(props) {
   }, []);
 
   useEffect(() => {
-    if (favoriteUser && newId && allGenres && files && news && id && loadingApp)
+    if (favoriteUser && newId && allGenres && news && id && loadingApp) {
       setTimeout(() => {
         dispatch(actions.loadingFailure());
       }, 500);
-  }, [favoriteUser, newId, allGenres, files, news, id, loadingApp]);
-
-  useEffect(() => {
-    if (files) {
-      if (imageButtonActived) {
-        setImagesPosters(files.backdrops.slice(0, 10));
-        return;
-      }
-      if (posterButtonActived) {
-        setImagesPosters(files.posters.slice(0, 10));
-        return;
-      }
-      if (logoButtonActived) {
-        setImagesPosters(files.logos.slice(0, 10));
-        return;
-      }
     }
-  }, [files, imageButtonActived, posterButtonActived, logoButtonActived]);
+    if (files && primaryRender) {
+      setPrimaryRender(false);
+      manageImagesPostersLogos('images');
+    }
+  }, [
+    favoriteUser,
+    newId,
+    allGenres,
+    news,
+    files,
+    primaryRender,
+    id,
+    loadingApp,
+  ]);
+
+  function manageImagesPostersLogos(nameEvent) {
+    if (!files) return;
+
+    setImageButtonActived(false);
+    setPosterButtonActived(false);
+    setLogoButtonActived(false);
+
+    if (nameEvent === 'images') {
+      setImageButtonActived(true);
+      setImagesPostersLogos(files.backdrops.slice(0, 10));
+      return;
+    }
+    if (nameEvent === 'posters') {
+      setPosterButtonActived(true);
+      setImagesPostersLogos(files.posters.slice(0, 10));
+      return;
+    }
+    if (nameEvent === 'logos') {
+      setLogoButtonActived(true);
+      setImagesPostersLogos(files.logos.slice(0, 10));
+      return;
+    }
+  }
 
   async function getNews() {
     try {
@@ -213,6 +247,7 @@ export default function serieD(props) {
         setFavoriteUser(data);
         return;
       }
+      setFavorite(false);
       setFavoriteUser({});
     } catch (err) {
       if (get(err, 'response.data', false)) {
@@ -226,24 +261,19 @@ export default function serieD(props) {
     }
   }
 
-  async function setFavoriteFunction(event) {
+  async function setFavoriteFunction() {
     if (!isLogedIn) return (window.location.href = '/login?redirect=back');
-
-    controllerRef.current.abort();
-    controllerRef.current = new AbortController();
 
     if (favorite) {
       setFavorite(false);
 
       try {
+        setLoadingFavorite(true);
+
         await axiosUserBaseUrl.delete(
-          `/minha-lista/${user.id}?ids=${favoriteUser.id}`,
-          {
-            signal: controllerRef.current.signal,
-          }
+          `/minha-lista/${user.id}?ids=${favoriteUser.id}`
         );
       } catch (err) {
-        if (get(err, 'message', false) === 'canceled') return;
         if (get(err, 'response.data', false)) {
           const { data } = err.response;
           data.errors.map((err) => setErrorMessage(err));
@@ -252,22 +282,19 @@ export default function serieD(props) {
         }
         setErrorMessage('Erro no servidor.');
         setshowFormMsg(true);
+      } finally {
+        setLoadingFavorite(false);
       }
-      return;
     } else {
       setFavorite(true);
 
       try {
-        await axiosUserBaseUrl.post(
-          `/minha-lista/${user.id}`,
-          {
-            id: id + midiaType,
-            midiaType,
-          },
-          {
-            signal: controllerRef.current.signal,
-          }
-        );
+        setLoadingFavorite(true);
+
+        await axiosUserBaseUrl.post(`/minha-lista/${user.id}`, {
+          id: id + midiaType,
+          midiaType,
+        });
       } catch (err) {
         if (get(err, 'message', false) === 'canceled') return;
         if (get(err, 'response.data', false)) {
@@ -278,529 +305,1132 @@ export default function serieD(props) {
         }
         setErrorMessage('Erro no servidor.');
         setshowFormMsg(true);
+      } finally {
+        setLoadingFavorite(false);
       }
-      return;
     }
   }
 
+  if (newSimilarId && files && !newCollectionId)
+    return (
+      <LayoutNoCollection
+        showFormMsg={showFormMsg}
+        newId={newId}
+        newSimilarId={newSimilarId}
+        setFavoriteFunction={setFavoriteFunction}
+        favorite={favorite}
+        errorMessage={errorMessage}
+        setshowFormMsg={setshowFormMsg}
+        arrProducer={arrProducer}
+        arrDirectorFot={arrDirectorFot}
+        arrComposer={arrComposer}
+        allGenres={allGenres}
+        id={id}
+        news={news}
+        imagesPostersLogos={imagesPostersLogos}
+        imageButtonActived={imageButtonActived}
+        posterButtonActived={posterButtonActived}
+        logoButtonActived={logoButtonActived}
+        manageImagesPostersLogos={manageImagesPostersLogos}
+        breakpoint1000={breakpoint1000}
+        breakpoint630={breakpoint630}
+        breakpoint600={breakpoint600}
+        breakpoint500={breakpoint500}
+        breakpoint400={breakpoint400}
+        loadingFavorite={loadingFavorite}
+      />
+    );
+
+  if (!newSimilarId && !files && !newCollectionId)
+    return (
+      <LayoutNoSimilarNofilesNoCollection
+        showFormMsg={showFormMsg}
+        newId={newId}
+        newSimilarId={newSimilarId}
+        setFavoriteFunction={setFavoriteFunction}
+        favorite={favorite}
+        errorMessage={errorMessage}
+        setshowFormMsg={setshowFormMsg}
+        arrProducer={arrProducer}
+        arrDirectorFot={arrDirectorFot}
+        arrComposer={arrComposer}
+        allGenres={allGenres}
+        id={id}
+        news={news}
+        breakpoint600={breakpoint600}
+        breakpoint500={breakpoint500}
+        breakpoint400={breakpoint400}
+        loadingFavorite={loadingFavorite}
+      />
+    );
+
   return (
     <Main>
+      <HeaderComponent
+        newId={newId}
+        showFormMsg={showFormMsg}
+        errorMessage={errorMessage}
+        setshowFormMsg={setshowFormMsg}
+      />
+
+      {newId && (
+        <ContainerDatails newCollectionId newSimilarId>
+          {!breakpoint400 && (
+            <FavoriteComponent
+              setFavoriteFunction={setFavoriteFunction}
+              favorite={favorite}
+            />
+          )}
+          <div className="d0">
+            <PosterDetailsSimilarTrailer newCollectionId newSimilarId>
+              <div className="poster-details-similar">
+                <PosterAndDescriptionComponent
+                  newId={newId}
+                  isActiveDescription
+                  breakpoint600={breakpoint600}
+                />
+                {!breakpoint600 && (
+                  <DetailsAndSimilarContainer>
+                    <div className="d1">
+                      <DetailsComponent newId={newId} />
+                    </div>
+                    <div className="d2">
+                      <AboutDetailsComponent
+                        newId={newId}
+                        arrProducer={arrProducer}
+                        arrDirectorFot={arrDirectorFot}
+                        arrComposer={arrComposer}
+                      />
+
+                      {!breakpoint630 && (
+                        <NewSimilarComponent
+                          newSimilarId={newSimilarId}
+                          allGenres={allGenres}
+                        />
+                      )}
+                    </div>
+                  </DetailsAndSimilarContainer>
+                )}
+                {breakpoint600 && !breakpoint500 && (
+                  <DescriptionComponent newId={newId} />
+                )}
+              </div>
+              {!breakpoint1000 && (
+                <TrailerContainer>
+                  <SerieTrailer id={id} loadingDetails="eager" />
+                </TrailerContainer>
+              )}
+            </PosterDetailsSimilarTrailer>
+
+            {!breakpoint1000 && (
+              <MidiaFilesCollectionComponent>
+                <ImagesComponent
+                  imageButtonActived={imageButtonActived}
+                  posterButtonActived={posterButtonActived}
+                  logoButtonActived={logoButtonActived}
+                  newCollectionId={newCollectionId}
+                  imagesPostersLogos={imagesPostersLogos}
+                  manageImagesPostersLogos={manageImagesPostersLogos}
+                />
+                <CollectionComponent
+                  allGenres={allGenres}
+                  newCollectionId={newCollectionId}
+                />
+              </MidiaFilesCollectionComponent>
+            )}
+          </div>
+
+          {breakpoint600 && (
+            <DetailsAndSimilarContainer>
+              <div className="d1">
+                <DetailsComponent
+                  newId={newId}
+                  breakpoint400={breakpoint400}
+                  setFavoriteFunction={setFavoriteFunction}
+                  favorite={favorite}
+                />
+              </div>
+              <div className="d2">
+                <AboutDetailsComponent
+                  newId={newId}
+                  arrProducer={arrProducer}
+                  arrDirectorFot={arrDirectorFot}
+                  arrComposer={arrComposer}
+                />
+              </div>
+            </DetailsAndSimilarContainer>
+          )}
+          {breakpoint500 && <DescriptionComponent newId={newId} />}
+
+          {breakpoint630 && (
+            <NewSimilarComponent
+              newSimilarId={newSimilarId}
+              allGenres={allGenres}
+            />
+          )}
+          {breakpoint1000 && (
+            <MidiaFilesCollectionComponent
+              no15Rem
+              setHeight
+              height100
+              width50
+              width50NextDivChildren
+            >
+              <ImagesComponent
+                imageButtonActived={imageButtonActived}
+                posterButtonActived={posterButtonActived}
+                logoButtonActived={logoButtonActived}
+                newCollectionId={newCollectionId}
+                imagesPostersLogos={imagesPostersLogos}
+                manageImagesPostersLogos={manageImagesPostersLogos}
+              />
+              <CollectionComponent
+                allGenres={allGenres}
+                newCollectionId={newCollectionId}
+              />
+            </MidiaFilesCollectionComponent>
+          )}
+          {breakpoint1000 && (
+            <TrailerContainer setHeight>
+              <SerieTrailer id={id} loadingDetails="eager" />
+            </TrailerContainer>
+          )}
+          <NewComponent news={news} allGenres={allGenres} />
+        </ContainerDatails>
+      )}
+    </Main>
+  );
+}
+
+/* layouts */
+
+function LayoutNoCollection(props) {
+  const {
+    newId,
+    newSimilarId,
+    showFormMsg,
+    setshowFormMsg,
+    errorMessage,
+    setFavoriteFunction,
+    favorite,
+    arrProducer,
+    arrDirectorFot,
+    arrComposer,
+    allGenres,
+    id,
+    news,
+    imagesPostersLogos,
+    imageButtonActived,
+    posterButtonActived,
+    logoButtonActived,
+    manageImagesPostersLogos,
+    breakpoint1000,
+    breakpoint630,
+    breakpoint600,
+    breakpoint500,
+    breakpoint400,
+    loadingFavorite,
+  } = props;
+
+  return (
+    <Main>
+      <HeaderComponent
+        newId={newId}
+        showFormMsg={showFormMsg}
+        errorMessage={errorMessage}
+        setshowFormMsg={setshowFormMsg}
+      />
+      {loadingFavorite && <Loading colorTranparent />}
+
+      {newId && (
+        <ContainerDatails newSimilarId>
+          {!breakpoint400 && (
+            <FavoriteComponent
+              setFavoriteFunction={setFavoriteFunction}
+              favorite={favorite}
+            />
+          )}
+          <div className="d0">
+            <PosterDetailsSimilarTrailer newSimilarId width100>
+              <div className="poster-details-similar">
+                <PosterAndDescriptionComponent
+                  newId={newId}
+                  isActiveDescription
+                />
+                {!breakpoint600 && (
+                  <DetailsAndSimilarContainer
+                    width50AndFlexNone={breakpoint1000 ? false : true}
+                  >
+                    <div className="d1">
+                      <DetailsComponent newId={newId} />
+                    </div>
+                    <div className="d2">
+                      <AboutDetailsComponent
+                        newId={newId}
+                        arrProducer={arrProducer}
+                        arrDirectorFot={arrDirectorFot}
+                        arrComposer={arrComposer}
+                      />
+
+                      {!breakpoint630 && (
+                        <NewSimilarComponent
+                          newSimilarId={newSimilarId}
+                          allGenres={allGenres}
+                        />
+                      )}
+                    </div>
+                  </DetailsAndSimilarContainer>
+                )}
+                {breakpoint600 && !breakpoint500 && (
+                  <DescriptionComponent newId={newId} />
+                )}
+                {!breakpoint1000 && (
+                  <MidiaFilesCollectionComponent height100 setHeight autoHeight>
+                    <ImagesComponent
+                      imageButtonActived={imageButtonActived}
+                      posterButtonActived={posterButtonActived}
+                      logoButtonActived={logoButtonActived}
+                      imagesPostersLogos={imagesPostersLogos}
+                      manageImagesPostersLogos={manageImagesPostersLogos}
+                    />
+                  </MidiaFilesCollectionComponent>
+                )}
+              </div>
+            </PosterDetailsSimilarTrailer>
+          </div>
+          {breakpoint600 && (
+            <DetailsAndSimilarContainer>
+              <div className="d1">
+                <DetailsComponent
+                  newId={newId}
+                  breakpoint400={breakpoint400}
+                  setFavoriteFunction={setFavoriteFunction}
+                  favorite={favorite}
+                />
+              </div>
+              <div className="d2">
+                <AboutDetailsComponent
+                  newId={newId}
+                  arrProducer={arrProducer}
+                  arrDirectorFot={arrDirectorFot}
+                  arrComposer={arrComposer}
+                />
+              </div>
+            </DetailsAndSimilarContainer>
+          )}
+          {breakpoint500 && <DescriptionComponent newId={newId} />}
+          {breakpoint630 && (
+            <NewSimilarComponent
+              newSimilarId={newSimilarId}
+              allGenres={allGenres}
+            />
+          )}
+          {breakpoint1000 ? (
+            <MidiaFilesCollectionComponent
+              no15Rem
+              height100
+              setHeight
+              width100NextDivChildren
+              noNewCollectionId
+            >
+              <TrailerContainer>
+                <SerieTrailer id={id} loadingDetails="eager" />
+              </TrailerContainer>
+              <ImagesComponent
+                imageButtonActived={imageButtonActived}
+                posterButtonActived={posterButtonActived}
+                logoButtonActived={logoButtonActived}
+                imagesPostersLogos={imagesPostersLogos}
+                manageImagesPostersLogos={manageImagesPostersLogos}
+                noNewCollectionId
+              />
+            </MidiaFilesCollectionComponent>
+          ) : (
+            <TrailerContainer setHeight>
+              <SerieTrailer id={id} loadingDetails="eager" />
+            </TrailerContainer>
+          )}
+
+          <NewComponent news={news} allGenres={allGenres} />
+        </ContainerDatails>
+      )}
+    </Main>
+  );
+}
+
+function LayoutNoSimilarNofilesNoCollection(props) {
+  const {
+    newId,
+    showFormMsg,
+    setshowFormMsg,
+    errorMessage,
+    setFavoriteFunction,
+    favorite,
+    arrProducer,
+    arrDirectorFot,
+    arrComposer,
+    allGenres,
+    id,
+    news,
+    breakpoint600,
+    breakpoint500,
+    breakpoint400,
+    loadingFavorite,
+  } = props;
+
+  const minBreakPoint721 = useMediaQuery({ minWidth: 721 });
+  const breakpoint720 = useMediaQuery({ maxWidth: 720 });
+
+  return (
+    <Main>
+      <HeaderComponent
+        newId={newId}
+        showFormMsg={showFormMsg}
+        errorMessage={errorMessage}
+        setshowFormMsg={setshowFormMsg}
+      />
+      {loadingFavorite && <Loading colorTranparent />}
+      {newId && (
+        <ContainerDatails newSimilarId>
+          {!breakpoint400 && (
+            <FavoriteComponent
+              setFavoriteFunction={setFavoriteFunction}
+              favorite={favorite}
+            />
+          )}
+          <div className="d0">
+            <PosterDetailsSimilarTrailer width100>
+              <div className="poster-details-similar">
+                <PosterAndDescriptionComponent
+                  newId={newId}
+                  isActiveDescription={breakpoint720 ? true : false}
+                />
+                {breakpoint600 && !breakpoint500 && (
+                  <DescriptionComponent newId={newId} />
+                )}
+                {!breakpoint600 && (
+                  <DetailsAndSimilarContainer>
+                    <div className="d1">
+                      <DetailsComponent newId={newId} />
+                    </div>
+                    <div className="d2">
+                      <AboutDetailsComponent
+                        newId={newId}
+                        arrProducer={arrProducer}
+                        arrDirectorFot={arrDirectorFot}
+                        arrComposer={arrComposer}
+                      />
+                    </div>
+                  </DetailsAndSimilarContainer>
+                )}
+              </div>
+            </PosterDetailsSimilarTrailer>
+          </div>
+          {breakpoint600 && (
+            <DetailsAndSimilarContainer>
+              <div className="d1">
+                <DetailsComponent
+                  newId={newId}
+                  breakpoint400={breakpoint400}
+                  setFavoriteFunction={setFavoriteFunction}
+                  favorite={favorite}
+                />
+              </div>
+              <div className="d2">
+                <AboutDetailsComponent
+                  newId={newId}
+                  arrProducer={arrProducer}
+                  arrDirectorFot={arrDirectorFot}
+                  arrComposer={arrComposer}
+                />
+              </div>
+            </DetailsAndSimilarContainer>
+          )}
+          {(breakpoint500 || minBreakPoint721) && (
+            <DescriptionComponent newId={newId} noMarginTop />
+          )}
+          <TrailerContainer setHeight>
+            <SerieTrailer id={id} loadingDetails="eager" />
+          </TrailerContainer>
+          <NewComponent news={news} allGenres={allGenres} />
+        </ContainerDatails>
+      )}
+    </Main>
+  );
+}
+
+/* components */
+
+function HeaderComponent(props) {
+  const { newId, showFormMsg, errorMessage, setshowFormMsg } = props;
+
+  if (!newId) return;
+
+  return (
+    <>
       <Helmet>
-        <title>{newId && `MFLIX - ${newId.name}`}</title>
+        <title>{`MFLIX - ${newId.name}`}</title>
       </Helmet>
       <BgImgPageDetails>
-        {newId && (
-          <img
-            src={`https://image.tmdb.org/t/p/original${newId.backdrop_path}`}
-            alt={newId.name}
-          />
-        )}
+        <img
+          src={
+            newId.backdrop_path
+              ? `https://image.tmdb.org/t/p/original${newId.backdrop_path}`
+              : imageError2
+          }
+          alt={newId.name}
+        />
       </BgImgPageDetails>
       {showFormMsg && (
         <MessageForm errorMessage={errorMessage} onClose={setshowFormMsg} />
       )}
-      {newId && (
-        <ContainerDatails>
-          <div className="d0">
-            <PosterDetailsSimilarTrailer>
-              <div className="poster-details-similar">
-                <div className="poster-description">
-                  <img
-                    src={
-                      newId.poster_path
-                        ? `https://image.tmdb.org/t/p/w500${newId.poster_path}`
-                        : imageError1
-                    }
-                    onLoad={removeLoadingSipnner}
-                    onError={removeLoadingSipnner}
-                    alt={newId.name}
-                  />
-                  <Loading colorVertical />
-                  {newSimilarId && (
-                    <div className="description">
-                      <h4>Descrição</h4>
-                      <div>
-                        {newId.overview
-                          ? newId.overview
-                          : 'Não à descrição para este titulo por enquanto.'}
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="details-similar">
-                  <div className="d1">
-                    <h1 title={newId.name}>{newId.name}</h1>
-                    <div className="year-genre-details">
-                      <span>
-                        {newId.first_air_date &&
-                          newId.first_air_date.slice(0, 4)}
-                        {!newId.first_air_date && 'Not data'}
-                      </span>
-                      &sdot;
-                      <span>
-                        {newId.genres
-                          .slice(0, 2)
-                          .map((genre) => genre.name)
-                          .join(', ')}
-                        {newId.genres.length < 1 && 'Not genre'}
-                      </span>
-                    </div>
-                    <div className="rating-imdb-details">
-                      IMDB
-                      <div>
-                        <RatingSystem
-                          vote_average={newId.vote_average}
-                          color="#fff"
-                        />
-                        <div>
-                          {newId.vote_average && newId.vote_average.toFixed(1)}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d2">
-                    <div className="about-details">
-                      <h4>Sobre&nbsp;a&nbsp;serie</h4>
-                      <div className="about">
-                        <div>
-                          <div>
-                            <h5>Temporada:</h5>
-                            <ul>
-                              <li>
-                                {newId.number_of_seasons > 1
-                                  ? `${newId.number_of_seasons} temporadas`
-                                  : `${newId.number_of_seasons} temporada`}
-                              </li>
-                            </ul>
-                          </div>
-                          <div>
-                            <h5>Produção:</h5>
-                            <ul>
-                              {arrProducer.length ? (
-                                arrProducer
-                                  .slice(0, 3)
-                                  .map((value) => (
-                                    <li key={value.id}>{value.name}</li>
-                                  ))
-                              ) : (
-                                <li>Indisponível</li>
-                              )}
-                            </ul>
-                          </div>
-                          <div>
-                            <h5>Diretor&nbsp;de&nbsp;fotografia:</h5>
-                            <ul>
-                              {arrDirectorFot.length ? (
-                                arrDirectorFot
-                                  .slice(0, 3)
-                                  .map((value) => (
-                                    <li key={value.id}>{value.name}</li>
-                                  ))
-                              ) : (
-                                <li>Indisponível</li>
-                              )}
-                            </ul>
-                          </div>
-                        </div>
-                        <div>
-                          <div>
-                            <h5>Episódio:</h5>
-                            <ul>
-                              <li>
-                                {newId.number_of_episodes > 1
-                                  ? `${newId.number_of_episodes} episódios`
-                                  : `${newId.number_of_episodes} episódio`}
-                              </li>
-                            </ul>
-                          </div>
-                          <div>
-                            <h5>{'Compositor(a):'}</h5>
-                            <ul>
-                              {arrComposer.length ? (
-                                arrComposer
-                                  .slice(0, 3)
-                                  .map((value) => (
-                                    <li key={value.id}>{value.name}</li>
-                                  ))
-                              ) : (
-                                <li>Indisponível</li>
-                              )}
-                            </ul>
-                          </div>
-                          <div>
-                            <h5>Original:</h5>
-                            <ul>
-                              <li>
-                                {newId.networks.length
-                                  ? newId.networks[0].name
-                                  : 'Indisponível'}
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {newSimilarId && (
-                      <div className="similar">
-                        <h4>Series&nbsp;recomendadas</h4>
-                        <NewSimilar>
-                          <Swiper
-                            autoplay={{
-                              delay: 3000,
-                              disableOnInteraction: false,
-                              pauseOnMouseEnter: true,
-                            }}
-                            initialSlide={1}
-                            modules={[Navigation]}
-                            spaceBetween={20}
-                            slidesPerView={2}
-                            autoHeight
-                            loop
-                          >
-                            {newSimilarId.results.map((result, index) => (
-                              <SwiperSlide key={index}>
-                                {
-                                  <div className="popular-slider">
-                                    <div className="popular-img">
-                                      <img
-                                        src={
-                                          result.poster_path
-                                            ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                                            : imageError1
-                                        }
-                                        onLoad={removeLoadingSipnner}
-                                        onError={removeLoadingSipnner}
-                                        alt={result.name}
-                                      />
-                                      <Loading popular />
-                                    </div>
-                                    <div className="popular-details">
-                                      <Link
-                                        reloadDocument
-                                        to={`/vertical/series/${clearLinkTitle(
-                                          result.name
-                                        )}/${result.id}`}
-                                      >
-                                        <h3 title={result.name}>
-                                          {result.name}
-                                        </h3>
-                                      </Link>
-                                      <div className="popular-year-genre">
-                                        <div className="popular-year-year">
-                                          {result.first_air_date &&
-                                            result.first_air_date.slice(0, 4)}
-                                        </div>
-                                        &sdot;
-                                        <div className="popular-genre-genre">
-                                          {allGenres &&
-                                            allGenres.genres.map((genre) =>
-                                              genre.id === result.genre_ids[0]
-                                                ? genre.name
-                                                : ''
-                                            )}
-                                          {result.genre_ids.length < 1 &&
-                                            'Not genre'}
-                                        </div>
-                                      </div>
-                                      <div className="vertical-overview">
-                                        {result.overview
-                                          ? result.overview
-                                          : 'Não à descrição para este titulo por enquanto.'}
-                                      </div>
-                                      <div className="popular-imdb-rating-voteAverage">
-                                        IMDB
-                                        <div className="popular-rating-voteAverage">
-                                          <RatingSystem
-                                            vote_average={result.vote_average}
-                                            ratingSystem2
-                                          />
-                                          <div className="popular-voteAverage">
-                                            {result.vote_average &&
-                                              result.vote_average.toFixed(1)}
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <Link
-                                        reloadDocument
-                                        to={`/vertical/series/${clearLinkTitle(
-                                          result.name
-                                        )}/${result.id}`}
-                                      >
-                                        <button className="popular-watch-now">
-                                          Assistir&nbsp;agora
-                                        </button>
-                                      </Link>
-                                    </div>
-                                  </div>
-                                }
-                              </SwiperSlide>
-                            ))}
-                          </Swiper>
-                        </NewSimilar>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-              {!newSimilarId && (
-                <div
-                  className="description"
-                  style={{ height: newSimilarId ? '100px' : 'fit-content' }}
-                >
-                  <h4>Descrição</h4>
-                  <div>
-                    {newId.overview
-                      ? newId.overview
-                      : 'Não à descrição para este titulo por enquanto.'}
-                  </div>
-                </div>
+    </>
+  );
+}
+
+function FavoriteComponent(props) {
+  const { setFavoriteFunction, favorite } = props;
+
+  return (
+    <FavoriteContainer>
+      <svg
+        data-like-animaton={favorite ? true : false}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          onClick={setFavoriteFunction}
+          fill={favorite ? '#ed4956' : '#fff'}
+          d="M24 41.95 21.95 40.1Q13.8 32.65 8.9 27.1Q4 21.55 4 15.85Q4 11.35 7.025 8.325Q10.05 5.3 14.5 5.3Q17.05 5.3 19.55 6.525Q22.05 7.75 24 10.55Q26.2 7.75 28.55 6.525Q30.9 5.3 33.5 5.3Q37.95 5.3 40.975 8.325Q44 11.35 44 15.85Q44 21.55 39.1 27.1Q34.2 32.65 26.05 40.1Z"
+        />
+      </svg>
+    </FavoriteContainer>
+  );
+}
+
+function PosterAndDescriptionComponent({
+  newId,
+  isActiveDescription,
+  breakpoint600,
+}) {
+  return (
+    <div className="poster-description">
+      <img
+        src={
+          newId.poster_path
+            ? `https://image.tmdb.org/t/p/w500${newId.poster_path}`
+            : imageError1
+        }
+        onLoad={removeLoadingSipnner}
+        onError={removeLoadingSipnner}
+        alt={newId.name}
+      />
+      <Loading colorVertical />
+      {isActiveDescription && !breakpoint600 && (
+        <DescriptionComponent newId={newId} />
+      )}
+    </div>
+  );
+}
+
+function DescriptionComponent(props) {
+  const { newId, noMarginTop } = props;
+
+  return (
+    <Description
+      overview={newId.overview ? true : false}
+      noMarginTop={noMarginTop}
+    >
+      <h4>Descrição</h4>
+      <div>
+        {newId.overview
+          ? newId.overview
+          : 'Não à descrição para este titulo por enquanto.'}
+      </div>
+    </Description>
+  );
+}
+
+function DetailsComponent({
+  newId,
+  setFavoriteFunction,
+  favorite,
+  breakpoint400,
+}) {
+  return (
+    <>
+      <h1 title={newId.name}>{newId.name}</h1>
+      <div className="y-g-f">
+        <div className="year-genre-details">
+          <span>
+            {newId.first_air_date && newId.first_air_date.slice(0, 4)}
+            {!newId.first_air_date && 'Not data'}
+          </span>
+          &sdot;
+          <span>
+            {newId.genres
+              .slice(0, 2)
+              .map((genre) => genre.name)
+              .join(', ')}
+            {newId.genres.length < 1 && 'Not genre'}
+          </span>
+        </div>
+        {breakpoint400 && (
+          <FavoriteComponent
+            setFavoriteFunction={setFavoriteFunction}
+            favorite={favorite}
+          />
+        )}
+      </div>
+
+      <div className="rating-imdb-details">
+        IMDB
+        <div>
+          <RatingSystem vote_average={newId.vote_average} color="#fff" />
+          <div>{newId.vote_average && newId.vote_average.toFixed(1)}</div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function AboutDetailsComponent(props) {
+  const { newId, arrProducer, arrDirectorFot, arrComposer } = props;
+
+  return (
+    <div className="about-details">
+      <h4>Sobre a serie</h4>
+      <div className="about">
+        <div>
+          <div>
+            <h5>Temporada:</h5>
+            <ul>
+              <li>
+                {newId.number_of_seasons > 1
+                  ? `${newId.number_of_seasons} temporadas`
+                  : `${newId.number_of_seasons} temporada`}
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h5>Produção:</h5>
+            <ul>
+              {arrProducer.length ? (
+                arrProducer
+                  .slice(0, 3)
+                  .map((value) => <li key={value.id}>{value.name}</li>)
+              ) : (
+                <li>Indisponível</li>
               )}
-              <div className="trailer-details-page">
-                <SerieTrailer id={id} loadingDetails="eager" />
-              </div>
-            </PosterDetailsSimilarTrailer>
-            <div className="midia-files-collection">
-              <div className="favorite">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  data-like-animaton={favorite ? true : false}
-                >
-                  <path
-                    onClick={setFavoriteFunction}
-                    fill={favorite ? '#ff0000' : '#fff'}
-                    d="M24 41.95 21.95 40.1Q13.8 32.65 8.9 27.1Q4 21.55 4 15.85Q4 11.35 7.025 8.325Q10.05 5.3 14.5 5.3Q17.05 5.3 19.55 6.525Q22.05 7.75 24 10.55Q26.2 7.75 28.55 6.525Q30.9 5.3 33.5 5.3Q37.95 5.3 40.975 8.325Q44 11.35 44 15.85Q44 21.55 39.1 27.1Q34.2 32.65 26.05 40.1Z"
-                  />
-                </svg>
-              </div>
-              <ImagesPosters
-                imageButtonActived={imageButtonActived}
-                posterButtonActived={posterButtonActived}
-                logoButtonActived={logoButtonActived}
-              >
-                <div className="buttoms-image-posters-logos">
-                  <button
-                    onClick={() => {
-                      setImageButtonActived(true);
-                      setPosterButtonActived(false);
-                      setLogoButtonActived(false);
-                    }}
-                    className="images"
-                  >
-                    Fotos
-                  </button>
-                  <button
-                    onClick={() => {
-                      setPosterButtonActived(true);
-                      setImageButtonActived(false);
-                      setLogoButtonActived(false);
-                    }}
-                    className="posters"
-                  >
-                    Posters
-                  </button>
-                  <button
-                    onClick={() => {
-                      setLogoButtonActived(true);
-                      setPosterButtonActived(false);
-                      setImageButtonActived(false);
-                    }}
-                    className="logos"
-                  >
-                    Logos
-                  </button>
-                </div>
-                <div
-                  className="pqp-eduardo-lavoura"
-                  style={{
-                    height: newCollectionId
-                      ? '400px'
-                      : newSimilarId
-                      ? '900px'
-                      : '750px',
-                  }}
-                >
-                  {imagesPosters && imagesPosters.length > 1 ? (
-                    imagesPosters.map((pqp) => (
-                      <div key={pqp.file_path}>
+            </ul>
+          </div>
+          <div>
+            <h5>Diretor de fotografia:</h5>
+            <ul>
+              {arrDirectorFot.length ? (
+                arrDirectorFot
+                  .slice(0, 3)
+                  .map((value) => <li key={value.id}>{value.name}</li>)
+              ) : (
+                <li>Indisponível</li>
+              )}
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div>
+            <h5>Episódio:</h5>
+            <ul>
+              <li>
+                {newId.number_of_episodes > 1
+                  ? `${newId.number_of_episodes} episódios`
+                  : `${newId.number_of_episodes} episódio`}
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h5>{'Compositor(a):'}</h5>
+            <ul>
+              {arrComposer.length ? (
+                arrComposer
+                  .slice(0, 3)
+                  .map((value) => <li key={value.id}>{value.name}</li>)
+              ) : (
+                <li>Indisponível</li>
+              )}
+            </ul>
+          </div>
+          <div>
+            <h5>Original:</h5>
+            <ul>
+              <li>
+                {newId.networks.length
+                  ? newId.networks[0].name
+                  : 'Indisponível'}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function NewSimilarComponent({ newSimilarId, allGenres, noNewCollectionId }) {
+  return (
+    newSimilarId && (
+      <NewSimilar noNewCollectionId={noNewCollectionId}>
+        <div className="similar">
+          <h4>Series recomendadas</h4>
+          <NewSimilar>
+            <Swiper
+              autoplay={{
+                delay: 3000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
+              initialSlide={1}
+              modules={[Navigation]}
+              spaceBetween={20}
+              slidesPerView={2}
+              breakpoints={{
+                2200: { slidesPerView: 4 },
+                1700: { slidesPerView: 3 },
+                1331: { slidesPerView: 2 },
+                1050: { slidesPerView: 3 },
+                1001: { slidesPerView: 1 },
+                926: { slidesPerView: 2 },
+                801: { slidesPerView: 3 },
+                631: { slidesPerView: 1 },
+                501: { slidesPerView: 3 },
+                0: { slidesPerView: 1 },
+              }}
+              loop
+            >
+              {newSimilarId.results.map((result, index) => (
+                <SwiperSlide key={index}>
+                  {
+                    <div className="popular-slider">
+                      <div className="popular-img">
                         <img
-                          src={`https://image.tmdb.org/t/p/w1280${pqp.file_path}`}
+                          src={
+                            result.poster_path
+                              ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                              : imageError1
+                          }
                           onLoad={removeLoadingSipnner}
                           onError={removeLoadingSipnner}
+                          alt={result.name}
                         />
-                        <Loading popular colorVertical margin />
+                        <Loading popular />
                       </div>
-                    ))
-                  ) : (
-                    <div className="no-fotos-posters-logos">
-                      <img src={imageError2} />
-                    </div>
-                  )}
-                </div>
-              </ImagesPosters>
-
-              {newCollectionId && (
-                <div className="collection-class">
-                  <h4>{newCollectionId.name}</h4>
-                  <Collections>
-                    {newCollectionId &&
-                      newCollectionId.parts.map((result) => (
-                        <div
-                          key={result.id}
-                          className="vertical-popular-img-details"
+                      <div className="popular-details">
+                        <Link
+                          reloadDocument
+                          to={`/vertical/series/${clearLinkTitle(
+                            result.name
+                          )}/${result.id}`}
                         >
-                          <div>
-                            <img
-                              src={
-                                result.poster_path
-                                  ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                                  : imageError2
-                              }
-                              onLoad={removeLoadingSipnner}
-                              onError={removeLoadingSipnner}
-                              alt={result.name}
-                            />
-                            <Loading colorVertical />
-                            <div>
-                              <Link
-                                reloadDocument
-                                to={`/vertical/series/${clearLinkTitle(
-                                  result.name
-                                )}/${result.id}`}
-                              >
-                                <button>Assistir</button>
-                              </Link>
-                            </div>
+                          <h3 title={result.name}>{result.name}</h3>
+                        </Link>
+                        <div className="popular-year-genre">
+                          <div className="popular-year-year">
+                            {result.first_air_date &&
+                              result.first_air_date.slice(0, 4)}
                           </div>
-                          <div className="popular-conatiner-details">
-                            <Link
-                              reloadDocument
-                              to={`/vertical/series/${clearLinkTitle(
-                                result.name
-                              )}/${result.id}`}
-                            >
-                              <h5 title={result.name}>{result.name}</h5>
-                            </Link>
-                            <div className="popular-details">
-                              <div>
-                                {result.first_air_date
-                                  ? result.first_air_date.slice(0, 4)
-                                  : 'Not Data'}
-                                ,
-                              </div>
-                              <div>
-                                {allGenres &&
-                                  allGenres.genres.map((genre) =>
-                                    genre.id === result.genre_ids[0]
-                                      ? genre.name
-                                      : ''
-                                  )}
-                              </div>
+                          &sdot;
+                          <div className="popular-genre-genre">
+                            {allGenres &&
+                              allGenres.genres.map((genre) =>
+                                genre.id === result.genre_ids[0]
+                                  ? genre.name
+                                  : ''
+                              )}
+                            {result.genre_ids.length < 1 && 'Not genre'}
+                          </div>
+                        </div>
+                        <div className="vertical-overview">
+                          {result.overview
+                            ? result.overview
+                            : 'Não à descrição para este titulo por enquanto.'}
+                        </div>
+                        <div className="popular-imdb-rating-voteAverage">
+                          IMDB
+                          <div className="popular-rating-voteAverage">
+                            <RatingSystem
+                              vote_average={result.vote_average}
+                              ratingSystem2
+                            />
+                            <div className="popular-voteAverage">
+                              {result.vote_average &&
+                                result.vote_average.toFixed(1)}
                             </div>
                           </div>
                         </div>
-                      ))}
-                  </Collections>
-                </div>
-              )}
+                        <Link
+                          reloadDocument
+                          to={`/vertical/series/${clearLinkTitle(
+                            result.name
+                          )}/${result.id}`}
+                          className="popular-watch-now"
+                        >
+                          Assistir agora
+                        </Link>
+                      </div>
+                    </div>
+                  }
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </NewSimilar>
+        </div>
+      </NewSimilar>
+    )
+  );
+}
+
+function MidiaFilesCollectionComponent({
+  children,
+  newCollectionId,
+  files,
+  width100,
+  setHeight,
+  no15Rem,
+  height100,
+  width50NextDivChildren,
+  width60NextDivChildren,
+  width100NextDivChildren,
+  autoHeight,
+  noNewCollectionId,
+}) {
+  if (autoHeight)
+    return (
+      <MidiaFilesCollectionContainerAutoHeight
+        childrenComponent={children}
+        newCollectionId={newCollectionId}
+        files={files}
+        width100={width100}
+        setHeight={setHeight}
+        no15Rem={no15Rem}
+        height100={height100}
+        width50NextDivChildren={width50NextDivChildren}
+        autoHeight={autoHeight}
+        width60NextDivChildren={width60NextDivChildren}
+      />
+    );
+
+  return (
+    <MidiaFilesCollectionContainer
+      newCollectionId={newCollectionId}
+      files={files}
+      width100={width100}
+      setHeight={setHeight}
+      no15Rem={no15Rem}
+      height100={height100}
+      width50NextDivChildren={width50NextDivChildren}
+      width60NextDivChildren={width60NextDivChildren}
+      width100NextDivChildren={width100NextDivChildren}
+      noNewCollectionId={noNewCollectionId}
+    >
+      {children}
+    </MidiaFilesCollectionContainer>
+  );
+}
+
+function MidiaFilesCollectionContainerAutoHeight(props) {
+  const {
+    childrenComponent,
+    newCollectionId,
+    files,
+    width100,
+    setHeight,
+    no15Rem,
+    height100,
+    width50NextDivChildren,
+  } = props;
+
+  const [MFCContinerHeigth, setMFCContinerHeigth] = useState('450px');
+
+  const D2 = document.querySelector('.d2');
+
+  useEffect(() => {
+    autoHeight();
+    window.onresize = () => autoHeight();
+  }, [MFCContinerHeigth, D2]);
+
+  function autoHeight() {
+    if (!D2) return;
+    const getD2Height = window.getComputedStyle(D2).height;
+
+    setMFCContinerHeigth(getD2Height);
+  }
+
+  return (
+    <MidiaFilesCollectionContainer
+      newCollectionId={newCollectionId}
+      files={files}
+      width100={width100}
+      setHeight={setHeight}
+      no15Rem={no15Rem}
+      height100={height100}
+      width50NextDivChildren={width50NextDivChildren}
+      id="m-f-c-container"
+      style={{ height: MFCContinerHeigth }}
+    >
+      {childrenComponent}
+    </MidiaFilesCollectionContainer>
+  );
+}
+
+function ImagesComponent(props) {
+  const {
+    imageButtonActived,
+    posterButtonActived,
+    logoButtonActived,
+    newCollectionId,
+    imagesPostersLogos,
+    manageImagesPostersLogos,
+    noNewCollectionId,
+  } = props;
+
+  const [btnImgPostersLogosHeight, setBtnImgPostersLogosHeight] = useState(20);
+
+  const btnImgPostersLogos = document.querySelector('.btn-img-posters-logos');
+
+  useEffect(() => {
+    if (btnImgPostersLogos) {
+      setBtnImgPostersLogosHeight(btnImgPostersLogos.clientHeight);
+      window.onresize = () =>
+        setBtnImgPostersLogosHeight(btnImgPostersLogos.clientHeight);
+    }
+  }, [btnImgPostersLogos, btnImgPostersLogosHeight]);
+
+  return (
+    <ImagesContainer
+      imageButtonActived={imageButtonActived}
+      posterButtonActived={posterButtonActived}
+      logoButtonActived={logoButtonActived}
+      newCollectionId={newCollectionId}
+      noNewCollectionId={noNewCollectionId}
+    >
+      <div className="btn-img-posters-logos">
+        <button
+          onClick={() => manageImagesPostersLogos('images')}
+          className="images"
+        >
+          Fotos
+        </button>
+        <button
+          onClick={() => manageImagesPostersLogos('posters')}
+          className="posters"
+        >
+          Posters
+        </button>
+        <button
+          onClick={() => manageImagesPostersLogos('logos')}
+          className="logos"
+        >
+          Logos
+        </button>
+      </div>
+      <div
+        className="pqp-eduardo-lavoura"
+        style={{ height: `calc(100% - ${btnImgPostersLogosHeight + 4}px)` }}
+      >
+        {imagesPostersLogos && imagesPostersLogos.length ? (
+          imagesPostersLogos.map((pqp, index) => (
+            <div key={pqp.file_path}>
+              <img
+                src={`https://image.tmdb.org/t/p/w1280${pqp.file_path}`}
+                alt={'static-img-' + [index + 1]}
+              />
             </div>
+          ))
+        ) : (
+          <div className="no-fotos-posters-logos">
+            <img src={imageError2} />
           </div>
-          <div className="new">
-            <h4>Novas&nbsp;series</h4>
-            <News>
-              <Swiper
-                autoplay={{
-                  delay: 3000,
-                  disableOnInteraction: false,
-                  pauseOnMouseEnter: true,
-                }}
-                initialSlide={1}
-                modules={[Navigation]}
-                spaceBetween={20}
-                slidesPerView={4}
-                autoHeight
-                loop
-              >
-                {news &&
-                  news.results.map((result) => (
-                    <SwiperSlide key={result.id}>
-                      {
-                        <div className="popular-slider">
-                          <div className="popular-img">
-                            <img
-                              src={
-                                result.poster_path
-                                  ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                                  : imageError1
-                              }
-                              onLoad={removeLoadingSipnner}
-                              onError={removeLoadingSipnner}
-                              alt={result.name}
-                            />
-                            <Loading popular />
-                          </div>
-                          <div className="popular-details">
-                            <Link
-                              reloadDocument
-                              to={`/vertical/series/${clearLinkTitle(
-                                result.name
-                              )}/${result.id}`}
-                            >
-                              <h3 title={result.name}>{result.name}</h3>
-                            </Link>
-                            <div className="popular-year-genre">
-                              <div className="popular-year-year">
-                                {result.first_air_date
-                                  ? result.first_air_date.slice(0, 4)
-                                  : 'Not Data'}
-                              </div>
-                              &sdot;
-                              <div className="popular-genre-genre">
-                                {allGenres &&
-                                  allGenres.genres.map((genre) =>
-                                    genre.id === result.genre_ids[0]
-                                      ? genre.name
-                                      : ''
-                                  )}
-                              </div>
-                            </div>
-                            <div className="vertical-overview">
-                              {result.overview
-                                ? result.overview
-                                : 'Não à descrição para este titulo por enquanto.'}
-                            </div>
-                            <div className="popular-imdb-rating-voteAverage">
-                              IMDB
-                              <div className="popular-rating-voteAverage">
-                                <RatingSystem
-                                  vote_average={result.vote_average}
-                                  ratingSystem2
-                                />
-                                <div className="popular-voteAverage">
-                                  {result.vote_average &&
-                                    result.vote_average.toFixed(1)}
-                                </div>
-                              </div>
-                            </div>
-                            <Link
-                              reloadDocument
-                              to={`/vertical/series/${clearLinkTitle(
-                                result.name
-                              )}/${result.id}`}
-                            >
-                              <button className="popular-watch-now">
-                                Assistir&nbsp;agora
-                              </button>
-                            </Link>
-                          </div>
-                        </div>
+        )}
+      </div>
+    </ImagesContainer>
+  );
+}
+
+function CollectionComponent({ allGenres, newCollectionId }) {
+  if (!newCollectionId) return;
+
+  const [titleCollectionHeight, setTitleCollectionHeight] = useState(20);
+
+  const titleCollection = document.querySelector('#title-collection');
+
+  useEffect(() => {
+    if (!titleCollection) return;
+    if (titleCollectionHeight !== titleCollection.clientHeight) {
+      setTitleCollectionHeight(titleCollection.clientHeight);
+      window.onresize = () =>
+        setTitleCollectionHeight(titleCollection.clientHeight);
+    }
+  }, [titleCollectionHeight, titleCollection]);
+
+  return (
+    <Collections>
+      <h4 id="title-collection">{newCollectionId.name}</h4>
+      <div
+        className="collection"
+        style={{ height: `calc(100% - ${titleCollectionHeight + 4}px)` }}
+      >
+        {newCollectionId &&
+          newCollectionId.parts.map((result) => (
+            <div key={result.id} className="vertical-popular-img-details">
+              <div>
+                <img
+                  src={
+                    result.poster_path
+                      ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                      : imageError2
+                  }
+                  alt={result.name}
+                />
+                <div>
+                  <Link
+                    reloadDocument
+                    to={`/vertical/series/${clearLinkTitle(result.name)}/${
+                      result.id
+                    }`}
+                  >
+                    <button>Assistir</button>
+                  </Link>
+                </div>
+              </div>
+              <div className="popular-conatiner-details">
+                <Link
+                  reloadDocument
+                  to={`/vertical/series/${clearLinkTitle(result.name)}/${
+                    result.id
+                  }`}
+                >
+                  <h5 title={result.name}>{result.name}</h5>
+                </Link>
+                <div className="popular-details">
+                  <div>
+                    {result.first_air_date
+                      ? result.first_air_date.slice(0, 4)
+                      : 'Not Data'}
+                    ,
+                  </div>
+                  <div>
+                    {allGenres &&
+                      allGenres.genres.map((genre) =>
+                        genre.id === result.genre_ids[0] ? genre.name : ''
+                      )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+      </div>
+    </Collections>
+  );
+}
+
+function NewComponent({ news, allGenres }) {
+  return (
+    <News>
+      <h4>Novas series</h4>
+      <Swiper
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        }}
+        initialSlide={1}
+        modules={[Navigation]}
+        spaceBetween={20}
+        slidesPerView={3}
+        breakpoints={{
+          2250: { slidesPerView: 6 },
+          1800: { slidesPerView: 5 },
+          1320: { slidesPerView: 4 },
+          901: { slidesPerView: 3 },
+          631: { slidesPerView: 2 },
+          501: { slidesPerView: 3 },
+          0: { slidesPerView: 1 },
+        }}
+        loop
+      >
+        {news &&
+          news.results.map((result) => (
+            <SwiperSlide key={result.id}>
+              {
+                <div className="popular-slider">
+                  <div className="popular-img">
+                    <img
+                      src={
+                        result.poster_path
+                          ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                          : imageError1
                       }
-                    </SwiperSlide>
-                  ))}
-              </Swiper>
-            </News>
-          </div>
-        </ContainerDatails>
-      )}
-    </Main>
+                      onLoad={removeLoadingSipnner}
+                      onError={removeLoadingSipnner}
+                      alt={result.name}
+                    />
+                    <Loading popular />
+                  </div>
+                  <div className="popular-details">
+                    <Link
+                      reloadDocument
+                      to={`/vertical/series/${clearLinkTitle(result.name)}/${
+                        result.id
+                      }`}
+                    >
+                      <h3 title={result.name}>{result.name}</h3>
+                    </Link>
+                    <div className="popular-year-genre">
+                      <div className="popular-year-year">
+                        {result.first_air_date
+                          ? result.first_air_date.slice(0, 4)
+                          : 'Not Data'}
+                      </div>
+                      &sdot;
+                      <div className="popular-genre-genre">
+                        {allGenres &&
+                          allGenres.genres.map((genre) =>
+                            genre.id === result.genre_ids[0] ? genre.name : ''
+                          )}
+                      </div>
+                    </div>
+                    <div className="vertical-overview">
+                      {result.overview
+                        ? result.overview
+                        : 'Não à descrição para este titulo por enquanto.'}
+                    </div>
+                    <div className="popular-imdb-rating-voteAverage">
+                      IMDB
+                      <div className="popular-rating-voteAverage">
+                        <RatingSystem
+                          vote_average={result.vote_average}
+                          ratingSystem2
+                        />
+                        <div className="popular-voteAverage">
+                          {result.vote_average &&
+                            result.vote_average.toFixed(1)}
+                        </div>
+                      </div>
+                    </div>
+                    <Link
+                      reloadDocument
+                      to={`/vertical/series/${clearLinkTitle(result.name)}/${
+                        result.id
+                      }`}
+                      className="popular-watch-now"
+                    >
+                      Assistir agora
+                    </Link>
+                  </div>
+                </div>
+              }
+            </SwiperSlide>
+          ))}
+      </Swiper>
+    </News>
   );
 }

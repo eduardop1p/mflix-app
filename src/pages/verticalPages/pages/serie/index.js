@@ -55,6 +55,7 @@ export default function SeriesV() {
 
   const minDistance = 1;
 
+  const breackPoint1400 = useMediaQuery({ minWidth: 1400 });
   const breackPoint1290 = useMediaQuery({ maxWidth: 1290 });
   const breackPoint660 = useMediaQuery({ maxWidth: 660 });
   const breackPoint629 = useMediaQuery({ maxWidth: 629 });
@@ -89,7 +90,31 @@ export default function SeriesV() {
         dispatch(actions.loadingFailure());
       }, 500);
     }
-  }, [allGenres, news, allPopular, id, loadingApp]);
+    if (
+      breackPoint1400 &&
+      allPopular.length &&
+      controllerPopularScroll.current &&
+      currentPagePopular.current === 1
+    )
+      setPopularFunction(true);
+    if (
+      breackPoint1400 &&
+      allPopular.length &&
+      !controllerPopularScroll.current &&
+      currentYearsActorGenres.current === 1
+    )
+      setPopularFiltersFunction(true);
+  }, [
+    allGenres,
+    news,
+    allPopular,
+    id,
+    loadingApp,
+    breackPoint1400,
+    controllerPopularScroll,
+    currentPagePopular,
+    currentYearsActorGenres,
+  ]);
 
   async function setNewsFunction() {
     try {
@@ -170,7 +195,7 @@ export default function SeriesV() {
     }
   }
 
-  function handleChange(event, value, activeThumb) {
+  function handleChange(value, activeThumb) {
     if (!Array.isArray(value)) {
       return;
     }
@@ -364,10 +389,9 @@ export default function SeriesV() {
                           <Link
                             reloadDocument
                             to={`${clearLinkTitle(result.name)}/${result.id}`}
+                            className="popular-watch-now"
                           >
-                            <button className="popular-watch-now">
-                              Assistir&nbsp;agora
-                            </button>
+                            Assistir&nbsp;agora
                           </Link>
                         </div>
                       </div>

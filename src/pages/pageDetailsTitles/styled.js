@@ -2,19 +2,29 @@ import styled from 'styled-components';
 
 import * as colors from '../../colors/index';
 
+/* eslint-disable */
+
 export const Main = styled.main`
   width: 100%;
   position: relative;
   z-index: 1;
+  overflow: hidden;
 `;
 
 export const BgImgPageDetails = styled.div`
   width: 100%;
-  height: 270px;
+  height: 250px;
   position: absolute;
   border-radius: 0 1rem 0 0;
   overflow: hidden;
   z-index: -4;
+
+  @media (min-width: 1700px) {
+    height: 280px;
+  }
+  @media (max-width: 720px) {
+    height: 200px;
+  }
 
   & > img {
     position: absolute;
@@ -36,146 +46,324 @@ export const BgImgPageDetails = styled.div`
 `;
 
 export const ContainerDatails = styled.div`
-  padding: 1.5rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
   width: 100%;
-
-  h4 {
-    font-size: 1rem;
-    font-weight: 500;
-    color: ${colors.color1};
-  }
 
   h5 {
     font-size: 0.78rem;
     font-weight: 600;
     color: #57566c;
+    width: min-content;
   }
 
   & > .d0 {
     display: flex;
     gap: 1rem;
+    overflow: hidden;
+    height: ${({ newCollectionId }) => (newCollectionId ? '1250px' : 'auto')};
 
-    & > .midia-files-collection {
-      margin-top: 12rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      width: 100%;
-
-      & > .favorite {
-        width: 50px;
-        height: 50px;
-        align-self: flex-end;
-        position: relative;
-
-        @keyframes likeAnimaton {
-          0%,
-          to {
-            transform: scale(1);
-          }
-          15% {
-            transform: scale(1.2);
-          }
-          30% {
-            transform: scale(0.95);
-          }
-          45%,
-          80% {
-            transform: scale(1);
-          }
-        }
-
-        [data-like-animaton='true'] {
-          animation-name: 'likeAnimaton';
-          animation-duration: 1s;
-          animation-timing-function: linear;
-        }
-
-        & > svg {
-          width: 100%;
-          height: 100%;
-
-          & > path {
-            cursor: pointer;
-          }
-        }
-      }
-
-      & > .collection-class {
-        & > h4 {
-          margin-bottom: 1.2rem;
-        }
-
-        & > .no-collection {
-          width: 100%;
-          max-height: 435px;
-
-          & > img {
-            width: 100%;
-            max-height: inherit;
-            border-radius: 8px;
-          }
-        }
-      }
+    @media (min-width: 1700px) {
+      height: ${({ newCollectionId }) => (newCollectionId ? '1450px' : 'auto')};
+    }
+    @media (max-width: 1330px) {
+      height: ${({ newCollectionId }) => (newCollectionId ? '1400px' : 'auto')};
+    }
+    @media (max-width: 1049px) {
+      height: ${({ newCollectionId }) => (newCollectionId ? '1150px' : 'auto')};
+    }
+    @media (max-width: 1000px) {
+      height: auto;
     }
   }
 
-  & > .new {
-    position: relative;
-    height: 270px;
+  & > .trailer-and-images {
+    display: flex;
+    gap: 1rem;
+    height: 500px;
+    overflow: hidden;
+  }
 
-    & > h4 {
-      font-size: 1.06rem;
-      margin-bottom: 1.2rem;
-      font-weight: 600;
+  & > .description-and-images {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+
+    & > div {
+      width: 50%;
     }
   }
 `;
 
 export const PosterDetailsSimilarTrailer = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  width: calc(100% - 25%);
+  flex-direction: ${({ newCollectionId }) =>
+    newCollectionId ? 'column' : 'row'};
+  gap: 1rem;
+  width: ${({ width100 }) => {
+    if (width100) return '100%';
+    return 'calc(100% - 25%)';
+  }};
+
+  @media (min-width: 2001px) {
+    width: ${({ width100 }) => {
+      if (width100) return '100%';
+      return 'calc(100% - 25%)';
+    }};
+  }
+  @media (min-width: 1700px) and (max-width: 2000px) {
+    width: ${({ width100 }) => {
+      if (width100) return '100%';
+      return 'calc(100% - 23%)';
+    }};
+  }
+  @media (max-width: 1000px) {
+    width: 100%;
+  }
 
   & > .poster-details-similar {
     display: flex;
-    gap: 2rem;
+    gap: 1rem;
+    width: 100%;
 
     & > .poster-description {
-      width: 300px;
-      flex: none;
-      height: 450px;
-      position: relative;
+      width: 260px;
+      height: 390px;
+      margin-top: 0.5rem;
+      flex-shrink: 0;
+
+      @media (min-width: 1700px) {
+        width: 280px;
+        height: 420px;
+      }
+      @media (max-width: 1250px) {
+        width: 240px;
+        height: 370px;
+        margin-top: 1rem;
+      }
+      @media (max-width: 720px) {
+        width: 220px;
+        height: 330px;
+        margin-top: 0;
+      }
+      @media (max-width: 400px) {
+        position: relative;
+        left: 50%;
+        transform: translate(-50%);
+      }
 
       & > img {
         width: 100%;
         height: 100%;
         border-radius: 1rem;
         margin-bottom: 1rem;
+        object-fit: cover;
+      }
+    }
+  }
+
+  & > .images-posters-logos-and-collection {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+
+    & > div {
+      width: 50%;
+
+      & > h4 {
+        font-size: 1.06rem;
+        margin-bottom: 12px;
+        font-weight: 600;
+        color: ${colors.color1};
+      }
+    }
+  }
+`;
+
+export const NewSimilar = styled.div`
+  width: 100%;
+
+  & > .similar {
+    width: 100%;
+
+    & > h4 {
+      font-size: 1.06rem;
+      margin-bottom: 12px;
+      font-weight: 600;
+      color: ${colors.color1};
+    }
+
+    & > .not-similar {
+      width: 100%;
+      height: 222px;
+
+      & > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 1rem;
+      }
+    }
+
+    .popular-slider {
+      display: flex;
+      gap: 1rem;
+      background-color: ${colors.color7};
+      height: auto;
+      border-radius: 5px;
+      padding: 10px;
+      justify-content: space-between;
+
+      @media (max-width: 1330px) {
+        flex-direction: column;
+      }
+      @media (max-width: 1049px) {
+        flex-direction: row;
+      }
+      @media (max-width: 925px) {
+        flex-direction: column;
+      }
+      @media (max-width: 800px) {
+        flex-direction: row;
+      }
+      @media (max-width: 630px) {
+        flex-direction: column;
+      }
+      @media (max-width: 500px) {
+        flex-direction: row;
+      }
+      @media (max-width: 350px) {
+        align-items: center;
+        flex-direction: column;
       }
 
-      & > .description {
+      & > .popular-img {
+        width: 125px;
+        height: 180px;
+        flex: none;
+        position: relative;
+
+        @media (max-width: 1330px) {
+          width: 100%;
+          height: 17vw;
+        }
+        @media (max-width: 1200px) {
+          width: 100%;
+          height: 16.5vw;
+        }
+        @media (max-width: 1100px) {
+          width: 100%;
+          height: 15vw;
+        }
+        @media (max-width: 1049px) {
+          width: 115px;
+          height: 160px;
+        }
+        @media (max-width: 1000px) {
+          width: 110px;
+          height: 150px;
+        }
+        @media (max-width: 925px) {
+          width: 100%;
+          height: 22vw;
+        }
+        @media (max-width: 890px) {
+          width: 100%;
+          height: 21vw;
+        }
+        @media (max-width: 850px) {
+          width: 100%;
+          height: 20vw;
+        }
+        @media (max-width: 800px) {
+          width: 110px;
+          height: 150px;
+        }
+        @media (max-width: 630px) {
+          width: 100%;
+          height: 34vw;
+        }
+        @media (max-width: 610px) {
+          height: 33vw;
+        }
+        @media (max-width: 580px) {
+          height: 32vw;
+        }
+        @media (max-width: 550px) {
+          height: 31vw;
+        }
+        @media (max-width: 520px) {
+          height: 29.5vw;
+        }
+        @media (max-width: 500px) {
+          width: 110px;
+          height: 150px;
+        }
+        @media (max-width: 350px) {
+          width: 120px;
+          height: 180px;
+        }
+
+        & > img {
+          border-radius: 10px;
+          object-fit: cover;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      & > .popular-details {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        justify-content: center;
+        gap: 5px;
 
-        & > :last-child {
-          color: #57566c;
-          font-weight: 400;
-          font-size: 0.78rem;
+        & > a > h3 {
           width: 100%;
-          height: 150px;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          -webkit-box-orient: vertical;
+          font-size: 0.93rem;
+          font-weight: 600;
+          color: ${colors.color1};
+        }
+
+        & > .popular-year-genre {
+          font-size: 0.81rem;
+          font-weight: 400;
+          color: #57566c;
+          display: flex;
+          gap: 5px;
+          align-items: center;
+
+          & > :last-child {
+            width: 100%;
+            word-break: break-all;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+          }
+        }
+
+        & > .vertical-overview {
+          font-size: 0.81rem;
           flex: none;
+          color: #57566c;
+          max-width: 10rem;
+          height: 34px;
           overflow: hidden;
 
           &:hover,
           &:focus {
-            overflow-y: scroll;
-            overflow-x: hidden;
+            overflow: hidden scroll;
 
             &::-webkit-scrollbar {
               width: 3px;
@@ -191,320 +379,100 @@ export const PosterDetailsSimilarTrailer = styled.div`
             }
           }
         }
-      }
-    }
 
-    & > .details-similar {
-      margin-top: 6rem;
-      display: flex;
-      flex-direction: column;
-      gap: 3rem;
-      width: 650px;
+        & > .popular-imdb-rating-voteAverage {
+          color: #57566c;
+          font-size: 0.81rem;
+          font-weight: 500;
 
-      & > .d1 {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-
-        & > h1 {
-          max-width: 40rem;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-line-clamp: 1;
-          -webkit-box-orient: vertical;
-          font-size: 2rem;
-          font-weight: 700;
-          margin: 3px 0;
-          color: ${colors.color1};
-          cursor: default;
-        }
-
-        & > .year-genre-details {
-          display: flex;
-          gap: 5px;
-          color: ${colors.color1};
-          font-weight: 400;
-          font-size: 0.96rem;
-        }
-
-        & > .rating-imdb-details {
-          display: flex;
-          flex-direction: column;
-          color: ${colors.color1};
-
-          &:last-child {
-            & > :first-child {
-              display: flex;
-              gap: 3px;
-              align-items: center;
-
-              & > :last-child {
-                margin-left: 10px;
-                font-size: 0.93rem;
-              }
-            }
-          }
-        }
-      }
-
-      & > .d2 {
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-
-        & > .about-details {
-          & > h4 {
-            margin-bottom: 1.2rem;
-          }
-
-          & > .about {
+          & > .popular-rating-voteAverage {
             display: flex;
-            gap: 2rem;
+            align-items: center;
 
-            & > div {
-              & > :nth-child(1),
-              & > :nth-child(2) {
-                margin-bottom: 1rem;
-              }
+            @media (max-width: 350px) {
+              flex-direction: column;
+              align-items: flex-start;
+            }
 
-              & > div {
-                display: flex;
-                gap: 10px;
-
-                & > ul {
-                  display: flex;
-                  flex-direction: column;
-                  gap: 3px;
-
-                  & > li {
-                    color: #57566c;
-                    font-weight: 400;
-                    font-size: 0.78rem;
-                  }
-                }
-              }
+            & > .popular-voteAverage {
+              margin-left: 5px;
             }
           }
         }
 
-        & > .similar {
-          position: relative;
-          width: 100%;
-          height: 260px;
-
-          & > h4 {
-            margin-bottom: 1.2rem;
-          }
-
-          & > .not-similar {
-            width: 100%;
-            height: 222px;
-
-            & > img {
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-              border-radius: 1rem;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  & > .description {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-
-    & > :last-child {
-      color: #57566c;
-      font-weight: 400;
-      font-size: 0.78rem;
-      width: 100%;
-      overflow: hidden;
-
-      &:hover,
-      &:focus {
-        overflow-y: scroll;
-        overflow-x: hidden;
-
-        &::-webkit-scrollbar {
-          width: 3px;
-        }
-
-        &::-webkit-scrollbar-thumb {
-          border-radius: 1rem;
-          background-color: ${colors.color2};
-        }
-
-        &::-webkit-scrollbar-track {
-          background-color: transparent;
-        }
-      }
-    }
-  }
-
-  & > .trailer-details-page {
-    height: 500px;
-    border-radius: 1rem;
-    overflow: hidden;
-    background-color: #111;
-    position: relative;
-
-    & > .msg-video-trailer-error {
-      color: ${colors.color1};
-      font-size: 0.62rem;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0.9;
-      bottom: 2rem;
-    }
-
-    & > video {
-      object-fit: contain;
-      height: 100%;
-      width: 100%;
-    }
-  }
-`;
-
-export const NewSimilar = styled.div`
-  width: 100%;
-  position: absolute;
-
-  .popular-slider {
-    display: flex;
-    gap: 1rem;
-    background-color: ${colors.color7};
-    height: 220px;
-    border-radius: 5px;
-    padding: 10px;
-    justify-content: space-between;
-
-    & > .popular-img {
-      width: 125px;
-      flex: none;
-      position: relative;
-
-      & > img {
-        border-radius: 10px;
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-      }
-    }
-
-    & > .popular-details {
-      padding: 10px 10px 1rem 0;
-      display: flex;
-      max-width: 50%;
-      flex-direction: column;
-      gap: 9px;
-
-      & > a > h3 {
-        max-width: 8rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        flex: none;
-        font-size: 0.93rem;
-        font-weight: 600;
-        color: ${colors.color1};
-        transition: color 0.2s ease-in-out;
-      }
-
-      & > .popular-year-genre {
-        font-size: 0.81rem;
-        font-weight: 400;
-        color: #57566c;
-        display: flex;
-        gap: 5px;
-        align-items: center;
-
-        & > :last-child {
-          max-width: 5rem;
+        & > .popular-watch-now {
+          background-color: ${colors.color6};
+          font-weight: 400;
+          color: ${colors.color1};
+          border-radius: 1.5rem;
+          font-size: 0.75rem;
+          width: fit-content;
+          padding: 8px 1.2rem;
+          transition: all 0.2s ease-in-out;
           white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
+          text-align: center;
 
-      & > .vertical-overview {
-        font-size: 0.81rem;
-        flex: none;
-        color: #57566c;
-        max-width: 10rem;
-        height: 48px;
-        overflow-y: hidden;
-        overflow-x: hidden;
-
-        &:hover,
-        &:focus {
-          overflow-y: scroll;
-
-          &::-webkit-scrollbar {
-            width: 3px;
+          @media (max-width: 1330px) and (min-width: 1050px),
+            (max-width: 930px) and (min-width: 801px) {
+            padding: 8px 0;
+            width: 100%;
+          }
+          @media (max-width: 1049px) and (min-width: 956px),
+            (max-width: 800px) {
+            width: fit-content;
+            padding: 8px 1.2re;
+          }
+          @media (max-width: 630px) {
+            padding: 8px 0;
+            width: 100%;
+          }
+          @media (max-width: 500px) {
+            width: fit-content;
+            padding: 8px 1.2rem;
+          }
+          @media (max-width: 360px) {
+            padding: 8px 0;
+            width: 100%;
+          }
+          @media (max-width: 350px) {
+            width: fit-content;
+            padding: 8px 1.2rem;
+            margin: 0 auto;
           }
 
-          &::-webkit-scrollbar-thumb {
-            border-radius: 1rem;
+          &:hover {
             background-color: ${colors.color2};
           }
-
-          &::-webkit-scrollbar-track {
-            background-color: transparent;
-          }
-        }
-      }
-
-      & > .popular-imdb-rating-voteAverage {
-        color: #57566c;
-        font-size: 0.81rem;
-        font-weight: 500;
-
-        & > .popular-rating-voteAverage {
-          display: flex;
-          align-items: center;
-
-          & > .popular-voteAverage {
-            margin-left: 10px;
-          }
-        }
-      }
-
-      & > a > .popular-watch-now {
-        background-color: ${colors.color6};
-        font-weight: 400;
-        color: ${colors.color1};
-        border-radius: 1.5rem;
-        font-size: 0.75rem;
-        width: fit-content;
-        padding: 8px 1.2rem;
-        transition: all 0.2s ease-in-out;
-
-        &:hover {
-          background-color: ${colors.color2};
         }
       }
     }
   }
 `;
 
-export const ImagesPosters = styled.div`
+export const ImagesContainer = styled.div`
   width: 100%;
 
-  & > .buttoms-image-posters-logos {
+  & > .btn-img-posters-logos {
     display: flex;
     gap: 5px;
-    margin-bottom: 1.2rem;
+    margin-bottom: 12px;
+    justify-content: center;
+
+    @media (min-width: 1700px) {
+      gap: 8px;
+    }
+    @media (max-width: 1000px) {
+      gap: 8px;
+    }
+    @media (max-width: 650px) {
+      gap: 5px;
+    }
 
     & > button {
       border-radius: 1rem;
       padding: 7px 0;
       width: 100%;
+      max-width: 120px;
       color: ${colors.color1};
       font-size: 0.75rem;
       font-weight: 500;
@@ -533,8 +501,7 @@ export const ImagesPosters = styled.div`
 
   & > .pqp-eduardo-lavoura {
     width: 100%;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    overflow: hidden scroll;
 
     &::-webkit-scrollbar {
       width: 3px;
@@ -555,7 +522,42 @@ export const ImagesPosters = styled.div`
       margin-bottom: 8px;
       position: relative;
       display: inline-block;
-      width: 100%;
+      width: calc(100% / 2);
+      height: auto;
+
+      @media (min-width: 1001px) and (max-width: 1699px) {
+        width: ${({ imageButtonActived, logoButtonActived }) =>
+          imageButtonActived || logoButtonActived ? '100%' : 'calc(100% / 2)'};
+      }
+      @media (max-width: 1000px) {
+        width: calc(100% / 2);
+      }
+      @media (max-width: 850px) {
+        width: ${({ imageButtonActived, logoButtonActived }) =>
+          imageButtonActived || logoButtonActived ? '100%' : 'calc(100% / 2)'};
+      }
+      @media (max-width: 700px) {
+        width: calc(100% / 2);
+      }
+      @media (max-width: 650px) {
+        width: ${({
+          imageButtonActived,
+          logoButtonActived,
+          noNewCollectionId,
+        }) =>
+          noNewCollectionId
+            ? 'calc(100% / 2)'
+            : imageButtonActived || logoButtonActived
+            ? '100%'
+            : 'calc(100% / 2)'};
+      }
+      @media (max-width: 550px) {
+        width: 100%;
+      }
+      @media (max-width: 410px) {
+        width: ${({ imageButtonActived, logoButtonActived }) =>
+          imageButtonActived || logoButtonActived ? '100%' : 'calc(100% / 2)'};
+      }
 
       & > img {
         object-fit: cover;
@@ -578,113 +580,146 @@ export const ImagesPosters = styled.div`
 `;
 
 export const Collections = styled.div`
-  max-height: 500px;
-  overflow-x: hidden;
-  overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    width: 3px;
+  & > h4 {
+    font-size: 1.06rem;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: ${colors.color1};
   }
 
-  &::-webkit-scrollbar-thumb {
-    border-radius: 1rem;
-    background-color: ${colors.color2};
-  }
+  & > .collection {
+    overflow: hidden scroll;
 
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
+    &::-webkit-scrollbar {
+      width: 3px;
+    }
 
-  & > .vertical-popular-img-details {
-    margin-bottom: 50px;
-    width: calc(100% / 2);
-    padding-right: 10px;
-    height: 200px;
-    display: inline-block;
+    &::-webkit-scrollbar-thumb {
+      border-radius: 1rem;
+      background-color: ${colors.color2};
+    }
 
-    & > :first-child {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
 
-      & > img {
-        object-fit: cover;
+    & > .vertical-popular-img-details {
+      margin-bottom: 8px;
+      width: calc(100% / 2);
+      padding-right: 8px;
+      height: auto;
+      display: inline-block;
+
+      @media (min-width: 2001px) {
+        width: calc(100% / 3);
+        height: 10vw;
+        max-height: 250px;
+      }
+      @media (max-width: 1150px) {
+        width: 100%;
+      }
+      @media (max-width: 1000px) {
+        width: calc(100% / 3);
+      }
+      @media (max-width: 850px) {
+        width: calc(100% / 2);
+      }
+      @media (max-width: 550px) {
+        width: 100%;
+      }
+      @media (max-width: 410px) {
+        width: calc(100% / 2);
+      }
+
+      & > :first-child {
         width: 100%;
         height: 100%;
-        border-radius: 1rem;
-      }
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-      & > :last-child {
-        position: absolute;
-        visibility: hidden;
-        border-radius: 1rem;
-      }
-
-      &:hover,
-      &:focus {
-        & > :last-child {
-          visibility: visible;
+        & > img {
+          object-fit: cover;
           width: 100%;
           height: 100%;
-          background-color: #1111118c;
+          border-radius: 1rem;
+        }
+
+        & > :last-child {
           position: absolute;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          transition: all 0.3s ease-in-out;
+          visibility: hidden;
+          border-radius: 1rem;
+        }
 
-          & > a > button {
-            background-color: ${colors.color6};
-            font-weight: 500;
-            color: ${colors.color1};
-            border-radius: 1.5rem;
-            font-size: 0.78rem;
-            width: fit-content;
-            padding: 8px 1.2rem;
-            transition: background 0.2s ease-in-out;
+        &:hover,
+        &:focus {
+          & > :last-child {
+            visibility: visible;
+            width: 100%;
+            height: 100%;
+            background-color: #1111118c;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease-in-out;
 
-            &:hover {
-              background-color: ${colors.color2};
+            & > a > button {
+              background-color: ${colors.color6};
+              font-weight: 500;
+              color: ${colors.color1};
+              border-radius: 1.5rem;
+              font-size: 0.78rem;
+              width: fit-content;
+              padding: 8px 1.2rem;
+              transition: background 0.2s ease-in-out;
+
+              &:hover {
+                background-color: ${colors.color2};
+              }
             }
           }
         }
       }
-    }
 
-    & > .popular-conatiner-details {
-      margin: 5px 5px 0;
+      & > .popular-conatiner-details {
+        margin: 5px 5px 0;
 
-      & > a > h5 {
-        max-width: 11rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-size: 0.87rem;
-        color: ${colors.color1};
-        font-weight: 600;
-        padding: 0 2px;
-        margin-bottom: 2px;
-      }
-
-      & > .popular-details {
-        display: flex;
-        gap: 2px;
-        color: #57566c;
-
-        & > div {
-          padding: 0 2px;
-          font-size: 0.81rem;
-          font-weight: 500;
-        }
-
-        & > :last-child {
-          max-width: 5.5rem;
-          white-space: nowrap;
+        & > a > h5 {
+          width: 100%;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
           overflow: hidden;
           text-overflow: ellipsis;
+          -webkit-box-orient: vertical;
+          font-size: 0.87rem;
+          color: ${colors.color1};
+          font-weight: 600;
+          padding: 0 2px;
+          margin-bottom: 2px;
+        }
+
+        & > .popular-details {
+          display: flex;
+          gap: 2px;
+          color: #57566c;
+
+          & > div {
+            padding: 0 2px;
+            font-size: 0.81rem;
+            font-weight: 500;
+            white-space: nowrap;
+          }
+
+          & > :last-child {
+            width: 100%;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+          }
         }
       }
     }
@@ -693,21 +728,72 @@ export const Collections = styled.div`
 
 export const News = styled.div`
   width: 100%;
-  position: absolute;
+
+  & > h4 {
+    font-size: 1.06rem;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: ${colors.color1};
+  }
 
   .popular-slider {
     display: flex;
     gap: 1rem;
     background-color: ${colors.color7};
-    height: 220px;
+    height: auto;
     border-radius: 5px;
     padding: 10px;
     justify-content: space-between;
 
+    @media (max-width: 630px) {
+      flex-direction: column;
+    }
+    @media (max-width: 500px) {
+      flex-direction: row;
+    }
+    @media (max-width: 350px) {
+      align-items: center;
+      flex-direction: column;
+    }
+
     & > .popular-img {
       width: 125px;
+      height: 180px;
       flex: none;
       position: relative;
+
+      @media (max-width: 1250px) {
+        width: 115px;
+        height: 160px;
+      }
+      @media (max-width: 1025px) {
+        width: 110px;
+        height: 150px;
+      }
+      @media (max-width: 630px) {
+        width: 100%;
+        height: 34vw;
+      }
+      @media (max-width: 610px) {
+        height: 33vw;
+      }
+      @media (max-width: 580px) {
+        height: 32vw;
+      }
+      @media (max-width: 550px) {
+        height: 31vw;
+      }
+      @media (max-width: 520px) {
+        height: 29.5vw;
+      }
+      @media (max-width: 500px) {
+        width: 110px;
+        height: 150px;
+      }
+      @media (max-width: 350px) {
+        width: 120px;
+        height: 180px;
+      }
 
       & > img {
         object-fit: cover;
@@ -718,18 +804,18 @@ export const News = styled.div`
     }
 
     & > .popular-details {
-      padding: 10px 10px 1rem 0;
       display: flex;
-      max-width: 50%;
       flex-direction: column;
-      gap: 9px;
+      justify-content: center;
+      gap: 5px;
 
       & > a > h3 {
-        max-width: 8rem;
-        white-space: nowrap;
+        width: 100%;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
         overflow: hidden;
         text-overflow: ellipsis;
-        flex: none;
+        -webkit-box-orient: vertical;
         font-size: 0.93rem;
         font-weight: 600;
         color: ${colors.color1};
@@ -745,25 +831,28 @@ export const News = styled.div`
         align-items: center;
 
         & > :last-child {
-          max-width: 5rem;
-          white-space: nowrap;
+          width: 100%;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
           overflow: hidden;
           text-overflow: ellipsis;
+          -webkit-box-orient: vertical;
+          word-break: break-all;
         }
       }
 
       & > .vertical-overview {
         font-size: 0.81rem;
         flex: none;
+        font-weight: 400;
         color: #57566c;
         max-width: 10rem;
-        height: 48px;
-        overflow-y: hidden;
-        overflow-x: hidden;
+        height: 34px;
+        overflow: hidden;
 
         &:hover,
         &:focus {
-          overflow-y: scroll;
+          overflow: hidden scroll;
 
           &::-webkit-scrollbar {
             width: 3px;
@@ -789,21 +878,54 @@ export const News = styled.div`
           display: flex;
           align-items: center;
 
+          @media (max-width: 350px) {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
           & > .popular-voteAverage {
-            margin-left: 10px;
+            margin-left: 5px;
           }
         }
       }
 
-      & > a > .popular-watch-now {
+      & > .popular-watch-now {
         background-color: ${colors.color6};
         font-weight: 400;
         color: ${colors.color1};
         border-radius: 1.5rem;
-        font-size: 0.75;
+        font-size: 0.75rem;
         width: fit-content;
         padding: 8px 1.2rem;
         transition: all 0.2s ease-in-out;
+        white-space: nowrap;
+        text-align: center;
+
+        @media (max-width: 950px) and (min-width: 901px), (max-width: 650px) {
+          padding: 8px 0;
+          width: 100%;
+        }
+        @media (max-width: 900px) and (min-width: 651px) {
+          padding: 8px 1.2rem;
+          width: fit-content;
+        }
+        @media (max-width: 630px) {
+          padding: 8px 0;
+          width: 100%;
+        }
+        @media (max-width: 500px) {
+          width: fit-content;
+          padding: 8px 1.2rem;
+        }
+        @media (max-width: 360px) {
+          padding: 8px 0;
+          width: 100%;
+        }
+        @media (max-width: 350px) {
+          width: fit-content;
+          padding: 8px 1.2rem;
+          margin: 0 auto;
+        }
 
         &:hover {
           background-color: ${colors.color2};
@@ -812,3 +934,373 @@ export const News = styled.div`
     }
   }
 `;
+
+export const TrailerContainer = styled.div`
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: #111;
+  position: relative;
+  width: 100%;
+  height: ${({ setHeight }) => (setHeight ? '500px' : '100%')};
+
+  @media (min-width: 2001px) {
+    height: ${({ setHeight }) => (setHeight ? '700px' : '100%')};
+  }
+  @media (min-width: 1700px) and (max-width: 2000px) {
+    height: ${({ setHeight }) => (setHeight ? '600px' : '100%')};
+  }
+  @media (max-width: 1000px) {
+    height: ${({ setHeight }) => (setHeight ? '400px' : '100%')};
+  }
+  @media (max-width: 410px) {
+    height: ${({ setHeight }) => (setHeight ? '350px' : '100%')};
+  }
+
+  & > .msg-video-trailer-error {
+    color: ${colors.color1};
+    font-size: 0.62rem;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.9;
+    bottom: 2rem;
+  }
+
+  & > video {
+    object-fit: contain;
+    height: 100%;
+    width: 100%;
+  }
+`;
+
+export const Description = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  @media (max-width: 600px) {
+    margin-top: ${({ noMarginTop }) => (noMarginTop ? '0' : '12rem')};
+  }
+  @media (max-width: 500px) {
+    margin-top: 0;
+  }
+
+  & > h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: ${colors.color1};
+  }
+
+  & > :last-child {
+    color: #57566c;
+    font-weight: 400;
+    font-size: 0.78rem;
+    width: 100%;
+    height: ${({ overview }) => (overview ? '170px' : 'fit-content')};
+    flex: none;
+    overflow: hidden;
+    padding-right: 8px;
+
+    @media (max-width: 1330px) and (min-width: 1050px) {
+      height: ${({ overview }) => (overview ? '340px' : 'fit-content')};
+    }
+    @media (max-width: 630px) {
+      height: ${({ overview }) => (overview ? '65px' : 'fit-content')};
+    }
+    @media (max-width: 600px) {
+      height: ${({ overview }) => (overview ? '105px' : 'fit-content')};
+    }
+    @media (max-width: 500px) {
+      max-height: ${({ overview }) => (overview ? '200px' : 'fit-content')};
+      height: auto;
+    }
+
+    &:hover,
+    &:focus {
+      overflow: hidden scroll;
+
+      &::-webkit-scrollbar {
+        width: 3px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 1rem;
+        background-color: ${colors.color2};
+      }
+
+      &::-webkit-scrollbar-track {
+        background-color: transparent;
+      }
+    }
+  }
+`;
+
+export const MidiaFilesCollectionContainer = styled.div`
+  margin-top: ${({ no15Rem }) => (no15Rem ? '0' : '15rem')};
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: ${({ width50 }) => (width50 ? '50%' : '100%')};
+  height: ${({ setHeight, noNewCollectionId }) =>
+    noNewCollectionId ? '400px' : setHeight ? '500px' : 'auto'};
+
+  @media (min-width: 1700px) {
+    margin-top: 17rem;
+  }
+  @media (max-width: 1000px) {
+    flex-direction: row;
+  }
+  @media (max-width: 700px) {
+    flex-direction: ${({ noNewCollectionId }) =>
+      noNewCollectionId ? 'column' : 'row'};
+    height: ${({ noNewCollectionId, setHeight }) =>
+      noNewCollectionId ? '700px' : setHeight ? '500px' : 'auto'};
+  }
+  @media (max-width: 410px) {
+    flex-direction: column;
+    height: ${({ setHeight }) => (setHeight ? '600px' : 'auto')};
+  }
+  @media (max-width: 350px) {
+    flex-direction: column;
+    height: ${({ setHeight }) => (setHeight ? '700px' : 'auto')};
+  }
+
+  & > div {
+    height: ${({ height100 }) => (height100 ? '100%' : '50%')};
+    overflow: hidden;
+
+    @media (max-width: 1000px) {
+      width: ${({ width50NextDivChildren }) =>
+        width50NextDivChildren ? '50%' : '100%'};
+    }
+    @media (max-width: 480px) and (min-width: 411px) {
+      &:first-child {
+        width: ${({ width50NextDivChildren }) =>
+          width50NextDivChildren ? '70%' : '100%'};
+      }
+    }
+    @media (max-width: 410px) {
+      width: 100%;
+    }
+  }
+`;
+
+export const FavoriteContainer = styled.div`
+  width: 50px;
+  height: 50px;
+  align-self: flex-end;
+  position: absolute;
+  top: 12rem;
+  right: 10px;
+
+  @media (min-width: 1700px) {
+    top: 14rem;
+  }
+  @media (max-width: 720px) {
+    top: 9rem;
+  }
+  @media (max-width: 400px) {
+    position: static;
+    align-self: normal;
+    top: 0;
+    right: 0;
+  }
+
+  @keyframes likeAnimaton {
+    0%,
+    to {
+      transform: scale(1);
+    }
+    15% {
+      transform: scale(1.2);
+    }
+    30% {
+      transform: scale(0.95);
+    }
+    45%,
+    80% {
+      transform: scale(1);
+    }
+  }
+
+  [data-like-animaton='true'] {
+    animation-name: 'likeAnimaton';
+    animation-duration: 1s;
+    animation-timing-function: linear;
+  }
+
+  & > svg {
+    width: 100%;
+    height: 100%;
+
+    & > path {
+      cursor: pointer;
+    }
+  }
+`;
+
+export const DetailsAndSimilarContainer = styled.div`
+  margin-top: 6.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  overflow: hidden;
+  width: ${({ width50AndFlexNone }) => (width50AndFlexNone ? '50%' : 'auto')};
+  flex: ${({ width50AndFlexNone }) => (width50AndFlexNone ? 'none' : 'auto')};
+
+  @media (min-width: 1700px) {
+    margin-top: 8.4rem;
+  }
+  @media (min-width: 1400px) {
+    width: ${({ width50AndFlexNone }) => (width50AndFlexNone ? '55%' : 'auto')};
+  }
+  @media (max-width: 1150px) {
+    width: ${({ width50AndFlexNone }) => (width50AndFlexNone ? '47%' : 'auto')};
+  }
+  @media (max-width: 1049px) {
+    width: ${({ width50AndFlexNone }) => (width50AndFlexNone ? '44%' : 'auto')};
+  }
+  @media (max-width: 720px) {
+    margin-top: 3.5rem;
+  }
+  @media (max-width: 600px) {
+    margin-top: 0;
+  }
+
+  & > .d1 {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    @media (max-width: 400px) {
+      gap: 0;
+    }
+
+    & > h1 {
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      font-size: 2rem;
+      font-weight: 700;
+      color: ${colors.color1};
+      cursor: default;
+
+      @media (max-width: 600px) {
+        -webkit-line-clamp: 2;
+      }
+    }
+
+    & > .y-g-f {
+      width: 100%;
+
+      @media (max-width: 400px) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        gap: 10px;
+      }
+
+      & > .year-genre-details {
+        display: flex;
+        gap: 5px;
+        color: ${colors.color1};
+        font-weight: 400;
+        font-size: 0.96rem;
+
+        & > :first-child {
+          white-space: nowrap;
+        }
+
+        & > :last-child {
+          max-width: 133px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+        }
+      }
+    }
+
+    & > .rating-imdb-details {
+      display: flex;
+      flex-direction: column;
+      color: ${colors.color1};
+
+      @media (max-width: 600px) {
+        flex-direction: row;
+        gap: 8px;
+      }
+
+      &:last-child {
+        & > :first-child {
+          display: flex;
+          gap: 5px;
+          align-items: center;
+        }
+      }
+    }
+  }
+
+  & > .d2 {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    & > .about-details {
+      & > h4 {
+        font-size: 1.06rem;
+        margin-bottom: 12px;
+        font-weight: 600;
+        color: ${colors.color1};
+      }
+
+      & > .about {
+        display: flex;
+        gap: 10px;
+        max-width: 700px;
+        justify-content: space-between;
+
+        @media (max-width: 720px) {
+          flex-direction: column;
+        }
+        @media (max-width: 600px) {
+          flex-direction: row;
+        }
+        @media (max-width: 410px) {
+          flex-direction: column;
+        }
+
+        & > div {
+          & > :nth-child(1),
+          & > :nth-child(2) {
+            margin-bottom: 1rem;
+          }
+
+          & > div {
+            display: flex;
+            gap: 8px;
+
+            & > ul {
+              display: flex;
+              flex-direction: column;
+              gap: 3px;
+
+              & > li {
+                color: #57566c;
+                font-weight: 400;
+                font-size: 0.78rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const YearGenreDetailsRatingContainer = styled.div``;

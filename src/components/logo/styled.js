@@ -4,8 +4,8 @@ import * as colors from '../../colors/index';
 
 export const LogoMflix = styled.div`
   background-color: ${colors.color2};
-  height: 50px;
-  width: 50px;
+  height: 45px;
+  width: 45px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -13,8 +13,8 @@ export const LogoMflix = styled.div`
 
   .oco {
     background-color: ${colors.color7};
-    height: 28px;
-    width: 28px;
+    height: 25px;
+    width: 25px;
     border-radius: 50%;
     position: relative;
 

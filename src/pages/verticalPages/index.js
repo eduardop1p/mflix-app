@@ -15,7 +15,7 @@ export default function VerticalPages() {
       <ContainerHeaderVertical>
         <div>
           {isLogedIn.current ? (
-            <UserPhoto width40 />
+            <UserPhoto width45 />
           ) : (
             <Link
               reloadDocument
@@ -27,7 +27,7 @@ export default function VerticalPages() {
             </Link>
           )}
           <nav>
-            <div className="vertical-home not-search">
+            <div className="vertical-home scale-icon">
               <NavLink
                 reloadDocument
                 to="home"
@@ -38,7 +38,7 @@ export default function VerticalPages() {
                 </svg>
               </NavLink>
             </div>
-            <div className="vertical not-search">
+            <div className="vertical-filmes scale-icon">
               <NavLink
                 reloadDocument
                 to="filmes"
@@ -49,7 +49,7 @@ export default function VerticalPages() {
                 </svg>
               </NavLink>
             </div>
-            <div className="vertical-series not-search">
+            <div className="vertical-series scale-icon">
               <NavLink
                 reloadDocument
                 to="series"
@@ -71,7 +71,7 @@ export default function VerticalPages() {
                 </svg>
               </NavLink>
             </div>
-            <div className="vertical-favorite-save not-search">
+            <div className="vertical-favorite-save scale-icon">
               <NavLink
                 reloadDocument
                 to="minha-lista"
