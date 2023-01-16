@@ -751,7 +751,7 @@ export const Collections = styled.div`
 
 export const News = styled.div`
   width: 100%;
-  margin-top: ${({ noMarginTop }) => (noMarginTop ? '0' : '1rem')};
+  margin-top: 1rem;
 
   & > h4 {
     font-size: 1.06rem;

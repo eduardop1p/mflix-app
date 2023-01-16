@@ -713,7 +713,7 @@ function LayoutNoCollection(props) {
             </TrailerContainer>
           )}
 
-          <NewComponent news={news} allGenres={allGenres} noMarginTop />
+          <NewComponent news={news} allGenres={allGenres} />
         </ContainerDatails>
       )}
     </Main>
@@ -1334,10 +1334,10 @@ function DescriptionComponent(props) {
 }
 
 function NewComponent(props) {
-  const { news, allGenres, noMarginTop } = props;
+  const { news, allGenres } = props;
 
   return (
-    <News noMarginTop={noMarginTop}>
+    <News>
       <h4>Novos filmes</h4>
       <Swiper
         autoplay={{

@@ -30,7 +30,10 @@ export const ContainerHeaderVertical = styled.header`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+
+    & > :first-child {
+      margin-bottom: 1.5rem;
+    }
 
     & > .singn-up-vertical {
       width: 43px;
@@ -51,9 +54,12 @@ export const ContainerHeaderVertical = styled.header`
 
     & > nav {
       display: flex;
-      gap: 1.5rem;
       flex-direction: column;
       align-items: center;
+
+      & > :not(:last-child) {
+        margin-bottom: 1.5rem;
+      }
 
       & > div {
         display: flex;
@@ -106,26 +112,40 @@ export const ContainerHeaderVertical = styled.header`
 export const PagesContainer = styled.main`
   margin: 1rem 0 1rem 1rem;
   display: flex;
-  gap: 1rem;
   width: calc(100% - 367px);
+
+  & > :first-child {
+    margin-right: 1rem;
+  }
 
   @media (max-width: 1290px) {
     margin: 10px 0 10px 10px;
     flex-direction: column;
     width: calc(100% - 65px);
+
+    & > :not(:last-child) {
+      margin-bottom: 2rem;
+    }
+
+    & > :first-child {
+      margin-right: 0;
+    }
   }
 
   @media (max-width: 600px) {
-    width: calc(100% - 60px);
+    width: calc(100% - 65px);
   }
 
   & > .search-new-popular {
     background-color: transparent;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
     width: 100%;
     height: 100%;
+
+    & > :not(:last-child) {
+      margin-bottom: 2rem;
+    }
 
     h1 {
       color: ${colors.color1};
@@ -144,15 +164,20 @@ export const SearchHelpContainer = styled.div`
   form {
     display: flex;
     align-items: center;
-    gap: 10px;
     width: 100%;
     padding: 8px 1.2rem;
     background-color: ${colors.color7};
     border-radius: 1rem;
     overflow: hidden;
 
+    & > :first-child {
+      margin-right: 10px;
+    }
+
     @media (max-width: 800px) {
-      gap: 5px;
+      & > :first-child {
+        margin-right: 10px;
+      }
     }
 
     & > button > svg {
@@ -242,20 +267,35 @@ export const Filters = styled.div`
   background-color: ${colors.color7};
   display: flex;
   flex-direction: column;
-  gap: 14px;
   flex-shrink: 0;
+
+  & > :not(:last-child) {
+    margin-bottom: 14px;
+  }
 
   @media (max-width: 1290px) {
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
     height: auto;
+
+    & > :not(:last-child) {
+      margin-bottom: 0;
+    }
+
+    & > :nth-child(3) {
+      margin: 0 14px;
+    }
   }
   @media (max-width: 630px) {
     padding: 1rem;
   }
   @media (max-width: 500px) {
     flex-direction: column;
+
+    & > :nth-child(3) {
+      margin: 14px 0;
+    }
   }
 
   & > .vertical {
@@ -446,7 +486,10 @@ export const Filters = styled.div`
         margin-bottom: 8px;
         display: flex;
         align-items: center;
-        gap: 10px;
+
+        & > :first-child {
+          margin-right: 10px;
+        }
 
         & > input[type='checkbox'] {
           appearance: none;
@@ -564,11 +607,16 @@ export const New = styled.div`
       margin-left: 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+
+      & > :not(:last-child) {
+        margin-bottom: 8px;
+      }
 
       @media (max-width: 720px) {
         margin-left: 1rem;
-        gap: 5px;
+        & > :not(:last-child) {
+          margin-bottom: 5px;
+        }
       }
       @media (max-width: 629px) {
         margin-top: 1rem;
@@ -601,16 +649,9 @@ export const New = styled.div`
         font-weight: 400;
         color: ${colors.color5};
         display: flex;
-        gap: 5px;
 
-        @media (max-width: 660px) {
-          flex-direction: column;
-          gap: 1px;
-        }
-
-        @media (max-width: 629px) {
-          flex-direction: row;
-          gap: 5px;
+        & > :not(:last-child) {
+          margin-right: 3px;
         }
 
         & > .popular-genre-genre {
@@ -693,6 +734,9 @@ export const New = styled.div`
         padding: 8px 0;
         width: 90%;
         transition: all 0.2s ease-in-out;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         @media (min-width: 1361px) {
           padding: 8px 1.2rem;
@@ -919,7 +963,6 @@ export const Popular = styled.div`
 
       & > .popular-details {
         display: flex;
-        gap: 2px;
         color: ${colors.color5};
 
         & > div {
@@ -933,6 +976,7 @@ export const Popular = styled.div`
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          margin-left: 2px;
         }
       }
     }

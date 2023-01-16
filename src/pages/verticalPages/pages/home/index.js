@@ -61,8 +61,6 @@ export default function Home() {
 
   const breackPoint1400 = useMediaQuery({ minWidth: 1400 });
   const breackPoint1290 = useMediaQuery({ maxWidth: 1290 });
-  const breackPoint660 = useMediaQuery({ maxWidth: 660 });
-  const breackPoint629 = useMediaQuery({ maxWidth: 629 });
 
   useEffect(() => {
     const setAllGenresFilters = async () => {
@@ -448,9 +446,7 @@ export default function Home() {
                                   {result.first_air_date &&
                                     result.first_air_date.slice(0, 4)}
                                 </div>
-                                {!breackPoint660 || breackPoint629
-                                  ? String.fromCodePoint(8901)
-                                  : ''}
+                                <span>{String.fromCodePoint(8901)}</span>
                                 <div className="popular-genre-genre">
                                   {allGenres.length &&
                                     allGenres.map((genre) =>

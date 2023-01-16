@@ -439,11 +439,7 @@ export default function serieD(props) {
             </TrailerContainer>
           )}
 
-          <NewComponent
-            news={news}
-            allGenres={allGenres}
-            noMarginTop={noMarginTop}
-          />
+          <NewComponent news={news} allGenres={allGenres} />
         </ContainerDatails>
       )}
     </Main>
@@ -1049,9 +1045,9 @@ function ImagesComponent(props) {
   );
 }
 
-function NewComponent({ news, allGenres, noMarginTop }) {
+function NewComponent({ news, allGenres }) {
   return (
-    <News noMarginTop={noMarginTop}>
+    <News>
       <h4>Novas series</h4>
       <Swiper
         autoplay={{
