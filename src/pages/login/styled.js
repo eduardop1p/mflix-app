@@ -12,12 +12,12 @@ export const LoginSection = styled.section`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 0.5rem;
 
   & > h1 {
     font-size: 2rem;
     color: ${colors.color1};
     font-weight: 500;
+    margin-bottom: 0.5rem;
   }
 
   & > .login {
@@ -27,8 +27,11 @@ export const LoginSection = styled.section`
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 10px;
     border-radius: 10px;
+
+    & > :not(:last-child) {
+      margin-bottom: 10px;
+    }
 
     & > h1 {
       color: ${colors.color6};
@@ -85,14 +88,21 @@ export const LoginSection = styled.section`
       display: flex;
       justify-content: space-between;
       align-items: center;
+      width: 100%;
 
       & > div {
         display: flex;
-        gap: 10px;
+
+        & > :not(:last-child) {
+          margin-right: 10px;
+        }
 
         @media (max-width: 460px) {
           flex-direction: ${({ expires }) => (expires ? 'column' : 'row')};
-          gap: ${({ expires }) => (expires ? '5px' : '10px')};
+
+          & > :not(:last-child) {
+            margin-right: ${({ expires }) => (expires ? '5px' : '10px')};
+          }
         }
 
         & > a {

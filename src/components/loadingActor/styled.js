@@ -6,7 +6,6 @@ export const LoadingActor = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  gap: 4px;
 
   @keyframes animationLoadingActor1 {
     0% {
@@ -42,6 +41,7 @@ export const LoadingActor = styled.div`
     animation-duration: 1.2s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
+    margin-right: 4px;
   }
   & > .an-2 {
     animation-name: animationLoadingActor2;

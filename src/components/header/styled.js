@@ -75,12 +75,14 @@ export const HeaderElement = styled.header`
       font-weight: 500;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+
+      & > :first-child {
+        margin-right: 0.5rem;
+      }
     }
 
     nav {
       display: flex;
-      /* gap: 2rem; */
       margin-left: 4rem;
 
       a:not(:last-child) {
@@ -108,10 +110,15 @@ export const HeaderElement = styled.header`
     display: flex;
     align-items: center;
     margin-left: 1rem;
-    gap: 8px;
+
+    & > :first-child {
+      margin-right: 8px;
+    }
 
     @media (max-width: 360px) {
-      gap: 1rem;
+      & > :first-child {
+        margin-right: 1rem;
+      }
     }
   }
 `;
@@ -146,11 +153,14 @@ export const MenuHambuguer = styled.button`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 4px;
     cursor: pointer;
     width: 2rem;
     max-width: 2rem;
     min-width: 2rem;
+
+    & > :not(:last-child) {
+      margin-bottom: 4px;
+    }
 
     & > .h-1 {
       background-color: ${colors.color1};
@@ -219,13 +229,12 @@ export const MenuActive = styled.div`
     }
 
     & > nav {
-      margin-top: 1.5rem;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 1.5rem;
 
       a {
+        margin-top: 1.5rem;
         font-size: 0.81rem;
         color: ${colors.color1};
         transition: color 0.2s ease-in-out;

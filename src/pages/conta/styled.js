@@ -8,12 +8,12 @@ export const ContaSection = styled.section`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 0.5rem;
 
   & > h1 {
     font-size: 2rem;
     color: ${colors.color1};
     font-weight: 500;
+    margin-bottom: 0.5rem;
   }
 
   & > .conta {
@@ -23,9 +23,12 @@ export const ContaSection = styled.section`
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 10px;
     border-radius: 10px;
     margin: 0 auto;
+
+    & > :not(:last-child) {
+      margin-bottom: 10px;
+    }
 
     & > h1 {
       color: ${colors.color6};
@@ -98,13 +101,14 @@ export const ContaSection = styled.section`
     & > .sing-up-recover-password {
       display: flex;
       align-items: center;
-      gap: 10px;
+      width: 100%;
 
       & > a {
         font-size: 0.75rem;
         font-weight: 500;
         text-decoration: underline;
         color: ${colors.color2};
+        margin-right: 10px;
       }
 
       & > small {

@@ -26,10 +26,6 @@ export const ContainerHeaderVertical = styled.header`
   border-radius: 1rem 0 0 1rem;
   min-height: 450px;
 
-  @media (max-width: 600px) {
-    width: 50px;
-  }
-
   & > :first-child {
     display: flex;
     flex-direction: column;

@@ -713,7 +713,7 @@ function LayoutNoCollection(props) {
             </TrailerContainer>
           )}
 
-          <NewComponent news={news} allGenres={allGenres} />
+          <NewComponent news={news} allGenres={allGenres} noMarginTop />
         </ContainerDatails>
       )}
     </Main>
@@ -773,7 +773,7 @@ function LayoutNoSimilarNofilesNoCollection(props) {
                   <DescriptionComponent newId={newId} />
                 )}
                 {!breakpoint600 && (
-                  <DetailsAndSimilarContainer>
+                  <DetailsAndSimilarContainer noMarginBottom>
                     <div className="d1">
                       <DetailsComponent newId={newId} />
                     </div>
@@ -817,7 +817,7 @@ function LayoutNoSimilarNofilesNoCollection(props) {
           {(breakpoint500 || minBreakPoint721) && (
             <DescriptionComponent newId={newId} noMarginTop />
           )}
-          <TrailerContainer setHeight>
+          <TrailerContainer setHeight marginTop>
             <TrailerMovie id={id} loadingDetails="eager" />
           </TrailerContainer>
           <NewComponent news={news} allGenres={allGenres} />
@@ -1267,7 +1267,7 @@ function NewSimilarComponent(props) {
                           {result.release_date &&
                             result.release_date.slice(0, 4)}
                         </div>
-                        &sdot;
+                        <span>&sdot;</span>
                         <div className="popular-genre-genre">
                           {allGenres &&
                             allGenres.genres.map((genre) =>
@@ -1334,10 +1334,10 @@ function DescriptionComponent(props) {
 }
 
 function NewComponent(props) {
-  const { news, allGenres } = props;
+  const { news, allGenres, noMarginTop } = props;
 
   return (
-    <News>
+    <News noMarginTop={noMarginTop}>
       <h4>Novos filmes</h4>
       <Swiper
         autoplay={{
@@ -1393,7 +1393,7 @@ function NewComponent(props) {
                           ? result.release_date.slice(0, 4)
                           : 'Not Data'}
                       </div>
-                      &sdot;
+                      <span>&sdot;</span>
                       <div className="popular-genre-genre">
                         {allGenres &&
                           allGenres.genres.map((genre) =>
@@ -1453,7 +1453,7 @@ function DetailsComponent({
             {newId.release_date && newId.release_date.slice(0, 4)}
             {!newId.release_date && 'Not data'}
           </span>
-          &sdot;
+          <span>&sdot;</span>
           <span>
             {newId.genres
               .slice(0, 2)

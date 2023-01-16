@@ -439,7 +439,11 @@ export default function serieD(props) {
             </TrailerContainer>
           )}
 
-          <NewComponent news={news} allGenres={allGenres} />
+          <NewComponent
+            news={news}
+            allGenres={allGenres}
+            noMarginTop={noMarginTop}
+          />
         </ContainerDatails>
       )}
     </Main>
@@ -539,7 +543,7 @@ function LayoutNoSimilarNofiles(props) {
           {(breakpoint500 || minBreakPoint721) && (
             <DescriptionComponent newId={newId} noMarginTop />
           )}
-          <TrailerContainer setHeight>
+          <TrailerContainer setHeight marginTop>
             <SerieTrailer id={id} loadingDetails="eager" />
           </TrailerContainer>
           <NewComponent news={news} allGenres={allGenres} />
@@ -655,7 +659,7 @@ function DetailsComponent({
             {newId.first_air_date && newId.first_air_date.slice(0, 4)}
             {!newId.first_air_date && 'Not data'}
           </span>
-          &sdot;
+          <span>&sdot;</span>
           <span>
             {newId.genres
               .slice(0, 2)
@@ -827,7 +831,7 @@ function NewSimilarComponent({ newSimilarId, allGenres, noNewCollectionId }) {
                             {result.first_air_date &&
                               result.first_air_date.slice(0, 4)}
                           </div>
-                          &sdot;
+                          <span>&sdot;</span>
                           <div className="popular-genre-genre">
                             {allGenres &&
                               allGenres.genres.map((genre) =>
@@ -1045,9 +1049,9 @@ function ImagesComponent(props) {
   );
 }
 
-function NewComponent({ news, allGenres }) {
+function NewComponent({ news, allGenres, noMarginTop }) {
   return (
-    <News>
+    <News noMarginTop={noMarginTop}>
       <h4>Novas series</h4>
       <Swiper
         autoplay={{
@@ -1103,7 +1107,7 @@ function NewComponent({ news, allGenres }) {
                           ? result.first_air_date.slice(0, 4)
                           : 'Not Data'}
                       </div>
-                      &sdot;
+                      <span>&sdot;</span>
                       <div className="popular-genre-genre">
                         {allGenres &&
                           allGenres.genres.map((genre) =>

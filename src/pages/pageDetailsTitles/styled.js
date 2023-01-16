@@ -49,7 +49,6 @@ export const ContainerDatails = styled.div`
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
   width: 100%;
 
   h5 {
@@ -61,7 +60,6 @@ export const ContainerDatails = styled.div`
 
   & > .d0 {
     display: flex;
-    gap: 1rem;
     overflow: hidden;
     height: ${({ newCollectionId }) => (newCollectionId ? '1250px' : 'auto')};
 
@@ -81,18 +79,11 @@ export const ContainerDatails = styled.div`
 
   & > .trailer-and-images {
     display: flex;
-    gap: 1rem;
     height: 500px;
     overflow: hidden;
-  }
 
-  & > .description-and-images {
-    display: flex;
-    justify-content: space-between;
-    gap: 2rem;
-
-    & > div {
-      width: 50%;
+    & > :first-child {
+      margin-right: 1rem;
     }
   }
 `;
@@ -101,7 +92,6 @@ export const PosterDetailsSimilarTrailer = styled.div`
   display: flex;
   flex-direction: ${({ newCollectionId }) =>
     newCollectionId ? 'column' : 'row'};
-  gap: 1rem;
   width: ${({ width100 }) => {
     if (width100) return '100%';
     return 'calc(100% - 25%)';
@@ -125,7 +115,6 @@ export const PosterDetailsSimilarTrailer = styled.div`
 
   & > .poster-details-similar {
     display: flex;
-    gap: 1rem;
     width: 100%;
 
     & > .poster-description {
@@ -133,6 +122,11 @@ export const PosterDetailsSimilarTrailer = styled.div`
       height: 390px;
       margin-top: 0.5rem;
       flex-shrink: 0;
+      margin-right: 1rem;
+
+      @media (max-width: 600px) {
+        margin-bottom: 1rem;
+      }
 
       @media (min-width: 1700px) {
         width: 280px;
@@ -158,27 +152,7 @@ export const PosterDetailsSimilarTrailer = styled.div`
         width: 100%;
         height: 100%;
         border-radius: 1rem;
-        margin-bottom: 1rem;
         object-fit: cover;
-      }
-    }
-  }
-
-  & > .images-posters-logos-and-collection {
-    display: flex;
-    gap: 1rem;
-    justify-content: space-between;
-    align-items: center;
-    overflow: hidden;
-
-    & > div {
-      width: 50%;
-
-      & > h4 {
-        font-size: 1.06rem;
-        margin-bottom: 12px;
-        font-weight: 600;
-        color: ${colors.color1};
       }
     }
   }
@@ -186,6 +160,10 @@ export const PosterDetailsSimilarTrailer = styled.div`
 
 export const NewSimilar = styled.div`
   width: 100%;
+
+  @media (max-width: 630px) {
+    margin-top: 1rem;
+  }
 
   & > .similar {
     width: 100%;
@@ -211,7 +189,6 @@ export const NewSimilar = styled.div`
 
     .popular-slider {
       display: flex;
-      gap: 1rem;
       background-color: ${colors.color7};
       height: auto;
       border-radius: 5px;
@@ -246,22 +223,27 @@ export const NewSimilar = styled.div`
         height: 180px;
         flex: none;
         position: relative;
+        margin-right: 1rem;
 
         @media (max-width: 1330px) {
+          margin-right: 0;
+          margin-bottom: 1rem;
           width: 100%;
-          height: 17vw;
+          height: 19.5vw;
         }
         @media (max-width: 1200px) {
           width: 100%;
-          height: 16.5vw;
+          height: 18vw;
         }
         @media (max-width: 1100px) {
           width: 100%;
-          height: 15vw;
+          height: 17vw;
         }
         @media (max-width: 1049px) {
           width: 115px;
           height: 160px;
+          margin-bottom: 0;
+          margin-right: 1rem;
         }
         @media (max-width: 1000px) {
           width: 110px;
@@ -269,23 +251,29 @@ export const NewSimilar = styled.div`
         }
         @media (max-width: 925px) {
           width: 100%;
-          height: 22vw;
+          height: 24vw;
+          margin-right: 0;
+          margin-bottom: 1rem;
         }
         @media (max-width: 890px) {
           width: 100%;
-          height: 21vw;
+          height: 23vw;
         }
         @media (max-width: 850px) {
           width: 100%;
-          height: 20vw;
+          height: 22vw;
         }
         @media (max-width: 800px) {
           width: 110px;
           height: 150px;
+          margin-bottom: 0;
+          margin-right: 1rem;
         }
         @media (max-width: 630px) {
           width: 100%;
           height: 34vw;
+          margin-right: 0;
+          margin-bottom: 1rem;
         }
         @media (max-width: 610px) {
           height: 33vw;
@@ -302,10 +290,14 @@ export const NewSimilar = styled.div`
         @media (max-width: 500px) {
           width: 110px;
           height: 150px;
+          margin-right: 1rem;
+          margin-bottom: 0;
         }
         @media (max-width: 350px) {
           width: 120px;
           height: 180px;
+          margin-right: 0;
+          margin-bottom: 1rem;
         }
 
         & > img {
@@ -320,7 +312,10 @@ export const NewSimilar = styled.div`
         display: flex;
         flex-direction: column;
         justify-content: center;
-        gap: 5px;
+
+        & > :not(:last-child) {
+          margin-bottom: 5px;
+        }
 
         & > a > h3 {
           width: 100%;
@@ -339,8 +334,11 @@ export const NewSimilar = styled.div`
           font-weight: 400;
           color: #57566c;
           display: flex;
-          gap: 5px;
           align-items: center;
+
+          & > :not(:last-child) {
+            margin-right: 3px;
+          }
 
           & > :last-child {
             width: 100%;
@@ -389,13 +387,17 @@ export const NewSimilar = styled.div`
             display: flex;
             align-items: center;
 
+            & > .popular-voteAverage {
+              margin-left: 5px;
+            }
+
             @media (max-width: 350px) {
               flex-direction: column;
               align-items: flex-start;
-            }
 
-            & > .popular-voteAverage {
-              margin-left: 5px;
+              & > .popular-voteAverage {
+                margin-left: 2px;
+              }
             }
           }
         }
@@ -452,20 +454,33 @@ export const NewSimilar = styled.div`
 export const ImagesContainer = styled.div`
   width: 100%;
 
+  @media (max-width: 700px) {
+    margin-top: ${({ noNewCollectionId }) => (noNewCollectionId ? '8px' : 0)};
+  }
+
   & > .btn-img-posters-logos {
     display: flex;
-    gap: 5px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     justify-content: center;
 
+    & > :not(:last-child) {
+      margin-right: 5px;
+    }
+
     @media (min-width: 1700px) {
-      gap: 8px;
+      & > :not(:last-child) {
+        margin-right: 8px;
+      }
     }
     @media (max-width: 1000px) {
-      gap: 8px;
+      & > :not(:last-child) {
+        margin-right: 8px;
+      }
     }
     @media (max-width: 650px) {
-      gap: 5px;
+      & > :not(:last-child) {
+        margin-right: 5px;
+      }
     }
 
     & > button {
@@ -580,9 +595,18 @@ export const ImagesContainer = styled.div`
 `;
 
 export const Collections = styled.div`
+  margin-top: 8px;
+
+  @media (max-width: 1000px) {
+    margin-top: 0;
+  }
+  @media (max-width: 410px) {
+    margin-top: 8px;
+  }
+
   & > h4 {
     font-size: 1.06rem;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     font-weight: 600;
     color: ${colors.color1};
   }
@@ -702,11 +726,10 @@ export const Collections = styled.div`
 
         & > .popular-details {
           display: flex;
-          gap: 2px;
           color: #57566c;
 
           & > div {
-            padding: 0 2px;
+            margin-left: 3px;
             font-size: 0.81rem;
             font-weight: 500;
             white-space: nowrap;
@@ -728,6 +751,7 @@ export const Collections = styled.div`
 
 export const News = styled.div`
   width: 100%;
+  margin-top: ${({ noMarginTop }) => (noMarginTop ? '0' : '1rem')};
 
   & > h4 {
     font-size: 1.06rem;
@@ -738,7 +762,6 @@ export const News = styled.div`
 
   .popular-slider {
     display: flex;
-    gap: 1rem;
     background-color: ${colors.color7};
     height: auto;
     border-radius: 5px;
@@ -761,6 +784,7 @@ export const News = styled.div`
       height: 180px;
       flex: none;
       position: relative;
+      margin-right: 1rem;
 
       @media (max-width: 1250px) {
         width: 115px;
@@ -773,6 +797,8 @@ export const News = styled.div`
       @media (max-width: 630px) {
         width: 100%;
         height: 34vw;
+        margin-right: 0;
+        margin-bottom: 1rem;
       }
       @media (max-width: 610px) {
         height: 33vw;
@@ -789,10 +815,14 @@ export const News = styled.div`
       @media (max-width: 500px) {
         width: 110px;
         height: 150px;
+        margin-right: 1rem;
+        margin-bottom: 0;
       }
       @media (max-width: 350px) {
         width: 120px;
         height: 180px;
+        margin-right: 0;
+        margin-bottom: 1rem;
       }
 
       & > img {
@@ -807,7 +837,10 @@ export const News = styled.div`
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 5px;
+
+      & > :not(:last-child) {
+        margin-bottom: 5px;
+      }
 
       & > a > h3 {
         width: 100%;
@@ -827,8 +860,11 @@ export const News = styled.div`
         font-weight: 400;
         color: #57566c;
         display: flex;
-        gap: 5px;
         align-items: center;
+
+        & > :not(:last-child) {
+          margin-right: 3px;
+        }
 
         & > :last-child {
           width: 100%;
@@ -878,13 +914,17 @@ export const News = styled.div`
           display: flex;
           align-items: center;
 
+          & > .popular-voteAverage {
+            margin-left: 5px;
+          }
+
           @media (max-width: 350px) {
             flex-direction: column;
             align-items: flex-start;
-          }
 
-          & > .popular-voteAverage {
-            margin-left: 5px;
+            & > .popular-voteAverage {
+              margin-left: 2px;
+            }
           }
         }
       }
@@ -942,6 +982,7 @@ export const TrailerContainer = styled.div`
   position: relative;
   width: 100%;
   height: ${({ setHeight }) => (setHeight ? '500px' : '100%')};
+  margin-top: ${({ marginTop }) => (marginTop ? '1rem' : '0')};
 
   @media (min-width: 2001px) {
     height: ${({ setHeight }) => (setHeight ? '700px' : '100%')};
@@ -976,19 +1017,20 @@ export const TrailerContainer = styled.div`
 export const Description = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  margin-top: 1rem;
 
   @media (max-width: 600px) {
     margin-top: ${({ noMarginTop }) => (noMarginTop ? '0' : '12rem')};
   }
   @media (max-width: 500px) {
-    margin-top: 0;
+    margin-top: 1rem;
   }
 
   & > h4 {
     font-size: 1rem;
     font-weight: 500;
     color: ${colors.color1};
+    margin-bottom: 0.5rem;
   }
 
   & > :last-child {
@@ -1037,9 +1079,10 @@ export const Description = styled.div`
 
 export const MidiaFilesCollectionContainer = styled.div`
   margin-top: ${({ no15Rem }) => (no15Rem ? '0' : '15rem')};
+  margin-left: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+
   width: ${({ width50 }) => (width50 ? '50%' : '100%')};
   height: ${({ setHeight, noNewCollectionId }) =>
     noNewCollectionId ? '400px' : setHeight ? '500px' : 'auto'};
@@ -1049,6 +1092,11 @@ export const MidiaFilesCollectionContainer = styled.div`
   }
   @media (max-width: 1000px) {
     flex-direction: row;
+    margin: 1rem 0;
+
+    & > :not(:last-child) {
+      margin-right: 10px;
+    }
   }
   @media (max-width: 700px) {
     flex-direction: ${({ noNewCollectionId }) =>
@@ -1059,6 +1107,10 @@ export const MidiaFilesCollectionContainer = styled.div`
   @media (max-width: 410px) {
     flex-direction: column;
     height: ${({ setHeight }) => (setHeight ? '600px' : 'auto')};
+
+    & > :not(:last-child) {
+      margin-right: 0;
+    }
   }
   @media (max-width: 350px) {
     flex-direction: column;
@@ -1143,10 +1195,10 @@ export const DetailsAndSimilarContainer = styled.div`
   margin-top: 6.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
   overflow: hidden;
   width: ${({ width50AndFlexNone }) => (width50AndFlexNone ? '50%' : 'auto')};
   flex: ${({ width50AndFlexNone }) => (width50AndFlexNone ? 'none' : 'auto')};
+  margin-bottom: ${({ noMarginBottom }) => (noMarginBottom ? '0' : '1rem')};
 
   @media (min-width: 1700px) {
     margin-top: 8.4rem;
@@ -1160,6 +1212,9 @@ export const DetailsAndSimilarContainer = styled.div`
   @media (max-width: 1049px) {
     width: ${({ width50AndFlexNone }) => (width50AndFlexNone ? '44%' : 'auto')};
   }
+  @media (max-width: 1000px) {
+    margin-bottom: 0;
+  }
   @media (max-width: 720px) {
     margin-top: 3.5rem;
   }
@@ -1170,10 +1225,16 @@ export const DetailsAndSimilarContainer = styled.div`
   & > .d1 {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    margin-bottom: 1.2rem;
+
+    & > :not(:last-child) {
+      margin-bottom: 12px;
+    }
 
     @media (max-width: 400px) {
-      gap: 0;
+      & > :not(:last-child) {
+        margin-bottom: 0;
+      }
     }
 
     & > h1 {
@@ -1201,27 +1262,37 @@ export const DetailsAndSimilarContainer = styled.div`
         justify-content: space-between;
         align-items: center;
         width: 100%;
-        gap: 10px;
+
+        & > :last-child {
+          margin-left: 10px;
+        }
       }
 
       & > .year-genre-details {
         display: flex;
-        gap: 5px;
         color: ${colors.color1};
         font-weight: 400;
         font-size: 0.96rem;
+
+        & > :not(:last-child) {
+          margin-right: 5px;
+        }
 
         & > :first-child {
           white-space: nowrap;
         }
 
         & > :last-child {
-          max-width: 133px;
+          max-width: 100%;
           overflow: hidden;
           text-overflow: ellipsis;
           display: -webkit-box;
           -webkit-line-clamp: 1;
           -webkit-box-orient: vertical;
+
+          @media (max-width: 400px) {
+            max-width: 133px;
+          }
         }
       }
     }
@@ -1233,14 +1304,20 @@ export const DetailsAndSimilarContainer = styled.div`
 
       @media (max-width: 600px) {
         flex-direction: row;
-        gap: 8px;
       }
 
       &:last-child {
         & > :first-child {
           display: flex;
-          gap: 5px;
           align-items: center;
+
+          @media (max-width: 600px) {
+            margin-left: 8px;
+          }
+
+          & > :last-child {
+            margin-left: 5px;
+          }
         }
       }
     }
@@ -1249,9 +1326,14 @@ export const DetailsAndSimilarContainer = styled.div`
   & > .d2 {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
 
     & > .about-details {
+      margin-bottom: ${({ noMarginBottom }) => (noMarginBottom ? '0' : '1rem')};
+
+      @media (max-width: 630px) {
+        margin-bottom: 0;
+      }
+
       & > h4 {
         font-size: 1.06rem;
         margin-bottom: 12px;
@@ -1261,8 +1343,7 @@ export const DetailsAndSimilarContainer = styled.div`
 
       & > .about {
         display: flex;
-        gap: 10px;
-        max-width: 700px;
+        max-width: 800px;
         justify-content: space-between;
 
         @media (max-width: 720px) {
@@ -1275,6 +1356,10 @@ export const DetailsAndSimilarContainer = styled.div`
           flex-direction: column;
         }
 
+        & > :first-child {
+          margin-right: 1rem;
+        }
+
         & > div {
           & > :nth-child(1),
           & > :nth-child(2) {
@@ -1283,12 +1368,18 @@ export const DetailsAndSimilarContainer = styled.div`
 
           & > div {
             display: flex;
-            gap: 8px;
+
+            & > :first-child {
+              margin-right: 8px;
+            }
 
             & > ul {
               display: flex;
               flex-direction: column;
-              gap: 3px;
+
+              & > :not(:last-child) {
+                margin-bottom: 3px;
+              }
 
               & > li {
                 color: #57566c;

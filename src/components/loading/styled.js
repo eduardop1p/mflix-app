@@ -15,13 +15,12 @@ export const LoadingStyled = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 1rem;
 
   & > h1 {
     font-size: 2rem;
     color: ${colors.color1};
     font-weight: 500;
-    gap: 0.5rem;
+    margin-bottom: 10px;
   }
 `;
 
