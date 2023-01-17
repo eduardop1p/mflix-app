@@ -283,8 +283,11 @@ export const Filters = styled.div`
       margin-bottom: 0;
     }
 
-    & > :nth-child(3) {
-      margin: 0 14px;
+    & > :nth-child(1) {
+      margin-right: 14px;
+    }
+    & > :nth-child(2) {
+      margin-left: ${({ noMargin }) => (noMargin ? '0' : '14px')};
     }
   }
   @media (max-width: 630px) {
@@ -293,8 +296,12 @@ export const Filters = styled.div`
   @media (max-width: 500px) {
     flex-direction: column;
 
-    & > :nth-child(3) {
-      margin: 14px 0;
+    & > :nth-child(1) {
+      margin-bottom: 14px;
+    }
+    & > :nth-child(2) {
+      margin-left: 0;
+      margin-top: ${({ noMargin }) => (noMargin ? '0' : '14px')};
     }
   }
 
@@ -305,6 +312,10 @@ export const Filters = styled.div`
   }
 
   & > .genres {
+    @media (min-width: 750px) and (max-width: 1290px) {
+      width: ${({ width70 }) => (width70 ? '70%' : '100%')};
+    }
+
     & > :last-child {
       height: ${({ genresArrowActived }) =>
         genresArrowActived ? '140px' : '0'};
@@ -333,6 +344,8 @@ export const Filters = styled.div`
   }
 
   & > .years {
+    width: 100%;
+
     @media (max-width: 1290px) {
       order: 3;
     }

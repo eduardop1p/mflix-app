@@ -56,7 +56,6 @@ export const MainIndexSearch = styled.main`
     }
 
     & > .not-search-result {
-      margin-bottom: 2rem;
       border-radius: 10px;
       width: 100%;
       height: 350px;
@@ -69,23 +68,47 @@ export const MainIndexSearch = styled.main`
         justify-content: center;
         width: 100%;
         height: 100%;
+        padding: 0 4rem;
+
+        @media (max-width: 750px) {
+          flex-direction: column;
+        }
+        @media (max-width: 580px) {
+          padding: 0 3rem;
+        }
 
         & > img {
           width: 75px;
         }
 
         & > .not-search-details {
-          margin-left: 4rem;
+          margin-left: 3rem;
+
+          @media (max-width: 950px) {
+            margin-left: 2rem;
+          }
+          @media (max-width: 750px) {
+            margin-left: 0;
+            margin-top: 1rem;
+          }
 
           & > h2 {
             color: ${colors.color1};
             font-size: 1.5rem;
+
+            @media (max-width: 750px) {
+              text-align: center;
+            }
           }
 
           & > ul {
             margin-left: 15px;
-            margin-top: 10px;
+            margin-top: 8px;
             list-style: disc;
+
+            @media (max-width: 750px) {
+              margin-top: 5px;
+            }
 
             & > li {
               color: ${colors.color1};

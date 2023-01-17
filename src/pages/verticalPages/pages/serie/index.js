@@ -218,6 +218,8 @@ export default function SeriesV() {
       <Filters
         genresArrowActived={genresArrowActived}
         yearsArrowActived={yearsArrowActived}
+        noMargin
+        width70
       >
         <div className="vertical genres">
           <div>

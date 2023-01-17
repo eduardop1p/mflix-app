@@ -295,6 +295,8 @@ export default function Home() {
       <Filters
         genresArrowActived={genresArrowActived}
         yearsArrowActived={yearsArrowActived}
+        noMargin
+        width70
       >
         <div className="vertical genres">
           <div>
