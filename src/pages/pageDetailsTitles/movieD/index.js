@@ -1006,6 +1006,7 @@ function MidiaFilesCollectionContainerAutoHeight(props) {
   useEffect(() => {
     autoHeight();
 
+    if (Math.round(window.devicePixelRatio * 100) !== 100) autoHeight();
     window.onresize = () => autoHeight();
   });
 

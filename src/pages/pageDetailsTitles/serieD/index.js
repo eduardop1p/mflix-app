@@ -943,14 +943,13 @@ function MidiaFilesCollectionContainerAutoHeight(props) {
   useEffect(() => {
     autoHeight();
 
+    if (Math.round(window.devicePixelRatio * 100) !== 100) autoHeight();
     window.onresize = () => autoHeight();
   });
 
   function autoHeight() {
     const D2 = document.querySelector('.d2');
-
     const getD2Height = window.getComputedStyle(D2).height;
-
     setMFCContinerHeigth(getD2Height);
   }
 

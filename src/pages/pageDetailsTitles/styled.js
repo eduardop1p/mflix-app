@@ -1082,7 +1082,7 @@ export const Description = styled.div`
 `;
 
 export const MidiaFilesCollectionContainer = styled.div`
-  margin-top: ${({ no15Rem }) => (no15Rem ? '0' : '15rem')};
+  margin-top: ${({ no15Rem }) => (no15Rem ? '0' : '15.2rem')};
   margin-left: 1rem;
   display: flex;
   flex-direction: column;
