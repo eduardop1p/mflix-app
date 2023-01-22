@@ -11,6 +11,7 @@ import * as actionsLogin from '../../storeReactRedux/modules/auth/actions';
 import axiosUserBaseUrl from '../../services/axiosUserBaseUrl';
 import LoadingForm from '../../components/loadingForm/index';
 import MessageForm from '../../components/messageForm';
+import ShowPassword from '../../components/showPassword';
 import clearDataUser, {
   clearDataUserSession,
 } from '../../config/clearDataUserConfig';
@@ -32,7 +33,7 @@ export default function Login(props) {
     setTimeout(() => dispatch(actions.loadingFailure()), 500);
   }, []);
 
-  function showPassword() {
+  function setShowPassword() {
     inputPasswordType !== 'text'
       ? setInputPasswordType('text')
       : setInputPasswordType('password');
@@ -117,34 +118,21 @@ export default function Login(props) {
               value={inputEmailValue}
               onChange={(event) => setInputEmailValue(event.target.value)}
             />
-            <input
-              type={inputPasswordType}
-              placeholder="Senha"
-              id="password"
-              name="password"
-              maxLength="9"
-            />
-            <div className="showPassword" onClick={showPassword}>
-              {inputPasswordType !== 'text' ? (
-                <svg
-                  fill="#2E2D3B"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="100%"
-                  width="100%"
-                >
-                  <path d="M5.583 17.792q-.583 0-.989-.407-.406-.406-.406-.989V8.521q0-.583.406-.99.406-.406.989-.406h.563V5.167q0-1.605 1.125-2.729Q8.396 1.312 10 1.312q1.625 0 2.74 1.126 1.114 1.124 1.114 2.729v1.958h.563q.583 0 .989.406.406.407.406.99v7.875q0 .583-.406.989-.406.407-.989.407ZM10 13.896q.604 0 1.021-.427.417-.427.417-1.011 0-.604-.428-1.02-.427-.417-1.01-.417-.604 0-1.021.427-.417.427-.417 1.01 0 .604.428 1.021.427.417 1.01.417ZM7.542 7.125h4.916V5.167q0-1.021-.718-1.74-.719-.719-1.74-.719t-1.74.719q-.718.719-.718 1.74Z" />
-                </svg>
-              ) : (
-                <svg
-                  fill="#2E2D3B"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="100%"
-                  width="100%"
-                >
-                  <path d="M5.583 7.125h6.875V5.167q0-1.021-.718-1.74-.719-.719-1.74-.719t-1.74.719q-.718.719-.718 1.74H6.146q0-1.625 1.125-2.74Q8.396 1.312 10 1.312q1.625 0 2.74 1.126 1.114 1.124 1.114 2.729v1.958h.563q.583 0 .989.406.406.407.406.99v7.875q0 .583-.406.989-.406.407-.989.407H5.583q-.583 0-.989-.407-.406-.406-.406-.989V8.521q0-.583.406-.99.406-.406.989-.406ZM10 13.896q.604 0 1.021-.427.417-.427.417-1.011 0-.604-.428-1.02-.427-.417-1.01-.417-.604 0-1.021.427-.417.427-.417 1.01 0 .604.428 1.021.427.417 1.01.417Z" />
-                </svg>
-              )}
+            <div className="input-and-show-password">
+              <input
+                type={inputPasswordType}
+                placeholder="Senha"
+                id="password"
+                name="password"
+                maxLength="9"
+              />
+
+              <ShowPassword
+                inputPasswordType={inputPasswordType}
+                setShowPassword={setShowPassword}
+              />
             </div>
+
             <button className="submit-login" type="submit">
               Login
             </button>

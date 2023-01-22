@@ -1,5 +1,4 @@
 import { Helmet } from 'react-helmet-async';
-import { Context as ResponsiveContext } from 'react-responsive';
 
 /* eslint-disable */
 
@@ -19,9 +18,7 @@ export default function Movies() {
       <Main>
         <New />
         <AllCatalog />
-        <ResponsiveContext.Provider value={{ maxWidth: 500 }}>
-          <Popular />
-        </ResponsiveContext.Provider>
+        <Popular />
         <Future />
       </Main>
       <Footer />

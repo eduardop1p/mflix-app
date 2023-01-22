@@ -44,7 +44,12 @@ export const LoginSection = styled.section`
       flex-direction: column;
       position: relative;
 
-      & > input {
+      .input-and-show-password {
+        position: relative;
+        width: 100%;
+      }
+
+      input {
         margin-bottom: 10px;
         padding: 8px 12px;
         border: none;
@@ -52,23 +57,10 @@ export const LoginSection = styled.section`
         background-color: #ddd;
         font-weight: 500;
         color: ${colors.color6};
+        width: 100%;
       }
 
-      & > .showPassword {
-        position: absolute;
-        right: 8px;
-        cursor: pointer;
-        z-index: 5;
-        bottom: 3.1rem;
-        width: 18px;
-        height: 18px;
-
-        & > svg {
-          transform: scale(0.85);
-        }
-      }
-
-      & > .submit-login {
+      .submit-login {
         font-weight: 500;
         padding: 8px 1.2rem;
         width: 100px;

@@ -163,7 +163,7 @@ export default class Popular extends Component {
                             ? result.first_air_date.slice(0, 4)
                             : 'Not Data'}
                         </div>
-                        &sdot;
+                        <span>&sdot;</span>
                         <div className="popular-genre-genre">
                           {allGenres &&
                             allGenres.genres.map(

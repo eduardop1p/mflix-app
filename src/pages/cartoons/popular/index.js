@@ -182,7 +182,7 @@ export default class Popular extends Component {
                               {result.first_air_date &&
                                 result.first_air_date.slice(0, 4)}
                             </div>
-                            &sdot;
+                            <span>&sdot;</span>
                             <div className="popular-genre-genre">Animação</div>
                           </div>
                           <div className="popular-imdb-rating-voteAverage">

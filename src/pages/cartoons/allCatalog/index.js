@@ -288,9 +288,9 @@ class AllCatalog extends Component {
             <span>{releaseDate}</span>
             <div className="releaseDate">
               <ul>
-                {years.map((year, index) => (
+                {years.map((year) => (
                   <li
-                    key={index}
+                    key={year.toString()}
                     onClick={(event) => this.yearOrGenreActive('year', event)}
                   >
                     {year}

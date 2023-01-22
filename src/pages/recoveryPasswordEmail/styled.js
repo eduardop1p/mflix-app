@@ -10,12 +10,12 @@ export const RecoveryPassworSection = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 0.5rem;
 
   & > h1 {
     font-size: 2rem;
     color: ${colors.color1};
     font-weight: 500;
+    margin-bottom: 0.5rem;
   }
 
   & > div {
@@ -25,12 +25,13 @@ export const RecoveryPassworSection = styled.div`
     padding: 1rem 1rem 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 10px;
     border-radius: 10px;
 
     & > h1 {
       color: ${colors.color6};
       font-weight: 600;
+      margin-bottom: 0.5rem;
+
       font-size: 1.5rem;
     }
 

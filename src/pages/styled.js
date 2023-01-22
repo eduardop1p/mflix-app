@@ -246,7 +246,10 @@ export const Grid = styled.div`
   & > .scrollGridNew {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+
+    & > :not(:last-child) {
+      margin-bottom: 1rem;
+    }
   }
 
   .gridNew {
@@ -322,9 +325,13 @@ export const Grid = styled.div`
         & > .rating {
           color: ${colors.color1};
           display: flex;
-          gap: 12px;
+
           font-size: 0.75rem;
           font-weight: 400;
+
+          & > :last-child {
+            margin-left: 12px;
+          }
         }
 
         & > .date {
@@ -410,27 +417,45 @@ export const CatalogContainer = styled.section`
     position: relative;
     z-index: 7;
     width: 100%;
-    gap: 1rem;
+
     display: flex;
     color: #ddd;
     margin-top: 1.5rem;
     margin-bottom: 1rem;
 
+    & > :not(:last-child) {
+      margin-right: 1rem;
+    }
+
     @media (max-width: 750px) {
-      gap: 12px;
+      & > :not(:last-child) {
+        margin-right: 13px;
+      }
     }
     @media (max-width: 570px) {
       flex-direction: ${({ cartoons }) => (cartoons ? 'row' : 'column')};
+
+      & > :not(:last-child) {
+        margin-right: 0;
+      }
     }
     @media (max-width: 360px) {
       flex-direction: column;
+
+      & > :not(:last-child) {
+        margin-bottom: 13px;
+      }
     }
 
     .mobile-year-genre {
       display: flex;
-      gap: 13px;
       position: relative;
       z-index: 1;
+      margin-bottom: 13px;
+
+      & > :not(:last-child) {
+        margin-right: 13px;
+      }
     }
 
     .genre,
@@ -511,8 +536,12 @@ export const CatalogContainer = styled.section`
           overflow: hidden scroll;
           height: 65%;
           display: flex;
-          gap: 5px;
+
           flex-direction: column;
+
+          & > :not(:last-child) {
+            margin-bottom: 5px;
+          }
 
           &::-webkit-scrollbar {
             width: 3px;
@@ -571,8 +600,11 @@ export const CatalogContainer = styled.section`
           overflow: hidden scroll;
           height: 65%;
           display: flex;
-          gap: 5px;
           flex-direction: column;
+
+          & > :not(:last-child) {
+            margin-bottom: 5px;
+          }
 
           &::-webkit-scrollbar {
             width: 3px;
@@ -614,12 +646,12 @@ export const CatalogContainer = styled.section`
       & > div {
         display: flex;
         align-items: center;
-        gap: 10px;
         width: 100%;
 
         & > svg {
           flex-shrink: 0;
           cursor: pointer;
+          margin-right: 10px;
         }
 
         form {
@@ -769,8 +801,11 @@ export const PagenationContainer = styled.div`
 
   ul {
     display: flex;
-    gap: 10px;
     list-style: none;
+
+    & > :not(:last-child) {
+      margin-right: 10px;
+    }
 
     & > li {
       background-color: ${colors.color7};
@@ -826,8 +861,11 @@ export const PopularContainer = styled.section`
 
     & > .navigation-popularBy {
       display: flex;
-      gap: 8px;
       margin-left: 2rem;
+
+      & > :first-child {
+        margin-right: 8px;
+      }
 
       @media (max-width: 330px) {
         margin-left: 1rem;
@@ -958,7 +996,10 @@ export const PopularTitles = styled.div`
     & > .popular-details {
       display: flex;
       flex-direction: column;
-      gap: 9px;
+
+      & > :not(:last-child) {
+        margin-bottom: 8px;
+      }
 
       @media (max-width: 1100px) {
         margin: 0;
@@ -996,8 +1037,12 @@ export const PopularTitles = styled.div`
         font-size: 0.81rem;
         font-weight: 400;
         color: ${colors.color5};
-        gap: 5px;
+
         display: flex;
+
+        & > :not(:last-child) {
+          margin-right: 3px;
+        }
       }
 
       & > .popular-imdb-rating-voteAverage {
@@ -1065,7 +1110,7 @@ export const FutureContainer = styled.section`
     .future-mobile-img-details {
       display: flex;
       flex-direction: column;
-      height: 420px;
+      height: 390px;
 
       @media (max-width: 950px) {
         margin-right: 1rem;
@@ -1083,8 +1128,8 @@ export const FutureContainer = styled.section`
     }
 
     .future-img {
-      width: 280px;
-      height: 420px;
+      width: 260px;
+      height: 390px;
       position: relative;
       flex-shrink: 0;
 
@@ -1129,16 +1174,22 @@ export const FutureContainer = styled.section`
       margin: 1rem 1.5rem 0;
       display: flex;
       flex-direction: column;
-      gap: 12px;
       flex-shrink: 0;
 
-      @media (max-width: 1150px) {
+      & > :not(:last-child) {
+        margin-bottom: 12px;
+      }
+
+      @media (max-width: 1150px), (min-width: 1701px) {
         width: 185px;
       }
       @media (max-width: 950px) {
         margin: 10px 0 0;
         width: 200px;
-        gap: 5px;
+
+        & > :not(:last-child) {
+          margin-bottom: 5px;
+        }
       }
       @media (max-width: 700px) {
         width: calc(100vw / 3.55);
@@ -1178,16 +1229,25 @@ export const FutureContainer = styled.section`
       & > .future-release-date {
         font-size: 0.87rem;
         display: flex;
-        gap: 8px;
         color: ${colors.color5};
 
+        & > :last-child {
+          margin-left: 8px;
+        }
+
         @media (max-width: 330px) {
-          gap: 0;
           flex-direction: column;
+
+          & > :last-child {
+            margin-left: 0;
+          }
         }
         @media (max-width: 310px) {
-          gap: 8px;
           flex-direction: row;
+
+          & > :last-child {
+            margin-left: 8px;
+          }
         }
 
         & > span {
@@ -1198,7 +1258,7 @@ export const FutureContainer = styled.section`
       & > .future-info {
         font-size: 0.81rem;
         color: ${colors.color5};
-        height: 300px;
+        height: 260px;
         overflow: hidden scroll;
 
         @media (max-width: 950px) {
@@ -1241,7 +1301,7 @@ export const FutureContainer = styled.section`
       border-radius: 1rem;
       overflow: hidden;
       width: 100%;
-      height: 420px;
+      height: 390px;
       background-color: #111;
       position: relative;
       display: flex;
