@@ -551,7 +551,7 @@ export default function MovieD(props) {
               <TrailerMovie id={id} loadingDetails="eager" />
             </TrailerContainer>
           )}
-          <NewComponent news={news} allGenres={allGenres} />
+          <NewComponent news={news} allGenres={allGenres} marginTop />
         </ContainerDatails>
       )}
     </Main>
@@ -820,7 +820,7 @@ function LayoutNoSimilarNofilesNoCollection(props) {
           <TrailerContainer setHeight marginTop>
             <TrailerMovie id={id} loadingDetails="eager" />
           </TrailerContainer>
-          <NewComponent news={news} allGenres={allGenres} />
+          <NewComponent news={news} allGenres={allGenres} marginTop />
         </ContainerDatails>
       )}
     </Main>
@@ -1003,17 +1003,16 @@ function MidiaFilesCollectionContainerAutoHeight(props) {
 
   const [MFCContinerHeigth, setMFCContinerHeigth] = useState('450px');
 
-  const D2 = document.querySelector('.d2');
-
   useEffect(() => {
     autoHeight();
+
     window.onresize = () => autoHeight();
-  }, [MFCContinerHeigth, D2]);
+  });
 
   function autoHeight() {
-    if (!D2) return;
-    const getD2Height = window.getComputedStyle(D2).height;
+    const D2 = document.querySelector('.d2');
 
+    const getD2Height = window.getComputedStyle(D2).height;
     setMFCContinerHeigth(getD2Height);
   }
 
@@ -1334,10 +1333,10 @@ function DescriptionComponent(props) {
 }
 
 function NewComponent(props) {
-  const { news, allGenres } = props;
+  const { news, allGenres, marginTop } = props;
 
   return (
-    <News>
+    <News marginTop={marginTop}>
       <h4>Novos filmes</h4>
       <Swiper
         autoplay={{

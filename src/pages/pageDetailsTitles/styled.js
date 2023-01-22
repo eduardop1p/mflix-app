@@ -753,6 +753,10 @@ export const News = styled.div`
   width: 100%;
   margin-top: 1rem;
 
+  @media (max-width: 1000px) {
+    margin-top: ${({ marginTop }) => (marginTop ? '1rem' : '0')};
+  }
+
   & > h4 {
     font-size: 1.06rem;
     margin-bottom: 12px;

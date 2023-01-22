@@ -542,7 +542,7 @@ function LayoutNoSimilarNofiles(props) {
           <TrailerContainer setHeight marginTop>
             <SerieTrailer id={id} loadingDetails="eager" />
           </TrailerContainer>
-          <NewComponent news={news} allGenres={allGenres} />
+          <NewComponent news={news} allGenres={allGenres} marginTop />
         </ContainerDatails>
       )}
     </Main>
@@ -940,15 +940,15 @@ function MidiaFilesCollectionContainerAutoHeight(props) {
 
   const [MFCContinerHeigth, setMFCContinerHeigth] = useState('450px');
 
-  const D2 = document.querySelector('.d2');
-
   useEffect(() => {
     autoHeight();
+
     window.onresize = () => autoHeight();
-  }, [MFCContinerHeigth, D2]);
+  });
 
   function autoHeight() {
-    if (!D2) return;
+    const D2 = document.querySelector('.d2');
+
     const getD2Height = window.getComputedStyle(D2).height;
 
     setMFCContinerHeigth(getD2Height);
@@ -1045,9 +1045,9 @@ function ImagesComponent(props) {
   );
 }
 
-function NewComponent({ news, allGenres }) {
+function NewComponent({ news, allGenres, marginTop }) {
   return (
-    <News>
+    <News marginTop={marginTop}>
       <h4>Novas series</h4>
       <Swiper
         autoplay={{
