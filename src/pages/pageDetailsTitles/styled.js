@@ -59,6 +59,10 @@ export const ContainerDatails = styled.div`
   flex-direction: column;
   width: 100%;
 
+  @media (max-width: 400px) {
+    padding: 8px;
+  }
+
   h5 {
     font-size: 0.78rem;
     font-weight: 600;
@@ -203,29 +207,6 @@ export const NewSimilar = styled.div`
       padding: 10px;
       justify-content: space-between;
 
-      @media (max-width: 1330px) {
-        flex-direction: column;
-      }
-      @media (max-width: 1049px) {
-        flex-direction: row;
-      }
-      @media (max-width: 925px) {
-        flex-direction: column;
-      }
-      @media (max-width: 800px) {
-        flex-direction: row;
-      }
-      @media (max-width: 630px) {
-        flex-direction: column;
-      }
-      @media (max-width: 500px) {
-        flex-direction: row;
-      }
-      @media (max-width: 350px) {
-        align-items: center;
-        flex-direction: column;
-      }
-
       & > .popular-img {
         width: 125px;
         height: 180px;
@@ -233,79 +214,13 @@ export const NewSimilar = styled.div`
         position: relative;
         margin-right: 1rem;
 
-        @media (max-width: 1330px) {
-          margin-right: 0;
-          margin-bottom: 1rem;
-          width: 100%;
-          height: 19.5vw;
-        }
-        @media (max-width: 1200px) {
-          width: 100%;
-          height: 18vw;
-        }
-        @media (max-width: 1100px) {
-          width: 100%;
-          height: 17vw;
-        }
-        @media (max-width: 1049px) {
+        @media (max-width: 1290px) {
           width: 115px;
           height: 160px;
-          margin-bottom: 0;
-          margin-right: 1rem;
-        }
-        @media (max-width: 1000px) {
-          width: 110px;
-          height: 150px;
-        }
-        @media (max-width: 925px) {
-          width: 100%;
-          height: 24vw;
-          margin-right: 0;
-          margin-bottom: 1rem;
-        }
-        @media (max-width: 890px) {
-          width: 100%;
-          height: 23vw;
-        }
-        @media (max-width: 850px) {
-          width: 100%;
-          height: 22vw;
-        }
-        @media (max-width: 800px) {
-          width: 110px;
-          height: 150px;
-          margin-bottom: 0;
-          margin-right: 1rem;
-        }
-        @media (max-width: 630px) {
-          width: 100%;
-          height: 34vw;
-          margin-right: 0;
-          margin-bottom: 1rem;
-        }
-        @media (max-width: 610px) {
-          height: 33vw;
-        }
-        @media (max-width: 580px) {
-          height: 32vw;
-        }
-        @media (max-width: 550px) {
-          height: 31vw;
-        }
-        @media (max-width: 520px) {
-          height: 29.5vw;
         }
         @media (max-width: 500px) {
           width: 110px;
           height: 150px;
-          margin-right: 1rem;
-          margin-bottom: 0;
-        }
-        @media (max-width: 350px) {
-          width: 120px;
-          height: 180px;
-          margin-right: 0;
-          margin-bottom: 1rem;
         }
 
         & > img {
@@ -363,8 +278,9 @@ export const NewSimilar = styled.div`
           font-size: 0.81rem;
           flex: none;
           color: #57566c;
-          max-width: 10rem;
-          height: 34px;
+          width: 100%;
+          max-height: 34px;
+          height: auto;
           overflow: hidden;
 
           &:hover,
@@ -398,15 +314,6 @@ export const NewSimilar = styled.div`
             & > .popular-voteAverage {
               margin-left: 5px;
             }
-
-            @media (max-width: 350px) {
-              flex-direction: column;
-              align-items: flex-start;
-
-              & > .popular-voteAverage {
-                margin-left: 2px;
-              }
-            }
           }
         }
 
@@ -421,33 +328,19 @@ export const NewSimilar = styled.div`
           transition: all 0.2s ease-in-out;
           white-space: nowrap;
           text-align: center;
+          margin: 0 auto;
 
-          @media (max-width: 1330px) and (min-width: 1050px),
-            (max-width: 930px) and (min-width: 801px) {
-            padding: 8px 0;
-            width: 100%;
-          }
-          @media (max-width: 1049px) and (min-width: 956px),
-            (max-width: 800px) {
-            width: fit-content;
-            padding: 8px 1.2re;
-          }
           @media (max-width: 630px) {
             padding: 8px 0;
             width: 100%;
           }
-          @media (max-width: 500px) {
+          @media (max-width: 584px) {
             width: fit-content;
             padding: 8px 1.2rem;
           }
-          @media (max-width: 360px) {
+          @media (max-width: 330px) {
             padding: 8px 0;
             width: 100%;
-          }
-          @media (max-width: 350px) {
-            width: fit-content;
-            padding: 8px 1.2rem;
-            margin: 0 auto;
           }
 
           &:hover {
@@ -780,17 +673,6 @@ export const News = styled.div`
     padding: 10px;
     justify-content: space-between;
 
-    @media (max-width: 630px) {
-      flex-direction: column;
-    }
-    @media (max-width: 500px) {
-      flex-direction: row;
-    }
-    @media (max-width: 350px) {
-      align-items: center;
-      flex-direction: column;
-    }
-
     & > .popular-img {
       width: 125px;
       height: 180px;
@@ -798,43 +680,13 @@ export const News = styled.div`
       position: relative;
       margin-right: 1rem;
 
-      @media (max-width: 1250px) {
+      @media (max-width: 1290px) {
         width: 115px;
         height: 160px;
-      }
-      @media (max-width: 1025px) {
-        width: 110px;
-        height: 150px;
-      }
-      @media (max-width: 630px) {
-        width: 100%;
-        height: 34vw;
-        margin-right: 0;
-        margin-bottom: 1rem;
-      }
-      @media (max-width: 610px) {
-        height: 33vw;
-      }
-      @media (max-width: 580px) {
-        height: 32vw;
-      }
-      @media (max-width: 550px) {
-        height: 31vw;
-      }
-      @media (max-width: 520px) {
-        height: 29.5vw;
       }
       @media (max-width: 500px) {
         width: 110px;
         height: 150px;
-        margin-right: 1rem;
-        margin-bottom: 0;
-      }
-      @media (max-width: 350px) {
-        width: 120px;
-        height: 180px;
-        margin-right: 0;
-        margin-bottom: 1rem;
       }
 
       & > img {
@@ -894,8 +746,9 @@ export const News = styled.div`
         flex: none;
         font-weight: 400;
         color: #57566c;
-        max-width: 10rem;
-        height: 34px;
+        width: 100%;
+        max-height: 34px;
+        height: auto;
         overflow: hidden;
 
         &:hover,
@@ -929,15 +782,6 @@ export const News = styled.div`
           & > .popular-voteAverage {
             margin-left: 5px;
           }
-
-          @media (max-width: 350px) {
-            flex-direction: column;
-            align-items: flex-start;
-
-            & > .popular-voteAverage {
-              margin-left: 2px;
-            }
-          }
         }
       }
 
@@ -952,31 +796,27 @@ export const News = styled.div`
         transition: all 0.2s ease-in-out;
         white-space: nowrap;
         text-align: center;
+        margin: 0 auto;
 
-        @media (max-width: 950px) and (min-width: 901px), (max-width: 650px) {
+        @media (max-width: 950px) and (min-width: 901px) {
           padding: 8px 0;
           width: 100%;
         }
-        @media (max-width: 900px) and (min-width: 651px) {
+        @media (max-width: 900px) and (min-width: 601px) {
           padding: 8px 1.2rem;
           width: fit-content;
         }
-        @media (max-width: 630px) {
+        @media (max-width: 600px) {
           padding: 8px 0;
           width: 100%;
         }
-        @media (max-width: 500px) {
+        @media (max-width: 585px) {
           width: fit-content;
           padding: 8px 1.2rem;
         }
-        @media (max-width: 360px) {
+        @media (max-width: 330px) {
           padding: 8px 0;
           width: 100%;
-        }
-        @media (max-width: 350px) {
-          width: fit-content;
-          padding: 8px 1.2rem;
-          margin: 0 auto;
         }
 
         &:hover {
@@ -996,9 +836,6 @@ export const TrailerContainer = styled.div`
   height: ${({ setHeight }) => (setHeight ? '500px' : '100%')};
   margin-top: ${({ marginTop }) => (marginTop ? '1rem' : '0')};
 
-  @media (min-width: 2001px) {
-    height: ${({ setHeight }) => (setHeight ? '700px' : '100%')};
-  }
   @media (min-width: 1700px) and (max-width: 2000px) {
     height: ${({ setHeight }) => (setHeight ? '600px' : '100%')};
   }
@@ -1055,9 +892,6 @@ export const Description = styled.div`
     overflow: hidden;
     padding-right: 8px;
 
-    @media (max-width: 1330px) and (min-width: 1050px) {
-      height: ${({ overview }) => (overview ? '340px' : 'fit-content')};
-    }
     @media (max-width: 630px) {
       height: ${({ overview }) => (overview ? '65px' : 'fit-content')};
     }

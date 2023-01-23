@@ -1243,13 +1243,12 @@ function NewSimilarComponent(props) {
             breakpoints={{
               2200: { slidesPerView: 4 },
               1700: { slidesPerView: 3 },
-              1331: { slidesPerView: 2 },
-              1050: { slidesPerView: 3 },
+              1330: { slidesPerView: 2 },
               1001: { slidesPerView: 1 },
               926: { slidesPerView: 2 },
-              801: { slidesPerView: 3 },
+
               631: { slidesPerView: 1 },
-              501: { slidesPerView: 3 },
+              585: { slidesPerView: 2 },
               0: { slidesPerView: 1 },
             }}
             loop
@@ -1372,8 +1371,7 @@ function NewComponent(props) {
           1800: { slidesPerView: 5 },
           1320: { slidesPerView: 4 },
           901: { slidesPerView: 3 },
-          631: { slidesPerView: 2 },
-          501: { slidesPerView: 3 },
+          585: { slidesPerView: 2 },
           0: { slidesPerView: 1 },
         }}
         loop

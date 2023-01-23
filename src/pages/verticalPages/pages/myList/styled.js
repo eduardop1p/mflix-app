@@ -7,7 +7,7 @@ const VerticalDivMyList = styled.div`
   margin: 1rem 0 1rem 8px;
 
   @media (max-width: 800px) {
-    margin: 10px 0 10px 10px;
+    margin: 5px 0 5px 5px;
   }
 
   @media (max-width: 750px) {

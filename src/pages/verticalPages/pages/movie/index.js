@@ -404,8 +404,7 @@ export default function MovieV() {
                   2400: { slidesPerView: 5 },
                   1900: { slidesPerView: 4 },
                   1021: { slidesPerView: 3 },
-                  630: { slidesPerView: 2 },
-                  501: { slidesPerView: 3 },
+                  560: { slidesPerView: 2 },
                   0: { slidesPerView: 1 },
                 }}
                 loop={true}

@@ -608,16 +608,6 @@ export const New = styled.div`
     height: 100%;
     padding: 10px;
 
-    @media (max-width: 629px) {
-      flex-direction: column;
-    }
-    @media (max-width: 500px) {
-      flex-direction: row;
-    }
-    @media (max-width: 345px) {
-      flex-direction: column;
-    }
-
     & > .popular-img {
       width: 125px;
       height: 180px;
@@ -628,23 +618,9 @@ export const New = styled.div`
         width: 115px;
         height: 160px;
       }
-      @media (max-width: 629px) {
-        width: 100%;
-        height: 35.8vw;
-      }
-      @media (max-width: 580px) {
-        height: 34.8vw;
-      }
-      @media (max-width: 540px) {
-        height: 33vw;
-      }
       @media (max-width: 500px) {
         width: 110px;
         height: 150px;
-      }
-      @media (max-width: 345px) {
-        width: 120px;
-        height: 180px;
       }
 
       & > .movie-or-serie {
@@ -670,26 +646,11 @@ export const New = styled.div`
       flex-direction: column;
 
       & > :not(:last-child) {
-        margin-bottom: 8px;
+        margin-bottom: 5px;
       }
 
       @media (max-width: 720px) {
         margin-left: 1rem;
-        & > :not(:last-child) {
-          margin-bottom: 5px;
-        }
-      }
-      @media (max-width: 629px) {
-        margin-top: 1rem;
-        margin-left: 0;
-      }
-      @media (max-width: 500px) {
-        margin-top: 0;
-        margin-left: 1rem;
-      }
-      @media (max-width: 345px) {
-        margin-top: 1rem;
-        margin-left: 0;
       }
 
       & > a > h3 {
@@ -730,8 +691,9 @@ export const New = styled.div`
         font-weight: 400;
         flex: none;
         color: ${colors.color5};
-        max-width: 10rem;
-        height: 34px;
+        width: 100%;
+        max-height: 34px;
+        height: auto;
         overflow: hidden hidden;
         word-break: break-word;
 
@@ -763,15 +725,6 @@ export const New = styled.div`
           display: flex;
           align-items: center;
 
-          @media (max-width: 650px) {
-            flex-direction: column;
-            align-items: normal;
-          }
-          @media (max-width: 629px) {
-            flex-direction: row;
-            align-items: center;
-          }
-
           & > .popular-voteAverage {
             margin-left: 10px;
 
@@ -798,6 +751,7 @@ export const New = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
+        margin: 0 auto;
 
         @media (min-width: 1361px) {
           padding: 8px 1.2rem;
@@ -810,21 +764,17 @@ export const New = styled.div`
           padding: 8px 1.2rem;
           width: fit-content;
         }
-        @media (max-width: 670px) {
+        @media (max-width: 600px) {
           padding: 8px 0;
           width: 100%;
         }
-        @media (max-width: 500px) {
+        @media (max-width: 559px) {
           padding: 8px 1.2rem;
           width: fit-content;
         }
-        @media (max-width: 360px) {
+        @media (max-width: 300px) {
+          padding: 8px 0;
           width: 100%;
-        }
-        @media (max-width: 345px) {
-          padding: 8px 1.2rem;
-          width: fit-content;
-          margin: 0 auto;
         }
 
         &:hover {
@@ -903,40 +853,28 @@ export const Popular = styled.div`
       width: calc(100% / 4);
       height: 35vw;
     }
-    @media (max-width: 700px) {
-      height: 34vw;
-    }
     @media (min-width: 400px) and (max-width: 599px) {
       width: calc(100% / 3);
-      height: 44vw;
+      height: 45vw;
     }
     @media (max-width: 500px) {
-      height: 43vw;
+      height: 44vw;
     }
-    @media (max-width: 480px) {
-      height: 41vw;
-    }
+
     @media (max-width: 450px) {
-      height: 39vw;
+      height: 42vw;
     }
-    @media (max-width: 430px) {
-      height: 37vw;
-    }
+
     @media (max-width: 400px) {
       width: calc(100% / 2);
-      height: 61vw;
-    }
-    @media (max-width: 380px) {
-      height: 59vw;
+      height: 64vw;
     }
     @media (max-width: 350px) {
-      height: 57vw;
+      height: 61vw;
     }
-    @media (max-width: 330px) {
-      height: 55vw;
-    }
+
     @media (max-width: 300px) {
-      height: 53vw;
+      height: 59vw;
       min-height: 159px;
     }
 

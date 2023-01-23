@@ -279,7 +279,7 @@ export const WatchListSection = styled.section`
       @media (max-width: 950px) {
         width: calc(100% / 2);
       }
-      @media (max-width: 750px) {
+      @media (max-width: 800px) {
         padding: 5px;
       }
       @media (max-width: 450px) {
