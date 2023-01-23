@@ -331,19 +331,19 @@ export const WatchListSection = styled.section`
             height: 24vw;
           }
           @media (max-width: 750px) {
-            height: 23vw;
+            height: 25vw;
           }
           @media (max-width: 550px) {
-            height: 22vw;
+            height: 24vw;
           }
           @media (max-width: 450px) {
-            height: 44vw;
+            height: 46vw;
           }
           @media (max-width: 390px) {
-            height: 42vw;
+            height: 44vw;
           }
           @media (max-width: 300px) {
-            height: 45vw;
+            height: 47vw;
             min-height: 103px;
           }
 

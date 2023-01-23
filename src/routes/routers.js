@@ -52,6 +52,7 @@ export default function Routers() {
             </MyRouterMyList>
           }
         />
+        <Route path={`${clearLinkTitle(user.nome)}`} element={<User />} />
       </Route>
 
       <Route path="/vertical" element={<VerticalPages />}>
@@ -83,8 +84,6 @@ export default function Routers() {
           </MyRouter>
         }
       />
-
-      <Route path={`/${clearLinkTitle(user.nome)}`} element={<User />} />
 
       <Route path="/criar-conta" element={<Account />} />
       <Route
