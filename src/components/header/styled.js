@@ -52,17 +52,7 @@ export const HeaderElement = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 2rem 3rem;
-
-  @media (max-width: 680px) {
-    margin: 2rem 2.5rem;
-  }
-  @media (max-width: 570px) {
-    margin: 1.5rem 2rem;
-  }
-  @media (max-width: 445px) {
-    margin: 1.5rem;
-  }
+  margin: 1.5rem;
 
   .section-1 {
     display: flex;

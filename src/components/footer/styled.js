@@ -16,20 +16,10 @@ export const ElementFooter = styled.footer`
     }
 
     .credits-container {
-      margin: 0 3rem;
+      margin: 0 1.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-
-      @media (max-width: 680px) {
-        margin: auto 2.5rem;
-      }
-      @media (max-width: 570px) {
-        margin: auto 2rem;
-      }
-      @media (max-width: 445px) {
-        margin: auto 1.5rem;
-      }
 
       & > .credits {
         font-size: 0.75rem;
