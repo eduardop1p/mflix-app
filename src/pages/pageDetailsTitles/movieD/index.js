@@ -1005,8 +1005,25 @@ function MidiaFilesCollectionContainerAutoHeight(props) {
 
   useEffect(() => {
     autoHeight();
+    const devicePixelRatio = Math.round(window.devicePixelRatio * 100);
 
-    if (Math.round(window.devicePixelRatio * 100) !== 100) autoHeight();
+    if (devicePixelRatio !== 100) {
+      let previousDevicePixelRatio;
+      setInterval(() => {
+        const devicePixelRatio = Math.round(window.devicePixelRatio * 100);
+
+        if (
+          devicePixelRatio !== 100 &&
+          devicePixelRatio !== previousDevicePixelRatio
+        ) {
+          autoHeight();
+          previousDevicePixelRatio = devicePixelRatio;
+        }
+      }, 2000);
+    }
+  }, []);
+
+  useEffect(() => {
     window.onresize = () => autoHeight();
   });
 
@@ -1561,7 +1578,11 @@ function AboutDetailsComponent(props) {
           <div>
             <h5>Bilheteria:</h5>
             <ul>
-              <li>US$&nbsp;{formatCurrency(newId.revenue)}</li>
+              {newId.revenue ? (
+                <li>US$&nbsp;{formatCurrency(newId.revenue)}</li>
+              ) : (
+                <li>Indisponível</li>
+              )}
             </ul>
           </div>
         </div>

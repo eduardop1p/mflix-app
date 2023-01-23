@@ -479,7 +479,13 @@ export default function searchMovie(props) {
                           <div>
                             <h5>Bilheteria:</h5>
                             <ul>
-                              <li>US$&nbsp;{formatCurrency(newsId.revenue)}</li>
+                              {newId.revenue ? (
+                                <li>
+                                  US$&nbsp;{formatCurrency(newId.revenue)}
+                                </li>
+                              ) : (
+                                <li>Indisponível</li>
+                              )}
                             </ul>
                           </div>
                         </div>
