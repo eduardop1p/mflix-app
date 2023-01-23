@@ -79,7 +79,7 @@ export default function MovieD(props) {
   const breakpoint1000 = useMediaQuery({ maxWidth: 1000 });
   const breakpoint630 = useMediaQuery({ maxWidth: 630 });
   const breakpoint600 = useMediaQuery({ maxWidth: 600 });
-  const breakpoint500 = useMediaQuery({ maxWidth: 500 });
+  const breakpoint450 = useMediaQuery({ maxWidth: 450 });
   const breakpoint400 = useMediaQuery({ maxWidth: 400 });
 
   useEffect(() => {
@@ -361,7 +361,7 @@ export default function MovieD(props) {
         breakpoint1000={breakpoint1000}
         breakpoint630={breakpoint630}
         breakpoint600={breakpoint600}
-        breakpoint500={breakpoint500}
+        breakpoint450={breakpoint450}
         breakpoint400={breakpoint400}
         loadingFavorite={loadingFavorite}
       />
@@ -386,7 +386,7 @@ export default function MovieD(props) {
         id={id}
         news={news}
         breakpoint600={breakpoint600}
-        breakpoint500={breakpoint500}
+        breakpoint450={breakpoint450}
         breakpoint400={breakpoint400}
         loadingFavorite={loadingFavorite}
       />
@@ -467,7 +467,7 @@ export default function MovieD(props) {
                     </div>
                   </DetailsAndSimilarContainer>
                 )}
-                {breakpoint600 && !breakpoint500 && (
+                {breakpoint600 && !breakpoint450 && (
                   <DescriptionComponent newId={newId} />
                 )}
               </div>
@@ -516,7 +516,7 @@ export default function MovieD(props) {
               </div>
             </DetailsAndSimilarContainer>
           )}
-          {breakpoint500 && <DescriptionComponent newId={newId} />}
+          {breakpoint450 && <DescriptionComponent newId={newId} />}
 
           {breakpoint630 && (
             <NewSimilarComponent
@@ -585,7 +585,7 @@ function LayoutNoCollection(props) {
     breakpoint1000,
     breakpoint630,
     breakpoint600,
-    breakpoint500,
+    breakpoint450,
     breakpoint400,
     loadingFavorite,
   } = props;
@@ -641,7 +641,7 @@ function LayoutNoCollection(props) {
                     </div>
                   </DetailsAndSimilarContainer>
                 )}
-                {breakpoint600 && !breakpoint500 && (
+                {breakpoint600 && !breakpoint450 && (
                   <DescriptionComponent newId={newId} />
                 )}
                 {!breakpoint1000 && (
@@ -680,7 +680,7 @@ function LayoutNoCollection(props) {
               </div>
             </DetailsAndSimilarContainer>
           )}
-          {breakpoint500 && <DescriptionComponent newId={newId} />}
+          {breakpoint450 && <DescriptionComponent newId={newId} />}
           {breakpoint630 && (
             <NewSimilarComponent
               newSimilarId={newSimilarId}
@@ -737,7 +737,7 @@ function LayoutNoSimilarNofilesNoCollection(props) {
     id,
     news,
     breakpoint600,
-    breakpoint500,
+    breakpoint450,
     breakpoint400,
     loadingFavorite,
   } = props;
@@ -769,7 +769,7 @@ function LayoutNoSimilarNofilesNoCollection(props) {
                   newId={newId}
                   isActiveDescription={breakpoint720 ? true : false}
                 />
-                {breakpoint600 && !breakpoint500 && (
+                {breakpoint600 && !breakpoint450 && (
                   <DescriptionComponent newId={newId} />
                 )}
                 {!breakpoint600 && (
@@ -814,7 +814,7 @@ function LayoutNoSimilarNofilesNoCollection(props) {
               </div>
             </DetailsAndSimilarContainer>
           )}
-          {(breakpoint500 || minBreakPoint721) && (
+          {(breakpoint450 || minBreakPoint721) && (
             <DescriptionComponent newId={newId} noMarginTop />
           )}
           <TrailerContainer setHeight marginTop>

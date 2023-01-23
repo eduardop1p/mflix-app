@@ -10,8 +10,8 @@ export const Container = styled.div`
   background-color: ${colors.color9};
   display: flex;
 
-  @media (max-width: 500px) {
-    padding: 7px;
+  @media (max-width: 750px) {
+    padding: 10px;
   }
 `;
 
@@ -24,15 +24,49 @@ export const ContainerHeaderVertical = styled.header`
   background-color: ${colors.color7};
   padding: 10px;
   border-radius: 1rem 0 0 1rem;
-  min-height: 450px;
+
+  @media (max-width: 750px) {
+    position: fixed;
+    z-index: 8;
+    bottom: 0;
+    flex-direction: row;
+    border-radius: 0;
+    padding: 8px 1.5rem;
+    width: 100%;
+    background-color: ${colors.color8};
+    left: 0;
+
+    @media (max-width: 600px) {
+      padding: 8px 1rem;
+    }
+  }
 
   & > :first-child {
     display: flex;
     flex-direction: column;
     align-items: center;
 
+    @media (max-width: 750px) {
+      flex-direction: row-reverse;
+      justify-content: space-between;
+      width: 100%;
+    }
+
     & > :first-child {
       margin-bottom: 1.5rem;
+
+      @media (max-width: 750px) {
+        margin-bottom: 0;
+        margin-left: 3rem;
+        flex-shrink: 0;
+
+        @media (max-width: 600px) {
+          margin-left: 2rem;
+        }
+        @media (max-width: 360px) {
+          margin-left: 1.5rem;
+        }
+      }
     }
 
     & > .singn-up-vertical {
@@ -57,8 +91,19 @@ export const ContainerHeaderVertical = styled.header`
       flex-direction: column;
       align-items: center;
 
+      @media (max-width: 750px) {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+      }
+
       & > :not(:last-child) {
         margin-bottom: 1.5rem;
+
+        @media (max-width: 750px) {
+          margin-bottom: 0;
+          margin-right: 1rem;
+        }
       }
 
       & > div {
@@ -132,8 +177,9 @@ export const PagesContainer = styled.main`
     }
   }
 
-  @media (max-width: 600px) {
-    width: calc(100% - 65px);
+  @media (max-width: 750px) {
+    width: 100%;
+    margin: 0 0 3.5rem 0;
   }
 
   & > .search-new-popular {

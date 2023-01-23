@@ -1,6 +1,7 @@
 import { NavLink, Outlet, Link } from 'react-router-dom';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
 
 import UserPhoto from '../../components/userPhoto/index';
 import Logo from '../../components/logo/index';
@@ -8,13 +9,16 @@ import { Container, ContainerHeaderVertical } from './styled';
 
 /* eslint-disable */
 export default function VerticalPages() {
-  const isLogedIn = useRef(useSelector((state) => state.auth.isLogedIn));
+  const isLogedIn = useRef(
+    useSelector((state) => state.auth.isLogedIn)
+  ).current;
+  const breakPoint750 = useMediaQuery({ maxWidth: 750 });
 
   return (
     <Container>
       <ContainerHeaderVertical>
         <div>
-          {isLogedIn.current ? (
+          {isLogedIn ? (
             <UserPhoto />
           ) : (
             <Link
@@ -84,9 +88,11 @@ export default function VerticalPages() {
             </div>
           </nav>
         </div>
-        <NavLink reloadDocument title="Home" to="/">
-          <Logo />
-        </NavLink>
+        {!breakPoint750 && (
+          <NavLink reloadDocument title="Home" to="/">
+            <Logo />
+          </NavLink>
+        )}
       </ContainerHeaderVertical>
       <Outlet />
     </Container>

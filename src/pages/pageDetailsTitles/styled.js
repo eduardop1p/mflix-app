@@ -9,6 +9,11 @@ export const Main = styled.main`
   position: relative;
   z-index: 1;
   overflow: hidden;
+
+  @media (max-width: 750px) {
+    width: 100%;
+    margin-bottom: 2.5rem;
+  }
 `;
 
 export const BgImgPageDetails = styled.div`
@@ -21,6 +26,9 @@ export const BgImgPageDetails = styled.div`
 
   @media (min-width: 1700px) {
     height: 280px;
+  }
+  @media (max-width: 750px) {
+    border-radius: 1rem 1rem 0 0;
   }
   @media (max-width: 720px) {
     height: 200px;
@@ -1026,7 +1034,7 @@ export const Description = styled.div`
   @media (max-width: 600px) {
     margin-top: ${({ noMarginTop }) => (noMarginTop ? '0' : '12rem')};
   }
-  @media (max-width: 500px) {
+  @media (max-width: 450px) {
     margin-top: 1rem;
   }
 
@@ -1056,7 +1064,7 @@ export const Description = styled.div`
     @media (max-width: 600px) {
       height: ${({ overview }) => (overview ? '105px' : 'fit-content')};
     }
-    @media (max-width: 500px) {
+    @media (max-width: 450px) {
       max-height: ${({ overview }) => (overview ? '200px' : 'fit-content')};
       height: auto;
     }
