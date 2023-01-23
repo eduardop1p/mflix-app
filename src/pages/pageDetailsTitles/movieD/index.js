@@ -427,6 +427,7 @@ export default function MovieD(props) {
         setshowFormMsg={setshowFormMsg}
       />
 
+      {loadingFavorite && <Loading colorTranparent />}
       {newId && (
         <ContainerDatails newCollectionId newSimilarId>
           {!breakpoint400 && (

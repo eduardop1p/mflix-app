@@ -27,7 +27,7 @@ export const ContainerHeaderVertical = styled.header`
 
   @media (max-width: 750px) {
     position: fixed;
-    z-index: 8;
+    z-index: 7;
     bottom: 0;
     flex-direction: row;
     border-radius: 0;
@@ -124,8 +124,9 @@ export const ContainerHeaderVertical = styled.header`
       }
 
       & > .scale-icon svg {
-        height: 23px;
-        width: 23px;
+        display: inline-block;
+        width: 100%;
+        height: 100%;
         fill: ${colors.color5};
         transition: all 0.2s ease-in-out;
         cursor: pointer;
@@ -140,8 +141,8 @@ export const ContainerHeaderVertical = styled.header`
       }
 
       & > .vertical-search svg {
-        height: 23px;
-        width: 23px;
+        height: 24px;
+        width: 24px;
         fill: ${colors.color5};
         transition: all 0.2s ease-in-out;
         cursor: pointer;
@@ -179,7 +180,7 @@ export const PagesContainer = styled.main`
 
   @media (max-width: 750px) {
     width: 100%;
-    margin: 0 0 3.5rem 0;
+    margin: 0 0 4rem 0;
   }
 
   & > .search-new-popular {
@@ -210,6 +211,7 @@ export const SearchHelpContainer = styled.div`
   form {
     display: flex;
     align-items: center;
+    justify-content: center;
     width: 100%;
     padding: 8px 1.2rem;
     background-color: ${colors.color7};

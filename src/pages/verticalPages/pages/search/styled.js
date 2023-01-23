@@ -10,6 +10,11 @@ export const MainIndexSearch = styled.main`
     margin: 10px 0 10px 10px;
   }
 
+  @media (max-width: 750px) {
+    width: 100%;
+    margin: 0 0 4rem 0;
+  }
+
   & > .search {
     width: 100%;
 
@@ -27,15 +32,19 @@ export const MainIndexSearch = styled.main`
       form {
         display: flex;
         align-items: center;
-        gap: 10px;
         width: 100%;
+        justify-content: center;
 
-        & > button > svg {
-          display: flex;
-          align-items: center;
-          cursor: pointer;
-          fill: ${colors.color5};
-          flex: none;
+        & > button {
+          margin-right: 10px;
+
+          & > svg {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            fill: ${colors.color5};
+            flex: none;
+          }
         }
 
         & > input {

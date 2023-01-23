@@ -9,6 +9,11 @@ const VerticalDivMyList = styled.div`
   @media (max-width: 800px) {
     margin: 10px 0 10px 10px;
   }
+
+  @media (max-width: 750px) {
+    width: 100%;
+    margin: 0 0 2rem 0;
+  }
 `;
 
 export default VerticalDivMyList;

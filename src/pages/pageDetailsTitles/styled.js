@@ -12,7 +12,7 @@ export const Main = styled.main`
 
   @media (max-width: 750px) {
     width: 100%;
-    margin-bottom: 2.5rem;
+    margin-bottom: 3rem;
   }
 `;
 
