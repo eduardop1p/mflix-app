@@ -28,9 +28,7 @@ import {
 export default function AllCatalog() {
   const dispatch = useDispatch();
 
-  dispatch(
-    actions.firstBackgroundSuccess({ background: all[0].backdrop_path })
-  );
+  dispatch(actions.firstBackgroundSuccess({ background: true }));
 
   return;
 
