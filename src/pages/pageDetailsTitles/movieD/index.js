@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Link, useParams, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import SwiperCore, { Navigation, Autoplay } from 'swiper';
+import SwiperCore, { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import axiosRetry from 'axios-retry';
 import { get } from 'lodash';
@@ -1237,7 +1237,6 @@ function NewSimilarComponent(props) {
               pauseOnMouseEnter: true,
             }}
             initialSlide={1}
-            modules={[Navigation]}
             spaceBetween={20}
             slidesPerView={2}
             breakpoints={{
@@ -1363,7 +1362,6 @@ function NewComponent(props) {
           pauseOnMouseEnter: true,
         }}
         initialSlide={1}
-        modules={[Navigation]}
         spaceBetween={20}
         slidesPerView={3}
         breakpoints={{

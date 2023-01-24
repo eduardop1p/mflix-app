@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Link, useParams, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import SwiperCore, { Navigation, Autoplay } from 'swiper';
+import SwiperCore, { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import axiosRetry from 'axios-retry';
 import { useDispatch, useSelector } from 'react-redux';
@@ -779,7 +779,6 @@ function NewSimilarComponent({ newSimilarId, allGenres, noNewCollectionId }) {
                 pauseOnMouseEnter: true,
               }}
               initialSlide={1}
-              modules={[Navigation]}
               spaceBetween={20}
               slidesPerView={2}
               breakpoints={{
@@ -1071,7 +1070,6 @@ function NewComponent({ news, allGenres, marginTop }) {
           pauseOnMouseEnter: true,
         }}
         initialSlide={1}
-        modules={[Navigation]}
         spaceBetween={20}
         slidesPerView={3}
         breakpoints={{
