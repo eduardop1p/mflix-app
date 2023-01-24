@@ -73,7 +73,8 @@ export default function User() {
         setshowFormMsg(true);
         return;
       }
-      setErrorMessage('Erro no servidor.');
+      // setErrorMessage('Erro no servidor.');
+      setErrorMessage(err);
       setshowFormMsg(true);
     } finally {
       setLoadUser(false);
