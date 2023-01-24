@@ -16,8 +16,8 @@ export default function Movies() {
         <title>MFLIX - Filmes</title>
       </Helmet>
       <Main>
-        {/* <New /> */}
-        <AllCatalog />
+        <New />
+        {/* <AllCatalog /> */}
         <Popular />
         <Future />
       </Main>
