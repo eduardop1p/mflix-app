@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { useState, useEffect } from 'react';
-import SwiperCore, { Autoplay } from 'swiper';
+// import SwiperCore, { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMediaQuery } from 'react-responsive';
 import { useSelector, useDispatch } from 'react-redux';
@@ -50,19 +50,19 @@ export default function Future() {
     }
   }, [loadBgHeader, futureAll, primaryRender]);
 
-  SwiperCore.use(Autoplay);
+  // SwiperCore.use(Autoplay);
 
   return (
     <FutureContainer>
       <h1>Filmes futuros</h1>
       <Swiper
-        autoplay={{
-          delay: 5000,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: true,
-        }}
+        // autoplay={{
+        //   delay: 5000,
+        //   disableOnInteraction: false,
+        //   pauseOnMouseEnter: true,
+        // }}
         initialSlide={1}
-        style={{ height: 'auto' }}
+        autoHeight
         spaceBetween={20}
         breakpoints={{
           2301: { slidesPerView: 3 },
