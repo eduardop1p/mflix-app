@@ -1,6 +1,5 @@
 /* eslint-disable */
 import { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import SwiperCore, { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMediaQuery } from 'react-responsive';
