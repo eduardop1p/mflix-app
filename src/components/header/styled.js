@@ -193,7 +193,7 @@ export const MenuActive = styled.div`
     padding: 1.5rem;
 
     @media (max-width: 480px) {
-      width: calc(100% - 50%);
+      width: calc(100% - 40%);
       min-width: 130px;
     }
 
