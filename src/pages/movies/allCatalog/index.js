@@ -28,6 +28,12 @@ import {
 export default function AllCatalog() {
   const dispatch = useDispatch();
 
+  dispatch(
+    actions.firstBackgroundSuccess({ background: all[0].backdrop_path })
+  );
+
+  return;
+
   const breakPoint360 = useMediaQuery({ maxWidth: 360 });
   const breakPoint570 = useMediaQuery({ maxWidth: 570 });
 
