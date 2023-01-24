@@ -30,8 +30,8 @@ export default function Movies() {
       <Main>
         <New />
         <AllCatalog />
-        {/* <Popular />
-        <Future /> */}
+        <Popular />
+        {/* <Future /> */}
       </Main>
       <Footer />
     </>
