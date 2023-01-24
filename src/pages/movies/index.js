@@ -29,8 +29,8 @@ export default function Movies() {
       </Helmet>
       <Main>
         <New />
-        {/* <AllCatalog />
-        <Popular />
+        <AllCatalog />
+        {/* <Popular />
         <Future /> */}
       </Main>
       <Footer />
