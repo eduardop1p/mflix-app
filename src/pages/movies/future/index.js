@@ -77,9 +77,9 @@ export default function Future() {
                       </div>
                     )}
 
-                    {/* <div className="future-trailer-video">
+                    <div className="future-trailer-video">
                       <GetTrailerMovie id={result.id} />
-                    </div> */}
+                    </div>
                   </div>
                 </SwiperSlide>
               )
