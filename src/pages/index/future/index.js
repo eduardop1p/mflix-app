@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import SwiperCore, { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import * as actions from '../../../storeReactRedux/modules/loading/actions';
 import axiosBaseUrlMoviesDiscover from '../../../services/axiosBaseUrlDetailsFilters';
 import axiosBaseUrlSeriesDiscover from '../../../services/axiosBaseUrlSeriesDiscover';
 import apiConfig from '../../../config/apiConfig';
@@ -75,15 +74,6 @@ class Future extends Component {
       }
     };
     getAllFuture();
-  }
-
-  componentDidUpdate() {
-    const { loadBgHeader } = this.props;
-    const { futureAll } = this.state;
-
-    if (loadBgHeader && futureAll) {
-      setTimeout(() => this.props.loadingFailure(), 500);
-    }
   }
 
   randomArrMovieSeries() {
@@ -215,10 +205,4 @@ class FutureMobile extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    loadBgHeader: state.loadBgHeader.loadBgHeader,
-  };
-};
-
-export default connect(mapStateToProps, actions)(Future);
+export default Future;

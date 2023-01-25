@@ -19,7 +19,7 @@ export default function Movies() {
         <New />
         <AllCatalog />
         <Popular />
-        {/* <Future /> */}
+        <Future />
       </Main>
       <Footer />
     </>

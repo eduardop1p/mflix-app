@@ -9,8 +9,7 @@ export default function Footer() {
         <div className="line-footer"></div>
         <div className="credits-container">
           <div className="credits">
-            &copy; {new Date().getFullYear()} Direitos reservados a Eduardo
-            Lavoura
+            &copy; {new Date().getFullYear()} Desenvolvido por Eduardo Lavoura
           </div>
           <div className="redes-sociais">
             <a href="https://www.instagram.com/yfg.lavoura/" target="_blank">
