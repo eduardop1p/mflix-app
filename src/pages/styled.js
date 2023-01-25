@@ -69,23 +69,15 @@ export const Slider = styled.section`
       justify-content: center;
 
       & > a {
-        width: 290px;
-        height: 435px;
+        width: 270px;
+        height: 409px;
         border-radius: 1rem;
         overflow: hidden;
         position: relative;
 
-        @media (max-width: 525px) {
-          width: 280px;
-          height: 424px;
-        }
-        @media (max-width: 445px) {
-          width: 270px;
-          height: 409px;
-        }
         @media (max-width: 410px) {
           width: 260px;
-          height: 394px;
+          height: 390px;
         }
         @media (max-width: 310px) {
           height: 122vw;
@@ -169,18 +161,15 @@ export const Slider = styled.section`
         width: fit-content;
         max-width: 300px;
 
-        @media (max-width: 1050px) and (min-width: 991px), (max-width: 770px) {
-          max-width: 275px;
+        @media (max-width: 990px) {
+          max-width: calc(100% - 50%);
         }
-        @media (max-width: 680px) {
-          max-width: 225px;
-        }
-        @media (max-width: 615px) {
-          max-width: 200px;
+        @media (max-width: 570px) {
+          max-width: calc(100% - 55%);
         }
 
         .title {
-          max-width: 100%;
+          width: 100%;
           overflow: hidden;
           text-overflow: ellipsis;
           display: -webkit-box;
@@ -194,17 +183,22 @@ export const Slider = styled.section`
       }
 
       & > .poster-path {
-        width: 290px;
-        height: 435px;
+        width: 260px;
+        height: 390px;
         position: relative;
 
-        @media (max-width: 1050px) and (min-width: 991px), (max-width: 770px) {
-          width: 275px;
-          height: 415px;
+        @media (min-width: 1700px) {
+          width: 280px;
+          height: 420px;
         }
-        @media (max-width: 680px) {
-          width: 260px;
-          height: 395px;
+
+        @media (max-width: 720px) {
+          width: 240px;
+          height: 370px;
+        }
+        @media (max-width: 570px) {
+          width: 220px;
+          height: 330px;
         }
 
         img {
@@ -247,15 +241,10 @@ export const Grid = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
-    width: 225px;
-    height: 127px;
+    width: 200px;
+    height: 113px;
     border-radius: 1rem;
     overflow: hidden;
-
-    @media (max-width: 1050px) {
-      width: 215px;
-      height: 120px;
-    }
 
     & > img {
       width: 100%;
@@ -354,7 +343,7 @@ export const ForId = styled.div`
   .overview {
     font-size: 0.62rem;
     font-weight: 400;
-    max-width: 15rem;
+    width: 100%;
     height: 38px;
     overflow: hidden;
 
@@ -381,8 +370,7 @@ export const ForId = styled.div`
     color: ${colors.color2};
     font-size: 0.75rem;
     font-weight: 500;
-    margin-top: 10px;
-    margin-bottom: 5px;
+    margin: 5px 0;
   }
 
   .release-date {
@@ -426,7 +414,7 @@ export const CatalogContainer = styled.section`
       flex-direction: ${({ cartoons }) => (cartoons ? 'row' : 'column')};
 
       & > :not(:last-child) {
-        margin-right: 0;
+        margin-right: ${({ cartoons }) => (cartoons ? '13px' : '0')};
       }
     }
     @media (max-width: 360px) {
@@ -671,40 +659,48 @@ export const CatalogTitles = styled.div`
   margin-bottom: 1.5rem;
 
   a {
-    width: calc(100% / 5);
     display: inline-block;
-    height: 27.5vw;
+
     padding: 8px;
 
     @media (min-width: 2201px) {
-      width: calc(100% / 7);
-      height: 20.3vw;
+      width: calc(100% / 9);
+      height: 15.5vw;
       max-width: 343px;
       max-height: 507px;
     }
-    @media (min-width: 1500px) and (max-width: 2200px) {
+    @media (max-width: 2200px) {
+      width: calc(100% / 8);
+      height: 17vw;
+    }
+    @media (max-width: 1900px) {
+      width: calc(100% / 7);
+      height: 19.5vw;
+    }
+    @media (max-width: 1600px) {
       width: calc(100% / 6);
-      height: 23.1vw;
+      height: 22.5vw;
     }
-    @media (max-width: 1050px) {
+    @media (max-width: 1200px) {
+      width: calc(100% / 5);
+      height: 27vw;
+    }
+    @media (max-width: 900px) {
       width: calc(100% / 4);
-      height: 33vw;
-    }
-    @media (max-width: 750px) {
-      width: calc(100% / 3);
-      height: 43vw;
+      height: 32.5vw;
       padding: 5px;
     }
-    @media (max-width: 550px) {
+    @media (max-width: 700px) {
+      width: calc(100% / 3);
+      height: 45vw;
+    }
+    @media (max-width: 520px) {
       width: calc(100% / 2);
-      height: 65vw;
+      height: 64vw;
     }
     @media (max-width: 360px) {
       width: 100%;
-      height: 128vw;
-    }
-    @media (max-width: 320px) {
-      height: 126vw;
+      height: 123vw;
     }
     @media (max-width: 280px) {
       height: 124vw;
@@ -894,76 +890,26 @@ export const PopularTitles = styled.div`
     border-radius: 5px;
     padding: 10px;
 
-    @media (max-width: 1100px) {
-      flex-direction: column;
-      justify-content: normal;
-      height: 430px;
-    }
-    @media (max-width: 1020px) {
-      height: 418px;
-    }
-    @media (max-width: 950px) {
-      height: 443px;
-    }
-    @media (max-width: 800px) {
-      height: 484px;
-    }
-    @media (max-width: 650px) {
-      height: 415px;
-    }
-    @media (max-width: 500px) {
-      height: 465px;
-    }
-    @media (max-width: 380px) {
-      flex-direction: row;
-      justify-content: space-between;
-      height: auto;
-    }
-    @media (max-width: 340px) {
-      flex-direction: column;
-      justify-content: normal;
-      height: auto;
+    @media (max-width: 619px) {
     }
 
     & > .popular-img {
       flex-shrink: 0;
-      width: 130px;
-      height: 190px;
-      margin-right: 2rem;
+      width: 125px;
+      height: 180px;
+      margin-right: 1.5rem;
       position: relative;
 
-      @media (max-width: 1100px) {
-        margin-right: 0;
-        width: 100%;
-        height: 22.8vw;
+      @media (max-width: 1290px) {
+        width: 115px;
+        height: 160px;
       }
-      @media (max-width: 950px) {
-        height: 28.4vw;
-      }
-      @media (max-width: 800px) {
-        height: 38.2vw;
+      @media (max-width: 720px) {
+        margin-right: 1rem;
       }
       @media (max-width: 500px) {
-        height: 57.2vw;
-      }
-
-      @media (max-width: 380px) {
-        width: 130px;
-        height: 190px;
-        margin-right: 2rem;
-      }
-      @media (max-width: 340px) {
-        margin-bottom: 1rem;
-        margin-right: 0;
-        width: 100%;
-        height: 120vw;
-      }
-      @media (max-width: 300px) {
-        height: 117vw;
-      }
-      @media (max-width: 270px) {
-        height: 113vw;
-        min-height: 269px;
+        width: 110px;
+        height: 150px;
       }
 
       .movie-or-serie-popular {
@@ -988,15 +934,7 @@ export const PopularTitles = styled.div`
       flex-direction: column;
 
       & > :not(:last-child) {
-        margin-bottom: 8px;
-      }
-
-      @media (max-width: 1100px) {
-        margin: 0;
-        margin-top: 1rem;
-      }
-      @media (max-width: 380px) {
-        margin-top: 0;
+        margin-bottom: 5px;
       }
 
       &::-webkit-scrollbar {
@@ -1012,11 +950,11 @@ export const PopularTitles = styled.div`
       }
 
       & > a > h3 {
-        max-width: 100%;
+        width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
         font-size: 0.93rem;
         font-weight: 600;
@@ -1027,11 +965,47 @@ export const PopularTitles = styled.div`
         font-size: 0.81rem;
         font-weight: 400;
         color: ${colors.color5};
-
         display: flex;
 
         & > :not(:last-child) {
           margin-right: 3px;
+        }
+
+        & > .popular-genre-genre {
+          width: 100%;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          -webkit-line-clamp: 1;
+        }
+      }
+
+      & > .overview {
+        font-size: 0.81rem;
+        flex: none;
+        color: #57566c;
+        width: 100%;
+        max-height: 34px;
+        height: auto;
+        overflow: hidden;
+
+        &:hover,
+        &:focus {
+          overflow: hidden scroll;
+
+          &::-webkit-scrollbar {
+            width: 3px;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            border-radius: 1rem;
+            background-color: ${colors.color2};
+          }
+
+          &::-webkit-scrollbar-track {
+            background-color: transparent;
+          }
         }
       }
 
@@ -1051,9 +1025,7 @@ export const PopularTitles = styled.div`
       }
 
       & > :last-child {
-        @media (max-width: 1100px) {
-          align-self: center;
-        }
+        align-self: center;
 
         & > .popular-watch-now {
           background-color: ${colors.color6};

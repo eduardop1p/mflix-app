@@ -24,7 +24,7 @@ export default function Header() {
   const [menuActive, setMenuActive] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
 
-  const breakPoint990 = useMediaQuery({ maxWidth: 990 });
+  const breakPoint900 = useMediaQuery({ maxWidth: 900 });
   const breakPoint360 = useMediaQuery({ maxWidth: 360 });
   const breakPoint300 = useMediaQuery({ maxWidth: 300 });
 
@@ -56,8 +56,16 @@ export default function Header() {
             {!breakPoint300 && <Logo />}
             MFLIX
           </Link>
-          {!breakPoint990 && (
+          {!breakPoint900 && (
             <nav>
+              <NavLink
+                title="Home"
+                className={({ isActive }) => (isActive ? 'link-actived' : '')}
+                reloadDocument
+                to="/"
+              >
+                Home
+              </NavLink>
               <NavLink
                 title="Filmes"
                 className={({ isActive }) => (isActive ? 'link-actived' : '')}
@@ -133,7 +141,7 @@ export default function Header() {
               </svg>
             </Link>
           )}
-          {!breakPoint990 && (
+          {!breakPoint900 && (
             <div>
               {isLogedIn ? (
                 <UserPhoto />
@@ -149,7 +157,7 @@ export default function Header() {
               )}
             </div>
           )}
-          {breakPoint990 && (
+          {breakPoint900 && (
             <MenuHambuguer menuActive={menuActive}>
               <div onClick={() => setMenuActive(true)}>
                 <div className="h-1"></div>
@@ -176,10 +184,20 @@ export default function Header() {
                         className="singn-up"
                         to="/login"
                       >
-                        {breakPoint990 ? 'L' : 'Login'}
+                        {breakPoint900 ? 'L' : 'Login'}
                       </Link>
                     )}
                     <nav>
+                      <NavLink
+                        title="Home"
+                        className={({ isActive }) =>
+                          isActive ? 'link-actived' : ''
+                        }
+                        reloadDocument
+                        to="/"
+                      >
+                        Home
+                      </NavLink>
                       <NavLink
                         title="Filmes"
                         className={({ isActive }) =>

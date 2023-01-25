@@ -13,6 +13,18 @@ export const BackgroundImageHeader = styled.div`
   z-index: -4;
   overflow: hidden;
 
+  @media (max-width: 720px) {
+    height: 540px;
+  }
+  @media (max-width: 570px) {
+    height: 510px;
+  }
+  @media (max-width: 500px) {
+    height: 560px;
+  }
+  @media (max-width: 410px) {
+    height: 540px;
+  }
   @media (max-width: 310px) {
     height: 148.5vw;
   }
@@ -73,17 +85,14 @@ export const HeaderElement = styled.header`
 
     nav {
       display: flex;
-      margin-left: 4rem;
-
-      a:not(:last-child) {
-        margin-right: 2rem;
-      }
+      margin-left: 3.5rem;
 
       a {
         font-size: 0.81rem;
         color: ${colors.color1};
         transition: color 0.2s ease-in-out;
         font-weight: 500;
+        margin-right: 2rem;
 
         &:hover {
           color: ${colors.color2};
@@ -100,9 +109,10 @@ export const HeaderElement = styled.header`
     display: flex;
     align-items: center;
     margin-left: 1rem;
+    width: 100%;
 
     & > :first-child {
-      margin-right: 8px;
+      margin-right: 10px;
     }
 
     @media (max-width: 360px) {
@@ -117,6 +127,11 @@ export const Search = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+  width: 100%;
+
+  form {
+    width: 100%;
+  }
 
   input {
     background-color: transparent;

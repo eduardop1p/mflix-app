@@ -25,7 +25,7 @@ import { Slider, Grid } from '../../styled';
 export default function New() {
   const [news, setNews] = useState(null);
   const breackPoint990 = useMediaQuery({ maxWidth: 990 });
-  const breackPoint570 = useMediaQuery({ maxWidth: 570 });
+  const breackPoint500 = useMediaQuery({ maxWidth: 500 });
 
   useEffect(() => {
     const getNews = async () => {
@@ -102,7 +102,7 @@ export default function New() {
               (result) =>
                 result !== undefined && (
                   <SwiperSlide key={result.id}>
-                    {!breackPoint570 ? (
+                    {!breackPoint500 ? (
                       <div className="slider">
                         <div className="info">
                           <div className="new">

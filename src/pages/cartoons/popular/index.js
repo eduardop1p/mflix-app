@@ -127,15 +127,13 @@ export default class Popular extends Component {
               spaceBetween={20}
               slidesPerView={1}
               breakpoints={{
-                2351: { slidesPerView: 7 },
-                2001: { slidesPerView: 6 },
-                1701: { slidesPerView: 5 },
-                1351: { slidesPerView: 4 },
-                1101: { slidesPerView: 3 },
-                951: { slidesPerView: 5 },
-                801: { slidesPerView: 4 },
-                501: { slidesPerView: 3 },
-                381: { slidesPerView: 2 },
+                2350: { slidesPerView: 7 },
+                2000: { slidesPerView: 6 },
+                1700: { slidesPerView: 5 },
+                1350: { slidesPerView: 4 },
+                940: { slidesPerView: 3 },
+                620: { slidesPerView: 2 },
+                0: { slidesPerView: 1 },
               }}
               loop
             >
@@ -184,6 +182,11 @@ export default class Popular extends Component {
                             </div>
                             <span>&sdot;</span>
                             <div className="popular-genre-genre">Animação</div>
+                          </div>
+                          <div className="overview">
+                            {result.overview
+                              ? result.overview
+                              : 'Não à descrição para este titulo por enquanto.'}
                           </div>
                           <div className="popular-imdb-rating-voteAverage">
                             IMDB
