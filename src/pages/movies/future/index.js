@@ -3,9 +3,7 @@ import { useState, useEffect } from 'react';
 // import SwiperCore, { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMediaQuery } from 'react-responsive';
-import { useSelector, useDispatch } from 'react-redux';
 
-import * as actions from '../../../storeReactRedux/modules/loading/actions';
 import axiosFutureMovies from '../../../services/axiosBaseUrlDetailsFilters';
 import apiConfig from '../../../config/apiConfig';
 import GetTrailerMovie from '../../../components/getTrailerMovieForId/index';
@@ -17,10 +15,6 @@ import { FutureContainer } from '../../styled';
 
 export default function Future() {
   const [futureAll, setFutureAll] = useState(null);
-  const [primaryRender, setPrimaryRender] = useState(true);
-
-  const dispatch = useDispatch();
-  const { loadBgHeader } = useSelector((state) => state.loadBgHeader);
 
   const breakPoint1150 = useMediaQuery({ maxWidth: 1150 });
   const breakPoint950 = useMediaQuery({ maxWidth: 950 });
@@ -42,13 +36,6 @@ export default function Future() {
     };
     getAllFuture();
   }, []);
-
-  useEffect(() => {
-    if (loadBgHeader && futureAll && primaryRender) {
-      setTimeout(() => dispatch(actions.loadingFailure()), 500);
-      setPrimaryRender(false);
-    }
-  }, [loadBgHeader, futureAll, primaryRender]);
 
   // SwiperCore.use(Autoplay);
 

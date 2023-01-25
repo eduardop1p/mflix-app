@@ -5,7 +5,7 @@ import storage from 'redux-persist/lib/storage';
 import auth from './auth/reducer';
 import firstBackground from './firstBackground/reducer';
 import loading from './loading/reducer';
-import loadBgHeader from './loadBgHeader/reducer';
+
 
 /*
   Um recurso interessante do Redux é que podemos ter muitos
@@ -28,7 +28,7 @@ const rootReducer = persistReducer(
     auth,
     firstBackground,
     loading,
-    loadBgHeader,
+
   })
 );
 

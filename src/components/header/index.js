@@ -6,7 +6,7 @@ import { capitalize } from 'lodash';
 
 /* eslint-disable */
 
-import * as actions from '../../storeReactRedux/modules/loadBgHeader/actions';
+import { loadingFailure } from '../../storeReactRedux/modules/loading/actions';
 import Logo from '../logo';
 import UserPhoto from '../userPhoto';
 import setHeaderSearch from '../../config/searchConfig';
@@ -32,18 +32,18 @@ export default function Header() {
   const { background } = useSelector((state) => state.firstBackground);
   const dispatch = useDispatch();
 
+  function setOnLoadBg() {
+    setTimeout(() => dispatch(loadingFailure()), 500);
+  }
+
   return (
     <>
       {background && (
         <BackgroundImageHeader>
           <img
             src={`https://image.tmdb.org/t/p/original${background}`}
-            onLoad={() =>
-              dispatch(actions.loadBgHeaderSuccess({ loadBgHeader: true }))
-            }
-            onError={() =>
-              dispatch(actions.loadBgHeaderSuccess({ loadBgHeader: true }))
-            }
+            onLoad={setOnLoadBg}
+            onError={setOnLoadBg}
             alt="Bg image mflix homer"
           />
           {/* <BackgroundColorHeader></BackgroundColorHeader> */}

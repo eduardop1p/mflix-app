@@ -111,8 +111,12 @@ export const HeaderElement = styled.header`
     margin-left: 1rem;
     width: 100%;
 
+    @media (max-width: 360px) {
+      width: auto;
+    }
+
     & > :first-child {
-      margin-right: 10px;
+      margin-right: 8px;
     }
 
     @media (max-width: 360px) {
