@@ -97,7 +97,7 @@ class AllCatalog extends Component {
           apiConfig.language
         }&page=${currentPage + 1}`
       );
-      if (!all.length) this.getImages(data.results);
+      if (!all.length) this.getImages(data.results[0].backdrop_path);
       this.setState({
         all: data.results,
         pageCount: 500,
@@ -107,9 +107,9 @@ class AllCatalog extends Component {
     }
   }
 
-  getImages(all) {
+  getImages(background) {
     this.props.firstBackgroundSuccess({
-      background: all[0].backdrop_path,
+      background,
     });
   }
 

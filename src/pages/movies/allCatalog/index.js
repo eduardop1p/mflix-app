@@ -69,7 +69,7 @@ export default function AllCatalog() {
           apiConfig.language
         }&page=${currentPage + 1}`
       );
-      if (!all.length) getImages(data.results);
+      if (!all.length) getImages(data.results[0].backdrop_path);
       setAll(data.results);
       setPageCount(500);
     } catch (err) {
@@ -77,10 +77,8 @@ export default function AllCatalog() {
     }
   }
 
-  function getImages(all) {
-    dispatch(
-      actions.firstBackgroundSuccess({ background: all[0].backdrop_path })
-    );
+  function getImages(background) {
+    dispatch(actions.firstBackgroundSuccess({ background }));
   }
 
   async function handlePagenationClick(event) {

@@ -105,7 +105,8 @@ class AllCatalog extends Component {
       randomArrMovieSeriesPopular.results.push(newArr[valueIndex]);
     });
 
-    if (!all.length) this.getImages(randomArrMovieSeriesPopular.results);
+    if (!all.length)
+      this.getImages(randomArrMovieSeriesPopular.results[0].backdrop_path);
 
     this.setState({
       all: randomArrMovieSeriesPopular.results,
@@ -116,9 +117,9 @@ class AllCatalog extends Component {
     });
   }
 
-  getImages(all) {
+  getImages(background) {
     this.props.firstBackgroundSuccess({
-      background: all[0].backdrop_path,
+      background,
     });
   }
 

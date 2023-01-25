@@ -152,7 +152,7 @@ class AllCatalog extends Component {
     });
 
     if (!all.length && !search)
-      this.getImages(randomArrMovieSeriesPopular.results);
+      this.getImages(randomArrMovieSeriesPopular.results[0].backdrop_path);
     if (search)
       this.props.firstBackgroundSuccess({
         loadAllCatalog: true,
@@ -167,9 +167,9 @@ class AllCatalog extends Component {
     });
   }
 
-  async getImages(all) {
+  async getImages(background) {
     this.props.firstBackgroundSuccess({
-      background: all[0].backdrop_path,
+      background,
     });
   }
 
