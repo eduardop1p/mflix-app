@@ -258,6 +258,7 @@ export default function serieD(props) {
           `/minha-lista/${user.id}?ids=${favoriteUser.id}`
         );
       } catch (err) {
+        setFavorite(true);
         if (get(err, 'response.data', false)) {
           const { data } = err.response;
           data.errors.map((err) => setErrorMessage(err));
@@ -280,7 +281,7 @@ export default function serieD(props) {
           midiaType,
         });
       } catch (err) {
-        if (get(err, 'message', false) === 'canceled') return;
+        setFavorite(false);
         if (get(err, 'response.data', false)) {
           const { data } = err.response;
           data.errors.map((err) => setErrorMessage(err));

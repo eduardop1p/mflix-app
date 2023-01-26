@@ -286,7 +286,7 @@ export default function searchMovie(props) {
           }
         );
       } catch (err) {
-        if (get(err, 'message', false) === 'canceled') return;
+        setFavorite(true);
         if (get(err, 'response.data', false)) {
           const { data } = err.response;
           data.errors.map((err) => setErrorMessage(err));
@@ -312,7 +312,7 @@ export default function searchMovie(props) {
           }
         );
       } catch (err) {
-        if (get(err, 'message', false) === 'canceled') return;
+        setFavorite(false);
         if (get(err, 'response.data', false)) {
           const { data } = err.response;
           data.errors.map((err) => setErrorMessage(err));

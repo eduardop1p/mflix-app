@@ -290,6 +290,7 @@ export default function MovieD(props) {
         //   return;
         // }
 
+        setFavorite(true);
         if (get(err, 'response.data', false)) {
           const { data } = err.response;
           data.errors.map((err) => setErrorMessage(err));
@@ -319,6 +320,7 @@ export default function MovieD(props) {
         //   return;
         // }
 
+        setFavorite(false);
         if (get(err, 'response.data', false)) {
           const { data } = err.response;
           data.errors.map((err) => setErrorMessage(err));

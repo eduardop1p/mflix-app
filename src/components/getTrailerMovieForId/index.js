@@ -32,7 +32,7 @@ export default function GetTrailerMovie(props) {
       width="100%"
       height="100%"
       loading={loadingDetails ? loadingDetails : 'lazy'}
-      // src={` https://www.youtube-nocookie.com/embed/${trailer[0].key}`}
+      src={`https://www.youtube-nocookie.com/embed/${trailer[0].key}`}
       title="YouTube video player"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowFullScreen

@@ -84,6 +84,11 @@ export default function WatchList(props) {
     }
   }
 
+  function setClearErros() {
+    setErrorMessage('');
+    setSuccessMessage('');
+  }
+
   function manageCheckBoxDeleteSelectedItems(event) {
     const { checked, id } = event.target;
     if (checked && selectedItems.indexOf(id) === -1) {
@@ -96,6 +101,8 @@ export default function WatchList(props) {
   }
 
   async function onDeleteSelectedItems() {
+    setClearErros();
+
     if (!selectedItems.length) {
       setErrorMessage('Nenhum titulo selecionado.');
       setshowFormMsg(true);
@@ -120,6 +127,8 @@ export default function WatchList(props) {
   }
 
   async function onDeleteAllItems(event) {
+    setClearErros();
+
     const { checked } = event.target.previousElementSibling;
     if (!checked) {
       setErrorMessage('Nada foi selecionado.');
