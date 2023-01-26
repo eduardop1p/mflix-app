@@ -625,7 +625,7 @@ export default function searchMovie(props) {
                 </div>
               )}
               <div className="trailer-details-page">
-                <TrailerMovie id={id} loadingDetails="eager" />
+                <TrailerMovie id={id} />
               </div>
             </PosterDetailsSimilarTrailer>
             <div className="midia-files-collection">

@@ -7,9 +7,10 @@ import MsgVideoTrailerErrorContainer from './styled';
 
 /* eslint-disable*/
 export default function GetTrailerMovie(props) {
-  const { id, loadingDetails } = props;
+  const { id } = props;
 
   const [trailer, setTrailer] = useState([]);
+  const [showIframe, setShowIframe] = useState(false);
 
   useEffect(() => {
     const getTrailer = async () => {
@@ -17,6 +18,7 @@ export default function GetTrailerMovie(props) {
         const { data } = await axiosBaseUrlMovies.get(
           `/${id}/videos?api_key=${apiConfig.apiKey}`
         );
+
         if (data.results.length)
           setTrailer(
             data.results.filter(
@@ -31,16 +33,23 @@ export default function GetTrailerMovie(props) {
   }, []);
 
   return trailer.length ? (
-    <iframe
-      width="100%"
-      height="100%"
-      loading={loadingDetails ? loadingDetails : 'lazy'}
-      src={`https://www.youtube-nocookie.com/embed/${trailer[0].key}`}
-      title="YouTube video player"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen
-      frameBorder="0"
-    ></iframe>
+    <div
+      onClick={() => setShowIframe(true)}
+      style={{ height: '100%', width: '100%' }}
+    >
+      {showIframe && (
+        <iframe
+          width="100%"
+          height="100%"
+          loading="eager"
+          src={`https://www.youtube-nocookie.com/embed/${trailer[0].key}`}
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          frameBorder="0"
+        ></iframe>
+      )}
+    </div>
   ) : (
     <MsgVideoTrailerErrorContainer>
       <small>Ainda não existe um trailer pra este filme.</small>

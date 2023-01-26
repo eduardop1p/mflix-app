@@ -476,7 +476,7 @@ export default function MovieD(props) {
               </div>
               {!breakpoint1000 && (
                 <TrailerContainer>
-                  <TrailerMovie id={id} loadingDetails="eager" />
+                  <TrailerMovie id={id} />
                 </TrailerContainer>
               )}
             </PosterDetailsSimilarTrailer>
@@ -551,7 +551,7 @@ export default function MovieD(props) {
           )}
           {breakpoint1000 && (
             <TrailerContainer setHeight>
-              <TrailerMovie id={id} loadingDetails="eager" />
+              <TrailerMovie id={id} />
             </TrailerContainer>
           )}
           <NewComponent news={news} allGenres={allGenres} marginTop />
@@ -699,7 +699,7 @@ function LayoutNoCollection(props) {
               noNewCollectionId
             >
               <TrailerContainer>
-                <TrailerMovie id={id} loadingDetails="eager" />
+                <TrailerMovie id={id} />
               </TrailerContainer>
               <ImagesComponent
                 imageButtonActived={imageButtonActived}
@@ -712,7 +712,7 @@ function LayoutNoCollection(props) {
             </MidiaFilesCollectionComponent>
           ) : (
             <TrailerContainer setHeight>
-              <TrailerMovie id={id} loadingDetails="eager" />
+              <TrailerMovie id={id} />
             </TrailerContainer>
           )}
 
@@ -821,7 +821,7 @@ function LayoutNoSimilarNofilesNoCollection(props) {
             <DescriptionComponent newId={newId} noMarginTop />
           )}
           <TrailerContainer setHeight marginTop>
-            <TrailerMovie id={id} loadingDetails="eager" />
+            <TrailerMovie id={id} />
           </TrailerContainer>
           <NewComponent news={news} allGenres={allGenres} marginTop />
         </ContainerDatails>
@@ -895,7 +895,7 @@ function LayoutNoSimilarNoCollection(props) {
           <DescriptionComponent newId={newId} />
           <div className="trailer-and-images">
             <TrailerContainer>
-              <TrailerMovie id={id} loadingDetails="eager" />
+              <TrailerMovie id={id} />
             </TrailerContainer>
             <MidiaFilesCollectionComponent no15Rem height100 width50>
               <ImagesComponent

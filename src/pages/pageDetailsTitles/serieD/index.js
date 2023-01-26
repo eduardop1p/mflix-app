@@ -423,7 +423,7 @@ export default function serieD(props) {
               noNewCollectionId
             >
               <TrailerContainer>
-                <SerieTrailer id={id} loadingDetails="eager" />
+                <SerieTrailer id={id} />
               </TrailerContainer>
               <ImagesComponent
                 imageButtonActived={imageButtonActived}
@@ -436,7 +436,7 @@ export default function serieD(props) {
             </MidiaFilesCollectionComponent>
           ) : (
             <TrailerContainer setHeight>
-              <SerieTrailer id={id} loadingDetails="eager" />
+              <SerieTrailer id={id} />
             </TrailerContainer>
           )}
 
@@ -541,7 +541,7 @@ function LayoutNoSimilarNofiles(props) {
             <DescriptionComponent newId={newId} noMarginTop />
           )}
           <TrailerContainer setHeight marginTop>
-            <SerieTrailer id={id} loadingDetails="eager" />
+            <SerieTrailer id={id} />
           </TrailerContainer>
           <NewComponent news={news} allGenres={allGenres} marginTop />
         </ContainerDatails>

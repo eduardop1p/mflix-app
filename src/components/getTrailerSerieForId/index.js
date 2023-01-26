@@ -7,7 +7,7 @@ import MsgVideoTrailerErrorContainer from './styled';
 
 /* eslint-disable*/
 export default function GetTrailerSerie(props) {
-  const { id, loadingDetails } = props;
+  const { id } = props;
 
   const [trailer, setTrailer] = useState([]);
 
@@ -34,7 +34,7 @@ export default function GetTrailerSerie(props) {
     <iframe
       width="100%"
       height="100%"
-      loading={loadingDetails ? loadingDetails : 'lazy'}
+      loading="eager"
       src={`https://www.youtube-nocookie.com/embed/${trailer[0].key}`}
       title="YouTube video player"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

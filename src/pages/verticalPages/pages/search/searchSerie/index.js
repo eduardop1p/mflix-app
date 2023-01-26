@@ -607,7 +607,7 @@ export default function searchSerie(props) {
                 </div>
               )}
               <div className="trailer-details-page">
-                <SerieTrailer id={id} loadingDetails="eager" />
+                <SerieTrailer id={id} />
               </div>
             </PosterDetailsSimilarTrailer>
             <div className="midia-files-collection">
