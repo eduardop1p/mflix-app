@@ -846,21 +846,7 @@ export const TrailerContainer = styled.div`
     height: ${({ setHeight }) => (setHeight ? '350px' : '100%')};
   }
 
-  & > .msg-video-trailer-error {
-    color: ${colors.color1};
-    font-size: 0.62rem;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0.9;
-    bottom: 2rem;
-  }
 
-  & > video {
-    object-fit: contain;
-    height: 100%;
-    width: 100%;
-  }
 `;
 
 export const Description = styled.div`

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import axiosBaseUrlSeries from '../../services/axiosBaseUrlSeries';
 import apiConfig from '../../config/apiConfig';
 import video from '../../assets/videos/Downtown but at Night.mp4';
+import MsgVideoTrailerErrorContainer from './styled';
 
 /* eslint-disable*/
 export default function GetTrailerSerie(props) {
@@ -18,10 +19,12 @@ export default function GetTrailerSerie(props) {
         );
         if (data.results.length)
           setTrailer(
-            data.results.filter((trailer) => trailer.type === 'Trailer')
+            data.results.filter(
+              (trailer) => trailer.type === 'Trailer' && trailer.official
+            )
           );
       } catch {
-        console.error('Erro ao pegar trailer de filme.');
+        console.error('Erro ao pegar trailer de serie.');
       }
     };
     getTrailer();
@@ -39,11 +42,9 @@ export default function GetTrailerSerie(props) {
       frameBorder="0"
     ></iframe>
   ) : (
-    <>
-      <div className="msg-video-trailer-error">
-        Ainda não existe um trailer pra esta serie.
-      </div>
+    <MsgVideoTrailerErrorContainer>
+      <small>Ainda não existe um trailer pra esta serie.</small>
       <video controls src={video}></video>
-    </>
+    </MsgVideoTrailerErrorContainer>
   );
 }

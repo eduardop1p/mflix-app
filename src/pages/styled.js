@@ -1272,20 +1272,6 @@ export const FutureContainer = styled.section`
       @media (max-width: 310px) {
         height: 380px;
       }
-
-      & > .msg-video-trailer-error {
-        position: absolute;
-        bottom: 2rem;
-        color: ${colors.color1};
-        opacity: 0.9;
-        font-size: 0.62rem;
-      }
-
-      & > video {
-        width: inherit;
-        height: inherit;
-        object-fit: contain;
-      }
     }
   }
 `;

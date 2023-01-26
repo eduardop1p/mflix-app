@@ -492,22 +492,6 @@ export const PosterDetailsSimilarTrailer = styled.div`
     overflow: hidden;
     background-color: #111;
     position: relative;
-
-    & > .msg-video-trailer-error {
-      color: ${colors.color1};
-      font-size: 0.62rem;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0.9;
-      bottom: 2rem;
-    }
-
-    & > video {
-      object-fit: contain;
-      height: 100%;
-      width: 100%;
-    }
   }
 `;
 
