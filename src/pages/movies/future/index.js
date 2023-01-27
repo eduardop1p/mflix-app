@@ -28,7 +28,6 @@ export default function Future() {
             true
           )}&api_key=${apiConfig.apiKey}&language=${apiConfig.language}page=1`
         );
-
         setFutureAll(data);
       } catch (err) {
         console.error('Erro ao pegar filmes futuros.');
