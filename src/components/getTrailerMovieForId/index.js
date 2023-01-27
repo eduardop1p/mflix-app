@@ -18,6 +18,7 @@ export default function GetTrailerMovie(props) {
         const { data } = await axiosBaseUrlMovies.get(
           `/${id}/videos?api_key=${apiConfig.apiKey}`
         );
+
         if (data.results.length)
           setTrailer(
             data.results.filter(
@@ -31,14 +32,14 @@ export default function GetTrailerMovie(props) {
     getTrailer();
   }, []);
 
-  // loading=lazy e loading=auto.
+  // loading= e loading=eager.
 
   return trailer.length ? (
     <div
       onClick={() => setShowIframe(true)}
       style={{ height: '100%', width: '100%', cursor: 'pointer' }}
     >
-      {/* {showIframe && (
+      {/* {setShowIframe && (
         )} */}
       <iframe
         width="100%"

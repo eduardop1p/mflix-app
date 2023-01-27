@@ -15,6 +15,7 @@ import { FutureContainer } from '../../styled';
 
 export default function Future() {
   const [futureAll, setFutureAll] = useState(null);
+  const [countFutureAll, setCountFutureAll] = useState(false);
 
   const breakPoint1150 = useMediaQuery({ maxWidth: 1150 });
   const breakPoint950 = useMediaQuery({ maxWidth: 950 });
@@ -54,6 +55,7 @@ export default function Future() {
           2301: { slidesPerView: 3 },
           1701: { slidesPerView: 2 },
         }}
+        onSlideChangeTransitionStart={(event) => setCountFutureAll(true)}
         loop
       >
         {futureAll &&
