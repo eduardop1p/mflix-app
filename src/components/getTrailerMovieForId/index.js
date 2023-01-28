@@ -7,7 +7,7 @@ import MsgVideoTrailerErrorContainer from './styled';
 
 /* eslint-disable*/
 export default function GetTrailerMovie(props) {
-  const { id, setShowFutureAllTrailer, onLazyIframe } = props;
+  const { id, setShowFutureAllTrailer, onLazyIframe, index } = props;
 
   const [trailer, setTrailer] = useState([]);
   const [showIframe, setShowIframe] = useState(false);
@@ -19,11 +19,6 @@ export default function GetTrailerMovie(props) {
           `/${id}/videos?api_key=${apiConfig.apiKey}`
         );
 
-        if (onLazyIframe)
-          setShowFutureAllTrailer((showFutureAllTrailer) => [
-            ...showFutureAllTrailer,
-            { showIframe, setShowIframe },
-          ]);
         if (data.results.length)
           setTrailer(
             data.results.filter(
@@ -34,6 +29,16 @@ export default function GetTrailerMovie(props) {
         console.error('Erro ao pegar trailer de filme.');
       }
     };
+    if (onLazyIframe) {
+      if (index !== 1) {
+        setShowFutureAllTrailer((showFutureAllTrailer) => [
+          ...showFutureAllTrailer,
+          { showIframe, setShowIframe },
+        ]);
+      } else {
+        setShowIframe(true);
+      }
+    }
     getTrailer();
   }, []);
 

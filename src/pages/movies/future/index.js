@@ -41,9 +41,9 @@ export default function Future() {
 
   function onSlideChangeTransitionStartMyFunction(event) {
     if (showFutureAllTrailer[event.activeIndex]) {
-      const { showIframe } = showFutureAllTrailer[event.activeIndex];
-      if (!showIframe)
-        showFutureAllTrailer[event.activeIndex].setShowIframe(true);
+      const { showIframe, setShowIframe } =
+        showFutureAllTrailer[event.activeIndex];
+      if (!showIframe) setShowIframe(true);
     }
   }
 
@@ -68,7 +68,7 @@ export default function Future() {
       >
         {futureAll &&
           futureAll.results.map(
-            (result) =>
+            (result, index) =>
               result !== undefined && (
                 <SwiperSlide key={result.id}>
                   <div className="future">
@@ -90,6 +90,7 @@ export default function Future() {
                       <GetTrailerMovie
                         id={result.id}
                         setShowFutureAllTrailer={setShowFutureAllTrailer}
+                        index={index}
                         onLazyIframe
                       />
                     </div>
