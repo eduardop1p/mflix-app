@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-// import SwiperCore, { Navigation, Autoplay } from 'swiper';
+import { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMediaQuery } from 'react-responsive';
 
@@ -36,23 +36,21 @@ function New() {
     getNews();
   }, []);
 
-  // SwiperCore.use([Autoplay]);
-
   return (
     <Slider>
       <div className="result">
         <Swiper
-          // autoplay={{
-          //   delay: 3000,
-          //   disableOnInteraction: false,
-          //   pauseOnMouseEnter: true,
-          // }}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
           initialSlide={1}
-          // navigation={{
-          //   nextEl: '.next-element',
-          //   prevEl: '.prev-element',
-          // }}
-          // modules={[Navigation]}
+          navigation={{
+            nextEl: '.next-element',
+            prevEl: '.prev-element',
+          }}
+          modules={[Navigation, Autoplay]}
           autoHeight
           spaceBetween={20}
           slidesPerView={1}

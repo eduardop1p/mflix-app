@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// import SwiperCore, { Navigation, Autoplay } from 'swiper';
+import { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import axiosBaseUrlMovies from '../../../services/axiosBaseUrlMovies';
@@ -46,8 +46,6 @@ export default function Popular() {
     }
   }
 
-  // SwiperCore.use([Autoplay]);
-
   return (
     <PopularContainer>
       <div className="popular">
@@ -86,17 +84,17 @@ export default function Popular() {
       <PopularTitles>
         {allPopular && (
           <Swiper
+            autoplay={{
+              delay: 5000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
             initialSlide={1}
-            // autoplay={{
-            //   delay: 3000,
-            //   disableOnInteraction: false,
-            //   pauseOnMouseEnter: true,
-            // }}
-            // navigation={{
-            //   nextEl: '.button-next-element',
-            //   prevEl: '.button-previous-element',
-            // }}
-            // modules={[Navigation]}
+            navigation={{
+              nextEl: '.button-next-element',
+              prevEl: '.button-previous-element',
+            }}
+            modules={[Navigation, Autoplay]}
             autoHeight
             spaceBetween={20}
             slidesPerView={1}

@@ -1,8 +1,8 @@
 /* eslint-disable */
-import { Component } from 'react';
-import { connect } from 'react-redux';
+import { useState, useEffect } from 'react';
 import SwiperCore, { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useMediaQuery } from 'react-responsive';
 
 import axiosBaseUrlMoviesDiscover from '../../../services/axiosBaseUrlDetailsFilters';
 import axiosBaseUrlSeriesDiscover from '../../../services/axiosBaseUrlSeriesDiscover';
@@ -16,32 +16,14 @@ import setDate from '../../../config/setDateConfig';
 import removeLoadingSipnner from '../../../config/loadingSpinnerConfig';
 import { FutureContainer } from '../../styled';
 
-class Future extends Component {
-  constructor(props) {
-    super(props);
+export default function Future() {
+  const [futureAll, setFutureAll] = useState(null);
+  const [showFutureAllTrailer, setShowFutureAllTrailer] = useState([]);
 
-    this.useMedia1150 = matchMedia('(max-width: 1150px)');
-    this.useMedia950 = matchMedia('(max-width: 950px)');
+  const breakPoint1150 = useMediaQuery({ maxWidth: 1150 });
+  const breakPoint950 = useMediaQuery({ maxWidth: 950 });
 
-    this.state = {
-      futureAll: null,
-      futureMoviesArr: null,
-      futureSeriesArr: null,
-      breakPoint1150: this.useMedia1150.matches,
-      breakPoint950: this.useMedia950.matches,
-    };
-
-    this.randomArrMovieSeries = this.randomArrMovieSeries.bind(this);
-  }
-
-  componentDidMount() {
-    this.useMedia1150.addEventListener('change', (event) => {
-      this.setState({ breakPoint1150: event.matches });
-    });
-    this.useMedia950.addEventListener('change', (event) => {
-      this.setState({ breakPoint950: event.matches });
-    });
-
+  useEffect(() => {
     const getAllFuture = async () => {
       try {
         const axiosData1 = await axiosBaseUrlMoviesDiscover.get(
@@ -59,13 +41,7 @@ class Future extends Component {
             )}&api_key=${apiConfig.apiKey}&language=${apiConfig.language}page=1`
           );
           const data2 = axiosData2.data;
-          this.setState(
-            {
-              futureMoviesArr: data1,
-              futureSeriesArr: data2,
-            },
-            this.randomArrMovieSeries
-          );
+          randomArrMovieSeries(data1, data2);
         } catch (err) {
           console.error('Erro ao pegar series futuras.');
         }
@@ -74,11 +50,9 @@ class Future extends Component {
       }
     };
     getAllFuture();
-  }
+  }, []);
 
-  randomArrMovieSeries() {
-    const { futureMoviesArr, futureSeriesArr } = this.state;
-
+  function randomArrMovieSeries(futureMoviesArr, futureSeriesArr) {
     const newArr = [...futureMoviesArr.results, ...futureSeriesArr.results];
     const randomArrMovieSeriesPopular = { results: [] };
 
@@ -86,123 +60,128 @@ class Future extends Component {
       randomArrMovieSeriesPopular.results.push(newArr[valueIndex]);
     });
 
-    this.setState({
-      futureAll: randomArrMovieSeriesPopular,
-    });
+    setFutureAll(randomArrMovieSeriesPopular);
   }
 
-  render() {
-    SwiperCore.use(Autoplay);
+  SwiperCore.use(Autoplay);
 
-    const { futureAll, breakPoint1150, breakPoint950 } = this.state;
+  function onSlideChangeTransitionStartMyFunction(event) {
+    if (showFutureAllTrailer[event.activeIndex]) {
+      const { showIframe, setShowIframe } =
+        showFutureAllTrailer[event.activeIndex];
+      if (!showIframe) setShowIframe(true);
+    }
+  }
 
-    return (
-      <FutureContainer>
-        <h1>Titulos futuros</h1>
-        <Swiper
-          autoplay={{
-            delay: 5000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          }}
-          initialSlide={1}
-          style={{ height: 'auto' }}
-          spaceBetween={20}
-          slidesPerView={1}
-          breakpoints={{
-            2301: { slidesPerView: 3 },
-            1701: { slidesPerView: 2 },
-          }}
-          loop
-        >
-          {futureAll &&
-            futureAll.results.map(
-              (result) =>
-                result !== undefined && (
-                  <SwiperSlide key={result.id}>
-                    <div className="future">
-                      {!breakPoint950 ? (
+  return (
+    <FutureContainer>
+      <h1>Titulos futuros</h1>
+      <Swiper
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        }}
+        initialSlide={1}
+        autoHeight
+        spaceBetween={20}
+        slidesPerView={1}
+        breakpoints={{
+          2301: { slidesPerView: 3 },
+          1701: { slidesPerView: 2 },
+        }}
+        onSlideChangeTransitionStart={onSlideChangeTransitionStartMyFunction}
+        loop
+      >
+        {futureAll &&
+          futureAll.results.map(
+            (result, index) =>
+              result !== undefined && (
+                <SwiperSlide key={result.id}>
+                  <div className="future">
+                    {!breakPoint950 ? (
+                      <FutureMobile
+                        result={result}
+                        breakPoint1150={breakPoint1150}
+                      />
+                    ) : (
+                      <div className="future-mobile-img-details">
                         <FutureMobile
                           result={result}
                           breakPoint1150={breakPoint1150}
                         />
-                      ) : (
-                        <div className="future-mobile-img-details">
-                          <FutureMobile
-                            result={result}
-                            breakPoint1150={breakPoint1150}
-                          />
-                        </div>
-                      )}
-
-                      <div className="future-trailer-video">
-                        {result.title ? (
-                          <GetTrailerMovie id={result.id} />
-                        ) : (
-                          <GetTrailerSerie id={result.id} />
-                        )}
                       </div>
+                    )}
+
+                    <div className="future-trailer-video">
+                      {result.title ? (
+                        <GetTrailerMovie
+                          id={result.id}
+                          setShowFutureAllTrailer={setShowFutureAllTrailer}
+                          index={index}
+                          onLazyIframe
+                        />
+                      ) : (
+                        <GetTrailerSerie
+                          id={result.id}
+                          setShowFutureAllTrailer={setShowFutureAllTrailer}
+                          index={index}
+                          onLazyIframe
+                        />
+                      )}
                     </div>
-                  </SwiperSlide>
-                )
-            )}
-        </Swiper>
-      </FutureContainer>
-    );
-  }
+                  </div>
+                </SwiperSlide>
+              )
+          )}
+      </Swiper>
+    </FutureContainer>
+  );
 }
 
-class FutureMobile extends Component {
-  constructor(props) {
-    super(props);
-  }
+function FutureMobile(props) {
+  const { result, breakPoint1150 } = props;
 
-  render() {
-    const { result, breakPoint1150 } = this.props;
-
-    return (
-      <>
-        <div className="future-img">
-          <div className="movie-or-serie-future">
-            {result.title ? 'Filme' : 'Serie'}
-          </div>
-          <img
-            src={
-              result.poster_path
-                ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                : imageErrorTop3
-            }
-            onLoad={removeLoadingSipnner}
-            onError={removeLoadingSipnner}
-            alt={result.title ? result.title : result.name}
-          />
-          <Loading />
+  return (
+    <>
+      <div className="future-img">
+        <div className="movie-or-serie-future">
+          {result.title ? 'Filme' : 'Serie'}
         </div>
-        <div className="future-details">
-          <h3>{result.title ? result.title : result.name}</h3>
-          <div className="future-release-date">
-            <span>Estreia:</span>
-            <span>
-              {new Date(
-                `${
-                  result.release_date
-                    ? result.release_date
-                    : result.first_air_date
-                }`
-              ).toLocaleDateString('pt-BR', {
-                dateStyle: breakPoint1150 ? 'medium' : 'long',
-              })}
-            </span>
-          </div>
-          <div className="future-info">
-            {!result.overview
-              ? 'Não à descrição para este titulo por enquanto.'
-              : result.overview}
-          </div>
+        <img
+          src={
+            result.poster_path
+              ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+              : imageErrorTop3
+          }
+          onLoad={removeLoadingSipnner}
+          onError={removeLoadingSipnner}
+          alt={result.title ? result.title : result.name}
+        />
+        <Loading />
+      </div>
+      <div className="future-details">
+        <h3>{result.title ? result.title : result.name}</h3>
+        <div className="future-release-date">
+          <span>Estreia:</span>
+          <span>
+            {new Date(
+              `${
+                result.release_date
+                  ? result.release_date
+                  : result.first_air_date
+              }`
+            ).toLocaleDateString('pt-BR', {
+              dateStyle: breakPoint1150 ? 'medium' : 'long',
+            })}
+          </span>
         </div>
-      </>
-    );
-  }
+        <div className="future-info">
+          {!result.overview
+            ? 'Não à descrição para este titulo por enquanto.'
+            : result.overview}
+        </div>
+      </div>
+    </>
+  );
 }
-
-export default Future;

@@ -42,8 +42,6 @@ export default function GetTrailerMovie(props) {
     getTrailer();
   }, []);
 
-  // loading= e loading=eager.
-
   return trailer.length ? (
     onLazyIframe ? (
       <div style={{ height: '100%', width: '100%', cursor: 'pointer' }}>

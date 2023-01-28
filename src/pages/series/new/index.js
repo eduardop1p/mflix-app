@@ -49,7 +49,7 @@ function New() {
       <div className="result">
         <Swiper
           autoplay={{
-            delay: 3000,
+            delay: 5000,
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
           }}
