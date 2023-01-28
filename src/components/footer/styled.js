@@ -16,7 +16,7 @@ export const ElementFooter = styled.footer`
     }
 
     .credits-container {
-      margin: 0 1.5rem;
+      margin: 0 1.25rem;
       display: flex;
       align-items: center;
       justify-content: space-between;

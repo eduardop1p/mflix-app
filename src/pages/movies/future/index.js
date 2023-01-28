@@ -15,7 +15,7 @@ import { FutureContainer } from '../../styled';
 
 export default function Future() {
   const [futureAll, setFutureAll] = useState(null);
-  const [countFutureAll, setCountFutureAll] = useState(false);
+  const [showFutureAllTrailer, setShowFutureAllTrailer] = useState([]);
 
   const breakPoint1150 = useMediaQuery({ maxWidth: 1150 });
   const breakPoint950 = useMediaQuery({ maxWidth: 950 });
@@ -39,6 +39,14 @@ export default function Future() {
 
   // SwiperCore.use(Autoplay);
 
+  function onSlideChangeTransitionStartMyFunction(event) {
+    if (showFutureAllTrailer[event.activeIndex]) {
+      const { showIframe } = showFutureAllTrailer[event.activeIndex];
+      if (!showIframe)
+        showFutureAllTrailer[event.activeIndex].setShowIframe(true);
+    }
+  }
+
   return (
     <FutureContainer>
       <h1>Filmes futuros</h1>
@@ -55,7 +63,7 @@ export default function Future() {
           2301: { slidesPerView: 3 },
           1701: { slidesPerView: 2 },
         }}
-        onSlideChangeTransitionStart={(event) => setCountFutureAll(true)}
+        onSlideChangeTransitionStart={onSlideChangeTransitionStartMyFunction}
         loop
       >
         {futureAll &&
@@ -79,7 +87,11 @@ export default function Future() {
                     )}
 
                     <div className="future-trailer-video">
-                      <GetTrailerMovie id={result.id} />
+                      <GetTrailerMovie
+                        id={result.id}
+                        setShowFutureAllTrailer={setShowFutureAllTrailer}
+                        onLazyIframe
+                      />
                     </div>
                   </div>
                 </SwiperSlide>

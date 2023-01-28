@@ -64,7 +64,7 @@ export const HeaderElement = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 1.5rem;
+  margin: 1.25rem;
 
   .section-1 {
     display: flex;
