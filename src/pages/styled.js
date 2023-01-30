@@ -31,36 +31,10 @@ export const Slider = styled.section`
   .result {
     display: flex;
     justify-content: space-between;
+    position: relative;
 
     @media (max-width: 570px) {
       justify-content: normal;
-    }
-
-    .next-element {
-      position: absolute;
-      left: 1.8rem;
-      z-index: 2;
-      bottom: 2rem;
-      cursor: pointer;
-
-      svg:hover,
-      svg:focus {
-        transition: fill 0.2s ease-in;
-        fill: #a7a0a0;
-      }
-    }
-
-    .prev-element {
-      position: absolute;
-      z-index: 2;
-      bottom: 2rem;
-      cursor: pointer;
-
-      svg:hover,
-      svg:focus {
-        transition: fill 0.2s ease-in;
-        fill: #a7a0a0;
-      }
     }
 
     .slider-mobile {
@@ -843,39 +817,6 @@ export const PopularContainer = styled.section`
     & > h1 {
       color: ${colors.color1};
       font-size: 1.8rem;
-    }
-
-    & > .navigation-popularBy {
-      display: flex;
-      margin-left: 2rem;
-
-      & > :first-child {
-        margin-right: 8px;
-      }
-
-      @media (max-width: 330px) {
-        margin-left: 1rem;
-      }
-      @media (max-width: 300px) {
-        align-self: flex-end;
-      }
-
-      & > button {
-        border-radius: 50%;
-        cursor: pointer;
-        background-color: ${colors.color7};
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 30px;
-        height: 30px;
-        transition: background 0.2s ease-in-out;
-
-        &:hover,
-        &:focus {
-          background-color: ${colors.color2};
-        }
-      }
     }
   }
 `;

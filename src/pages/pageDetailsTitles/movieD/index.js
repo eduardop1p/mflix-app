@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Link, useParams, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import SwiperCore, { Autoplay } from 'swiper';
+import { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import axiosRetry from 'axios-retry';
 import { get } from 'lodash';
@@ -334,8 +334,6 @@ export default function MovieD(props) {
       }
     }
   }
-
-  SwiperCore.use(Autoplay);
 
   if (newSimilarId && files && !newCollectionId)
     return (
@@ -1241,6 +1239,7 @@ function NewSimilarComponent(props) {
             initialSlide={1}
             spaceBetween={20}
             slidesPerView={2}
+            modules={[Autoplay]}
             breakpoints={{
               2200: { slidesPerView: 4 },
               1700: { slidesPerView: 3 },
@@ -1366,6 +1365,7 @@ function NewComponent(props) {
         initialSlide={1}
         spaceBetween={20}
         slidesPerView={3}
+        modules={[Autoplay]}
         breakpoints={{
           2250: { slidesPerView: 6 },
           1800: { slidesPerView: 5 },

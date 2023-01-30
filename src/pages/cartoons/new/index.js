@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import SwiperCore, { Navigation, Autoplay } from 'swiper';
+import { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMediaQuery } from 'react-responsive';
 
@@ -11,7 +11,7 @@ import axiosBaseUrlMoviesDiscover from '../../../services/axiosBaseUrlDetailsFil
 import axiosBaseUrlSeriesDiscover from '../../../services/axiosBaseUrlSeriesDiscover';
 import apiConfig from '../../../config/apiConfig';
 import RatingSystem from '../../../components/ratingSystem';
-import SlidePagenateCustom from '../../../components/slidePagenateCustom/index';
+import SlideHeaderPagenateCustom from '../../../components/slideHeaderPagenateCustom/index';
 import clearLinkTitle from '../../../config/clearLinkTitleConfig';
 import Loading from '../../../components/loadingReactStates/index';
 import imageError1 from '../../../assets/images/1150108.png';
@@ -70,35 +70,34 @@ export default function New() {
     setNews(randomArrMovieSeriesPopular);
   }
 
-  SwiperCore.use([Autoplay]);
-
   return (
     <Slider>
       <div className="result">
-        <Swiper
-          autoplay={{
-            delay: 5000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          }}
-          initialSlide={1}
-          navigation={{
-            nextEl: '.next-element',
-            prevEl: '.prev-element',
-          }}
-          modules={[Navigation]}
-          autoHeight
-          spaceBetween={20}
-          slidesPerView={1}
-          breakpoints={{
-            2301: { slidesPerView: 3 },
-            1701: { slidesPerView: 2 },
-          }}
-          loop
-        >
-          <SlidePagenateCustom />
-          {news &&
-            news.map(
+        <SlideHeaderPagenateCustom />
+
+        {news && (
+          <Swiper
+            autoplay={{
+              delay: 5000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            initialSlide={1}
+            navigation={{
+              nextEl: '.next-element',
+              prevEl: '.prev-element',
+            }}
+            modules={[Navigation, Autoplay]}
+            autoHeight
+            spaceBetween={20}
+            slidesPerView={1}
+            breakpoints={{
+              2301: { slidesPerView: 3 },
+              1701: { slidesPerView: 2 },
+            }}
+            loop
+          >
+            {news.map(
               (result) =>
                 result !== undefined && (
                   <SwiperSlide key={result.id}>
@@ -188,7 +187,8 @@ export default function New() {
                   </SwiperSlide>
                 )
             )}
-        </Swiper>
+          </Swiper>
+        )}
         {!breackPoint990 && (
           <div className="grid">
             <h5 className="titleNew">Top&nbsp;3&nbsp;novas&nbsp;animações</h5>

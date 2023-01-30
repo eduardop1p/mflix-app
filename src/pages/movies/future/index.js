@@ -48,25 +48,25 @@ export default function Future() {
   return (
     <FutureContainer>
       <h1>Filmes futuros</h1>
-      <Swiper
-        autoplay={{
-          delay: 5000,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: true,
-        }}
-        initialSlide={1}
-        autoHeight
-        spaceBetween={20}
-        breakpoints={{
-          2301: { slidesPerView: 3 },
-          1701: { slidesPerView: 2 },
-        }}
-        modules={[Autoplay]}
-        onSlideChangeTransitionStart={onSlideChangeTransitionStartMyFunction}
-        loop
-      >
-        {futureAll &&
-          futureAll.results.map(
+      {futureAll && (
+        <Swiper
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          initialSlide={1}
+          autoHeight
+          spaceBetween={20}
+          breakpoints={{
+            2301: { slidesPerView: 3 },
+            1701: { slidesPerView: 2 },
+          }}
+          modules={[Autoplay]}
+          onSlideChangeTransitionStart={onSlideChangeTransitionStartMyFunction}
+          loop
+        >
+          {futureAll.results.map(
             (result, index) =>
               result !== undefined && (
                 <SwiperSlide key={result.id}>
@@ -97,7 +97,8 @@ export default function Future() {
                 </SwiperSlide>
               )
           )}
-      </Swiper>
+        </Swiper>
+      )}
     </FutureContainer>
   );
 }

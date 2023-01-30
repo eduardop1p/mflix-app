@@ -8,7 +8,7 @@ import { useMediaQuery } from 'react-responsive';
 import axiosBaseUrlMovies from '../../../services/axiosBaseUrlMovies';
 import apiConfig from '../../../config/apiConfig';
 import RatingSystem from '../../../components/ratingSystem';
-import SlidePagenateCustom from '../../../components/slidePagenateCustom/index';
+import SlideHeaderPagenateCustom from '../../../components/slideHeaderPagenateCustom/index';
 import clearLinkTitle from '../../../config/clearLinkTitleConfig';
 import Loading from '../../../components/loadingReactStates/index';
 import imageErrorPoster from '../../../assets/images/czx7z2e6uqg81.jpg';
@@ -39,30 +39,31 @@ function New() {
   return (
     <Slider>
       <div className="result">
-        <Swiper
-          autoplay={{
-            delay: 5000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          }}
-          initialSlide={1}
-          navigation={{
-            nextEl: '.next-element',
-            prevEl: '.prev-element',
-          }}
-          modules={[Navigation, Autoplay]}
-          autoHeight
-          spaceBetween={20}
-          slidesPerView={1}
-          breakpoints={{
-            2301: { slidesPerView: 3 },
-            1701: { slidesPerView: 2 },
-          }}
-          loop
-        >
-          <SlidePagenateCustom />
-          {news &&
-            news.results.map((result) => (
+        <SlideHeaderPagenateCustom />
+
+        {news && (
+          <Swiper
+            autoplay={{
+              delay: 5000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            initialSlide={1}
+            autoHeight
+            spaceBetween={20}
+            slidesPerView={1}
+            navigation={{
+              nextEl: '.next-element',
+              prevEl: '.prev-element',
+            }}
+            modules={[Navigation, Autoplay]}
+            breakpoints={{
+              2301: { slidesPerView: 3 },
+              1701: { slidesPerView: 2 },
+            }}
+            loop
+          >
+            {news.results.map((result) => (
               <SwiperSlide key={result.id}>
                 {!breackPoint500 ? (
                   <div className="slider">
@@ -125,7 +126,8 @@ function New() {
                 )}
               </SwiperSlide>
             ))}
-        </Swiper>
+          </Swiper>
+        )}
         {!breackPoint990 && (
           <div className="grid">
             <h5 className="titleNew">Top&nbsp;3&nbsp;novos&nbsp;filmes</h5>

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Link } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
-import SwiperCore, { Navigation, Autoplay } from 'swiper';
+import { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import axiosRetry from 'axios-retry';
 import { get } from 'lodash';
@@ -70,8 +70,6 @@ export default function searchMovie(props) {
   const [showFormMsg, setshowFormMsg] = useState(false);
 
   useEffect(() => {
-    SwiperCore.use(Autoplay);
-
     const getDetailsId = async (id) => {
       try {
         const { data } = await axiosBaseUrlMovies.get(
@@ -502,7 +500,7 @@ export default function searchMovie(props) {
                               pauseOnMouseEnter: true,
                             }}
                             initialSlide={1}
-                            modules={[Navigation]}
+                            modules={[Autoplay]}
                             spaceBetween={20}
                             slidesPerView={2}
                             autoHeight
@@ -797,7 +795,7 @@ export default function searchMovie(props) {
                     pauseOnMouseEnter: true,
                   }}
                   initialSlide={1}
-                  modules={[Navigation]}
+                  modules={[Autoplay]}
                   spaceBetween={20}
                   slidesPerView={4}
                   autoHeight

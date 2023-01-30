@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import SwiperCore, { Navigation, Autoplay } from 'swiper';
+import { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import axiosBaseUrlSeries from '../../../services/axiosBaseUrlSeries';
@@ -12,7 +12,7 @@ import RatingSystem from '../../../components/ratingSystem/index';
 import Loading from '../../../components/loadingReactStates/index';
 import imageErrorTop3 from '../../../assets/images/czx7z2e6uqg81.jpg';
 import removeLoadingSipnner from '../../../config/loadingSpinnerConfig';
-import { color1 } from '../../../colors/index';
+import SlidePopularPagenateCustom from '../../../components/slidePopularPagenateCustom/index';
 import { PopularContainer, PopularTitles } from '../../styled';
 
 /* eslint-disable */
@@ -46,42 +46,11 @@ export default function Popular() {
     }
   }
 
-  SwiperCore.use([Autoplay]);
-
   return (
     <PopularContainer>
       <div className="popular">
         <h1>Series populares</h1>
-        <div className="navigation-popularBy">
-          <button className="button-previous-element">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="18px"
-              viewBox="0 0 24 24"
-              width="18px"
-              fill={color1}
-            >
-              <path d="M0 0h24v24H0V0z" fill="none" opacity=".87" />
-              <path d="M17.51 3.87L15.73 2.1 5.84 12l9.9 9.9 1.77-1.77L9.38 12l8.13-8.13z" />
-            </svg>
-          </button>
-          <button className="button-next-element">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="18px"
-              viewBox="0 0 24 24"
-              width="18px"
-              fill={color1}
-            >
-              <g>
-                <path d="M0,0h24v24H0V0z" fill="none" />
-              </g>
-              <g>
-                <polygon points="6.23,20.23 8,22 18,12 8,2 6.23,3.77 14.46,12" />
-              </g>
-            </svg>
-          </button>
-        </div>
+        <SlidePopularPagenateCustom />
       </div>
       <PopularTitles>
         {allPopular && (
@@ -96,7 +65,7 @@ export default function Popular() {
               nextEl: '.button-next-element',
               prevEl: '.button-previous-element',
             }}
-            modules={[Navigation]}
+            modules={[Navigation, Autoplay]}
             autoHeight
             spaceBetween={20}
             slidesPerView={1}

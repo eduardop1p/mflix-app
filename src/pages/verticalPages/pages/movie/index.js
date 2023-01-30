@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link, Outlet, useParams } from 'react-router-dom';
-import SwiperCore, { Navigation, Autoplay } from 'swiper';
+import { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
@@ -243,8 +243,6 @@ export default function MovieV() {
     }
   }
 
-  SwiperCore.use(Autoplay);
-
   return id ? (
     <>
       <Outlet />
@@ -397,7 +395,7 @@ export default function MovieV() {
                   pauseOnMouseEnter: true,
                 }}
                 initialSlide={1}
-                modules={[Navigation]}
+                modules={[Autoplay]}
                 spaceBetween={20}
                 slidesPerView={2}
                 breakpoints={{

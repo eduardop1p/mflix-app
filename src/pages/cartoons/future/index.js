@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { useState, useEffect } from 'react';
-import SwiperCore, { Autoplay } from 'swiper';
+import { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMediaQuery } from 'react-responsive';
 
@@ -72,27 +72,26 @@ export default function Future() {
     }
   }
 
-  SwiperCore.use(Autoplay);
-
   return (
     <FutureContainer>
       <h1>Animações futuras</h1>
-      <Swiper
-        autoplay={{
-          delay: 5000,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: true,
-        }}
-        initialSlide={1}
-        autoHeight
-        spaceBetween={20}
-        slidesPerView={1}
-        breakpoints={{ 1901: { slidesPerView: 2 } }}
-        onSlideChangeTransitionStart={onSlideChangeTransitionStartMyFunction}
-        loop
-      >
-        {futureAll &&
-          futureAll.results.map(
+      {futureAll && (
+        <Swiper
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          initialSlide={1}
+          autoHeight
+          spaceBetween={20}
+          slidesPerView={1}
+          modules={[Autoplay]}
+          breakpoints={{ 1901: { slidesPerView: 2 } }}
+          onSlideChangeTransitionStart={onSlideChangeTransitionStartMyFunction}
+          loop
+        >
+          {futureAll.results.map(
             (result, index) =>
               result !== undefined && (
                 <SwiperSlide key={result.id}>
@@ -132,7 +131,8 @@ export default function Future() {
                 </SwiperSlide>
               )
           )}
-      </Swiper>
+        </Swiper>
+      )}
     </FutureContainer>
   );
 }

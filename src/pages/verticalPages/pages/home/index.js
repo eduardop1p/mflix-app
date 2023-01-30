@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import SwiperCore, { Navigation, Autoplay } from 'swiper';
+import { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
@@ -280,8 +280,6 @@ export default function Home() {
     }
   }
 
-  SwiperCore.use(Autoplay);
-
   return id ? (
     <>
       <Outlet />
@@ -389,7 +387,7 @@ export default function Home() {
                   pauseOnMouseEnter: true,
                 }}
                 initialSlide={1}
-                modules={[Navigation]}
+                modules={[Autoplay]}
                 spaceBetween={20}
                 slidesPerView={2}
                 breakpoints={{
@@ -616,7 +614,7 @@ function SearchHelp(props) {
         </button>
         <input
           type="text"
-          placeholder="Pesquisar filme..."
+          placeholder="Pesquisar titulo..."
           name="search_query"
         />
       </form>

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Link, useParams, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import SwiperCore, { Autoplay } from 'swiper';
+import { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import axiosRetry from 'axios-retry';
 import { useDispatch, useSelector } from 'react-redux';
@@ -295,8 +295,6 @@ export default function serieD(props) {
       }
     }
   }
-
-  SwiperCore.use(Autoplay);
 
   if (!newSimilarId && !files)
     return (
@@ -783,6 +781,7 @@ function NewSimilarComponent({ newSimilarId, allGenres, noNewCollectionId }) {
               initialSlide={1}
               spaceBetween={20}
               slidesPerView={2}
+              modules={[Autoplay]}
               breakpoints={{
                 2200: { slidesPerView: 4 },
                 1700: { slidesPerView: 3 },
@@ -1074,6 +1073,7 @@ function NewComponent({ news, allGenres, marginTop }) {
         initialSlide={1}
         spaceBetween={20}
         slidesPerView={3}
+        modules={[Autoplay]}
         breakpoints={{
           2250: { slidesPerView: 6 },
           1800: { slidesPerView: 5 },
