@@ -87,7 +87,7 @@ export default function New() {
             prevEl: '.prev-element',
           }}
           modules={[Navigation]}
-          style={{ height: 'auto' }}
+          autoHeight
           spaceBetween={20}
           slidesPerView={1}
           breakpoints={{

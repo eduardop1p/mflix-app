@@ -702,16 +702,15 @@ function AboutDetailsComponent(props) {
               </li>
             </ul>
           </div>
+
           <div>
-            <h5>Produção:</h5>
+            <h5>Episódio:</h5>
             <ul>
-              {arrProducer.length ? (
-                arrProducer
-                  .slice(0, 3)
-                  .map((value) => <li key={value.id}>{value.name}</li>)
-              ) : (
-                <li>Indisponível</li>
-              )}
+              <li>
+                {newId.number_of_episodes > 1
+                  ? `${newId.number_of_episodes} episódios`
+                  : `${newId.number_of_episodes} episódio`}
+              </li>
             </ul>
           </div>
           <div>
@@ -729,13 +728,15 @@ function AboutDetailsComponent(props) {
         </div>
         <div>
           <div>
-            <h5>Episódio:</h5>
+            <h5>Produção:</h5>
             <ul>
-              <li>
-                {newId.number_of_episodes > 1
-                  ? `${newId.number_of_episodes} episódios`
-                  : `${newId.number_of_episodes} episódio`}
-              </li>
+              {arrProducer.length ? (
+                arrProducer
+                  .slice(0, 3)
+                  .map((value) => <li key={value.id}>{value.name}</li>)
+              ) : (
+                <li>Indisponível</li>
+              )}
             </ul>
           </div>
           <div>

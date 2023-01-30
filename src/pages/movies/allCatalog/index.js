@@ -28,9 +28,6 @@ import {
 export default function AllCatalog() {
   const dispatch = useDispatch();
 
-  const breakPoint360 = useMediaQuery({ maxWidth: 360 });
-  const breakPoint570 = useMediaQuery({ maxWidth: 570 });
-
   const [all, setAll] = useState([]);
   const [loadingFilters, setLoadingFilters] = useState(false);
   const [pageCount, setPageCount] = useState(0);
@@ -40,10 +37,14 @@ export default function AllCatalog() {
   const [genreActived, setGenreActived] = useState(false);
   const [releaseDateActived, setReleaseDateActived] = useState(false);
   const [allGenres, setAllGenres] = useState(null);
+  const [buttonFiltersActived, setButtonFiltersActived] = useState(false);
   const [years, setYears] = useState([]);
   const [releaseDate, setReleaseDate] = useState('Ano');
   const [genreId, setGenreId] = useState(null);
   const [genreName, setGenreName] = useState('Gênero');
+
+  const breakPoint360 = useMediaQuery({ maxWidth: 360 });
+  const breakPoint570 = useMediaQuery({ maxWidth: 570 });
 
   useEffect(() => {
     getAllCatalog(currentPageGlobal);
@@ -61,6 +62,13 @@ export default function AllCatalog() {
     getAllGenresFilters();
     releaseDateFunc();
   }, []);
+
+  useEffect(() => {
+    if (buttonFiltersActived) {
+      getAllFilters();
+      setButtonFiltersActived(false);
+    }
+  }, [genreId, genreName, releaseDate, buttonFiltersActived]);
 
   async function getAllCatalog(currentPage) {
     try {
@@ -90,7 +98,7 @@ export default function AllCatalog() {
       return;
     }
 
-    getAllFilters(null, currentPage);
+    getAllFilters(currentPage);
     return;
   }
 
@@ -119,8 +127,7 @@ export default function AllCatalog() {
     }
   }
 
-  async function getAllFilters(event, currentPage) {
-    if (event) event.preventDefault();
+  async function getAllFilters(currentPage) {
     if (!currentPage) setCurrentPageGlobal(0);
     if (searchFilterActived) {
       setSearchFilterActived(false);
@@ -136,15 +143,11 @@ export default function AllCatalog() {
           apiConfig.language
         }&with_genres=${genreId}&primary_release_year=${releaseDate}`
       );
-      console.log(
-        `?api_key=${apiConfig.apiKey}&page=${
-          !currentPage ? 1 : currentPage + 1
-        }&language=${
-          apiConfig.language
-        }&with_genres=${genreId}&primary_release_year=${releaseDate}`
-      );
+
       setAll(data.results);
       setPageCount(data.total_pages >= 500 ? 500 : data.total_pages);
+      setSearchFilterActived(false);
+      setSearchFilterValue('');
     } catch {
       console.error('Erro ao pegar filmes por filtros.');
     } finally {
@@ -166,12 +169,6 @@ export default function AllCatalog() {
     )
       return;
 
-    event.target.parentElement
-      .querySelectorAll('li')
-      .forEach((li) => li.removeAttribute('data-active'));
-
-    event.target.setAttribute('data-active', '');
-
     if (active === 'year') {
       setReleaseDate(event.target.innerText);
     }
@@ -180,7 +177,7 @@ export default function AllCatalog() {
       setGenreName(event.target.innerText);
     }
 
-    getAllFilters();
+    setButtonFiltersActived(true);
     return;
   }
 
@@ -325,7 +322,6 @@ function AllCatalogMobile(props) {
     yearOrGenreActive,
     setReleaseDateActived,
     setGenreActived,
-
     releaseDate,
     releaseDateActived,
     years,
@@ -343,6 +339,7 @@ function AllCatalogMobile(props) {
             {years.map((year) => (
               <li
                 key={year.toString()}
+                data-li-active={year == releaseDate ? true : false}
                 onClick={(event) => yearOrGenreActive('year', event)}
               >
                 {year}
@@ -375,6 +372,7 @@ function AllCatalogMobile(props) {
                 <li
                   key={genre.id}
                   data-genre-id={genre.id}
+                  data-li-active={genre.name == genreName ? true : false}
                   onClick={(event) => yearOrGenreActive('genre', event)}
                 >
                   {genre.name}

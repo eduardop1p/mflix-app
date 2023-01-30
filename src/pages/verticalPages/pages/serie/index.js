@@ -354,7 +354,7 @@ export default function SeriesV() {
                                 ? result.first_air_date.slice(0, 4)
                                 : 'Not Data'}
                             </div>
-                            <spna>{String.fromCodePoint(8901)}</spna>
+                            <span>{String.fromCodePoint(8901)}</span>
                             <div className="popular-genre-genre">
                               {allGenres.length &&
                                 allGenres.map((genre) =>

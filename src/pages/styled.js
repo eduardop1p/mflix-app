@@ -460,7 +460,7 @@ export const CatalogContainer = styled.section`
       }
 
       & > div > ul > li {
-        &[data-active] {
+        &[data-li-active='true'] {
           color: ${colors.color2};
         }
 
@@ -500,7 +500,7 @@ export const CatalogContainer = styled.section`
       .genres {
         border-radius: 1rem;
         right: 0;
-        top: 5px;
+        top: 8px;
         z-index: -1;
         cursor: default;
         background-color: inherit;
@@ -563,7 +563,7 @@ export const CatalogContainer = styled.section`
       .releaseDate {
         border-radius: 1rem;
         right: 0;
-        top: 5px;
+        top: 8px;
         z-index: -1;
         cursor: default;
         background-color: inherit;
