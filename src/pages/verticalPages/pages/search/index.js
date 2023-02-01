@@ -11,6 +11,7 @@ import NotSearchResult from './notSearchResult';
 import IndexAllCatalog from '../../../../pages/index/allCatalog/index';
 import axiosBaseUrlMultSearch from '../../../../services/axiosBaseUrlMultSearch';
 import apiConfig from '../../../../config/apiConfig';
+import SearchHelp from '../../../../components/searchHelp';
 import { MainIndexSearch } from './styled';
 
 export default function Search() {
@@ -45,15 +46,6 @@ export default function Search() {
     };
     getSearchData();
   }, []);
-
-  function setVerticalSearch(event) {
-    event.preventDefault();
-
-    const searchQuery = event.target.querySelector('#search_query');
-    if (!searchQuery.value) return;
-
-    return event.target.submit();
-  }
 
   function clearSearchMidiaType(data) {
     const newMidiaType = {
@@ -94,27 +86,8 @@ export default function Search() {
         <Helmet>
           <title>MFLIX - Pesquisar titulo</title>
         </Helmet>
-        <div className="vertical-search-popular">
-          <form onSubmit={setVerticalSearch} action="/vertical/search">
-            <button type="submit">
-              <svg
-                xmlns="http:www.w3.org/2000/svg"
-                height="20px"
-                width="20px"
-                viewBox="0 0 24 24"
-              >
-                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
-              </svg>
-            </button>
-            <input
-              id="search_query"
-              type="text"
-              placeholder="Pesquisar titulo..."
-              name="search_query"
-            />
-          </form>
-        </div>
-        <IndexAllCatalog search colorVertical />
+        <SearchHelp namePlaceholder="Pesquisar titulo..." marginBottom />
+        <IndexAllCatalog colorVertical />
       </div>
     </MainIndexSearch>
   );

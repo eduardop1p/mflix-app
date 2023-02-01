@@ -175,6 +175,7 @@ export const Collections = styled.div`
       border-radius: 5px;
       padding: 10px;
       justify-content: space-between;
+      align-items: center;
 
       & > .popular-img {
         width: 125px;
@@ -343,6 +344,7 @@ export const NewSimilar = styled.div`
       border-radius: 5px;
       padding: 10px;
       justify-content: space-between;
+      align-items: center;
 
       & > .popular-img {
         width: 125px;
@@ -518,6 +520,7 @@ export const News = styled.div`
     border-radius: 5px;
     padding: 10px;
     justify-content: space-between;
+    align-items: center;
 
     & > .popular-img {
       width: 125px;

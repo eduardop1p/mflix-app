@@ -828,7 +828,7 @@ export const PopularTitles = styled.div`
     justify-content: space-between;
     align-items: center;
     background-color: ${colors.color7};
-    width: 100%;
+
     border-radius: 5px;
     padding: 10px;
 

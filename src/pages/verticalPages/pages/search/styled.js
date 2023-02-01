@@ -18,52 +18,6 @@ export const MainIndexSearch = styled.main`
   & > .search {
     width: 100%;
 
-    & > .vertical-search-popular {
-      width: 100%;
-      color: ${colors.color1};
-      background-color: ${colors.color7};
-      padding: 10px 1.2rem;
-      border-radius: 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-
-      form {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        justify-content: center;
-
-        & > button {
-          margin-right: 10px;
-
-          & > svg {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            fill: ${colors.color5};
-            flex: none;
-          }
-        }
-
-        & > input {
-          width: 100%;
-          border: none;
-          background-color: transparent;
-          color: ${colors.color5};
-          font-size: 0.81rem;
-          font-weight: 500;
-
-          &::placeholder {
-            color: ${colors.color5};
-            font-size: 0.81rem;
-            font-weight: 500;
-          }
-        }
-      }
-    }
-
     & > .not-search-result {
       border-radius: 10px;
       width: 100%;
