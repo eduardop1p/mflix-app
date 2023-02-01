@@ -412,7 +412,6 @@ export const NewSimilar = styled.div`
             overflow: hidden;
             text-overflow: ellipsis;
             -webkit-box-orient: vertical;
-            word-break: break-all;
           }
         }
 
@@ -588,7 +587,6 @@ export const News = styled.div`
           overflow: hidden;
           text-overflow: ellipsis;
           -webkit-box-orient: vertical;
-          word-break: break-all;
         }
       }
 
