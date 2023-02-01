@@ -712,7 +712,7 @@ export const Description = styled.div`
     font-size: 1rem;
     font-weight: 500;
     color: ${colors.color1};
-    margin-bottom: 0.5rem;
+    margin-bottom: 5px;
   }
 
   & > :last-child {
@@ -723,7 +723,7 @@ export const Description = styled.div`
     max-height: 200px;
     height: auto;
     flex: none;
-    overflow: hidden;
+    overflow: hidden scroll;
     padding-right: 8px;
 
     @media (max-width: 630px) {
@@ -735,22 +735,17 @@ export const Description = styled.div`
       height: auto;
     }
 
-    &:hover,
-    &:focus {
-      overflow: hidden scroll;
+    &::-webkit-scrollbar {
+      width: 3px;
+    }
 
-      &::-webkit-scrollbar {
-        width: 3px;
-      }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 1rem;
+      background-color: ${colors.color2};
+    }
 
-      &::-webkit-scrollbar-thumb {
-        border-radius: 1rem;
-        background-color: ${colors.color2};
-      }
-
-      &::-webkit-scrollbar-track {
-        background-color: transparent;
-      }
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
     }
   }
 `;
