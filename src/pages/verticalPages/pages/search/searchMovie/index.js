@@ -495,7 +495,7 @@ export default function searchMovie(props) {
                         <ResultsS>
                           <Swiper
                             autoplay={{
-                              delay: 3000,
+                              delay: 5000,
                               disableOnInteraction: false,
                               pauseOnMouseEnter: true,
                             }}
@@ -790,7 +790,7 @@ export default function searchMovie(props) {
               <Recomends>
                 <Swiper
                   autoplay={{
-                    delay: 3000,
+                    delay: 5000,
                     disableOnInteraction: false,
                     pauseOnMouseEnter: true,
                   }}

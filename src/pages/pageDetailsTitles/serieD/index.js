@@ -31,10 +31,9 @@ import {
   ContainerDatails,
   PosterDetailsSimilarTrailer,
   NewSimilar,
-  ImagesContainer,
+  Collections,
   News,
   TrailerContainer,
-  MidiaFilesCollectionContainer,
   Description,
   FavoriteContainer,
   DetailsAndSimilarContainer,
@@ -59,25 +58,16 @@ export default function serieD(props) {
   const [allGenres, setAllGenres] = useState(null);
   const [newSimilarId, setNewSimilarId] = useState(null);
   const [news, setNews] = useState(null);
-  const [files, setFiles] = useState(null);
-  const [imagesPostersLogos, setImagesPostersLogos] = useState(null);
   const [arrProducer, setArrProducer] = useState([]);
   const [arrDirectorFot, setArrDirectorFot] = useState([]);
   const [arrComposer, setArrComposer] = useState([]);
-  const [imageButtonActived, setImageButtonActived] = useState(true);
-  const [posterButtonActived, setPosterButtonActived] = useState(false);
-  const [logoButtonActived, setLogoButtonActived] = useState(false);
   const [favorite, setFavorite] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [showFormMsg, setshowFormMsg] = useState(false);
-  const [primaryRender, setPrimaryRender] = useState(true);
   const [loadingFavorite, setLoadingFavorite] = useState(false);
 
-  const breakpoint1000 = useMediaQuery({ maxWidth: 1000 });
-  const breakpoint630 = useMediaQuery({ maxWidth: 630 });
   const breakpoint600 = useMediaQuery({ maxWidth: 600 });
   const breakpoint450 = useMediaQuery({ maxWidth: 450 });
-  const breakpoint400 = useMediaQuery({ maxWidth: 400 });
 
   useEffect(() => {
     const getDetailsId = async (id) => {
@@ -111,16 +101,6 @@ export default function serieD(props) {
         console.error('Erro ao pegar serie similar');
       }
     };
-    const getImagesPosters = async (id) => {
-      try {
-        const { data } = await axios.get(
-          `https://api.themoviedb.org/3/tv/${id}/images?api_key=${apiConfig.apiKey}`
-        );
-        if (data.backdrops.length) setFiles(data);
-      } catch {
-        console.error('Erro ao pegar images de filme');
-      }
-    };
     const getAllGenres = async () => {
       try {
         const { data } = await axiosBaseUrlGenresSeries.get(
@@ -134,7 +114,6 @@ export default function serieD(props) {
     getDetailsId(id);
     getCreditsId(id);
     getSimilarId(id);
-    getImagesPosters(id);
     getNews();
     getAllGenres();
     getFavoriteUser();
@@ -146,44 +125,7 @@ export default function serieD(props) {
         dispatch(actions.loadingFailure());
       }, 500);
     }
-    if (files && primaryRender) {
-      setPrimaryRender(false);
-      manageImagesPostersLogos('images');
-    }
-  }, [
-    favoriteUser,
-    newId,
-    allGenres,
-    news,
-    files,
-    primaryRender,
-    id,
-    loadingApp,
-  ]);
-
-  function manageImagesPostersLogos(nameEvent) {
-    if (!files) return;
-
-    setImageButtonActived(false);
-    setPosterButtonActived(false);
-    setLogoButtonActived(false);
-
-    if (nameEvent === 'images') {
-      setImageButtonActived(true);
-      setImagesPostersLogos(files.backdrops.slice(0, 10));
-      return;
-    }
-    if (nameEvent === 'posters') {
-      setPosterButtonActived(true);
-      setImagesPostersLogos(files.posters.slice(0, 10));
-      return;
-    }
-    if (nameEvent === 'logos') {
-      setLogoButtonActived(true);
-      setImagesPostersLogos(files.logos.slice(0, 10));
-      return;
-    }
-  }
+  }, [favoriteUser, newId, allGenres, news, id, loadingApp]);
 
   async function getNews() {
     try {
@@ -296,29 +238,6 @@ export default function serieD(props) {
     }
   }
 
-  if (!newSimilarId && !files)
-    return (
-      <LayoutNoSimilarNofiles
-        showFormMsg={showFormMsg}
-        newId={newId}
-        newSimilarId={newSimilarId}
-        setFavoriteFunction={setFavoriteFunction}
-        favorite={favorite}
-        errorMessage={errorMessage}
-        setshowFormMsg={setshowFormMsg}
-        arrProducer={arrProducer}
-        arrDirectorFot={arrDirectorFot}
-        arrComposer={arrComposer}
-        allGenres={allGenres}
-        id={id}
-        news={news}
-        breakpoint600={breakpoint600}
-        breakpoint450={breakpoint450}
-        breakpoint400={breakpoint400}
-        loadingFavorite={loadingFavorite}
-      />
-    );
-
   return (
     <Main>
       <HeaderComponent
@@ -330,173 +249,17 @@ export default function serieD(props) {
       {loadingFavorite && <Loading colorTranparent />}
 
       {newId && (
-        <ContainerDatails newSimilarId>
-          {!breakpoint400 && (
+        <ContainerDatails>
+          {!breakpoint450 && (
             <FavoriteComponent
               setFavoriteFunction={setFavoriteFunction}
               favorite={favorite}
             />
           )}
           <div className="d0">
-            <PosterDetailsSimilarTrailer newSimilarId width100>
+            <PosterDetailsSimilarTrailer transform50Poster>
               <div className="poster-details-similar">
-                <PosterAndDescriptionComponent
-                  newId={newId}
-                  isActiveDescription
-                />
-                {!breakpoint600 && (
-                  <DetailsAndSimilarContainer
-                    width50AndFlexNone={breakpoint1000 ? false : true}
-                  >
-                    <div className="d1">
-                      <DetailsComponent newId={newId} />
-                    </div>
-                    <div className="d2">
-                      <AboutDetailsComponent
-                        newId={newId}
-                        arrProducer={arrProducer}
-                        arrDirectorFot={arrDirectorFot}
-                        arrComposer={arrComposer}
-                      />
-
-                      {!breakpoint630 && (
-                        <NewSimilarComponent
-                          newSimilarId={newSimilarId}
-                          allGenres={allGenres}
-                        />
-                      )}
-                    </div>
-                  </DetailsAndSimilarContainer>
-                )}
-                {breakpoint600 && !breakpoint450 && (
-                  <DescriptionComponent newId={newId} />
-                )}
-                {!breakpoint1000 && (
-                  <MidiaFilesCollectionComponent height100 setHeight autoHeight>
-                    <ImagesComponent
-                      imageButtonActived={imageButtonActived}
-                      posterButtonActived={posterButtonActived}
-                      logoButtonActived={logoButtonActived}
-                      imagesPostersLogos={imagesPostersLogos}
-                      manageImagesPostersLogos={manageImagesPostersLogos}
-                    />
-                  </MidiaFilesCollectionComponent>
-                )}
-              </div>
-            </PosterDetailsSimilarTrailer>
-          </div>
-          {breakpoint600 && (
-            <DetailsAndSimilarContainer>
-              <div className="d1">
-                <DetailsComponent
-                  newId={newId}
-                  breakpoint400={breakpoint400}
-                  setFavoriteFunction={setFavoriteFunction}
-                  favorite={favorite}
-                />
-              </div>
-              <div className="d2">
-                <AboutDetailsComponent
-                  newId={newId}
-                  arrProducer={arrProducer}
-                  arrDirectorFot={arrDirectorFot}
-                  arrComposer={arrComposer}
-                />
-              </div>
-            </DetailsAndSimilarContainer>
-          )}
-          {breakpoint450 && <DescriptionComponent newId={newId} />}
-          {breakpoint630 && (
-            <NewSimilarComponent
-              newSimilarId={newSimilarId}
-              allGenres={allGenres}
-            />
-          )}
-          {breakpoint1000 ? (
-            <MidiaFilesCollectionComponent
-              no15Rem
-              height100
-              setHeight
-              width100NextDivChildren
-              noNewCollectionId
-            >
-              <TrailerContainer>
-                <SerieTrailer id={id} />
-              </TrailerContainer>
-              <ImagesComponent
-                imageButtonActived={imageButtonActived}
-                posterButtonActived={posterButtonActived}
-                logoButtonActived={logoButtonActived}
-                imagesPostersLogos={imagesPostersLogos}
-                manageImagesPostersLogos={manageImagesPostersLogos}
-                noNewCollectionId
-              />
-            </MidiaFilesCollectionComponent>
-          ) : (
-            <TrailerContainer setHeight>
-              <SerieTrailer id={id} />
-            </TrailerContainer>
-          )}
-
-          <NewComponent news={news} allGenres={allGenres} />
-        </ContainerDatails>
-      )}
-    </Main>
-  );
-}
-
-/* layouts */
-
-function LayoutNoSimilarNofiles(props) {
-  const {
-    newId,
-    showFormMsg,
-    setshowFormMsg,
-    errorMessage,
-    setFavoriteFunction,
-    favorite,
-    arrProducer,
-    arrDirectorFot,
-    arrComposer,
-    allGenres,
-    id,
-    news,
-    breakpoint600,
-    breakpoint450,
-    breakpoint400,
-    loadingFavorite,
-  } = props;
-
-  const minBreakPoint721 = useMediaQuery({ minWidth: 721 });
-  const breakpoint720 = useMediaQuery({ maxWidth: 720 });
-
-  return (
-    <Main>
-      <HeaderComponent
-        newId={newId}
-        showFormMsg={showFormMsg}
-        errorMessage={errorMessage}
-        setshowFormMsg={setshowFormMsg}
-      />
-      {loadingFavorite && <Loading colorTranparent />}
-      {newId && (
-        <ContainerDatails newSimilarId>
-          {!breakpoint400 && (
-            <FavoriteComponent
-              setFavoriteFunction={setFavoriteFunction}
-              favorite={favorite}
-            />
-          )}
-          <div className="d0">
-            <PosterDetailsSimilarTrailer width100>
-              <div className="poster-details-similar">
-                <PosterAndDescriptionComponent
-                  newId={newId}
-                  isActiveDescription={breakpoint720 ? true : false}
-                />
-                {breakpoint600 && !breakpoint450 && (
-                  <DescriptionComponent newId={newId} />
-                )}
+                <PosterAndDescriptionComponent newId={newId} />
                 {!breakpoint600 && (
                   <DetailsAndSimilarContainer>
                     <div className="d1">
@@ -520,7 +283,7 @@ function LayoutNoSimilarNofiles(props) {
               <div className="d1">
                 <DetailsComponent
                   newId={newId}
-                  breakpoint400={breakpoint400}
+                  breakpoint450={breakpoint450}
                   setFavoriteFunction={setFavoriteFunction}
                   favorite={favorite}
                 />
@@ -535,13 +298,19 @@ function LayoutNoSimilarNofiles(props) {
               </div>
             </DetailsAndSimilarContainer>
           )}
-          {(breakpoint450 || minBreakPoint721) && (
-            <DescriptionComponent newId={newId} noMarginTop />
+          <DescriptionComponent newId={newId} noMarginTop />
+
+          {newSimilarId && (
+            <NewSimilarComponent
+              newSimilarId={newSimilarId}
+              allGenres={allGenres}
+            />
           )}
-          <TrailerContainer setHeight marginTop>
+
+          <TrailerContainer>
             <SerieTrailer id={id} />
           </TrailerContainer>
-          <NewComponent news={news} allGenres={allGenres} marginTop />
+          <NewComponent news={news} allGenres={allGenres} />
         </ContainerDatails>
       )}
     </Main>
@@ -596,11 +365,7 @@ function FavoriteComponent(props) {
   );
 }
 
-function PosterAndDescriptionComponent({
-  newId,
-  isActiveDescription,
-  breakpoint600,
-}) {
+function PosterAndDescriptionComponent({ newId }) {
   return (
     <div className="poster-description">
       <img
@@ -614,9 +379,6 @@ function PosterAndDescriptionComponent({
         alt={newId.name}
       />
       <Loading colorVertical />
-      {isActiveDescription && !breakpoint600 && (
-        <DescriptionComponent newId={newId} />
-      )}
     </div>
   );
 }
@@ -643,7 +405,7 @@ function DetailsComponent({
   newId,
   setFavoriteFunction,
   favorite,
-  breakpoint400,
+  breakpoint450,
 }) {
   return (
     <>
@@ -651,8 +413,9 @@ function DetailsComponent({
       <div className="y-g-f">
         <div className="year-genre-details">
           <span>
-            {newId.first_air_date && newId.first_air_date.slice(0, 4)}
-            {!newId.first_air_date && 'Not data'}
+            {newId.first_air_date
+              ? newId.first_air_date.slice(0, 4)
+              : 'Not data'}
           </span>
           <span>&sdot;</span>
           <span>
@@ -663,7 +426,7 @@ function DetailsComponent({
             {newId.genres.length < 1 && 'Not genre'}
           </span>
         </div>
-        {breakpoint400 && (
+        {breakpoint450 && (
           <FavoriteComponent
             setFavoriteFunction={setFavoriteFunction}
             favorite={favorite}
@@ -765,16 +528,16 @@ function AboutDetailsComponent(props) {
   );
 }
 
-function NewSimilarComponent({ newSimilarId, allGenres, noNewCollectionId }) {
+function NewSimilarComponent({ newSimilarId, allGenres }) {
   return (
     newSimilarId && (
-      <NewSimilar noNewCollectionId={noNewCollectionId}>
+      <NewSimilar>
         <div className="similar">
           <h4>Series recomendadas</h4>
           <NewSimilar>
             <Swiper
               autoplay={{
-                delay: 3000,
+                delay: 5000,
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true,
               }}
@@ -782,14 +545,12 @@ function NewSimilarComponent({ newSimilarId, allGenres, noNewCollectionId }) {
               spaceBetween={20}
               slidesPerView={2}
               modules={[Autoplay]}
+              autoHeight
               breakpoints={{
-                2200: { slidesPerView: 4 },
-                1700: { slidesPerView: 3 },
-                1330: { slidesPerView: 2 },
-                1001: { slidesPerView: 1 },
-                926: { slidesPerView: 2 },
-
-                631: { slidesPerView: 1 },
+                2250: { slidesPerView: 6 },
+                1800: { slidesPerView: 5 },
+                1320: { slidesPerView: 4 },
+                901: { slidesPerView: 3 },
                 585: { slidesPerView: 2 },
                 0: { slidesPerView: 1 },
               }}
@@ -823,8 +584,9 @@ function NewSimilarComponent({ newSimilarId, allGenres, noNewCollectionId }) {
                         </Link>
                         <div className="popular-year-genre">
                           <div className="popular-year-year">
-                            {result.first_air_date &&
-                              result.first_air_date.slice(0, 4)}
+                            {result.first_air_date
+                              ? result.first_air_date.slice(0, 4)
+                              : 'Not data'}
                           </div>
                           <span>&sdot;</span>
                           <div className="popular-genre-genre">
@@ -877,196 +639,13 @@ function NewSimilarComponent({ newSimilarId, allGenres, noNewCollectionId }) {
   );
 }
 
-function MidiaFilesCollectionComponent({
-  children,
-  newCollectionId,
-  files,
-  width100,
-  setHeight,
-  no15Rem,
-  height100,
-  width50NextDivChildren,
-  width60NextDivChildren,
-  width100NextDivChildren,
-  autoHeight,
-  noNewCollectionId,
-}) {
-  if (autoHeight)
-    return (
-      <MidiaFilesCollectionContainerAutoHeight
-        childrenComponent={children}
-        newCollectionId={newCollectionId}
-        files={files}
-        width100={width100}
-        setHeight={setHeight}
-        no15Rem={no15Rem}
-        height100={height100}
-        width50NextDivChildren={width50NextDivChildren}
-        autoHeight={autoHeight}
-        width60NextDivChildren={width60NextDivChildren}
-      />
-    );
-
+function NewComponent({ news, allGenres }) {
   return (
-    <MidiaFilesCollectionContainer
-      newCollectionId={newCollectionId}
-      files={files}
-      width100={width100}
-      setHeight={setHeight}
-      no15Rem={no15Rem}
-      height100={height100}
-      width50NextDivChildren={width50NextDivChildren}
-      width60NextDivChildren={width60NextDivChildren}
-      width100NextDivChildren={width100NextDivChildren}
-      noNewCollectionId={noNewCollectionId}
-    >
-      {children}
-    </MidiaFilesCollectionContainer>
-  );
-}
-
-function MidiaFilesCollectionContainerAutoHeight(props) {
-  const {
-    childrenComponent,
-    newCollectionId,
-    files,
-    width100,
-    setHeight,
-    no15Rem,
-    height100,
-    width50NextDivChildren,
-  } = props;
-
-  const [MFCContinerHeigth, setMFCContinerHeigth] = useState('450px');
-
-  useEffect(() => {
-    autoHeight();
-    const devicePixelRatio = Math.round(window.devicePixelRatio * 100);
-
-    if (devicePixelRatio !== 100) {
-      let previousDevicePixelRatio;
-      setInterval(() => {
-        const devicePixelRatio = Math.round(window.devicePixelRatio * 100);
-
-        if (
-          devicePixelRatio !== 100 &&
-          devicePixelRatio !== previousDevicePixelRatio
-        ) {
-          autoHeight();
-          previousDevicePixelRatio = devicePixelRatio;
-        }
-      }, 2000);
-    }
-  }, []);
-
-  useEffect(() => {
-    window.onresize = () => autoHeight();
-  });
-
-  function autoHeight() {
-    const D2 = document.querySelector('.d2');
-    const getD2Height = window.getComputedStyle(D2).height;
-    setMFCContinerHeigth(getD2Height);
-  }
-
-  return (
-    <MidiaFilesCollectionContainer
-      newCollectionId={newCollectionId}
-      files={files}
-      width100={width100}
-      setHeight={setHeight}
-      no15Rem={no15Rem}
-      height100={height100}
-      width50NextDivChildren={width50NextDivChildren}
-      id="m-f-c-container"
-      style={{ height: MFCContinerHeigth }}
-    >
-      {childrenComponent}
-    </MidiaFilesCollectionContainer>
-  );
-}
-
-function ImagesComponent(props) {
-  const {
-    imageButtonActived,
-    posterButtonActived,
-    logoButtonActived,
-    newCollectionId,
-    imagesPostersLogos,
-    manageImagesPostersLogos,
-    noNewCollectionId,
-  } = props;
-
-  const [btnImgPostersLogosHeight, setBtnImgPostersLogosHeight] = useState(20);
-
-  const btnImgPostersLogos = document.querySelector('.btn-img-posters-logos');
-
-  useEffect(() => {
-    if (btnImgPostersLogos) {
-      setBtnImgPostersLogosHeight(btnImgPostersLogos.clientHeight);
-      window.onresize = () =>
-        setBtnImgPostersLogosHeight(btnImgPostersLogos.clientHeight);
-    }
-  }, [btnImgPostersLogos, btnImgPostersLogosHeight]);
-
-  return (
-    <ImagesContainer
-      imageButtonActived={imageButtonActived}
-      posterButtonActived={posterButtonActived}
-      logoButtonActived={logoButtonActived}
-      newCollectionId={newCollectionId}
-      noNewCollectionId={noNewCollectionId}
-    >
-      <div className="btn-img-posters-logos">
-        <button
-          onClick={() => manageImagesPostersLogos('images')}
-          className="images"
-        >
-          Fotos
-        </button>
-        <button
-          onClick={() => manageImagesPostersLogos('posters')}
-          className="posters"
-        >
-          Posters
-        </button>
-        <button
-          onClick={() => manageImagesPostersLogos('logos')}
-          className="logos"
-        >
-          Logos
-        </button>
-      </div>
-      <div
-        className="pqp-eduardo-lavoura"
-        style={{ height: `calc(100% - ${btnImgPostersLogosHeight + 4}px)` }}
-      >
-        {imagesPostersLogos && imagesPostersLogos.length ? (
-          imagesPostersLogos.map((pqp, index) => (
-            <div key={pqp.file_path}>
-              <img
-                src={`https://image.tmdb.org/t/p/w1280${pqp.file_path}`}
-                alt={'static-img-' + [index + 1]}
-              />
-            </div>
-          ))
-        ) : (
-          <div className="no-fotos-posters-logos">
-            <img src={imageError2} />
-          </div>
-        )}
-      </div>
-    </ImagesContainer>
-  );
-}
-
-function NewComponent({ news, allGenres, marginTop }) {
-  return (
-    <News marginTop={marginTop}>
+    <News>
       <h4>Novas series</h4>
       <Swiper
         autoplay={{
-          delay: 3000,
+          delay: 5000,
           disableOnInteraction: false,
           pauseOnMouseEnter: true,
         }}

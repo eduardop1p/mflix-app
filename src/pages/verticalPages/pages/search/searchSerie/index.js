@@ -477,7 +477,7 @@ export default function searchSerie(props) {
                         <ResultsS>
                           <Swiper
                             autoplay={{
-                              delay: 3000,
+                              delay: 5000,
                               disableOnInteraction: false,
                               pauseOnMouseEnter: true,
                             }}
@@ -773,7 +773,7 @@ export default function searchSerie(props) {
               <Recomends>
                 <Swiper
                   autoplay={{
-                    delay: 3000,
+                    delay: 5000,
                     disableOnInteraction: false,
                     pauseOnMouseEnter: true,
                   }}

@@ -72,69 +72,22 @@ export const ContainerDatails = styled.div`
 
   & > .d0 {
     display: flex;
-    overflow: hidden;
-    height: ${({ newCollectionId }) => (newCollectionId ? '1250px' : 'auto')};
-
-    @media (min-width: 1700px) {
-      height: ${({ newCollectionId }) => (newCollectionId ? '1450px' : 'auto')};
-    }
-    @media (max-width: 1330px) {
-      height: ${({ newCollectionId }) => (newCollectionId ? '1400px' : 'auto')};
-    }
-    @media (max-width: 1049px) {
-      height: ${({ newCollectionId }) => (newCollectionId ? '1150px' : 'auto')};
-    }
-    @media (max-width: 1000px) {
-      height: auto;
-    }
-  }
-
-  & > .trailer-and-images {
-    display: flex;
-    height: 500px;
-    overflow: hidden;
-
-    & > :first-child {
-      margin-right: 1rem;
-    }
   }
 `;
 
 export const PosterDetailsSimilarTrailer = styled.div`
   display: flex;
-  flex-direction: ${({ newCollectionId }) =>
-    newCollectionId ? 'column' : 'row'};
-  width: ${({ width100 }) => {
-    if (width100) return '100%';
-    return 'calc(100% - 25%)';
-  }};
-
-  @media (min-width: 2001px) {
-    width: ${({ width100 }) => {
-      if (width100) return '100%';
-      return 'calc(100% - 25%)';
-    }};
-  }
-  @media (min-width: 1700px) and (max-width: 2000px) {
-    width: ${({ width100 }) => {
-      if (width100) return '100%';
-      return 'calc(100% - 23%)';
-    }};
-  }
-  @media (max-width: 1000px) {
-    width: 100%;
-  }
+  width: 100%;
 
   & > .poster-details-similar {
     display: flex;
     width: 100%;
 
     & > .poster-description {
-      width: 260px;
-      height: 390px;
       margin-top: 0.5rem;
       flex-shrink: 0;
       margin-right: 1rem;
+      width: 260px;
 
       @media (max-width: 600px) {
         margin-bottom: 1rem;
@@ -142,40 +95,56 @@ export const PosterDetailsSimilarTrailer = styled.div`
 
       @media (min-width: 1700px) {
         width: 280px;
-        height: 420px;
       }
       @media (max-width: 1250px) {
         width: 240px;
-        height: 370px;
         margin-top: 1rem;
       }
       @media (max-width: 720px) {
         width: 220px;
-        height: 330px;
         margin-top: 0;
       }
-      @media (max-width: 400px) {
+
+      @media (max-width: 600px) {
+        position: ${({ transform50Poster }) =>
+          transform50Poster ? 'relative' : 'static'};
+        left: ${({ transform50Poster }) => (transform50Poster ? '50%' : 0)};
+        transform: ${({ transform50Poster }) =>
+          transform50Poster ? 'translate(-50%)' : 'none'};
+      }
+      @media (max-width: 450px) {
         position: relative;
         left: 50%;
         transform: translate(-50%);
       }
 
       & > img {
-        width: 100%;
-        height: 100%;
         border-radius: 1rem;
         object-fit: cover;
+        width: 100%;
+        height: 390px;
+
+        @media (min-width: 1700px) {
+          width: 100%;
+          height: 420px;
+        }
+        @media (max-width: 1250px) {
+          width: 100%;
+          height: 370px;
+        }
+        @media (max-width: 720px) {
+          width: 100%;
+          height: 330px;
+        }
       }
     }
   }
 `;
 
-export const NewSimilar = styled.div`
+export const Collections = styled.div`
   width: 100%;
 
-  @media (max-width: 630px) {
-    margin-top: 1rem;
-  }
+  margin-top: 1rem;
 
   & > .similar {
     width: 100%;
@@ -261,6 +230,10 @@ export const NewSimilar = styled.div`
 
           & > :not(:last-child) {
             margin-right: 3px;
+          }
+
+          & > .popular-year-year {
+            white-space: nowrap;
           }
 
           & > :last-child {
@@ -352,288 +325,85 @@ export const NewSimilar = styled.div`
   }
 `;
 
-export const ImagesContainer = styled.div`
+export const NewSimilar = styled.div`
   width: 100%;
+  margin-top: 1rem;
 
-  @media (max-width: 700px) {
-    margin-top: ${({ noNewCollectionId }) => (noNewCollectionId ? '8px' : 0)};
-  }
-
-  & > .btn-img-posters-logos {
-    display: flex;
-    margin-bottom: 10px;
-    justify-content: center;
-
-    & > :not(:last-child) {
-      margin-right: 5px;
-    }
-
-    @media (min-width: 1700px) {
-      & > :not(:last-child) {
-        margin-right: 8px;
-      }
-    }
-    @media (max-width: 1000px) {
-      & > :not(:last-child) {
-        margin-right: 8px;
-      }
-    }
-    @media (max-width: 650px) {
-      & > :not(:last-child) {
-        margin-right: 5px;
-      }
-    }
-
-    & > button {
-      border-radius: 1rem;
-      padding: 7px 0;
-      width: 100%;
-      max-width: 120px;
+  & > .similar {
+    & > h4 {
+      font-size: 1.06rem;
+      margin-bottom: 12px;
+      font-weight: 600;
       color: ${colors.color1};
-      font-size: 0.75rem;
-      font-weight: 500;
-      transition: background 0.2s ease-in-out;
-
-      &:hover {
-        background-color: ${colors.color2};
-      }
     }
 
-    & > .images {
-      background-color: ${({ imageButtonActived }) =>
-        imageButtonActived ? colors.color2 : colors.color7};
-    }
-
-    & > .posters {
-      background-color: ${({ posterButtonActived }) =>
-        posterButtonActived ? colors.color2 : colors.color7};
-    }
-
-    & > .logos {
-      background-color: ${({ logoButtonActived }) =>
-        logoButtonActived ? colors.color2 : colors.color7};
-    }
-  }
-
-  & > .pqp-eduardo-lavoura {
-    width: 100%;
-    overflow: hidden scroll;
-
-    &::-webkit-scrollbar {
-      width: 3px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      border-radius: 1rem;
-      background-color: ${colors.color2};
-    }
-
-    &::-webkit-scrollbar-track {
-      background-color: transparent;
-    }
-
-    & > div {
-      cursor: default;
-      padding-right: 8px;
-      margin-bottom: 8px;
-      position: relative;
-      display: inline-block;
-      width: calc(100% / 2);
+    .popular-slider {
+      display: flex;
+      background-color: ${colors.color7};
       height: auto;
+      border-radius: 5px;
+      padding: 10px;
+      justify-content: space-between;
 
-      @media (min-width: 1001px) and (max-width: 1699px) {
-        width: ${({ imageButtonActived, logoButtonActived }) =>
-          imageButtonActived || logoButtonActived ? '100%' : 'calc(100% / 2)'};
-      }
-      @media (max-width: 1000px) {
-        width: calc(100% / 2);
-      }
-      @media (max-width: 850px) {
-        width: ${({ imageButtonActived, logoButtonActived }) =>
-          imageButtonActived || logoButtonActived ? '100%' : 'calc(100% / 2)'};
-      }
-      @media (max-width: 700px) {
-        width: calc(100% / 2);
-      }
-      @media (max-width: 650px) {
-        width: ${({
-          imageButtonActived,
-          logoButtonActived,
-          noNewCollectionId,
-        }) =>
-          noNewCollectionId
-            ? 'calc(100% / 2)'
-            : imageButtonActived || logoButtonActived
-            ? '100%'
-            : 'calc(100% / 2)'};
-      }
-      @media (max-width: 550px) {
-        width: 100%;
-      }
-      @media (max-width: 410px) {
-        width: ${({ imageButtonActived, logoButtonActived }) =>
-          imageButtonActived || logoButtonActived ? '100%' : 'calc(100% / 2)'};
-      }
-
-      & > img {
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-        border-radius: 10px;
-      }
-    }
-
-    & > .no-fotos-posters-logos {
-      width: 100%;
-      height: fit-content;
-
-      & > img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
-`;
-
-export const Collections = styled.div`
-  margin-top: 8px;
-
-  @media (max-width: 1000px) {
-    margin-top: 0;
-  }
-  @media (max-width: 410px) {
-    margin-top: 8px;
-  }
-
-  & > h4 {
-    font-size: 1.06rem;
-    margin-bottom: 10px;
-    font-weight: 600;
-    color: ${colors.color1};
-  }
-
-  & > .collection {
-    overflow: hidden scroll;
-
-    &::-webkit-scrollbar {
-      width: 3px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      border-radius: 1rem;
-      background-color: ${colors.color2};
-    }
-
-    &::-webkit-scrollbar-track {
-      background-color: transparent;
-    }
-
-    & > .vertical-popular-img-details {
-      margin-bottom: 8px;
-      width: calc(100% / 2);
-      padding-right: 8px;
-      height: auto;
-      display: inline-block;
-
-      @media (min-width: 2001px) {
-        width: calc(100% / 3);
-        height: 10vw;
-        max-height: 250px;
-      }
-      @media (max-width: 1150px) {
-        width: 100%;
-      }
-      @media (max-width: 1000px) {
-        width: calc(100% / 3);
-      }
-      @media (max-width: 850px) {
-        width: calc(100% / 2);
-      }
-      @media (max-width: 550px) {
-        width: 100%;
-      }
-      @media (max-width: 410px) {
-        width: calc(100% / 2);
-      }
-
-      & > :first-child {
-        width: 100%;
-        height: 100%;
+      & > .popular-img {
+        width: 125px;
+        height: 180px;
+        flex: none;
         position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        margin-right: 1rem;
+
+        @media (max-width: 1290px) {
+          width: 115px;
+          height: 160px;
+        }
+        @media (max-width: 500px) {
+          width: 110px;
+          height: 150px;
+        }
 
         & > img {
           object-fit: cover;
+          border-radius: 10px;
           width: 100%;
           height: 100%;
-          border-radius: 1rem;
-        }
-
-        & > :last-child {
-          position: absolute;
-          visibility: hidden;
-          border-radius: 1rem;
-        }
-
-        &:hover,
-        &:focus {
-          & > :last-child {
-            visibility: visible;
-            width: 100%;
-            height: 100%;
-            background-color: #1111118c;
-            position: absolute;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s ease-in-out;
-
-            & > a > button {
-              background-color: ${colors.color6};
-              font-weight: 500;
-              color: ${colors.color1};
-              border-radius: 1.5rem;
-              font-size: 0.78rem;
-              width: fit-content;
-              padding: 8px 1.2rem;
-              transition: background 0.2s ease-in-out;
-
-              &:hover {
-                background-color: ${colors.color2};
-              }
-            }
-          }
         }
       }
 
-      & > .popular-conatiner-details {
-        margin: 5px 5px 0;
+      & > .popular-details {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
 
-        & > a > h5 {
+        & > :not(:last-child) {
+          margin-bottom: 5px;
+        }
+
+        & > a > h3 {
           width: 100%;
           display: -webkit-box;
           -webkit-line-clamp: 1;
           overflow: hidden;
           text-overflow: ellipsis;
           -webkit-box-orient: vertical;
-          font-size: 0.87rem;
-          color: ${colors.color1};
+          font-size: 0.93rem;
           font-weight: 600;
-          padding: 0 2px;
-          margin-bottom: 2px;
+          color: ${colors.color1};
+          transition: color 0.2s ease-in-out;
         }
 
-        & > .popular-details {
-          display: flex;
+        & > .popular-year-genre {
+          font-size: 0.81rem;
+          font-weight: 400;
           color: #57566c;
+          display: flex;
+          align-items: center;
 
-          & > div {
-            margin-left: 3px;
-            font-size: 0.81rem;
-            font-weight: 500;
+          & > .popular-year-year {
             white-space: nowrap;
+          }
+
+          & > :not(:last-child) {
+            margin-right: 3px;
           }
 
           & > :last-child {
@@ -643,20 +413,98 @@ export const Collections = styled.div`
             overflow: hidden;
             text-overflow: ellipsis;
             -webkit-box-orient: vertical;
+            word-break: break-all;
+          }
+        }
+
+        & > .vertical-overview {
+          font-size: 0.81rem;
+          flex: none;
+          font-weight: 400;
+          color: #57566c;
+          width: 100%;
+          max-height: 34px;
+          height: auto;
+          overflow: hidden;
+
+          &:hover,
+          &:focus {
+            overflow: hidden scroll;
+
+            &::-webkit-scrollbar {
+              width: 3px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+              border-radius: 1rem;
+              background-color: ${colors.color2};
+            }
+
+            &::-webkit-scrollbar-track {
+              background-color: transparent;
+            }
+          }
+        }
+
+        & > .popular-imdb-rating-voteAverage {
+          color: #57566c;
+          font-size: 0.81rem;
+          font-weight: 500;
+
+          & > .popular-rating-voteAverage {
+            display: flex;
+            align-items: center;
+
+            & > .popular-voteAverage {
+              margin-left: 5px;
+            }
+          }
+        }
+
+        & > .popular-watch-now {
+          background-color: ${colors.color6};
+          font-weight: 400;
+          color: ${colors.color1};
+          border-radius: 1.5rem;
+          font-size: 0.75rem;
+          width: fit-content;
+          padding: 8px 1.2rem;
+          transition: all 0.2s ease-in-out;
+          white-space: nowrap;
+          text-align: center;
+          margin: 0 auto;
+
+          @media (max-width: 950px) and (min-width: 901px) {
+            padding: 8px 0;
+            width: 100%;
+          }
+          @media (max-width: 900px) and (min-width: 601px) {
+            padding: 8px 1.2rem;
+            width: fit-content;
+          }
+          @media (max-width: 600px) {
+            padding: 8px 0;
+            width: 100%;
+          }
+          @media (max-width: 585px) {
+            width: fit-content;
+            padding: 8px 1.2rem;
+          }
+          @media (max-width: 330px) {
+            padding: 8px 0;
+            width: 100%;
+          }
+
+          &:hover {
+            background-color: ${colors.color2};
           }
         }
       }
     }
   }
 `;
-
 export const News = styled.div`
   width: 100%;
-  margin-top: 1rem;
-
-  @media (max-width: 1000px) {
-    margin-top: ${({ marginTop }) => (marginTop ? '1rem' : '0')};
-  }
 
   & > h4 {
     font-size: 1.06rem;
@@ -728,6 +576,10 @@ export const News = styled.div`
 
         & > :not(:last-child) {
           margin-right: 3px;
+        }
+
+        & > .popular-year-year {
+          white-space: nowrap;
         }
 
         & > :last-child {
@@ -833,20 +685,18 @@ export const TrailerContainer = styled.div`
   background-color: #111;
   position: relative;
   width: 100%;
-  height: ${({ setHeight }) => (setHeight ? '500px' : '100%')};
-  margin-top: ${({ marginTop }) => (marginTop ? '1rem' : '0')};
+  height: 500px;
+  margin: 1rem 0;
 
   @media (min-width: 1700px) and (max-width: 2000px) {
-    height: ${({ setHeight }) => (setHeight ? '600px' : '100%')};
+    height: 600px;
   }
   @media (max-width: 1000px) {
-    height: ${({ setHeight }) => (setHeight ? '400px' : '100%')};
+    height: 400px;
   }
   @media (max-width: 410px) {
-    height: ${({ setHeight }) => (setHeight ? '350px' : '100%')};
+    height: 350px;
   }
-
-
 `;
 
 export const Description = styled.div`
@@ -855,7 +705,7 @@ export const Description = styled.div`
   margin-top: 1rem;
 
   @media (max-width: 600px) {
-    margin-top: ${({ noMarginTop }) => (noMarginTop ? '0' : '12rem')};
+    margin-top: ${({ noMarginTop }) => (noMarginTop ? '1rem' : '12rem')};
   }
   @media (max-width: 450px) {
     margin-top: 1rem;
@@ -873,16 +723,15 @@ export const Description = styled.div`
     font-weight: 400;
     font-size: 0.78rem;
     width: 100%;
-    height: ${({ overview }) => (overview ? '170px' : 'fit-content')};
+    max-height: 200px;
+    height: auto;
     flex: none;
     overflow: hidden;
     padding-right: 8px;
 
     @media (max-width: 630px) {
-      height: ${({ overview }) => (overview ? '65px' : 'fit-content')};
-    }
-    @media (max-width: 600px) {
-      height: ${({ overview }) => (overview ? '105px' : 'fit-content')};
+      max-height: ${({ overview }) => (overview ? '100px' : 'fit-content')};
+      height: auto;
     }
     @media (max-width: 450px) {
       max-height: ${({ overview }) => (overview ? '200px' : 'fit-content')};
@@ -909,66 +758,6 @@ export const Description = styled.div`
   }
 `;
 
-export const MidiaFilesCollectionContainer = styled.div`
-  margin-top: ${({ no15Rem }) => (no15Rem ? '0' : '15.2rem')};
-  margin-left: 1rem;
-  display: flex;
-  flex-direction: column;
-
-  width: ${({ width50 }) => (width50 ? '50%' : '100%')};
-  height: ${({ setHeight, noNewCollectionId }) =>
-    noNewCollectionId ? '400px' : setHeight ? '500px' : 'auto'};
-
-  @media (min-width: 1700px) {
-    margin-top: 17rem;
-  }
-  @media (max-width: 1000px) {
-    flex-direction: row;
-    margin: 1rem 0;
-
-    & > :not(:last-child) {
-      margin-right: 10px;
-    }
-  }
-  @media (max-width: 700px) {
-    flex-direction: ${({ noNewCollectionId }) =>
-      noNewCollectionId ? 'column' : 'row'};
-    height: ${({ noNewCollectionId, setHeight }) =>
-      noNewCollectionId ? '700px' : setHeight ? '500px' : 'auto'};
-  }
-  @media (max-width: 410px) {
-    flex-direction: column;
-    height: ${({ setHeight }) => (setHeight ? '600px' : 'auto')};
-
-    & > :not(:last-child) {
-      margin-right: 0;
-    }
-  }
-  @media (max-width: 350px) {
-    flex-direction: column;
-    height: ${({ setHeight }) => (setHeight ? '700px' : 'auto')};
-  }
-
-  & > div {
-    height: ${({ height100 }) => (height100 ? '100%' : '50%')};
-    overflow: hidden;
-
-    @media (max-width: 1000px) {
-      width: ${({ width50NextDivChildren }) =>
-        width50NextDivChildren ? '50%' : '100%'};
-    }
-    @media (max-width: 480px) and (min-width: 411px) {
-      &:first-child {
-        width: ${({ width50NextDivChildren }) =>
-          width50NextDivChildren ? '70%' : '100%'};
-      }
-    }
-    @media (max-width: 410px) {
-      width: 100%;
-    }
-  }
-`;
-
 export const FavoriteContainer = styled.div`
   width: 50px;
   height: 50px;
@@ -983,7 +772,8 @@ export const FavoriteContainer = styled.div`
   @media (max-width: 720px) {
     top: 9rem;
   }
-  @media (max-width: 400px) {
+
+  @media (max-width: 450px) {
     position: static;
     align-self: normal;
     top: 0;
@@ -1028,21 +818,10 @@ export const DetailsAndSimilarContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  width: ${({ width50AndFlexNone }) => (width50AndFlexNone ? '50%' : 'auto')};
-  flex: ${({ width50AndFlexNone }) => (width50AndFlexNone ? 'none' : 'auto')};
-  margin-bottom: ${({ noMarginBottom }) => (noMarginBottom ? '0' : '1rem')};
+  flex: auto;
 
   @media (min-width: 1700px) {
     margin-top: 8.4rem;
-  }
-  @media (min-width: 1400px) {
-    width: ${({ width50AndFlexNone }) => (width50AndFlexNone ? '55%' : 'auto')};
-  }
-  @media (max-width: 1150px) {
-    width: ${({ width50AndFlexNone }) => (width50AndFlexNone ? '47%' : 'auto')};
-  }
-  @media (max-width: 1049px) {
-    width: ${({ width50AndFlexNone }) => (width50AndFlexNone ? '44%' : 'auto')};
   }
   @media (max-width: 1000px) {
     margin-bottom: 0;
@@ -1063,7 +842,7 @@ export const DetailsAndSimilarContainer = styled.div`
       margin-bottom: 12px;
     }
 
-    @media (max-width: 400px) {
+    @media (max-width: 450px) {
       & > :not(:last-child) {
         margin-bottom: 0;
       }
@@ -1089,7 +868,7 @@ export const DetailsAndSimilarContainer = styled.div`
     & > .y-g-f {
       width: 100%;
 
-      @media (max-width: 400px) {
+      @media (max-width: 450px) {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -1160,12 +939,6 @@ export const DetailsAndSimilarContainer = styled.div`
     flex-direction: column;
 
     & > .about-details {
-      margin-bottom: ${({ noMarginBottom }) => (noMarginBottom ? '0' : '1rem')};
-
-      @media (max-width: 630px) {
-        margin-bottom: 0;
-      }
-
       & > h4 {
         font-size: 1.06rem;
         margin-bottom: 12px;
@@ -1225,5 +998,3 @@ export const DetailsAndSimilarContainer = styled.div`
     }
   }
 `;
-
-export const YearGenreDetailsRatingContainer = styled.div``;

@@ -382,7 +382,7 @@ export default function Home() {
             {news.length && (
               <Swiper
                 autoplay={{
-                  delay: 3000,
+                  delay: 5000,
                   disableOnInteraction: false,
                   pauseOnMouseEnter: true,
                 }}
