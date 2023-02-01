@@ -238,7 +238,6 @@ export const Collections = styled.div`
 
           & > :last-child {
             width: 100%;
-            word-break: break-all;
             display: -webkit-box;
             -webkit-line-clamp: 1;
             overflow: hidden;

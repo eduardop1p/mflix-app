@@ -318,7 +318,8 @@ export const ForId = styled.div`
     font-size: 0.62rem;
     font-weight: 400;
     width: 100%;
-    height: 38px;
+    max-height: 38px;
+    height: auto;
     overflow: hidden;
 
     &:hover,
