@@ -75,11 +75,11 @@ export const ContainerDatails = styled.div`
   }
 `;
 
-export const PosterDetailsSimilarTrailer = styled.div`
+export const PosterDetailsRecommendedTrailer = styled.div`
   display: flex;
   width: 100%;
 
-  & > .poster-details-similar {
+  & > .poster-details-recommended {
     display: flex;
     width: 100%;
 
@@ -146,7 +146,7 @@ export const Collections = styled.div`
 
   margin-top: 1rem;
 
-  & > .similar {
+  & > .recommended {
     width: 100%;
 
     & > h4 {
@@ -156,7 +156,7 @@ export const Collections = styled.div`
       color: ${colors.color1};
     }
 
-    & > .not-similar {
+    & > .not-recommended {
       width: 100%;
       height: 222px;
 
@@ -325,11 +325,11 @@ export const Collections = styled.div`
   }
 `;
 
-export const NewSimilar = styled.div`
+export const NewRecommended = styled.div`
   width: 100%;
-  margin-top: 1rem;
+  margin-top: ${({ noMarginTop }) => (noMarginTop ? '0' : '1rem')};
 
-  & > .similar {
+  & > .recommended {
     & > h4 {
       font-size: 1.06rem;
       margin-bottom: 12px;
@@ -505,6 +505,7 @@ export const NewSimilar = styled.div`
 `;
 export const News = styled.div`
   width: 100%;
+  margin-top: ${({ marginTop }) => (marginTop ? '1rem' : 0)};
 
   & > h4 {
     font-size: 1.06rem;
@@ -808,7 +809,7 @@ export const FavoriteContainer = styled.div`
   }
 `;
 
-export const DetailsAndSimilarContainer = styled.div`
+export const DetailsAndRecommendedContainer = styled.div`
   margin-top: 6.5rem;
   display: flex;
   flex-direction: column;

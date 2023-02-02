@@ -699,30 +699,30 @@ export const Popular = styled.div`
   .vertical-popular-img-details {
     width: calc(100% / 4);
     display: inline-block;
-    height: 25.7vw;
+    height: 25vw;
     padding: 8px;
     position: relative;
 
     @media (max-width: 2500px) and (min-width: 2000px) {
       width: calc(100% / 8);
-      height: 16vw;
+      height: 15vw;
     }
     @media (max-width: 2250px) {
-      height: 15vw;
+      height: 14vw;
     }
     @media (min-width: 1700px) and (max-width: 1999px) {
       width: calc(100% / 7);
-      height: 18vw;
+      height: 17vw;
     }
     @media (max-width: 1850px) {
-      height: 17vw;
+      height: 16vw;
     }
     @media (min-width: 1300px) and (max-width: 1699px) {
       width: calc(100% / 6);
-      height: 19vw;
+      height: 18vw;
     }
     @media (max-width: 1450px) {
-      height: 18vw;
+      height: 17vw;
     }
     @media (min-width: 1291px) and (max-width: 1299px) {
       width: calc(100% / 5);

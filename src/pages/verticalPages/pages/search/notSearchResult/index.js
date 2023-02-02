@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import * as actions from '../../../../../storeReactRedux/modules/loading/actions';
 import notSearch from '../../../../../assets/images/search.png';
 import SearchHelp from '../../../../../components/searchHelp';
-import { MainIndexSearch } from '../styled';
+import Main from '../styled';
 
 export default function NotSearchResult(porps) {
   const { value } = porps;
@@ -20,17 +20,17 @@ export default function NotSearchResult(porps) {
   }, []);
 
   return (
-    <MainIndexSearch>
-      <div className="search">
+    <Main>
+      <div>
         <Helmet>
           <title>MFLIX - Nenhum resultado encontrado para: {value}</title>
         </Helmet>
         <SearchHelp namePlaceholder="Nova pesquisa..." marginBottom />
         <div className="not-search-result">
           <div className="search-img-details">
-            <img src={notSearch} alt="not serch" />
+            <img src={notSearch} alt="not search" />
             <div className="not-search-details">
-              <h2>Não há titulos que correspondem à sua busca.</h2>
+              <h2>Não há titulos que correspondem a busca: {value}</h2>
               <ul>
                 <li>Revise a ortografia.</li>
                 <li>Utilize palavras chaves de titulos.</li>
@@ -40,6 +40,6 @@ export default function NotSearchResult(porps) {
           </div>
         </div>
       </div>
-    </MainIndexSearch>
+    </Main>
   );
 }

@@ -28,14 +28,14 @@ import {
   Main,
   BgImgPageDetails,
   ContainerDatails,
-  PosterDetailsSimilarTrailer,
-  NewSimilar,
+  PosterDetailsRecommendedTrailer,
+  NewRecommended,
   Collections,
   News,
   TrailerContainer,
   Description,
   FavoriteContainer,
-  DetailsAndSimilarContainer,
+  DetailsAndRecommendedContainer,
 } from '../styled';
 
 axiosRetry(axios, {
@@ -55,7 +55,7 @@ export default function MovieD(props) {
   const [favoriteUser, setFavoriteUser] = useState(null);
   const [newId, setNewId] = useState(null);
   const [allGenres, setAllGenres] = useState(null);
-  const [newSimilarId, setNewSimilarId] = useState(null);
+  const [newRecommended, setNewRecommended] = useState(null);
   const [newCollectionId, setNewCollectionId] = useState(null);
   const [news, setNews] = useState(null);
   const [arrProducer, setArrProducer] = useState([]);
@@ -97,12 +97,12 @@ export default function MovieD(props) {
         console.error('Erro ao pegar creditos de filme');
       }
     };
-    const getSimilarId = async (id) => {
+    const getRecommended = async (id) => {
       try {
         const { data } = await axios.get(
           `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=1`
         );
-        if (data.total_pages) setNewSimilarId(data);
+        if (data.total_pages) setNewRecommended(data);
       } catch {
         console.error('Erro ao pegar filmes recomendados');
       }
@@ -139,7 +139,7 @@ export default function MovieD(props) {
     }
     getDetailsId(id);
     getCreditsId(id);
-    getSimilarId(id);
+    getRecommended(id);
     getAllGenres();
     getNews();
     getFavoriteUser();
@@ -278,9 +278,9 @@ export default function MovieD(props) {
     }
   }
 
-  if (!newSimilarId && !newCollectionId)
+  if (!newRecommended && !newCollectionId)
     return (
-      <LayoutNoSimilarNoCollection
+      <LayoutNoRecommendedNoCollection
         showFormMsg={showFormMsg}
         newId={newId}
         setFavoriteFunction={setFavoriteFunction}
@@ -321,12 +321,12 @@ export default function MovieD(props) {
             />
           )}
           <div className="d0">
-            <PosterDetailsSimilarTrailer
+            <PosterDetailsRecommendedTrailer
               transform50Poster={
                 breakpoint600 && !newCollectionId ? true : false
               }
             >
-              <div className="poster-details-similar">
+              <div className="poster-details-recommended">
                 <PosterAndDescriptionComponent
                   newId={newId}
                   minBreakPoint600={
@@ -334,7 +334,7 @@ export default function MovieD(props) {
                   }
                 />
                 {!breakpoint600 && (
-                  <DetailsAndSimilarContainer>
+                  <DetailsAndRecommendedContainer>
                     <div className="d1">
                       <DetailsComponent newId={newId} />
                     </div>
@@ -355,16 +355,16 @@ export default function MovieD(props) {
                         />
                       )}
                     </div>
-                  </DetailsAndSimilarContainer>
+                  </DetailsAndRecommendedContainer>
                 )}
                 {breakpoint600 && newCollectionId && !breakpoint450 && (
                   <DescriptionComponent newId={newId} />
                 )}
               </div>
-            </PosterDetailsSimilarTrailer>
+            </PosterDetailsRecommendedTrailer>
           </div>
           {breakpoint600 && (
-            <DetailsAndSimilarContainer>
+            <DetailsAndRecommendedContainer>
               <div className="d1">
                 <DetailsComponent
                   newId={newId}
@@ -383,7 +383,7 @@ export default function MovieD(props) {
                   arrComposer={arrComposer}
                 />
               </div>
-            </DetailsAndSimilarContainer>
+            </DetailsAndRecommendedContainer>
           )}
           {(breakpoint450 || !newCollectionId) && (
             <DescriptionComponent newId={newId} noMarginTop />
@@ -395,9 +395,9 @@ export default function MovieD(props) {
               allGenres={allGenres}
             />
           )}
-          {newSimilarId && (
-            <NewSimilarComponent
-              newSimilarId={newSimilarId}
+          {newRecommended && (
+            <NewRecommendedComponent
+              newRecommended={newRecommended}
               allGenres={allGenres}
             />
           )}
@@ -415,7 +415,7 @@ export default function MovieD(props) {
 
 /* layouts */
 
-function LayoutNoSimilarNoCollection(props) {
+function LayoutNoRecommendedNoCollection(props) {
   const {
     newId,
     showFormMsg,
@@ -454,12 +454,12 @@ function LayoutNoSimilarNoCollection(props) {
             />
           )}
           <div className="d0">
-            <PosterDetailsSimilarTrailer transform50Poster>
-              <div className="poster-details-similar">
+            <PosterDetailsRecommendedTrailer transform50Poster>
+              <div className="poster-details-recommended">
                 <PosterAndDescriptionComponent newId={newId} />
 
                 {!breakpoint600 && (
-                  <DetailsAndSimilarContainer>
+                  <DetailsAndRecommendedContainer>
                     <div className="d1">
                       <DetailsComponent newId={newId} />
                     </div>
@@ -473,13 +473,13 @@ function LayoutNoSimilarNoCollection(props) {
                         arrComposer={arrComposer}
                       />
                     </div>
-                  </DetailsAndSimilarContainer>
+                  </DetailsAndRecommendedContainer>
                 )}
               </div>
-            </PosterDetailsSimilarTrailer>
+            </PosterDetailsRecommendedTrailer>
           </div>
           {breakpoint600 && (
-            <DetailsAndSimilarContainer>
+            <DetailsAndRecommendedContainer>
               <div className="d1">
                 <DetailsComponent
                   newId={newId}
@@ -498,7 +498,7 @@ function LayoutNoSimilarNoCollection(props) {
                   arrComposer={arrComposer}
                 />
               </div>
-            </DetailsAndSimilarContainer>
+            </DetailsAndRecommendedContainer>
           )}
           <DescriptionComponent newId={newId} noMarginTop />
           <TrailerContainer>
@@ -563,7 +563,7 @@ function CollectionComponent({ allGenres, newCollectionId }) {
   return (
     newCollectionId && (
       <Collections>
-        <div className="similar">
+        <div className="recommended">
           <h4>{newCollectionId.name}</h4>
           <Swiper
             autoplay={{
@@ -667,13 +667,13 @@ function CollectionComponent({ allGenres, newCollectionId }) {
   );
 }
 
-function NewSimilarComponent(props) {
-  const { newSimilarId, allGenres } = props;
+function NewRecommendedComponent(props) {
+  const { newRecommended, allGenres } = props;
 
   return (
-    newSimilarId && (
-      <NewSimilar>
-        <div className="similar">
+    newRecommended && (
+      <NewRecommended>
+        <div className="recommended">
           <h4>Filmes recomendados</h4>
           <Swiper
             autoplay={{
@@ -696,7 +696,7 @@ function NewSimilarComponent(props) {
             }}
             loop
           >
-            {newSimilarId.results.map((result, index) => (
+            {newRecommended.results.map((result, index) => (
               <SwiperSlide key={index}>
                 {
                   <div className="popular-slider">
@@ -771,7 +771,7 @@ function NewSimilarComponent(props) {
             ))}
           </Swiper>
         </div>
-      </NewSimilar>
+      </NewRecommended>
     )
   );
 }

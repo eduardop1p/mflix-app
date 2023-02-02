@@ -29,14 +29,13 @@ import {
   Main,
   BgImgPageDetails,
   ContainerDatails,
-  PosterDetailsSimilarTrailer,
-  NewSimilar,
-  Collections,
+  PosterDetailsRecommendedTrailer,
+  NewRecommended,
   News,
   TrailerContainer,
   Description,
   FavoriteContainer,
-  DetailsAndSimilarContainer,
+  DetailsAndRecommendedContainer,
 } from '../styled';
 
 axiosRetry(axios, {
@@ -56,7 +55,7 @@ export default function serieD(props) {
   const [favoriteUser, setFavoriteUser] = useState(null);
   const [newId, setNewId] = useState(null);
   const [allGenres, setAllGenres] = useState(null);
-  const [newSimilarId, setNewSimilarId] = useState(null);
+  const [newRecommended, setNewRecommended] = useState(null);
   const [news, setNews] = useState(null);
   const [arrProducer, setArrProducer] = useState([]);
   const [arrDirectorFot, setArrDirectorFot] = useState([]);
@@ -91,14 +90,14 @@ export default function serieD(props) {
         console.error('Erro ao pegar creditos de serie');
       }
     };
-    const getSimilarId = async (id) => {
+    const getRecommended = async (id) => {
       try {
         const { data } = await axios.get(
           `https://api.themoviedb.org/3/tv/${id}/recommendations?api_key=${apiConfig.apiKey}&language=${apiConfig.language}&page=1`
         );
-        if (data.total_pages) setNewSimilarId(data);
+        if (data.total_pages) setNewRecommended(data);
       } catch {
-        console.error('Erro ao pegar serie similar');
+        console.error('Erro ao pegar serie recommended');
       }
     };
     const getAllGenres = async () => {
@@ -113,7 +112,7 @@ export default function serieD(props) {
     };
     getDetailsId(id);
     getCreditsId(id);
-    getSimilarId(id);
+    getRecommended(id);
     getNews();
     getAllGenres();
     getFavoriteUser();
@@ -257,11 +256,11 @@ export default function serieD(props) {
             />
           )}
           <div className="d0">
-            <PosterDetailsSimilarTrailer transform50Poster>
-              <div className="poster-details-similar">
+            <PosterDetailsRecommendedTrailer transform50Poster>
+              <div className="poster-details-recommended">
                 <PosterAndDescriptionComponent newId={newId} />
                 {!breakpoint600 && (
-                  <DetailsAndSimilarContainer>
+                  <DetailsAndRecommendedContainer>
                     <div className="d1">
                       <DetailsComponent newId={newId} />
                     </div>
@@ -273,13 +272,13 @@ export default function serieD(props) {
                         arrComposer={arrComposer}
                       />
                     </div>
-                  </DetailsAndSimilarContainer>
+                  </DetailsAndRecommendedContainer>
                 )}
               </div>
-            </PosterDetailsSimilarTrailer>
+            </PosterDetailsRecommendedTrailer>
           </div>
           {breakpoint600 && (
-            <DetailsAndSimilarContainer>
+            <DetailsAndRecommendedContainer>
               <div className="d1">
                 <DetailsComponent
                   newId={newId}
@@ -296,13 +295,13 @@ export default function serieD(props) {
                   arrComposer={arrComposer}
                 />
               </div>
-            </DetailsAndSimilarContainer>
+            </DetailsAndRecommendedContainer>
           )}
           <DescriptionComponent newId={newId} noMarginTop />
 
-          {newSimilarId && (
-            <NewSimilarComponent
-              newSimilarId={newSimilarId}
+          {newRecommended && (
+            <NewRecommendedComponent
+              newRecommended={newRecommended}
               allGenres={allGenres}
             />
           )}
@@ -528,113 +527,110 @@ function AboutDetailsComponent(props) {
   );
 }
 
-function NewSimilarComponent({ newSimilarId, allGenres }) {
+function NewRecommendedComponent({ newRecommended, allGenres }) {
   return (
-    newSimilarId && (
-      <NewSimilar>
-        <div className="similar">
+    newRecommended && (
+      <NewRecommended>
+        <div className="recommended">
           <h4>Series recomendadas</h4>
-          <NewSimilar>
-            <Swiper
-              autoplay={{
-                delay: 5000,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-              }}
-              initialSlide={1}
-              spaceBetween={20}
-              slidesPerView={2}
-              modules={[Autoplay]}
-              autoHeight
-              breakpoints={{
-                2250: { slidesPerView: 6 },
-                1800: { slidesPerView: 5 },
-                1320: { slidesPerView: 4 },
-                901: { slidesPerView: 3 },
-                585: { slidesPerView: 2 },
-                0: { slidesPerView: 1 },
-              }}
-              loop
-            >
-              {newSimilarId.results.map((result, index) => (
-                <SwiperSlide key={index}>
-                  {
-                    <div className="popular-slider">
-                      <div className="popular-img">
-                        <img
-                          src={
-                            result.poster_path
-                              ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
-                              : imageError1
-                          }
-                          onLoad={removeLoadingSipnner}
-                          onError={removeLoadingSipnner}
-                          alt={result.name}
-                        />
-                        <Loading popular />
-                      </div>
-                      <div className="popular-details">
-                        <Link
-                          reloadDocument
-                          to={`/vertical/series/${clearLinkTitle(
-                            result.name
-                          )}/${result.id}`}
-                        >
-                          <h3 title={result.name}>{result.name}</h3>
-                        </Link>
-                        <div className="popular-year-genre">
-                          <div className="popular-year-year">
-                            {result.first_air_date
-                              ? result.first_air_date.slice(0, 4)
-                              : 'Not data'}
-                          </div>
-                          <span>&sdot;</span>
-                          <div className="popular-genre-genre">
-                            {allGenres &&
-                              allGenres.genres.map((genre) =>
-                                genre.id === result.genre_ids[0]
-                                  ? genre.name
-                                  : ''
-                              )}
-                            {result.genre_ids.length < 1 && 'Not genre'}
-                          </div>
-                        </div>
-                        <div className="vertical-overview">
-                          {result.overview
-                            ? result.overview
-                            : 'Não à descrição para este titulo por enquanto.'}
-                        </div>
-                        <div className="popular-imdb-rating-voteAverage">
-                          IMDB
-                          <div className="popular-rating-voteAverage">
-                            <RatingSystem
-                              vote_average={result.vote_average}
-                              ratingSystem2
-                            />
-                            <div className="popular-voteAverage">
-                              {result.vote_average &&
-                                result.vote_average.toFixed(1)}
-                            </div>
-                          </div>
-                        </div>
-                        <Link
-                          reloadDocument
-                          to={`/vertical/series/${clearLinkTitle(
-                            result.name
-                          )}/${result.id}`}
-                          className="popular-watch-now"
-                        >
-                          Assistir agora
-                        </Link>
-                      </div>
+
+          <Swiper
+            autoplay={{
+              delay: 5000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            initialSlide={1}
+            spaceBetween={20}
+            slidesPerView={2}
+            modules={[Autoplay]}
+            autoHeight
+            breakpoints={{
+              2250: { slidesPerView: 6 },
+              1800: { slidesPerView: 5 },
+              1320: { slidesPerView: 4 },
+              901: { slidesPerView: 3 },
+              585: { slidesPerView: 2 },
+              0: { slidesPerView: 1 },
+            }}
+            loop
+          >
+            {newRecommended.results.map((result, index) => (
+              <SwiperSlide key={index}>
+                {
+                  <div className="popular-slider">
+                    <div className="popular-img">
+                      <img
+                        src={
+                          result.poster_path
+                            ? `https://image.tmdb.org/t/p/w500${result.poster_path}`
+                            : imageError1
+                        }
+                        onLoad={removeLoadingSipnner}
+                        onError={removeLoadingSipnner}
+                        alt={result.name}
+                      />
+                      <Loading popular />
                     </div>
-                  }
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </NewSimilar>
+                    <div className="popular-details">
+                      <Link
+                        reloadDocument
+                        to={`/vertical/series/${clearLinkTitle(result.name)}/${
+                          result.id
+                        }`}
+                      >
+                        <h3 title={result.name}>{result.name}</h3>
+                      </Link>
+                      <div className="popular-year-genre">
+                        <div className="popular-year-year">
+                          {result.first_air_date
+                            ? result.first_air_date.slice(0, 4)
+                            : 'Not data'}
+                        </div>
+                        <span>&sdot;</span>
+                        <div className="popular-genre-genre">
+                          {allGenres &&
+                            allGenres.genres.map((genre) =>
+                              genre.id === result.genre_ids[0] ? genre.name : ''
+                            )}
+                          {result.genre_ids.length < 1 && 'Not genre'}
+                        </div>
+                      </div>
+                      <div className="vertical-overview">
+                        {result.overview
+                          ? result.overview
+                          : 'Não à descrição para este titulo por enquanto.'}
+                      </div>
+                      <div className="popular-imdb-rating-voteAverage">
+                        IMDB
+                        <div className="popular-rating-voteAverage">
+                          <RatingSystem
+                            vote_average={result.vote_average}
+                            ratingSystem2
+                          />
+                          <div className="popular-voteAverage">
+                            {result.vote_average &&
+                              result.vote_average.toFixed(1)}
+                          </div>
+                        </div>
+                      </div>
+                      <Link
+                        reloadDocument
+                        to={`/vertical/series/${clearLinkTitle(result.name)}/${
+                          result.id
+                        }`}
+                        className="popular-watch-now"
+                      >
+                        Assistir agora
+                      </Link>
+                    </div>
+                  </div>
+                }
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
-      </NewSimilar>
+      </NewRecommended>
     )
   );
 }

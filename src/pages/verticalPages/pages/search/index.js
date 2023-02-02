@@ -12,13 +12,13 @@ import IndexAllCatalog from '../../../../pages/index/allCatalog/index';
 import axiosBaseUrlMultSearch from '../../../../services/axiosBaseUrlMultSearch';
 import apiConfig from '../../../../config/apiConfig';
 import SearchHelp from '../../../../components/searchHelp';
-import { MainIndexSearch } from './styled';
+import Main from './styled';
 
 export default function Search() {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const [newSearchData, setNewSearchData] = useState(null);
+  const [newSearchData, setNewSearchData] = useState([]);
   const [searchValue, setsearchValue] = useState('');
 
   useEffect(() => {
@@ -52,13 +52,12 @@ export default function Search() {
       results: data.results.filter(
         (midia) => midia.media_type === 'tv' || midia.media_type === 'movie'
       ),
-      total_pages: data.total_pages,
     };
     setNewSearchData(newMidiaType);
   }
 
   return searchValue ? (
-    newSearchData && newSearchData.total_pages ? (
+    newSearchData.results.length ? (
       <>
         <Helmet>
           <title>{`MFLIX - Resultados de pesquisa para: ${searchValue}`}</title>
@@ -81,14 +80,14 @@ export default function Search() {
       <NotSearchResult value={searchValue} />
     )
   ) : (
-    <MainIndexSearch>
-      <div className="search">
+    <Main>
+      <div>
         <Helmet>
           <title>MFLIX - Pesquisar titulo</title>
         </Helmet>
         <SearchHelp namePlaceholder="Pesquisar titulo..." marginBottom />
         <IndexAllCatalog colorVertical />
       </div>
-    </MainIndexSearch>
+    </Main>
   );
 }
