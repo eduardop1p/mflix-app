@@ -553,7 +553,7 @@ function NewRecommendedComponent({ newRecommendedId, allGenres, noMarginTop }) {
               disableOnInteraction: false,
               pauseOnMouseEnter: true,
             }}
-            initialSlide={1}
+            initialSlide={0}
             spaceBetween={20}
             slidesPerView={2}
             modules={[Autoplay]}
@@ -660,7 +660,7 @@ function NewSimilarResultsComponent(props) {
           disableOnInteraction: false,
           pauseOnMouseEnter: true,
         }}
-        initialSlide={1}
+        initialSlide={0}
         spaceBetween={20}
         slidesPerView={3}
         modules={[Autoplay]}

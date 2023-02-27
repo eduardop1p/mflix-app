@@ -5,12 +5,15 @@ import * as colors from '../colors/index';
 // Main
 
 const Main = styled.main`
-  margin: auto 1.5rem;
+  margin: auto 3rem;
 
   & > section {
     margin-bottom: 2rem;
   }
 
+  @media (max-width: 800px) {
+    margin: auto 2rem;
+  }
   @media (max-width: 310px) {
     & > :last-child {
       margin-bottom: 0;

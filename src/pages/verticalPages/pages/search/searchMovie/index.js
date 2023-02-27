@@ -718,7 +718,7 @@ function CollectionComponent({ allGenres, newCollectionId }) {
               disableOnInteraction: false,
               pauseOnMouseEnter: true,
             }}
-            initialSlide={1}
+            initialSlide={0}
             spaceBetween={20}
             autoHeight
             slidesPerView={2}
@@ -844,7 +844,7 @@ function NewSimilarResultsComponent(props) {
           disableOnInteraction: false,
           pauseOnMouseEnter: true,
         }}
-        initialSlide={1}
+        initialSlide={0}
         spaceBetween={20}
         slidesPerView={3}
         modules={[Autoplay]}
@@ -950,7 +950,7 @@ function NewRecommendedComponent(props) {
               disableOnInteraction: false,
               pauseOnMouseEnter: true,
             }}
-            initialSlide={1}
+            initialSlide={0}
             spaceBetween={20}
             slidesPerView={2}
             autoHeight

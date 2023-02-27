@@ -352,13 +352,17 @@ function UserListMovie(props) {
             <h4>{dataList.title}</h4>
             <div className="my-list-genre-release-date">
               <div className="genre">
-                {dataList.genres
-                  .slice(0, 2)
-                  .map((genre) => genre.name)
-                  .join(', ')}
+                {dataList.genres.length
+                  ? dataList.genres
+                      .slice(0, 2)
+                      .map((genre) => genre.name)
+                      .join(', ')
+                  : 'Not genre'}
               </div>
               <div className="release-date">
-                {dataList.release_date && dataList.release_date.slice(0, 4)}
+                {dataList.release_date
+                  ? dataList.release_date.slice(0, 4)
+                  : 'Not data'}
               </div>
             </div>
           </div>
@@ -418,13 +422,17 @@ function UserListSerie(props) {
             <h4>{dataList.name}</h4>
             <div className="my-list-genre-release-date">
               <div className="genre">
-                {dataList.genres
-                  .slice(0, 2)
-                  .map((genre) => genre.name)
-                  .join(', ')}
+                {dataList.genres.length
+                  ? dataList.genres
+                      .slice(0, 2)
+                      .map((genre) => genre.name)
+                      .join(', ')
+                  : 'Not genre'}
               </div>
               <div className="release-date">
-                {dataList.first_air_date && dataList.first_air_date.slice(0, 4)}
+                {dataList.first_air_date
+                  ? dataList.first_air_date.slice(0, 4)
+                  : 'Not data'}
               </div>
             </div>
           </div>

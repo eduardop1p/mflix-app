@@ -65,9 +65,9 @@ export default function Future() {
   }
 
   function onSlideChangeTransitionStartMyFunction(event) {
-    if (showFutureAllTrailer[event.activeIndex]) {
+    if (showFutureAllTrailer[event.realIndex]) {
       const { showIframe, setShowIframe } =
-        showFutureAllTrailer[event.activeIndex];
+        showFutureAllTrailer[event.realIndex];
       if (!showIframe) setShowIframe(true);
     }
   }
@@ -82,7 +82,7 @@ export default function Future() {
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
           }}
-          initialSlide={1}
+          initialSlide={0}
           autoHeight
           spaceBetween={20}
           slidesPerView={1}

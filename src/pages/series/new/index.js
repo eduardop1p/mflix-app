@@ -54,7 +54,7 @@ function New() {
               disableOnInteraction: false,
               pauseOnMouseEnter: true,
             }}
-            initialSlide={1}
+            initialSlide={0}
             navigation={{
               nextEl: '.next-element',
               prevEl: '.prev-element',

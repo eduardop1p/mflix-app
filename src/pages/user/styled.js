@@ -48,8 +48,8 @@ export const Main = styled.main`
 `;
 
 export const ProfilePhoto = styled.div`
-  width: 125px;
-  height: 125px;
+  width: 150px;
+  height: 150px;
   border-radius: 100%;
   overflow: hidden;
   margin-bottom: 1rem;

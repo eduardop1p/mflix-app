@@ -390,7 +390,7 @@ export default function MovieV() {
                   disableOnInteraction: false,
                   pauseOnMouseEnter: true,
                 }}
-                initialSlide={1}
+                initialSlide={0}
                 modules={[Autoplay]}
                 spaceBetween={20}
                 slidesPerView={2}

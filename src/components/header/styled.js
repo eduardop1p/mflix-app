@@ -64,7 +64,11 @@ export const HeaderElement = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 1.25rem;
+  margin: 1.5rem 2rem;
+
+  @media (max-width: 800px) {
+    margin: 1.5rem;
+  }
 
   .section-1 {
     display: flex;
