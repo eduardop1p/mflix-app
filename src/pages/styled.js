@@ -14,11 +14,6 @@ const Main = styled.main`
   @media (max-width: 800px) {
     margin: auto 2rem;
   }
-  @media (max-width: 310px) {
-    & > :last-child {
-      margin-bottom: 0;
-    }
-  }
 `;
 
 // New styled
@@ -1009,53 +1004,73 @@ export const FutureContainer = styled.section`
   .future {
     display: flex;
     justify-content: space-between;
+    height: 400px;
 
-    @media (max-width: 450px) {
+    @media (max-width: 500px) {
       flex-direction: column;
+      height: 500px;
+    }
+
+    @media (max-width: 310px) {
+      flex-direction: column;
+      height: 630px;
     }
 
     .future-mobile-img-details {
       display: flex;
       flex-direction: column;
-      height: 390px;
 
       @media (max-width: 950px) {
+        width: 180px;
+        flex: none;
         margin-right: 1rem;
       }
-      @media (max-width: 450px) {
+      @media (max-width: 600px) {
+        width: 150px;
+      }
+      @media (max-width: 500px) {
         flex-direction: row;
         margin-right: 0;
         justify-content: space-between;
-        height: auto;
+        height: 230px;
+        overflow: hidden;
+        width: 100%;
         margin-bottom: 10px;
+      }
+      @media (max-width: 360px) {
+        height: 200px;
       }
       @media (max-width: 310px) {
         flex-direction: column;
+        height: auto;
+        align-items: center;
       }
     }
 
     .future-img {
       width: 260px;
-      height: 390px;
+      height: 400px;
       position: relative;
       flex-shrink: 0;
 
       @media (max-width: 950px) {
-        width: 200px;
-        height: 300px;
-      }
-      @media (max-width: 700px) {
         width: 100%;
-        height: 42.5vw;
+        height: 275px;
       }
-      @media (max-width: 450px) {
-        width: 50%;
-        height: 65.2vw;
+      @media (max-width: 600px) {
+        width: 100%;
+        height: 230px;
+      }
+      @media (max-width: 500px) {
+        width: 150px;
+        height: 100%;
+      }
+      @media (max-width: 360px) {
+        width: 130px;
       }
       @media (max-width: 310px) {
-        width: 100%;
-        height: 125vw;
-        min-height: 287px;
+        width: 140px;
+        height: 200px;
       }
 
       .movie-or-serie-future {
@@ -1077,8 +1092,8 @@ export const FutureContainer = styled.section`
     }
 
     .future-details {
-      width: 230px;
-      margin: 1rem 1.5rem 0;
+      width: 200px;
+      margin: 1rem 1rem 0;
       display: flex;
       flex-direction: column;
       flex-shrink: 0;
@@ -1087,25 +1102,22 @@ export const FutureContainer = styled.section`
         margin-bottom: 12px;
       }
 
-      @media (max-width: 1150px), (min-width: 1701px) {
-        width: 185px;
-      }
       @media (max-width: 950px) {
         margin: 10px 0 0;
-        width: 200px;
+        width: 100%;
 
         & > :not(:last-child) {
           margin-bottom: 5px;
         }
       }
-      @media (max-width: 700px) {
-        width: calc(100vw / 3.55);
-      }
-      @media (max-width: 450px) {
+
+      @media (max-width: 500px) {
         margin-left: 1rem;
-        width: auto;
-        height: 62.2vw;
         flex-shrink: 1;
+
+        & > * {
+          flex: none;
+        }
       }
       @media (max-width: 310px) {
         margin-top: 10px;
@@ -1165,24 +1177,20 @@ export const FutureContainer = styled.section`
       & > .future-info {
         font-size: 0.81rem;
         color: ${colors.color5};
-        height: 260px;
         overflow: hidden scroll;
 
         @media (max-width: 950px) {
           flex-shrink: 0;
-          height: 47px;
+          height: 70px;
         }
-        @media (max-width: 650px) {
-          height: 11vw;
+        @media (max-width: 600px) {
+          height: 105px;
         }
-        @media (max-width: 570px) {
-          height: 80px;
+        @media (max-width: 500px) {
+          height: 170px;
         }
-        @media (max-width: 550px) {
-          height: 30vw;
-        }
-        @media (max-width: 320px) {
-          height: 35%;
+        @media (max-width: 360px) {
+          height: 125px;
         }
         @media (max-width: 310px) {
           max-height: 65px;
@@ -1208,15 +1216,11 @@ export const FutureContainer = styled.section`
       border-radius: 1rem;
       overflow: hidden;
       width: 100%;
-      height: 390px;
+      height: 100%;
       background-color: #111;
       position: relative;
       display: flex;
       justify-content: center;
-
-      @media (max-width: 310px) {
-        height: 380px;
-      }
     }
   }
 `;
