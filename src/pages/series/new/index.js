@@ -42,8 +42,6 @@ function New() {
     getNews();
   }, []);
 
-  ('');
-
   return (
     <Slider>
       <div className="result">
